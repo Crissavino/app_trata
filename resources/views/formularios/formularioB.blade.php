@@ -6,22 +6,22 @@
 	<link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
 	<link rel="stylesheet" href="/css/app.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<title>Formulario B</title>
+	<title>Eje B: Caracterización de la victima</title>
 </head>
 <header>
 	<ul class="nav nav-tabs">
-	  <li class="nav-item"> <a class="nav-link " href="A">Formulario A</a> </li>
-	  <li class="nav-item"> <a class="nav-link active" href="#">Formulario B</a> </li>
-	  <li class="nav-item"> <a class="nav-link " href="#">Formulario C</a> </li>
-	  <li class="nav-item"> <a class="nav-link " href="#">Formulario D</a> </li>
-	  <li class="nav-item"> <a class="nav-link " href="#">Formulario E</a> </li>
-	  <li class="nav-item"> <a class="nav-link " href="#">Formulario F</a> </li>
-	  <li class="nav-item"> <a class="nav-link " href="#">Formulario G</a> </li>
+	  <li class="nav-item"> <a class="nav-link " href="A">Eje A: Datos institucionales</a> </li>
+	  <li class="nav-item"> <a class="nav-link active" href="#">Eje B: Caracterización de la victima</a> </li>
+	  <li class="nav-item"> <a class="nav-link " href="#">Eje A: Datos institucionales</a> </li>
+	  <li class="nav-item"> <a class="nav-link " href="#">Eje A: Datos institucionales</a> </li>
+	  <li class="nav-item"> <a class="nav-link " href="#">Eje A: Datos institucionales</a> </li>
+	  <li class="nav-item"> <a class="nav-link " href="#">Eje A: Datos institucionales</a> </li>
+	  <li class="nav-item"> <a class="nav-link " href="#">Eje A: Datos institucionales</a> </li>
 	</ul>
 </header>
 <body>
 
-	<h1 class="text-center" style="padding: 15px;">Formulario B</h1>
+	<h1 class="text-center" style="padding: 15px;">Eje B: Caracterización de la victima</h1>
 
 	<section class="container">
 
@@ -161,7 +161,7 @@
 				<!-- SEXTA PREGUNTA -->
 	                <div class="form-group {{ $errors->has('victima_documento') ? 'has-error' : ''}}">
 	                    <label for="">B 6. Nro Documento:</label>
-	                    <input type="text" class="form-control" name="victima_documento" id="victima_documento" value="{{old('victima_documento')}}">
+	                    <input type="text" class="form-control" name="victima_documento" placeholder="" id="victima_documento" value="{{old('victima_documento')}}">
 	                  	{!! $errors->first('victima_documento', '<p class="help-block" style="color:red";>:message</p>') !!}
 
 	                    <label for="bloqueo3" class="form-check-label">Se desconoce</label>
@@ -176,7 +176,7 @@
 
                 <!-- SEPTIMA PREGUNTA -->
 					<div class="form-group {{ $errors->has('pais_id') ? 'has-error' : ''}}">
-	                    <label for="">B 7. Pais de Nacimiento: </label>
+	                    <label for="">B 7. País de Nacimiento: </label>
 	                    <select id="pais_id" class="form-control" name="pais_id" onChange="selectOnChange3(this)">
 							<option value="">Elegi País</option>
 								@foreach ($datosPaises as $pais)
@@ -552,7 +552,7 @@
 
 						
 
-				<button type="submit" class="btn btn-primary" name="button">Actualizar</button>
+				<button type="submit" class="btn btn-primary" name="button">Enviar</button>
 
 				
 

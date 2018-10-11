@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 
 class FormsController extends Controller
 {
+
+	public function index()
+	{
+		return view('formularios.index');
+	}
 
 	// public function mostrarA()
 	// {
@@ -234,7 +240,6 @@ class FormsController extends Controller
 
 		//cuando edito el formulario y le doy enviar, entra en juego la funcion update, y una vez actualizado todo te redirige nuevamente al formulario B, despues se tendria que ver a donde verdaderamente deberia redirigir [recordar que el redirect te lleva a la URL]
 		return redirect('formularios/B');
- 
 	}
 
 
@@ -257,15 +262,85 @@ class FormsController extends Controller
 		$datosModalidad = \App\FormA\Modalidad::all();;
 		$datosEstadoCaso = \App\FormA\Estadocaso::all();
 		$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
-		$datosProfesion = \App\FormA\Profesionalprofesion::all();
+		$datosProfesional = \App\FormA\Profesional::all();
 		$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
 
 		return view('formularios/formularioA', ['datosModalidad' => $datosModalidad,
 												'datosEstadoCaso' => $datosEstadoCaso,
 												'datosCaratulacion' => $datosCaratulacion,
-												'datosProfesion' => $datosProfesion,
+												'datosProfesional' => $datosProfesional,
 												'datosIntervieneActualmente' => $datosIntervieneActualmente
 												]);
 	}
+
+	public function insertA()
+	{
+		// request()->validate([
+		// 					'datos_nombre_referencia' => 'required',
+		// 					'datos_numero_carpeta' => 'required',
+		// 					'datos_fecha_ingreso' => 'required',
+		// 					'modalidad_id' => 'required',
+		// 					'estadocaso_id' => 'required',
+		// 					'datos_ente_judicial' => 'required',
+		// 					'caratulacionjudial_id' => 'required',
+		// 					'datos_nro_causa' => 'required',
+		// 				],
+
+		// 				[
+		// 					'datos_nombre_referencia.required' => 'Este campo es obligatorio',
+		// 					'datos_numero_carpeta.required' => 'Este campo es obligatorio',
+		// 					'datos_fecha_ingreso.required' => 'Este campo es obligatorio',
+		// 					'modalidad_id.required' => 'Este campo es obligatorio',
+		// 					'estadocaso_id.required' => 'Este campo es obligatorio',
+		// 					'datos_ente_judicial.required' => 'Este campo es obligatorio',
+		// 					'caratulacionjudial_id.required' => 'Este campo es obligatorio',
+		// 					'datos_nro_causa.required' => 'Este campo es obligatorio',
+		// 				]);		
+
+		// $guardoAformulario = \App\FormA\Aformulario::create(request()->all());
+
+		// $ultimoId = $guardoAformulario->id;
+
+		request()->validate([
+							'profesional_id' => 'required',
+							'datos_profesional_interviene_desde' => 'required',
+							'datos_profesional_interviene_hasta' => 'required',
+							'profesionalactualmente_id' => 'required'							
+							],
+
+							[
+							'profesional_id.required' => 'Este campo es obligatorio',
+							'datos_profesional_interviene_desde.required' => 'Este campo es obligatorio',
+							'datos_profesional_interviene_hasta.required' => 'Este campo es obligatorio',
+							'profesionalactualmente_id.required' => 'Este campo es obligatorio'
+							]);
+
+
+		// $profesional_id = request()->input('profesional_id');
+		// $datos_profesional_interviene_desde = request()->input('datos_profesional_interviene_desde');
+		// $datos_profesional_interviene_hasta = request()->input('datos_profesional_interviene_hasta');
+		// $profesionalactualmente_id = request()->input('profesionalactualmente_id');
+		// $arrayProfesionales = request()->profesionales;
+		$arrayProfesionales = collect([request()->input('profesional_id'), request()->input('datos_profesional_interviene_desde'), request()->input('datos_profesional_interviene_hasta') ,request()->input('profesionalactualmente_id')]);
+
+		$arrayProfesionales = array_pluck($arrayProfesionales, 0);
+
+		dd($arrayProfesionales);
+
+		
+
+
+		
+
+		// $profesional_id = $arrayProfesionales[0];
+		// $datos_profesional_interviene_desde = $arrayProfesionales[1];
+		// $datos_profesional_interviene_hasta = $arrayProfesionales[2];
+		// $profesionalactualmente_id = $arrayProfesionales[3];
+
+		// $aformulario = \App\FormA\Aformulario::find($ultimoId);
+
+	}
+
+	
 	
 }
