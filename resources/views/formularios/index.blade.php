@@ -12,18 +12,23 @@
 			background-color: tomato;
 			border-color: tomato
 		}
+
 	</style>
 </head>
 <body>
-	<h1>Testing de formularios</h1>
+	<h1 class="text-center">Testing de formularios</h1>
 
-	<a href="" title="">Eje A</a><br>
-	<a href="/formularios/B">Eje B</a><br>
-	<a href="" title="">Eje C</a><br>
-	<a href="" title="">Eje D</a><br>
-	<a href="" title="">Eje E</a><br>
-	<a href="" title="">Eje F</a><br>
-	<a href="" title="">Eje G</a><br>
+	<div class="list-group">
+		<a href="" class="list-group-item list-group-item-action text-center disabled" title="">Eje A: Datos Institucionales</a><br>
+		<a href="/formularios/B" class="list-group-item list-group-item-action text-center active">Eje B: Caracterización de la víctima</a><br>
+		<a href="" class="list-group-item list-group-item-action text-center disabled" title="">Eje C: Grupo Conviviente</a><br>
+		<a href="" class="list-group-item list-group-item-action text-center disabled" title="">Eje D: Datos de delito</a><br>
+		<a href="" class="list-group-item list-group-item-action text-center disabled" title="">Eje E: Datos del imputado</a><br>
+		<a href="" class="list-group-item list-group-item-action text-center disabled" title="">Eje F: Atención del caso</a><br>
+		<a href="" class="list-group-item list-group-item-action text-center disabled" title="">Eje G: Documentación</a><br>
+	</div>
+
+	
 
 	
 
