@@ -32,4 +32,6 @@ Route::put('formularios/edicion/B/{id}', 'FormsController@updateB');
 // Route::put('formularios/edicion/B/{id}', 'FormsController@deleteB');
 
 
+Route::get('formularios', 'FormsController@formularios');
+
 

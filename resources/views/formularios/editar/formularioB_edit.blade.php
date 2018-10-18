@@ -10,13 +10,13 @@
 </head>
 <header>
 	<ul class="nav nav-tabs">
-	  <li class="nav-item"> <a class="nav-link " href="A">Formulario A</a> </li>
-	  <li class="nav-item"> <a class="nav-link active" href="#">Formulario B</a> </li>
-	  <li class="nav-item"> <a class="nav-link " href="#">Formulario C</a> </li>
-	  <li class="nav-item"> <a class="nav-link " href="#">Formulario D</a> </li>
-	  <li class="nav-item"> <a class="nav-link " href="#">Formulario E</a> </li>
-	  <li class="nav-item"> <a class="nav-link " href="#">Formulario F</a> </li>
-	  <li class="nav-item"> <a class="nav-link " href="#">Formulario G</a> </li>
+		<li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li>
+		<li class="nav-item"> <a class="nav-link active" href="B">Eje B: Caracterización de la victima</a> </li>
+		<li class="nav-item"> <a class="nav-link " href="C">Eje C: Grupo Conviviente</a> </li>
+		<li class="nav-item"> <a class="nav-link " href="D">Eje D: Datos de delito</a> </li>
+		<li class="nav-item"> <a class="nav-link " href="E">Eje E: Datos del imputado</a> </li>
+		<li class="nav-item"> <a class="nav-link " href="F">Eje F: Atención del caso</a> </li>
+		<li class="nav-item"> <a class="nav-link " href="G">Eje G: Documentación</a> </li>
 	</ul>
 </header>
 <body>
@@ -60,7 +60,7 @@
 	                    <label for="bloqueo2" class="form-check-label">Se desconoce</label>
 	                    <input type="checkbox" id="bloqueo2" name="victima_apodo_desconoce" value="{{ $Bformulario->victima_apodo_desconoce}}">
 	                </div>
-					{{-- funcion jsX para el, se desconoce --}}
+					{{-- funcion js para el, se desconoce --}}
 	                <script>
 					    document.getElementById('bloqueo2').onchange = function() {
 					    document.getElementById('victima_apodo').disabled = this.checked;
@@ -72,8 +72,7 @@
 	                <div class="form-group {{ $errors->has('genero_id') ? 'has-error' : ''}}">
 	                    <label for="">B 3. Género:</label>
 	                    <select class="form-control" name="genero_id" onChange="selectOnChange1(this)">
-	                     <!-- traigo la table genero de la base de datos, muestro su nombre y como value tome el id que se corresponde con el nombre -->
-	                     {{-- ojo que le saque el atributo {{ $selected }} al value porque me tiraba error --}}
+	                     <!-- traigo la table genero de la base de datos, muestro su nombre y como value tomo el id que se corresponde con el nombre -->
 	                    @foreach ($datosGenero as $genero)
 	                    	@php
 								$selected = ($genero->id == $Bformulario->genero_id) ? 'selected' : '';
@@ -263,7 +262,16 @@
 	                    <label for="">B 10. Fecha de nacimiento: </label>
 	                    <input type="date" class="form-control" name="victima_fecha_nacimiento" value="{{ $Bformulario->victima_fecha_nacimiento->format('Y-m-d')}}">
 	                  	{!! $errors->first('victima_fecha_nacimiento', '<p class="help-block" style="color:red";>:message</p>') !!}
-	                </div>
+
+	                 <label for="bloqueo4" class="form-check-label">Se desconoce</label>
+                    <input type="checkbox" id="bloqueo4" name="victima_fecha_nacimiento_desconoce" value="Se desconoce">
+               		</div>
+
+	                <script>
+	                     document.getElementById('bloqueo4').onchange = function() {
+	                         document.getElementById('victima_fecha_nacimiento').disabled = this.checked;
+	                        };
+	                </script>
                 <!-- FIN DECIMA PREGUNTA -->
 
                 <!-- UNDECIMA PREGUNTA -->

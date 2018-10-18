@@ -19,8 +19,8 @@
 	<h1 class="text-center">Testing de formularios</h1>
 
 	<div class="list-group">
-		<a href="" class="list-group-item list-group-item-action text-center disabled" title="">Eje A: Datos Institucionales</a><br>
-		<a href="/formularios/B" class="list-group-item list-group-item-action text-center active">Eje B: Caracterización de la víctima</a><br>
+		<a href="/formularios/A" class="list-group-item list-group-item-action text-center btn-primary" title="">Eje A: Datos Institucionales</a><br>
+		<a href="/formularios/B" class="list-group-item list-group-item-action text-center btn-primary">Eje B: Caracterización de la víctima</a><br>
 		<a href="" class="list-group-item list-group-item-action text-center disabled" title="">Eje C: Grupo Conviviente</a><br>
 		<a href="" class="list-group-item list-group-item-action text-center disabled" title="">Eje D: Datos de delito</a><br>
 		<a href="" class="list-group-item list-group-item-action text-center disabled" title="">Eje E: Datos del imputado</a><br>

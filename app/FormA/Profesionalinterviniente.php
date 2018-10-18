@@ -14,14 +14,5 @@ class Profesionalinterviniente extends Model
 	{
 		return $this->belongsToMany('\App\FormA\Aformulario');
 	}
-
-	public function profesional()
-	{
-		return $this->hasMany('App\FormA\Profesional');
-	}
-
-	public function profesionalactualmente()
-	{
-		return $this->hasMany('App\FormA\Profesionalactualmente');
-	}
+	
 }
