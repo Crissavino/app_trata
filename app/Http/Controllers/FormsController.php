@@ -17,6 +17,7 @@ class FormsController extends Controller
 		return view('formularios.index');
 	}
 
+	//con esta funcion obtengo una viste de todos los formularios guardados en la base de datos
 	public function formularios()
 	{
 		$aFormularios = \App\FormA\Aformulario::all();
@@ -265,12 +266,23 @@ class FormsController extends Controller
 		$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
 		$datosProfesional = \App\FormA\Profesional::all();
 		$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
+		$datosPresentacion = \App\FormA\Presentacionespontanea::all();
+		$datosOrganismo = \App\FormA\Otrosorganismo::all();
+
+		$ultimoNroCarpeta = DB::table('aformularios')->orderBy('datos_numero_carpeta', 'desc')->first()->datos_numero_carpeta;
+
+		// $ultimoNroCarpeta1 = \App\FormA\Aformulario::all();
+
+		// dd($ultimoNroCarpeta);			
 
 		return view('formularios.formularioA', ['datosModalidad' => $datosModalidad,
 												'datosEstadoCaso' => $datosEstadoCaso,
 												'datosCaratulacion' => $datosCaratulacion,
 												'datosProfesional' => $datosProfesional,
-													'datosIntervieneActualmente' => $datosIntervieneActualmente
+												'datosIntervieneActualmente' => $datosIntervieneActualmente,
+												'datosPresentacion' => $datosPresentacion,
+												'datosOrganismo' => $datosOrganismo,
+												'ultimoNroCarpeta' => $ultimoNroCarpeta,
 												]);
 	}
 
@@ -286,6 +298,8 @@ class FormsController extends Controller
 							'datos_numero_carpeta' => 'required',
 							'datos_fecha_ingreso' => 'required|date|before_or_equal:'.$fecha_hoy,
 							'modalidad_id' => 'required',
+							// 'derivacion_otro_organismo_id' => 'required',
+							// 'derivacion_otro_organismo_cual' => 'required',
 							'estadocaso_id' => 'required',
 							'datos_ente_judicial' => 'required',
 							'caratulacionjudicial_id' => 'required',
@@ -299,6 +313,8 @@ class FormsController extends Controller
 							'datos_fecha_ingreso.required' => 'Este campo es obligatorio',
 							'datos_fecha_ingreso.before_or_equal' => 'La fecha ingresada es posterior al dia de hoy',
 							'modalidad_id.required' => 'Este campo es obligatorio',
+							// 'derivacion_otro_organismo_id' => 'Este campo es obligatorio',
+							// 'derivacion_otro_organismo_cual' => 'Este campo es obligatorio',
 							'estadocaso_id.required' => 'Este campo es obligatorio',
 							'datos_ente_judicial.required' => 'Este campo es obligatorio',
 							'caratulacionjudicial_id.required' => 'Este campo es obligatorio',
@@ -375,6 +391,8 @@ class FormsController extends Controller
 		$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
 		$datosProfesional = \App\FormA\Profesional::all();
 		$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
+		$datosPresentacion = \App\FormA\Presentacionespontanea::all();
+		$datosOrganismo = \App\FormA\Otrosorganismo::all();
 		$aFormulario = \App\FormA\Aformulario::find($id);
 		$todo = DB::table('aformularios')
 		                            ->WHERE('aformulario_id', '=', $id)
@@ -390,6 +408,8 @@ class FormsController extends Controller
 															'datosCaratulacion' => $datosCaratulacion,
 															'datosProfesional' => $datosProfesional,
 															'datosIntervieneActualmente' => $datosIntervieneActualmente,
+															'datosPresentacion' => $datosPresentacion,
+															'datosOrganismo' => $datosOrganismo,
 															// 'profesionales' => $profesionales,
 															// 'id_profesional' => $id_profesional,
 															// 'nombre_profesional' => $nombre_profesional

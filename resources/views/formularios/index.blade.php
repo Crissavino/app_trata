@@ -19,17 +19,27 @@
 	<h1 class="text-center">Testing de formularios</h1>
 
 	<div class="list-group">
-		<a href="/formularios/A" class="list-group-item list-group-item-action text-center btn-primary" title="">Eje A: Datos Institucionales</a><br>
-		<a href="/formularios/B" class="list-group-item list-group-item-action text-center btn-primary">Eje B: Caracterización de la víctima</a><br>
-		<a href="" class="list-group-item list-group-item-action text-center disabled" title="">Eje C: Grupo Conviviente</a><br>
-		<a href="" class="list-group-item list-group-item-action text-center disabled" title="">Eje D: Datos de delito</a><br>
-		<a href="" class="list-group-item list-group-item-action text-center disabled" title="">Eje E: Datos del imputado</a><br>
-		<a href="" class="list-group-item list-group-item-action text-center disabled" title="">Eje F: Atención del caso</a><br>
-		<a href="" class="list-group-item list-group-item-action text-center disabled" title="">Eje G: Documentación</a><br>
+		<a href="/formularios/A" class="list-group-item list-group-item-action text-center active btn-primary">Eje A: Datos Institucionales</a><br>
+		<a href="/formularios/B" class="list-group-item list-group-item-action text-center active btn-primary">Eje B: Caracterización de la víctima</a><br>
+		<a href="" class="list-group-item list-group-item-action text-center disabled">Eje C: Grupo Conviviente</a><br>
+		<a href="" class="list-group-item list-group-item-action text-center disabled">Eje D: Datos de delito</a><br>
+		<a href="" class="list-group-item list-group-item-action text-center disabled">Eje E: Datos del imputado</a><br>
+		<a href="" class="list-group-item list-group-item-action text-center disabled">Eje F: Atención del caso</a><br>
+		<a href="" class="list-group-item list-group-item-action text-center disabled">Eje G: Documentación</a><br>
 	</div>
 
 	
+{{-- <ul>
+			<h4 class="list-group-item text-center">Eje A: Datos Institucionales</h4>
+			<a href="/formularios/A" class="list-group-item list-group-item-action text-center btn-primary">Crear</a>
+			<a href="/formularios" class="list-group-item list-group-item-action text-center btn-primary">Ver todos</a>
+		</ul>
 
+		<ul>
+			<h4 class="list-group-item text-center">Eje B: Caracterización de la víctima</h4>
+			<a href="/formularios/B" class="list-group-item list-group-item-action text-center btn-primary">Crear</a>
+			<a href="/formularios" name="B" class="list-group-item list-group-item-action text-center btn-primary">Ver todos</a>
+		</ul> --}}
 	
 
 </body>

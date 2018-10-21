@@ -14,8 +14,11 @@ class Aformulario extends Model
 							'estadocaso_id', 
 							'datos_ente_judicial', 
 							'caratulacionjudicial_id',
-							'caratulacionjudicial_otro', 
-							'datos_nro_causa'
+							'caratulacionjudicial_otro',
+							'presentacion_espontanea_id',
+							'derivacion_otro_organismo_id',
+							'derivacion_otro_organismo_cual',
+							'datos_nro_causa',
 						];
 
 	protected $dates = ['datos_fecha_ingreso'];
