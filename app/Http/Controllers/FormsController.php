@@ -24,7 +24,7 @@ class FormsController extends Controller
 		$bFormularios = \App\FormB\Bformulario::all();		
 
 		return view('formularios.formularios', ['aFormularios' => $aFormularios,
-										'bFormularios' => $bFormularios]);
+												'bFormularios' => $bFormularios]);
 	}
 
 	// public function mostrarA()
@@ -201,6 +201,8 @@ class FormsController extends Controller
 		$datoEnfermedadCronica = \App\FormB\Enfermedadcronica::all();
 		$datosNivelEducativo = \App\FormB\Niveleducativo::all();
 		$datosOficio = \App\FormB\Oficio::all();
+		$datosDiscapacidad = \App\FormB\Discapacidad::all();
+		$datosLimitacion = \App\FormB\Limitacion::all();
 		$Bformulario = \App\FormB\Bformulario::find($id);
 
 		return view('formularios.editar.formularioB_edit', ['Bformulario' => $Bformulario,
@@ -219,6 +221,8 @@ class FormsController extends Controller
 															'datosLesionConstatada' => $datosLesionConstatada,
 															'datoEnfermedadCronica' => $datoEnfermedadCronica,
 															'datosNivelEducativo' => $datosNivelEducativo,
+															'datosDiscapacidad' => $datosDiscapacidad,
+															'datosLimitacion' => $datosLimitacion,
 															'datosOficio' => $datosOficio
 															]);
 	}
@@ -269,11 +273,7 @@ class FormsController extends Controller
 		$datosPresentacion = \App\FormA\Presentacionespontanea::all();
 		$datosOrganismo = \App\FormA\Otrosorganismo::all();
 
-		$ultimoNroCarpeta = DB::table('aformularios')->orderBy('datos_numero_carpeta', 'desc')->first()->datos_numero_carpeta;
-
-		// $ultimoNroCarpeta1 = \App\FormA\Aformulario::all();
-
-		// dd($ultimoNroCarpeta);			
+		$ultimoNroCarpeta = DB::table('aformularios')->orderBy('datos_numero_carpeta', 'desc')->first()->datos_numero_carpeta;		
 
 		return view('formularios.formularioA', ['datosModalidad' => $datosModalidad,
 												'datosEstadoCaso' => $datosEstadoCaso,

@@ -30,7 +30,6 @@
         	{{ csrf_field() }}
         	
             <!-- PRIMERA PREGUNTA -->
-            
                 <div class="form-group {{ $errors->has('victima_nombre_y_apellido') ? 'has-error' : ''}}">
                     <label for="">B 1. Nombre y apellido:</label>
                     <input type="text" class="form-control" name="victima_nombre_y_apellido" id="victima_nombre_y_apellido" value="{{old('victima_nombre_y_apellido')}}">
@@ -38,14 +37,24 @@
 
                     <!-- VER ESTA MANERA QUE ES MEJOR PARA BLOQUEAR UN CASILLERO CUANDO SE CLICKEA LA OPCION SE DESCONOCE -->
                     <label for="bloqueo1" class="form-check-label">Se desconoce</label>
-                    <input type="checkbox" id="bloqueo1" name="victima_nombre_y_apellido_desconoce" value="Se desconoce">
+                    <input type="checkbox" id="bloqueo1" name="victima_nombre_y_apellido_desconoce" value="Se desconoce" onchange="check1(this)">
                 </div>
-				{{-- funcion js para el, se desconoce --}}
-				<script>
-            		document.getElementById('bloqueo1').onchange = function() {
-                	document.getElementById('victima_nombre_y_apellido').disabled = this.checked;
-           			 };
-        		</script>
+				{{-- funcion js para que cuando clickeo se desconoce vaya el valor Se Desconoce al input --}}
+                <script>
+                    function check1(checkbox)
+                    {
+                        if (checkbox.checked)
+                            {
+                                $('#victima_nombre_y_apellido').val('Se desconoce');
+                                var elCampo = document.getElementById('victima_nombre_y_apellido');
+                                elCampo.setAttribute("value", "Se desconoce");
+                                elCampo.disabled = checkbox.checked;
+                            }else
+                                { $('#victima_nombre_y_apellido').val('');
+                                    document.getElementById('victima_nombre_y_apellido').disabled=false;
+                                }
+                    }
+                </script>
             <!-- FIN PRIMERA PREGUNTA -->
 
     		<!-- SEGUNDA PREGUNTA -->
@@ -55,14 +64,24 @@
                   	{!! $errors->first('victima_apodo', '<p class="help-block" style="color:red";>:message</p>') !!}
 
                     <label for="bloqueo2" class="form-check-label">Se desconoce</label>
-                    <input type="checkbox" id="bloqueo2" name="victima_apodo_desconoce" value="Se desconoce">
+                    <input type="checkbox" id="bloqueo2" name="victima_apodo_desconoce" value="Se desconoce" onchange="check2(this)">
                 </div>
-				{{-- funcion jsX para el, se desconoce --}}
+                {{-- funcion js para que cuando clickeo se desconoce vaya el valor Se Desconoce al input --}}
                 <script>
-				    document.getElementById('bloqueo2').onchange = function() {
-				    document.getElementById('victima_apodo').disabled = this.checked;
-					};
-				</script>
+                    function check2(checkbox)
+                    {
+                        if (checkbox.checked)
+                            {
+                                $('#victima_apodo').val('Se desconoce');
+                                var elCampo = document.getElementById('victima_apodo');
+                                elCampo.setAttribute("value", "Se desconoce");
+                                elCampo.disabled = checkbox.checked;
+                            }else
+                                { $('#victima_apodo').val('');
+                                    document.getElementById('victima_apodo').disabled=false;
+                                }
+                    }
+                </script>
             <!-- FIN SEGUNDA PREGUNTA -->
 
 			<!-- TERCERA PREGUNTA -->
@@ -72,7 +91,7 @@
                      <option value="">Elegí género</option>
                      <!-- traigo la table genero_id de la base de datos, muestro su nombre y como value tome el id que se corresponde con el nombre -->
                     @foreach ($datosGenero as $genero)
-						<option value="{{$genero->getIdGenero()}}">{{$genero->getNombreGenero()}}</option>
+						<option value="{{$genero->getIdGenero()}}" {{ old('genero_id') == $genero->getIdGenero() ? 'selected' : '' }}>{{$genero->getNombreGenero()}}</option>
 					@endforeach						
                     </select>
 
@@ -113,7 +132,7 @@
                     <select class="form-control" name="tienedoc_id">
                         <option value="">Tiene decomunatación?</option>
                         @foreach ($datosDocumento as $documento)
-							<option value="{{$documento->getIdDocumentacion()}}">{{$documento->getNombreDocumentacion()}}</option>
+							<option value="{{$documento->getIdDocumentacion()}}" {{ old('tienedoc_id') == $documento->getIdDocumentacion() ? 'selected' : '' }}>{{$documento->getNombreDocumentacion()}}</option>
                         @endforeach
                     </select>
                   	{!! $errors->first('tienedoc_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -126,7 +145,7 @@
                     <select class="form-control" id="tipodocumento_id" name="tipodocumento_id" onChange="selectOnChange2(this)">
                         <option value="">Seleccioná el tipo de documento</option>
                         @foreach ($datosTipoDocumento as $tipoDocumento)
-                        	<option value="{{$tipoDocumento->getIdTipoDocumento()}}">{{$tipoDocumento->getNombreTipoDocumento()}}</option>
+                        	<option value="{{$tipoDocumento->getIdTipoDocumento()}}" {{ old('tipodocumento_id') == $tipoDocumento->getIdTipoDocumento() ? 'selected' : '' }}>{{$tipoDocumento->getNombreTipoDocumento()}}</option>
                         @endforeach
                    </select>
                   	{!! $errors->first('tipodocumento_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -162,13 +181,23 @@
                   	{!! $errors->first('victima_documento', '<p class="help-block" style="color:red";>:message</p>') !!}
 
                     <label for="bloqueo3" class="form-check-label">Se desconoce</label>
-                    <input type="checkbox" id="bloqueo3" name="victima_documento_se_desconoce" value="Se desconoce">
+                    <input type="checkbox" id="bloqueo3" name="victima_documento_se_desconoce" value="Se desconoce" onchange="check3(this)">
                 </div>
                 <script>
-		             document.getElementById('bloqueo3').onchange = function() {
-		                 document.getElementById('victima_documento').disabled = this.checked;
-		             	};
-		        </script>
+                    function check3(checkbox)
+                    {
+                        if (checkbox.checked)
+                            {
+                                $('#victima_documento').val('Se desconoce');
+                                var elCampo = document.getElementById('victima_documento');
+                                elCampo.setAttribute("value", "Se desconoce");
+                                elCampo.disabled = checkbox.checked;
+                            }else
+                                { $('#victima_documento').val('');
+                                    document.getElementById('victima_documento').disabled=false;
+                                }
+                    }
+                </script>
             <!-- FIN SEXTA PREGUNTA -->
 
             <!-- SEPTIMA PREGUNTA -->
@@ -177,7 +206,7 @@
                     <select id="pais_id" class="form-control" name="pais_id" onChange="selectOnChange3(this)">
 						<option value="">Elegi País</option>
 							@foreach ($datosPaises as $pais)
-						<option value="{{$pais->getIdPais()}}">{{$pais->getNombrePais()}}</option>
+						<option value="{{$pais->getIdPais()}}" {{ old('pais_id') == $pais->getIdPais() ? 'selected' : '' }}>{{$pais->getNombrePais()}}</option>
 						@endforeach
                     </select>
                   	{!! $errors->first('pais_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -185,7 +214,7 @@
                 {{-- funcion js para cuando se seleccione Pais->aparezcan las Provincias --}}
 		        <script>
 					function selectOnChange3(sel) {
-						if (sel.value=="13"){
+						if (sel.value=="7"){
 						    divC = document.getElementById("argprovincia_id");
 						    divC.style.display = "";
 						}else{
@@ -193,7 +222,7 @@
 						    $('#victima_provincia').val('');
 						    divC.style.display="none";
 						}
-						if (sel.value=="33") {
+						if (sel.value=="24") {
 						   divC = document.getElementById("brestado_id");
 						   divC.style.display = "";
 						}else{
@@ -206,13 +235,14 @@
                 <!-- si selecciono Argentina aparece un select para todas las provincias de argentina -->
             <!-- FIN SEPTIMA PREGUNTA -->
 
+
             <!-- OCTAVA PREGUNTA -->
                 <div class="form-group" id="argprovincia_id" style="display: none">
                     <label for="">B 8. Provincia de nacimiento: </label>
                     <select class="form-control" name="argprovincia_id">
                        	<option value="">Elegi Provincia</option>
 							@foreach ($datosArgProvincias as $provinciaARG)
-                       			<option value="{{$provinciaARG->getIdProvincia()}}">{{$provinciaARG->getNombreProvincia()}}</option>
+                       			<option value="{{$provinciaARG->getIdProvincia()}}" {{ old('argprovincia_id') == $provinciaARG->getIdProvincia() ? 'selected' : '' }}>{{$provinciaARG->getNombreProvincia()}}</option>
                        		@endforeach
                     </select>
                 </div>
@@ -221,7 +251,7 @@
                     <select class="form-control" name="brestado_id">
                        	<option value="">Elegi Provincia</option>
                        	@foreach ($datosBrEstados as $estadoBR)
-                       		<option value="{{$estadoBR->getIdEstado()}}">{{$estadoBR->getNombreEstado()}}</option>
+                       		<option value="{{$estadoBR->getIdEstado()}}" {{ old('brestado_id') == $estadoBR->getIdEstado() ? 'selected' : '' }}>{{$estadoBR->getNombreEstado()}}</option>
                        	@endforeach
                     </select>
                 </div>
@@ -248,16 +278,24 @@
                   	{!! $errors->first('victima_fecha_nacimiento', '<p class="help-block" style="color:red";>:message</p>') !!}
 
                     <label for="bloqueo4" class="form-check-label">Se desconoce</label>
-                    <input type="checkbox" id="bloqueo4" name="victima_fecha_nacimiento_desconoce" value="Se desconoce">
+                    <input type="checkbox" id="bloqueo4" name="victima_fecha_nacimiento_desconoce" value="Se desconoce" onchange="check4(this)">
                 </div>
 
                 <script>
-                     document.getElementById('bloqueo4').onchange = function() {
-                         document.getElementById('victima_fecha_nacimiento').disabled = this.checked;
-                        };
-                </script>
-
-              
+                    function check4(checkbox)
+                    {
+                        if (checkbox.checked)
+                            {
+                                $('#victima_fecha_nacimiento').val('1900-01-01');
+                                var elCampo = document.getElementById('victima_fecha_nacimiento');
+                                elCampo.setAttribute("value", "1900-01-01");
+                                elCampo.disabled = checkbox.checked;
+                            }else
+                                { $('#victima_fecha_nacimiento').val('');
+                                    document.getElementById('victima_fecha_nacimiento').disabled=false;
+                                }
+                    }
+                </script> 
             <!-- FIN DECIMA PREGUNTA -->
 
             <!-- UNDECIMA PREGUNTA -->
@@ -273,17 +311,16 @@
 	       		 <!-- si clickeo el check de se desconoce automaticamente en la franja etaria ingresa el valor se desconoce y se bloquea el input text para asignar la edad -->
 				<script type="text/javascript">
 		            function check(checkbox) {
-		           if (checkbox.checked){
-
-		          $('#franjaetaria_id').val('7');
-		          $('#victima_edad').val('');
-		          var elCampo = document.getElementById('victima_edad');
-
-		          elCampo.disabled = checkbox.checked;
-		            }
-		            else{ $('#franjaetaria_id').val('');
-		            document.getElementById('victima_edad').disabled=false;
-		            }}
+    		           if (checkbox.checked)
+                        {
+                            $('#victima_edad').val('Se desconoce');
+                            var elCampo = document.getElementById('victima_edad');
+                            elCampo.setAttribute("value", "Se desconoce");
+                            elCampo.disabled = checkbox.checked;
+    		            }
+    		            else{ $('#victima_edad').val('');
+    		            document.getElementById('victima_edad').disabled=false;
+    		            }}
 		        </script>
             <!-- FIN UNDECIMA PREGUNTA -->
 
@@ -293,7 +330,7 @@
                     <select name="franjaetaria_id" id="franjaetaria_id" class="form-control" value="" onclick="cual_b12()">
                         <option value="">Franja Etaria</option>
                         @foreach ($datosFranjaEtaria as $franjaEtaria)
-                        	<option value="{{$franjaEtaria->getIdFranja()}}">{{$franjaEtaria->getNombreFranja()}}</option>
+                        	<option value="{{$franjaEtaria->getIdFranja()}}" {{ old('franjaetaria_id') == $franjaEtaria->getIdFranja() ? 'selected' : '' }}>{{$franjaEtaria->getNombreFranja()}}</option>
                         @endforeach
                         <!-- no hago un array en este caso porque toma los valores una funcion de javascript -->
                     </select>
@@ -333,7 +370,7 @@
                     <select class="form-control" name="embarazorelevamiento_id">
                         <option value="">Está embarazada?</option>
                         @foreach ($datosEmbarazadaRelevamiento as $estaEmbarazada)
-                        	<option value="{{$estaEmbarazada->getId()}}">{{$estaEmbarazada->getEmbarazada()}}</option>
+                        	<option value="{{$estaEmbarazada->getId()}}" {{ old('embarazorelevamiento_id') == $estaEmbarazada->getId() ? 'selected' : '' }}>{{$estaEmbarazada->getEmbarazada()}}</option>
                         @endforeach
                     </select>
                   	{!! $errors->first('embarazorelevamiento_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -346,7 +383,7 @@
                     <select class="form-control" name="embarazoprevio_id">
                         <option value="">Estuvo embarazada?</option>
                         @foreach ($datosEmbarazoPrevio as $estuvoEmbarazada)
-                        	<option value="{{$estuvoEmbarazada->getId()}}">{{$estuvoEmbarazada->getEmbarazoPrevio()}}</option>
+                        	<option value="{{$estuvoEmbarazada->getId()}}" {{ old('embarazoprevio_id') == $estuvoEmbarazada->getId() ? 'selected' : '' }}>{{$estuvoEmbarazada->getEmbarazoPrevio()}}</option>
                         @endforeach
                     </select>
                   	{!! $errors->first('embarazoprevio_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -359,7 +396,7 @@
                     <select class="form-control" name="hijosembarazo_id">
                         <option value="">Posee hijos?</option>
                         @foreach ($datosHijos as $hijos)
-                        	<option value="{{$hijos->getId()}}">{{$hijos->getHijos()}}</option>
+                        	<option value="{{$hijos->getId()}}" {{ old('hijosembarazo_id') == $hijos->getId() ? 'selected' : '' }}>{{$hijos->getHijos()}}</option>
                         @endforeach
                     </select>
                   	{!! $errors->first('hijosembarazo_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -372,7 +409,7 @@
                     <select class="form-control" name="bajoefecto_id">
                         <option value="">Se encuentra bajo efectos?</option>
                         @foreach ($datosBajoEfecto as $efectos)
-                        	<option value="{{$efectos->getId()}}">{{$efectos->getBajoEfecto()}}</option>
+                        	<option value="{{$efectos->getId()}}" {{ old('bajoefecto_id') == $efectos->getId() ? 'selected' : '' }}>{{$efectos->getBajoEfecto()}}</option>
                         @endforeach
                     </select>
                   	{!! $errors->first('bajoefecto_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -385,11 +422,61 @@
                     <label for="">B 17. ¿Presenta algún tipo de discapacidad?</label><br>
                     <label for="">En caso de requerir, tildar todas las opciones que considere correspondientes.</label><br>
                     @foreach ($datosDiscapacidad as $discapacidad)
-                    	<input type="checkbox" value="{{$discapacidad->getId()}}" name="discapacidad_id[]">
-                    	<label for="">{{$discapacidad->getDiscapacidad()}}</label>
+                        @if ($discapacidad->getDiscapacidad() === "No")
+                            <label for="{{ $discapacidad->getDiscapacidad() }}">{{$discapacidad->getDiscapacidad()}}</label>
+                            <input type="checkbox" value="{{$discapacidad->getId()}}" name="discapacidad_id[]" id="{{ $discapacidad->getDiscapacidad() }}" onchange="check5(this)">
+                            @elseif ($discapacidad->getDiscapacidad() === "Se desconoce")
+                                <label for="{{ $discapacidad->getDiscapacidad() }}">{{$discapacidad->getDiscapacidad()}}</label>
+                                <input type="checkbox" value="{{$discapacidad->getId()}}" name="discapacidad_id[]" id="{{ $discapacidad->getDiscapacidad() }}" onchange="check6(this)">
+                                @else
+                                    <label for="{{ $discapacidad->getDiscapacidad() }}">{{$discapacidad->getDiscapacidad()}}</label>
+                                    <input type="checkbox" value="{{$discapacidad->getId()}}" id="{{ $discapacidad->getDiscapacidad() }}" name="discapacidad_id[]">
+                        @endif  
                     @endforeach
                 </div>
                 {!! $errors->first('discapacidad_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+
+                <script>
+                    function check5(checkbox)
+                    {
+
+                        if (checkbox.checked) 
+                            {
+                                document.getElementById("Físico/Motriz").disabled = true;
+                                document.getElementById("Intelectual/Adaptativo").disabled = true;
+                                document.getElementById("Psíquica").disabled = true;
+                                document.getElementById("Sensorial").disabled = true;
+                                document.getElementById("Se desconoce").disabled = true;
+                            }
+                                else{
+                                    document.getElementById('Físico/Motriz').disabled=false;
+                                    document.getElementById('Intelectual/Adaptativo').disabled=false;
+                                    document.getElementById('Psíquica').disabled=false;
+                                    document.getElementById('Sensorial').disabled=false;
+                                    document.getElementById('Se desconoce').disabled=false;
+                                }
+                    }
+                    function check6(checkbox)
+                    {
+
+                        if (checkbox.checked) 
+                            {
+                                document.getElementById("Físico/Motriz").disabled = true;
+                                document.getElementById("Intelectual/Adaptativo").disabled = true;
+                                document.getElementById("Psíquica").disabled = true;
+                                document.getElementById("Sensorial").disabled = true;
+                                document.getElementById("No").disabled = true;
+                            }
+                                else{
+                                    document.getElementById('Físico/Motriz').disabled=false;
+                                    document.getElementById('Intelectual/Adaptativo').disabled=false;
+                                    document.getElementById('Psíquica').disabled=false;
+                                    document.getElementById('Sensorial').disabled=false;
+                                    document.getElementById('No').disabled=false;
+                                }
+
+                    }
+                </script>
             <!-- FIN DECIMASEPTIMA PREGUNTA -->
 
             <!-- DECIMAOCTAVA PREGUNTA -->
@@ -398,7 +485,7 @@
                     <select class="form-control" id="tienelesion_id" name="tienelesion_id" onChange="selectOnChange10(this)">
                         <option value="">Presenta lesiones?</option>
                         @foreach ($datosLesion as $lesion)
-                        	<option value="{{$lesion->getId()}}">{{$lesion->getLesion()}}</option>
+                        	<option value="{{$lesion->getId()}}" {{ old('tienelesion_id') == $lesion->getId() ? 'selected' : '' }}>{{$lesion->getLesion()}}</option>
                         @endforeach
                     </select>
                		{!! $errors->first('tienelesion_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -447,7 +534,7 @@
                     <select class="form-control" id="enfermedadcronica_id" name="enfermedadcronica_id" onChange="selectOnChange11(this)">
                         <option value="">Posee enfermedades?</option>
                         @foreach ($datoEnfermedadCronica as $enfermedad)
-                        	<option value="{{$enfermedad->getId()}}">{{$enfermedad->getEnfermedadCronica()}}</option>
+                        	<option value="{{$enfermedad->getId()}}" {{ old('enfermedadcronica_id') == $enfermedad->getId() ? 'selected' : '' }}>{{$enfermedad->getEnfermedadCronica()}}</option>
                         @endforeach
                     </select>
                		{!! $errors->first('enfermedadcronica_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -483,12 +570,21 @@
                     <label>B 20. ¿Presenta algún tipo de limitación para comunicarse? </label><br>
                     <label class="" >En caso de requerir, tildar todas las opciones que considere correspondientes.</label><br>
                     @foreach ($datosLimitacion as $limitacion)
-                    	<input type="checkbox" value="{{$limitacion->getId()}}" name="limitacion_id[]">
-                    	<label for="">{{$limitacion->getLimitacion()}}</label>
+                        @if ($limitacion->getLimitacion() === "Otro")
+                            <label for="">{{$limitacion->getLimitacion()}}</label>
+                            <input type="checkbox" class="form-check-label" id="checkeado"  onclick="muestroCual()" name="limitacion_id[]" value="{{$limitacion->getId()}}">
+                            @elseif ($limitacion->getLimitacion() === "No") 
+                                <label for="">{{$limitacion->getLimitacion()}}</label>
+                                <input type="checkbox" value="{{$limitacion->getId()}}" name="limitacion_id[]" onchange="check7(this)">
+                                @else
+                                    <label for="">{{$limitacion->getLimitacion()}}</label>
+                                    <input type="checkbox" value="{{$limitacion->getId()}}" id="{{ $limitacion->getLimitacion() }}" name="limitacion_id[]">
+                        @endif
+                        
                     @endforeach
                         <!-- si checkeo el checkbox otro tomo el id checkeado y uso la funcion muestroCual -->
-                        <input type="checkbox" class="form-check-label" id="checkeado"  onclick="muestroCual()" name="limitacion_id[]" value="Otro">
-                        <label for="">Otro</label><br>
+                        {{-- <input type="checkbox" class="form-check-label" id="checkeado"  onclick="muestroCual()" name="limitacion_id[]" value="Otro">
+                        <label for="">Otro</label><br> --}}
                         <!-- mostrando lo que contiene el id cual -->
                         <div id="cual" style="display:none">
                             <label for="">Cual?</label>
@@ -508,6 +604,25 @@
 		                   text.style.display = "none";
 		                }
 		            }
+
+                    function check7(checkbox)
+                    {
+
+                        if (checkbox.checked) 
+                            {
+                                document.getElementById("Analfabetismo").disabled = true;
+                                document.getElementById("Discapacidad").disabled = true;                                
+                                document.getElementById("Idioma").disabled = true;
+                                document.getElementById("checkeado").disabled = true;
+                            }
+                            else{
+                                    document.getElementById("Analfabetismo").disabled = false;
+                                    document.getElementById("Discapacidad").disabled = false;
+                                    document.getElementById("Idioma").disabled = false;
+                                    document.getElementById("checkeado").disabled = false;
+                            }
+
+                    }
 		        </script>
             <!-- FIN VIGESIMA PREGUNTA -->
 
@@ -517,7 +632,7 @@
                     <select class="form-control" name="niveleducativo_id">
                         <option value="">Seleccioná el nivel de educación</option>
                         @foreach ($datosNivelEducativo as $educacion)
-                        	<option value="{{$educacion->getId()}}">{{$educacion->getNivelEducativo()}}</option>
+                        	<option value="{{$educacion->getId()}}" {{ old('niveleducativo_id') == $educacion->getId() ? 'selected' : '' }}>{{$educacion->getNivelEducativo()}}</option>
                         @endforeach
                     </select>
                		{!! $errors->first('niveleducativo_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -530,7 +645,7 @@
                     <select class="form-control" id="oficio_id" name="oficio_id" onChange="selectOnChange13(this)">
                         <option value="">Posee oficio?</option>
                         @foreach ($datosOficio as $oficio)
-                        	<option value="{{$oficio->getId()}}">{{$oficio->getOficio()}}</option>
+                        	<option value="{{$oficio->getId()}}" {{ old('oficio_id') == $oficio->getId() ? 'selected' : '' }}>{{$oficio->getOficio()}}</option>
                         @endforeach
                     </select>
                     {!! $errors->first('oficio_id', '<p class="help-block" style="color:red";>:message</p>') !!}

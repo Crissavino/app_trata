@@ -41,13 +41,23 @@
 	                    <!-- VER ESTA MANERA QUE ES MEJOR PARA BLOQUEAR UN CASILLERO CUANDO SE CLICKEA LA OPCION SE DESCONOCE -->
 	                    <label for="bloqueo1" class="form-check-label">Se desconoce</label>
 	                    {{-- tengo que ver como persistir los checkbox, como hace para que aparezcan checkeados --}}
-	                    <input type="checkbox" id="bloqueo1" name="victima_nombre_y_apellido_desconoce" value="{{ $Bformulario->victima_nombre_y_apellido_desconoce }}">
+	                    <input type="checkbox" id="bloqueo1" name="victima_nombre_y_apellido_desconoce" onchange="check1(this)" value="{{ $Bformulario->victima_nombre_y_apellido_desconoce }}">
 	                </div>
 					{{-- funcion js para el, se desconoce --}}
 					<script>
-	            		document.getElementById('bloqueo1').onchange = function() {
-	                	document.getElementById('victima_nombre_y_apellido').disabled = this.checked;
-	           			 };
+	            		function check1(checkbox)
+                    	{
+                        if (checkbox.checked)
+                            {
+                                $('#victima_nombre_y_apellido').val('Se desconoce');
+                                var elCampo = document.getElementById('victima_nombre_y_apellido');
+                                elCampo.setAttribute("value", "Se desconoce");
+                                elCampo.disabled = checkbox.checked;
+                            }else
+                                { $('#victima_nombre_y_apellido').val('');
+                                    document.getElementById('victima_nombre_y_apellido').disabled=false;
+                                }
+                    	}
 	        		</script>
                 <!-- FIN PRIMERA PREGUNTA -->
 
@@ -58,13 +68,23 @@
 	                  	{!! $errors->first('victima_apodo', '<p class="help-block" style="color:red";>:message</p>') !!}
 
 	                    <label for="bloqueo2" class="form-check-label">Se desconoce</label>
-	                    <input type="checkbox" id="bloqueo2" name="victima_apodo_desconoce" value="{{ $Bformulario->victima_apodo_desconoce}}">
+	                    <input type="checkbox" id="bloqueo2" name="victima_apodo_desconoce" onchange="check2(this)" value="{{ $Bformulario->victima_apodo_desconoce}}">
 	                </div>
 					{{-- funcion js para el, se desconoce --}}
 	                <script>
-					    document.getElementById('bloqueo2').onchange = function() {
-					    document.getElementById('victima_apodo').disabled = this.checked;
-						};
+					    function check2(checkbox)
+                    	{
+                        if (checkbox.checked)
+                            {
+                                $('#victima_apodo').val('Se desconoce');
+                                var elCampo = document.getElementById('victima_apodo');
+                                elCampo.setAttribute("value", "Se desconoce");
+                                elCampo.disabled = checkbox.checked;
+                            }else
+                                { $('#victima_apodo').val('');
+                                    document.getElementById('victima_apodo').disabled=false;
+                                }
+                   		}
 					</script>
                 <!-- FIN SEGUNDA PREGUNTA -->
 
@@ -171,12 +191,22 @@
 	                  	{!! $errors->first('victima_documento', '<p class="help-block" style="color:red";>:message</p>') !!}
 
 	                    <label for="bloqueo3" class="form-check-label">Se desconoce</label>
-	                    <input type="checkbox" id="bloqueo3" name="victima_documento_se_desconoce" value="">
+	                    <input type="checkbox" id="bloqueo3" name="victima_documento_se_desconoce" onchange="check3(this)" value="Se desconoce">
 	                </div>
 	                <script>
-			             document.getElementById('bloqueo3').onchange = function() {
-			                 document.getElementById('victima_documento').disabled = this.checked;
-			             	};
+			            function check3(checkbox)
+                    	{
+                        if (checkbox.checked)
+                            {
+                                $('#victima_documento').val('Se desconoce');
+                                var elCampo = document.getElementById('victima_documento');
+                                elCampo.setAttribute("value", "Se desconoce");
+                                elCampo.disabled = checkbox.checked;
+                            }else
+                                { $('#victima_documento').val('');
+                                    document.getElementById('victima_documento').disabled=false;
+                                }
+                    	}
 			        </script>
                 <!-- FIN SEXTA PREGUNTA -->
 
@@ -264,13 +294,23 @@
 	                  	{!! $errors->first('victima_fecha_nacimiento', '<p class="help-block" style="color:red";>:message</p>') !!}
 
 	                 <label for="bloqueo4" class="form-check-label">Se desconoce</label>
-                    <input type="checkbox" id="bloqueo4" name="victima_fecha_nacimiento_desconoce" value="Se desconoce">
+                    <input type="checkbox" id="bloqueo4" name="victima_fecha_nacimiento_desconoce" onchange="check4(this)" value="Se desconoce">
                		</div>
 
 	                <script>
-	                     document.getElementById('bloqueo4').onchange = function() {
-	                         document.getElementById('victima_fecha_nacimiento').disabled = this.checked;
-	                        };
+	                    function check4(checkbox)
+                    	{
+                        if (checkbox.checked)
+                            {
+                                $('#victima_fecha_nacimiento').val('1900-01-01');
+                                var elCampo = document.getElementById('victima_fecha_nacimiento');
+                                elCampo.setAttribute("value", "1900-01-01");
+                                elCampo.disabled = checkbox.checked;
+                            }else
+                                { $('#victima_fecha_nacimiento').val('');
+                                    document.getElementById('victima_fecha_nacimiento').disabled=false;
+                                }
+                    	}
 	                </script>
                 <!-- FIN DECIMA PREGUNTA -->
 
@@ -288,17 +328,16 @@
 		       		 <!-- si clickeo el check de se desconoce automaticamente en la franja etaria ingresa el valor se desconoce y se bloquea el input text para asignar la edad -->
 					<script type="text/javascript">
 			            function check(checkbox) {
-			           if (checkbox.checked){
-
-			          $('#franjaetaria').val('7');
-			          $('#victima_edad').val('');
-			          var elCampo = document.getElementById('victima_edad');
-
-			          elCampo.disabled = checkbox.checked;
-			            }
-			            else{ $('#franjaetaria').val('0');
-			            document.getElementById('victima_edad').disabled=false;
-			            }}
+    		           if (checkbox.checked)
+                        {
+                            $('#victima_edad').val('Se desconoce');
+                            var elCampo = document.getElementById('victima_edad');
+                            elCampo.setAttribute("value", "Se desconoce");
+                            elCampo.disabled = checkbox.checked;
+    		            }
+    		            else{ $('#victima_edad').val('');
+    		            document.getElementById('victima_edad').disabled=false;
+    		            }}
 			        </script>
                 <!-- FIN UNDECIMA PREGUNTA -->
 
@@ -406,10 +445,9 @@
 
                 <!-- DECIMASEPTIMA PREGUNTA -->
                 <!-- ver como hacer un array que me guarde en todas las victima_discapacidad[] los valores para cada datos -->
-	                <div class="form-group {{ $errors->has('discapacidad_id') ? 'has-error' : ''}}">
+	                {{-- <div class="form-group {{ $errors->has('discapacidad_id') ? 'has-error' : ''}}">
 	                    <label for="">B 17. ¿Presenta algún tipo de discapacidad?</label><br>
 	                    <label for="">En caso de requerir, tildar todas las opciones que considere correspondientes.</label><br>
-	                    <!-- ver la manera de hacer un foreach de estos valores, es decir, incluirlos en un array -->
 	                    <input type="checkbox" name="discapacidad_id[]" value="1">
 	                    <label for="" class="form-check-label">Físico/Motriz</label>
 	                    <input type="checkbox" name="discapacidad_id[]" value="2">
@@ -422,8 +460,75 @@
 	                    <label for="">No</label>
 	                    <input type="checkbox" name="discapacidad_id[]" value="6">
 	                    <label for="">Se Desconoce</label><br>
-	                </div>
+	                </div> --}}
+	                <div class="form-group {{ $errors->has('discapacidad_id') ? 'has-error' : ''}}">
+	                	<label for="">B 17. ¿Presenta algún tipo de discapacidad?</label><br>
+	                    <label for="">En caso de requerir, tildar todas las opciones que considere correspondientes.</label><br>
+	                    @foreach ($datosDiscapacidad as $discapacidad)
+	                    	@php
+								$discapacidadIds = $Bformulario->discapacidads->pluck('id')->toArray();
+								$checked = (in_array($discapacidad->id, $discapacidadIds)) ? 'checked' : ''
+							@endphp
+							@if ($discapacidad->getDiscapacidad() === "No")
+	                            <label for="{{ $discapacidad->getDiscapacidad() }}">{{$discapacidad->getDiscapacidad()}}</label>
+	                            <input {{$checked}} type="checkbox" value="{{$discapacidad->getId()}}" name="discapacidad_id[]" id="{{ $discapacidad->getDiscapacidad() }}" onchange="check5(this)">
+	                            @elseif ($discapacidad->getDiscapacidad() === "Se desconoce")
+	                                <label for="{{ $discapacidad->getDiscapacidad() }}">{{$discapacidad->getDiscapacidad()}}</label>
+	                                <input {{$checked}} type="checkbox" value="{{$discapacidad->getId()}}" name="discapacidad_id[]" id="{{ $discapacidad->getDiscapacidad() }}" onchange="check6(this)">
+	                                @else
+	                                    <label for="{{ $discapacidad->getDiscapacidad() }}">{{$discapacidad->getDiscapacidad()}}</label>
+	                                    <input {{$checked}} type="checkbox" value="{{$discapacidad->getId()}}" id="{{ $discapacidad->getDiscapacidad() }}" name="discapacidad_id[]">
+	                        @endif  
+							{{-- <label for="">{{$discapacidad->getDiscapacidad()}}</label>
+							<input {{$checked}} type="checkbox" name="discapacidad_id[]" id="" value="{{$discapacidad->getId()}}"> --}}
+	                    @endforeach
+	               	</div>
 	                {!! $errors->first('discapacidad_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+
+		            <script>
+		                    function check5(checkbox)
+		                    {
+
+		                        if (checkbox.checked) 
+		                            {
+		                                document.getElementById("Físico/Motriz").disabled = true;
+		                                document.getElementById("Intelectual/Adaptativo").disabled = true;
+		                                document.getElementById("Psíquica").disabled = true;
+		                                document.getElementById("Sensorial").disabled = true;
+		                                document.getElementById("Se desconoce").disabled = true;
+		                            }
+		                            else{
+		                                    document.getElementById('Físico/Motriz').disabled=false;
+		                                    document.getElementById('Intelectual/Adaptativo').disabled=false;
+		                                    document.getElementById('Psíquica').disabled=false;
+		                                    document.getElementById('Sensorial').disabled=false;
+		                                    document.getElementById('Se desconoce').disabled=false;
+
+		                            }
+
+		                    }
+		                    function check6(checkbox)
+		                    {
+
+		                        if (checkbox.checked) 
+		                            {
+		                                document.getElementById("Físico/Motriz").disabled = true;
+		                                document.getElementById("Intelectual/Adaptativo").disabled = true;
+		                                document.getElementById("Psíquica").disabled = true;
+		                                document.getElementById("Sensorial").disabled = true;
+		                                document.getElementById("No").disabled = true;
+		                            }
+		                            else{
+		                                    document.getElementById('Físico/Motriz').disabled=false;
+		                                    document.getElementById('Intelectual/Adaptativo').disabled=false;
+		                                    document.getElementById('Psíquica').disabled=false;
+		                                    document.getElementById('Sensorial').disabled=false;
+		                                    document.getElementById('No').disabled=false;
+
+		                            }
+
+		                    }
+	                </script>
                 <!-- FIN DECIMASEPTIMA PREGUNTA -->
 
                 <!-- DECIMAOCTAVA PREGUNTA -->
@@ -520,18 +625,23 @@
 	                <div class="form-group {{ $errors->has('limitacion_id') ? 'has-error' : ''}}">
 	                    <label>B 20. ¿Presenta algún tipo de limitación para comunicarse? </label><br>
 	                    <label class="" >En caso de requerir, tildar todas las opciones que considere correspondientes.</label><br>
-	                        <input type="checkbox" class="form-check-label" name="limitacion_id[]" value="1">
-	                        <label for="">Analfabetismo</label>
-	                        <input type="checkbox" class="form-check-label" name="limitacion_id[]" value="2">
-	                        <label for="">Discapacidad</label>
-	                        <input type="checkbox" class="form-check-label" name="limitacion_id[]" value="3">
-	                        <label for="">Idioma</label>
-	                        <input type="checkbox" class="form-check-label" name="limitacion_id[]" value="4">
-	                        <label for="">No</label>
-	                        <!-- si checkeo el checkbox otro tomo el id checkeado y uso la funcion muestroCual -->
-	                        <input type="checkbox" class="form-check-label" id="checkeado"  onclick="muestroCual()" name="limitacion_id[]" value="5">
-	                        <label for="">Otro</label><br>
-	                        <!-- mostrando lo que contiene el id cual -->
+	                    	@foreach ($datosLimitacion as $limitacion)
+	                    		@php
+									$limitacionIds = $Bformulario->limitacions->pluck('id')->toArray();
+									$checked = (in_array($limitacion->id, $limitacionIds)) ? 'checked' : ''
+								@endphp
+								@if ($limitacion->getLimitacion() === "Otro")
+		                            <label for="">{{$limitacion->getLimitacion()}}</label>
+		                            <input {{$checked}} type="checkbox" class="form-check-label" id="checkeado"  onclick="muestroCual()" name="limitacion_id[]" value="{{$limitacion->getId()}}">
+		                            @elseif ($limitacion->getLimitacion() === "No") 
+		                                <label for="">{{$limitacion->getLimitacion()}}</label>
+		                                <input {{$checked}} type="checkbox" value="{{$limitacion->getId()}}" name="limitacion_id[]" onchange="check7(this)">
+		                                @else
+		                                    <label for="">{{$limitacion->getLimitacion()}}</label>
+		                                    <input {{$checked}} type="checkbox" value="{{$limitacion->getId()}}" id="{{ $limitacion->getLimitacion() }}" name="limitacion_id[]">
+		                        @endif
+	                    	@endforeach
+	                    	
 	                        <div id="cual" style="display:none">
 	                            <label for="">Cual?</label>
 	                            <input type="text" class="form-control" name="victima_limitacion_otra" value="">
@@ -550,6 +660,25 @@
 			                   text.style.display = "none";
 			                }
 			            }
+
+	                    function check7(checkbox)
+	                    {
+
+	                        if (checkbox.checked) 
+	                            {
+	                                document.getElementById("Analfabetismo").disabled = true;
+	                                document.getElementById("Discapacidad").disabled = true;                                
+	                                document.getElementById("Idioma").disabled = true;
+	                                document.getElementById("checkeado").disabled = true;
+	                            }
+	                            else{
+	                                    document.getElementById("Analfabetismo").disabled = false;
+	                                    document.getElementById("Discapacidad").disabled = false;
+	                                    document.getElementById("Idioma").disabled = false;
+	                                    document.getElementById("checkeado").disabled = false;
+	                            }
+
+	                    }
 			        </script>
                 <!-- FIN VIGESIMA PREGUNTA -->
 

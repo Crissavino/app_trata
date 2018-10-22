@@ -10,9 +10,11 @@ class Profesionalinterviniente extends Model
 
 	protected $dates = ['datos_profesional_interviene_desde', 'datos_profesional_interviene_hasta'];
 
-    public function aformulario()
+    public function aformularios()
 	{
-		return $this->belongsToMany('\App\FormA\Aformulario');
+		return $this->belongsToMany('\App\FormA\Aformulario')
+		            ->withPivot('id', 'profesionalinterviniente_id', 'aformulario_id');
+
 	}
 	
 }

@@ -35,7 +35,6 @@ Route::put('formularios/edicion/B/{id}', 'FormsController@updateB');
 Route::get('formularios', 'FormsController@formularios');
 
 
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
