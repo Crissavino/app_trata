@@ -203,7 +203,7 @@
 
             {{-- INICIO AGREGAR PROFESIONAL PREGUNTA --}}
                 <div id="padre">
-                    <div id="hijo" name="profesionales">
+                    <div id="hijo">
                         <h3>A 9. Profesional Interviniente:</h3>
                         <div class="form-group {{ $errors->has('profesional_id') ? 'has-error' : ''}}">
                             <label for="profesional_id">Profesional que interviene</label>

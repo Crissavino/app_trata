@@ -293,7 +293,7 @@ class FormsController extends Controller
 		//esta fecha es la del momento
 		$fecha_hoy = Carbon::now();
 
-		$validador = request()->validate([
+		request()->validate([
 							'datos_nombre_referencia' => 'required',
 							'datos_numero_carpeta' => 'required',
 							'datos_fecha_ingreso' => 'required|date|before_or_equal:'.$fecha_hoy,
@@ -305,6 +305,13 @@ class FormsController extends Controller
 							'caratulacionjudicial_id' => 'required',
 							// 'caratulacionjudicial_otro' => 'required',
 							'datos_nro_causa' => 'required',
+							'profesional_id' => 'required|array|filled|min:1',
+							'datos_profesional_interviene_desde' => 'required|array|filled|min:1',
+							'datos_profesional_interviene_hasta' => 'required|array|filled|min:1',
+							// 'datos_profesional_interviene_desde[]' => 'required|date|before:datos_profesional_interviene_hasta',
+							// 'datos_profesional_interviene_desde' => 'required|date|before:datos_profesional_interviene_hasta',
+							// 'datos_profesional_interviene_hasta[]' => 'required|date|after:datos_profesional_interviene_desde',
+							'profesionalactualmente_id' => 'required|array|filled|min:1'
 						],
 						[		
 
@@ -320,7 +327,16 @@ class FormsController extends Controller
 							'caratulacionjudicial_id.required' => 'Este campo es obligatorio',
 							// 'caratulacionjudicial_otro.required' => 'Este campo es obligatorio',
 							'datos_nro_causa.required' => 'Este campo es obligatorio',
-						]);	
+							'profesional_id.min' => 'Este campo es obligatorio',
+							'datos_profesional_interviene_desde.required' => 'Este campo es obligatorio',
+							// 'datos_profesional_interviene_desde[].before' => 'El principio de la intervencion no puede ser posterior al fin',
+							'datos_profesional_interviene_hasta.required' => 'Este campo es obligatorio',
+							// 'datos_profesional_interviene_hasta[].after' => 'El fin de la intervencion no puede ser posterior al inicio',
+							'profesionalactualmente_id.required' => 'Este campo es obligatorio'
+
+						]);
+
+		// dd('Hola');
 
 		$guardoAformulario = \App\FormA\Aformulario::create(request()->all());
 		// $guardoAformulario = \App\FormA\Aformulario::create(request()->only(['datos_nombre_referencia', 'datos_numero_carpeta', 'datos_fecha_ingreso', 'modalidad_id', 'estadocaso_id', 'datos_ente_judicial', 'caratulacionjudicial_id', 'datos_nro_causa']));
@@ -335,31 +351,27 @@ class FormsController extends Controller
 
 
 		//CONSULTAR CON MAXI PORQUE NO ME VALIDA ESTO, LO SALTEA DIRECTAMENTE, CUANDO PONGO POR EJEMPLO 'profesional_id[]' => 'required' y 'profesional_id[].required' => 'Este campo es obligatorio', ME VALIDA PERO NO ME GUARDA LOS DATOS
-		request()->validate([
-							'profesional_id' => 'required',
-							'datos_profesional_interviene_desde' => 'required',
-							'datos_profesional_interviene_hasta' => 'required',
-							// 'datos_profesional_interviene_desde[]' => 'required|date|before:datos_profesional_interviene_hasta',
-							// 'datos_profesional_interviene_desde' => 'required|date|before:datos_profesional_interviene_hasta',
-							// 'datos_profesional_interviene_hasta[]' => 'required|date|after:datos_profesional_interviene_desde',
-							'profesionalactualmente_id' => 'required'
-							],
-							[
-							'profesional_id.required' => 'Este campo es obligatorio',
-							'datos_profesional_interviene_desde.required' => 'Este campo es obligatorio',
-							// 'datos_profesional_interviene_desde[].before' => 'El principio de la intervencion no puede ser posterior al fin',
-							'datos_profesional_interviene_hasta.required' => 'Este campo es obligatorio',
-							// 'datos_profesional_interviene_hasta[].after' => 'El fin de la intervencion no puede ser posterior al inicio',
-							'profesionalactualmente_id.required' => 'Este campo es obligatorio'
-							]);
-
-		// dd('Hola');
-
-
+		// request()->validate([
+		// 					'profesional_id[]' => 'required',
+		// 					'datos_profesional_interviene_desde' => 'required',
+		// 					'datos_profesional_interviene_hasta' => 'required',
+		// 					// 'datos_profesional_interviene_desde[]' => 'required|date|before:datos_profesional_interviene_hasta',
+		// 					// 'datos_profesional_interviene_desde' => 'required|date|before:datos_profesional_interviene_hasta',
+		// 					// 'datos_profesional_interviene_hasta[]' => 'required|date|after:datos_profesional_interviene_desde',
+		// 					'profesionalactualmente_id' => 'required'
+		// 					],
+		// 					[
+		// 					'profesional_id.required' => 'Este campo es obligatorio',
+		// 					'datos_profesional_interviene_desde.required' => 'Este campo es obligatorio',
+		// 					// 'datos_profesional_interviene_desde[].before' => 'El principio de la intervencion no puede ser posterior al fin',
+		// 					'datos_profesional_interviene_hasta.required' => 'Este campo es obligatorio',
+		// 					// 'datos_profesional_interviene_hasta[].after' => 'El fin de la intervencion no puede ser posterior al inicio',
+		// 					'profesionalactualmente_id.required' => 'Este campo es obligatorio'
+		// 					]);
 
 
 		$arrayProfesionales = request()->only(['profesional_id', 'datos_profesional_interviene_desde', 'datos_profesional_interviene_hasta', 'profesionalactualmente_id']);	
-		
+
 		//de aca obtengo la cantidad de veces que tengo que iterar para asignarle valores al array
 		$cant = (count(request()->input('profesional_id')));
 
