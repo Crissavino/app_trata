@@ -19,7 +19,6 @@ class HijosembarazosTableSeeder extends Seeder
             ['nombre' => 'No'],
 
             ['nombre' => 'Se desconoce']
-
         ]);
     }
 }

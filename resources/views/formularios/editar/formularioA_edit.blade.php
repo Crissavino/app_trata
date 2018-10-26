@@ -36,7 +36,7 @@
 
             {{-- INICIO SEGUNDA PREGUNTA --}}
                 <div class="form-group" {{ $errors->has('datos_numero_carpeta') ? 'has-error' : ''}}>
-                    <label for="datos_numero_carpeta">A 2. Nro de carpeta:</label>
+                    <label for="datos_numero_carpeta">A 2. Número de carpeta:</label>
                     <input type="text" class="form-control" name="datos_numero_carpeta" id="datos_numero_carpeta" value="{{ $aFormulario->datos_numero_carpeta }}">
                     {!! $errors->first('datos_numero_carpeta', '<p class="help-block" style="color:red";>:message</p>') !!}
                 </div>
@@ -150,7 +150,7 @@
 
             {{-- INICIO SEXTA PREGUNTA --}}
                 <div class="form-group" {{ $errors->has('datos_ente_judicial') ? 'has-error' : ''}}>
-                    <label for="datos_ente_judicial">A 6. Fiscalia/Juzgado Interviniente:</label>
+                    <label for="datos_ente_judicial">A 6. Fiscalía/Juzgado Interviniente:</label>
                     <input type="text" class="form-control" name="datos_ente_judicial" id="datos_ente_judicial" value="{{ $aFormulario->datos_ente_judicial }}">
                     {!! $errors->first('datos_ente_judicial', '<p class="help-block" style="color:red";>:message</p>') !!}
                 </div>
@@ -233,7 +233,7 @@
                 <div id="padre">
                     <div id="hijo" name="profesionales">
                         <h3>A 9. Profesional Interviniente:</h3>
-                        <div class="form-group" {{ $errors->has('profesional_id') ? 'has-error' : ''}}>
+                        <div class="form-group" {{ $errors->has('profesional_id[]') ? 'has-error' : ''}}>
                             <label for="profesional_id">Profesional que interviene</label>
                             <select class="form-control" name="profesional_id[]">
                                 <option value="">Seleccioná profesional</option>
@@ -241,22 +241,22 @@
                                     <option value="{{ $profesional->id }}">{{ $profesional->nombre_apellido_profesion }}</option>
                                 @endforeach
                             </select>
-                            {!! $errors->first('profesional_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+                            {!! $errors->first('profesional_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                         </div>
 
-                        <div class="form-group" {{ $errors->has('datos_profesional_interviene_desde') ? 'has-error' : ''}}>
+                        <div class="form-group" {{ $errors->has('datos_profesional_interviene_desde[]') ? 'has-error' : ''}}>
                             <label for="datos_profesional_interviene_desde">A 9.3 Interviene desde:</label>
                             <input type="date" class="form-control" name="datos_profesional_interviene_desde[]" id="datos_profesional_interviene_desde" value="">
-                            {!! $errors->first('datos_profesional_interviene_desde', '<p class="help-block" style="color:red";>:message</p>') !!}
+                            {!! $errors->first('datos_profesional_interviene_desde.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                         </div>
 
-                        <div class="form-group" {{ $errors->has('datos_profesional_interviene_hasta') ? 'has-error' : ''}}>
+                        <div class="form-group" {{ $errors->has('datos_profesional_interviene_hasta[]') ? 'has-error' : ''}}>
                             <label for="datos_profesional_interviene_hasta">A 9.4 Interviene hasta:</label>
                             <input type="date" class="form-control" name="datos_profesional_interviene_hasta[]" id="datos_profesional_interviene_desde" value="">
-                            {!! $errors->first('datos_profesional_interviene_hasta', '<p class="help-block" style="color:red";>:message</p>') !!}
+                            {!! $errors->first('datos_profesional_interviene_hasta.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                         </div>
 
-                        <div class="form-group" {{ $errors->has('profesionalactualmente_id') ? 'has-error' : ''}}>
+                        <div class="form-group" {{ $errors->has('profesionalactualmente_id[]') ? 'has-error' : ''}}>
                             <label for="profesionalactualmente_id">A 9.5 Actualmente Interviene:</label>
                             <select class="form-control" name="profesionalactualmente_id[]">
                                 <option value="">Actualmente interviene?</option>
@@ -264,7 +264,7 @@
                                     <option value="{{ $profesionalInterviene->getId() }}">{{ $profesionalInterviene->getNombre() }}</option>
                                 @endforeach
                             </select>
-                            {!! $errors->first('profesionalactualmente_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+                            {!! $errors->first('profesionalactualmente_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                         </div>
                     </div>
                 </div>

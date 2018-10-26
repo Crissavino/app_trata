@@ -63,7 +63,9 @@ class ArgprovinciasTableSeeder extends Seeder
 			
 			['provincia_nombre' => 'Tierra del Fuego'],
 			
-			['provincia_nombre' => 'Tucumán']
+			['provincia_nombre' => 'Tucumán'],
+
+			['provincia_nombre' => 'Se desconoce']
 		]);
     }
 }

@@ -13,7 +13,7 @@ class CreateDatabaseTableB extends Migration
      */
     public function up()
     {
-        Schema::create('argciudades', function (Blueprint $table) {
+        Schema::create('argciudads', function (Blueprint $table) {
             $table->bigIncrements('id');    
             $table->string('ciudad_nombre');
             $table->integer('provincia_id')->unsigned();
@@ -22,7 +22,7 @@ class CreateDatabaseTableB extends Migration
         });
 
         Schema::create('argprovincias', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('provincia_nombre');
             $table->softDeletesTz();
             $table->timestampsTz();
@@ -36,7 +36,7 @@ class CreateDatabaseTableB extends Migration
         });
         
         Schema::create('bformularios', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('victima_nombre_y_apellido');
             $table->string('victima_nombre_y_apellido_desconoce')->nullable();
             $table->string('victima_apodo');
@@ -45,15 +45,18 @@ class CreateDatabaseTableB extends Migration
             $table->string('victima_genero_otro')->nullable();
             $table->integer('tienedoc_id')->unsigned();
             $table->integer('tipodocumento_id')->unsigned();
+            $table->integer('residenciaprecaria_id')->unsigned()->nullable();
             $table->string('victima_tipo_documento_otro')->nullable();
             $table->string('victima_documento');
             $table->integer('pais_id')->unsigned();
             $table->integer('argprovincia_id')->unsigned()->nullable();
-            $table->integer('argciudad_id')->unsigned()->nullable();
+            $table->integer('localidadAR_id')->unsigned()->nullable();
             $table->integer('brestado_id')->unsigned()->nullable();
+            $table->integer('urprovincia_id')->unsigned()->nullable();
+            $table->integer('chprovincia_id')->unsigned()->nullable();
             $table->dateTime('victima_fecha_nacimiento');
             $table->string('victima_fecha_nacimiento_desconoce')->nullable();
-            $table->integer('victima_edad');
+            $table->string('victima_edad');
             $table->string('victima_edad_desconoce')->nullable();
             $table->integer('franjaetaria_id')->unsigned();
             $table->integer('embarazorelevamiento_id')->unsigned();
@@ -63,7 +66,7 @@ class CreateDatabaseTableB extends Migration
             $table->integer('tienelesion_id')->unsigned();
             $table->string('victima_lesion')->nullable();
             $table->integer('lesionconstatada_id')->unsigned()->nullable();
-            $table->integer('victima_lesion_organismo')->nullable();
+            $table->string('victima_lesion_organismo')->nullable();
             $table->integer('enfermedadcronica_id')->unsigned();
             $table->string('victima_tipo_enfermedad_cronica')->nullable();
             $table->string('victima_limitacion_otra')->nullable();
@@ -75,12 +78,19 @@ class CreateDatabaseTableB extends Migration
         });
         
         Schema::create('brestados', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('nombre_estado');
             $table->softDeletesTz();
             $table->timestampsTz();
         });
         
+        Schema::create('chprovincias', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('provincia_nombre');
+            $table->softDeletesTz();
+            $table->timestampsTz();
+        });
+
         Schema::create('discapacidads', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre');
@@ -164,6 +174,13 @@ class CreateDatabaseTableB extends Migration
             $table->softDeletesTz();
             $table->timestampsTz();
         });
+
+        Schema::create('residenciaprecarias', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->softDeletesTz();
+            $table->timestampsTz();
+        });
          
         Schema::create('tienedocs', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -185,9 +202,16 @@ class CreateDatabaseTableB extends Migration
             $table->softDeletesTz();
             $table->timestampsTz();
         });
+
+        Schema::create('urprovincias', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('provincia_nombre');
+            $table->softDeletesTz();
+            $table->timestampsTz();
+        });
         
         Schema::create('bformulario_discapacidad', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->integer('bformulario_id')->unsigned();
             $table->integer('discapacidad_id')->unsigned();
             $table->softDeletesTz();
@@ -195,7 +219,7 @@ class CreateDatabaseTableB extends Migration
         });
         
         Schema::create('bformulario_limitacion', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->integer('bformulario_id')->unsigned();
             $table->integer('limitacion_id')->unsigned();
             $table->softDeletesTz();
@@ -212,11 +236,12 @@ class CreateDatabaseTableB extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('argciudades');
+        Schema::dropIfExists('argciudads');
         Schema::dropIfExists('argprovincias');
         Schema::dropIfExists('bajoefectos');
         Schema::dropIfExists('bformularios');
         Schema::dropIfExists('brestados');
+        Schema::dropIfExists('chprovincias');
         Schema::dropIfExists('discapacidads');
         Schema::dropIfExists('embarazoprevios');
         Schema::dropIfExists('embarazorelevamientos');
@@ -229,9 +254,11 @@ class CreateDatabaseTableB extends Migration
         Schema::dropIfExists('niveleducativos');
         Schema::dropIfExists('oficios');
         Schema::dropIfExists('paises');
+        Schema::dropIfExists('residenciaprecarias');
         Schema::dropIfExists('tienedocs');
         Schema::dropIfExists('tienelesions');
         Schema::dropIfExists('tipodocumentos');
+        Schema::dropIfExists('urprovincias');
         Schema::dropIfExists('bformulario_discapacidad');
         Schema::dropIfExists('bformulario_limitacion');
     }

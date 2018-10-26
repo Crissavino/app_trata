@@ -37,7 +37,7 @@
 
             {{-- INICIO SEGUNDA PREGUNTA --}}
                 <div class="form-group {{ $errors->has('datos_numero_carpeta') ? 'has-error' : ''}}">
-                    <label for="datos_numero_carpeta">A 2. Nro de carpeta:</label>
+                    <label for="datos_numero_carpeta">A 2. Número de carpeta:</label>
                     <input type="text" class="form-control" placeholder="El ultimo nro es: {{ $ultimoNroCarpeta }}" name="datos_numero_carpeta" id="datos_numero_carpeta" value="{{old('datos_numero_carpeta')}}">
                     {!! $errors->first('datos_numero_carpeta', '<p class="help-block" style="color:red";>:message</p>') !!}
                 </div>
@@ -152,7 +152,7 @@
 
             {{-- INICIO SEXTA PREGUNTA --}}
                 <div class="form-group {{ $errors->has('datos_ente_judicial') ? 'has-error' : ''}}">
-                    <label for="datos_ente_judicial">A 6. Fiscalia/Juzgado Interviniente:</label>
+                    <label for="datos_ente_judicial">A 6. Fiscalía/Juzgado Interviniente:</label>
                     <input type="text" class="form-control" name="datos_ente_judicial" id="datos_ente_judicial" value="{{old('datos_ente_judicial')}}">
                     {!! $errors->first('datos_ente_judicial', '<p class="help-block" style="color:red";>:message</p>') !!}
                 </div>
@@ -205,7 +205,7 @@
                 <div id="padre">
                     <div id="hijo">
                         <h3>A 9. Profesional Interviniente:</h3>
-                        <div class="form-group {{ $errors->has('profesional_id') ? 'has-error' : ''}}">
+                        <div class="form-group {{ $errors->has('profesional_id[]') ? 'has-error' : ''}}">
                             <label for="profesional_id">Profesional que interviene</label>
                             <select class="form-control" name="profesional_id[]">
                                 <option value="">Seleccioná profesional</option>
@@ -213,7 +213,7 @@
                                     <option value="{{ $profesional->getId() }}">{{ $profesional->getNombreCompletoyProfesion() }}</option>
                                 @endforeach
                             </select>
-                            {!! $errors->first('profesional_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+                            {!! $errors->first('profesional_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                         </div>
 
                         {{-- LARAVEL ME ESTA TIRANDO UN ERROR PORQUE LOS NAMES DE ACA SON ARREGLOS, Y POR LO VISTO CON EL OLD QUIERO MOSTRAR ARREGLOS Y NO PUEDO, VOY A SACARLO, PERO DEBERIA PREGUNTAR COMO PERSISTIR ESTO --}}
@@ -221,29 +221,39 @@
                         <div class="form-group {{ $errors->has('datos_profesional_interviene_desde[]') ? 'has-error' : ''}}">
                             <label for="datos_profesional_interviene_desde">A 9.3 Interviene desde:</label>
                             <input type="date" class="form-control" name="datos_profesional_interviene_desde[]" id="datos_profesional_interviene_desde" value="">
-                            {!! $errors->first('datos_profesional_interviene_desde', '<p class="help-block" style="color:red";>:message</p>') !!}
+                            {!! $errors->first('datos_profesional_interviene_desde.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                         </div>
-
-                        <div class="form-group {{ $errors->has('datos_profesional_interviene_hasta[]') ? 'has-error' : ''}}">
-                            <label for="datos_profesional_interviene_hasta">A 9.4 Interviene hasta:</label>
-                            <input type="date" class="form-control" name="datos_profesional_interviene_hasta[]" id="datos_profesional_interviene_desde" value="">
-                            {!! $errors->first('datos_profesional_interviene_hasta', '<p class="help-block" style="color:red";>:message</p>') !!}
-                        </div>
-
-                       {{-- - --}}
 
                         <div class="form-group {{ $errors->has('profesionalactualmente_id[]') ? 'has-error' : ''}}">
-                            <label for="profesionalactualmente_id">A 9.5 Actualmente Interviene:</label>
-                            <select class="form-control" name="profesionalactualmente_id[]">
+                            <label for="profesionalactualmente_id">A 9.4 Actualmente Interviene:</label>
+                            <select class="form-control" name="profesionalactualmente_id[]" onChange="selectOnChange1(this)">
                                 <option value="">Actualmente interviene?</option>
                                 @foreach ($datosIntervieneActualmente as $profesionalInterviene)
                                     <option value="{{ $profesionalInterviene->getId() }}">{{ $profesionalInterviene->getNombre() }}</option>
                                 @endforeach
                             </select>
-                            {!! $errors->first('profesionalactualmente_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+                            {!! $errors->first('profesionalactualmente_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
+                        {{-- <div class="form-group {{ $errors->has('profesionalactualmente_id[]') ? 'has-error' : ''}}">
+                            <label for="profesionalactualmente_id">A 9.4 Actualmente Interviene:</label>
+                            <select class="form-control" name="profesionalactualmente_id[]" id="actualmente" >
+                                <option value="">Actualmente interviene?</option>
+                                @foreach ($datosIntervieneActualmente as $profesionalInterviene)
+                                    <option value="{{ $profesionalInterviene->getId() }}">{{ $profesionalInterviene->getNombre() }}</option>
+                                @endforeach
+                            </select>
+                            {!! $errors->first('profesionalactualmente_id.*', '<p class="help-block" style="color:red";>:message</p>') !!} --}}
+
+                            <div id="no" style="display: none;">
+                                <div class="form-group {{ $errors->has('datos_profesional_interviene_hasta[]') ? 'has-error' : ''}}">
+                                    <label for="datos_profesional_interviene_hasta">A 9.5 Interviene hasta:</label>
+                                    <input type="date" class="form-control" name="datos_profesional_interviene_hasta[]" id="datos_profesional_interviene_desde" value="">
+                                    {!! $errors->first('datos_profesional_interviene_hasta.*', '<p class="help-block" style="color:red";>:message</p>') !!}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                
             {{-- FIN AGREGAR PROFESIONAL PREGUNTA --}}
 
             <button type="submit" class="btn btn-primary col-xl" name="button">Enviar</button><br><br>
@@ -255,24 +265,53 @@
 
     </section>
         
-        {{-- SCRIPT PARA AGREGAR OTRO PROFESIONAL --}}
+        {{-- SCRIPTS --}}
+            {{-- SCRIPT PARA CONTAR HIJOS --}}
             <script>
-                $(document).ready(function(){
-                    var nueva_entrada ='';
-                    $(document).ready(function() {
-                     nueva_entrada = $('#padre').html();
-                    });
+                var padres = $('div#padre').children('div#hijo').length;
+                console.log(padres);
+            </script>
+
+            {{-- SCRIPT PARA VER FECHA INTERVIENE HASTA --}}
+            <script>
+                //PRUEBA
+                // var no = $('#no').html();
+
+                // $('#actualmente').on('change', function (e){
+                //     $('#hijo').append(no);
+                //     });
+                //FIN PRUEBA  
+                function selectOnChange1(sel) {
+                    if (sel.value=="2"){
+                        divC = document.getElementById("no");
+                        divC.style.display = "";
+                    }else{
+                        divC = document.getElementById("no");
+                        $('#datos_profesional_interviene_hasta').val('');
+                        divC.style.display="none";
+                    }
+                }
+            </script>
+
+            {{-- SCRIPT PARA AGREGAR Y BORRAR PROFESIONALES --}}
+            <script>
+                // $(document).ready(function(){
+                //     var nueva_entrada ='';
+                //     $(document).ready(function() {
+                    var nueva_entrada = $('#padre').html();
+                    // });
 
                     $("#anadir").click(function(){
                         $("#padre").append(nueva_entrada);
                     });
 
-                });
+                // });
 
                 function borra() {
-                   var padre = document.getElementById("padre");
-                   var hijo = document.getElementById("hijo")
-                    padre.removeChild(hijo);
+                    $('#hijo').last().remove();
+                   // var padre = document.getElementById("padre");
+                   // var hijo = document.getElementById("hijo")
+                   //  padre.removeChild(hijo);
                 }
             </script>
         {{-- FIN SCRIPT --}}

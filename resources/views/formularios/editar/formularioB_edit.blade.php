@@ -10,13 +10,13 @@
 </head>
 <header>
 	<ul class="nav nav-tabs">
-		<li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li>
+		<li class="nav-item"> <a class="nav-link" href="/formularios/edicion/A">Eje A: Datos institucionales</a> </li>
 		<li class="nav-item"> <a class="nav-link active" href="B">Eje B: Caracterización de la victima</a> </li>
-		<li class="nav-item"> <a class="nav-link " href="C">Eje C: Grupo Conviviente</a> </li>
-		<li class="nav-item"> <a class="nav-link " href="D">Eje D: Datos de delito</a> </li>
-		<li class="nav-item"> <a class="nav-link " href="E">Eje E: Datos del imputado</a> </li>
-		<li class="nav-item"> <a class="nav-link " href="F">Eje F: Atención del caso</a> </li>
-		<li class="nav-item"> <a class="nav-link " href="G">Eje G: Documentación</a> </li>
+		<li class="nav-item"> <a class="nav-link " href="/formularios/edicion/C">Eje C: Grupo Conviviente</a> </li>
+		<li class="nav-item"> <a class="nav-link " href="/formularios/edicion/D">Eje D: Datos de delito</a> </li>
+		<li class="nav-item"> <a class="nav-link " href="/formularios/edicion/E">Eje E: Datos del imputado</a> </li>
+		<li class="nav-item"> <a class="nav-link " href="/formularios/edicion/F">Eje F: Atención del caso</a> </li>
+		<li class="nav-item"> <a class="nav-link " href="/formularios/edicion/G">Eje G: Documentación</a> </li>
 	</ul>
 </header>
 <body>
@@ -47,16 +47,15 @@
 					<script>
 	            		function check1(checkbox)
                     	{
-                        if (checkbox.checked)
-                            {
-                                $('#victima_nombre_y_apellido').val('Se desconoce');
-                                var elCampo = document.getElementById('victima_nombre_y_apellido');
-                                elCampo.setAttribute("value", "Se desconoce");
-                                elCampo.disabled = checkbox.checked;
-                            }else
-                                { $('#victima_nombre_y_apellido').val('');
-                                    document.getElementById('victima_nombre_y_apellido').disabled=false;
-                                }
+	                        if (checkbox.checked)
+	                            {
+	                                $('#victima_nombre_y_apellido').val('Se desconoce');
+	                                document.getElementById('victima_nombre_y_apellido').setAttribute("readonly", "readonly");
+	                            }else
+	                                { 
+	                                    $('#victima_nombre_y_apellido').val('');
+	                                    document.getElementById('victima_nombre_y_apellido').removeAttribute("readonly");   
+	                                }
                     	}
 	        		</script>
                 <!-- FIN PRIMERA PREGUNTA -->
@@ -74,16 +73,15 @@
 	                <script>
 					    function check2(checkbox)
                     	{
-                        if (checkbox.checked)
-                            {
-                                $('#victima_apodo').val('Se desconoce');
-                                var elCampo = document.getElementById('victima_apodo');
-                                elCampo.setAttribute("value", "Se desconoce");
-                                elCampo.disabled = checkbox.checked;
-                            }else
-                                { $('#victima_apodo').val('');
-                                    document.getElementById('victima_apodo').disabled=false;
-                                }
+	                        if (checkbox.checked)
+	                        {
+	                            $('#victima_apodo').val('Se desconoce');
+	                            document.getElementById('victima_apodo').setAttribute("readonly", "readonly");
+	                        }else
+	                            { 
+	                                $('#victima_apodo').val('');
+	                                document.getElementById('victima_apodo').removeAttribute("readonly");  
+	                            }
                    		}
 					</script>
                 <!-- FIN SEGUNDA PREGUNTA -->
@@ -92,73 +90,94 @@
 	                <div class="form-group {{ $errors->has('genero_id') ? 'has-error' : ''}}">
 	                    <label for="">B 3. Género:</label>
 	                    <select class="form-control" name="genero_id" onChange="selectOnChange1(this)">
-	                     <!-- traigo la table genero de la base de datos, muestro su nombre y como value tomo el id que se corresponde con el nombre -->
-	                    @foreach ($datosGenero as $genero)
-	                    	@php
-								$selected = ($genero->id == $Bformulario->genero_id) ? 'selected' : '';
-							@endphp
-							<option value=" {{$genero->id}}" {{ $selected }}>{{$genero->nombre}}</option>
-						@endforeach
+		                    @foreach ($datosGenero as $genero)
+		                    	@php
+									$selected = ($genero->id == $Bformulario->genero_id) ? 'selected' : '';
+								@endphp
+								<option value=" {{$genero->id}}" {{ $selected }}>{{$genero->nombre}}</option>
+							@endforeach
 	                    </select>
 	                    
 	                  	{!! $errors->first('genero_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 
-	                    <!-- cuando se seleccione la opcion Otro se muestre esto -> Cual? -->
-	                    <div id="cual_b3" style="display: none;">
-	                        <label for="">Cuál?</label>
-	                        <div class="">
-	                            <input class="form-control" name="victima_genero_otro" id="victima_genero_otro" placeholder="" class="" type="text" onclick="cual_b3()">
-	                        </div>
-	                    </div>
+	                    
 	                </div>
 					{{-- funcion js para el, otro --}}
 	                <script>
 			             function selectOnChange1(sel) {
-			               if (sel.value=="5"){
-			                    divC = document.getElementById("cual_b3");
-			                    divC.style.display = "";
-
-
-			               }else{
-
-			                    divC = document.getElementById("cual_b3");
-			                    $('#victima_genero_otro').val('');
-			                    divC.style.display="none";
-
-
-			               }
-
-			             }
+							if (sel.value=="2" || sel.value=="3"){
+								$('#embarazorelevamiento_id').val('2');
+								$('#embarazoprevio_id').val('2');
+								$('#hijosembarazo_id').val('2');
+							}else{
+								$('#embarazorelevamiento_id').val('');
+								$('#embarazoprevio_id').val('');
+								$('#hijosembarazo_id').val('');
+							}
+						}
 			        </script>
                 <!-- FIN TERCERA PREGUNTA -->
 
                 <!-- CUARTA PREGUNTA -->
 	                <div class="form-group {{ $errors->has('tienedoc_id') ? 'has-error' : ''}}">
 	                    <label for="">B 4. ¿Cuenta con alguna documentación que permita acreditar su identidad?:</label>
-	                    <select class="form-control" name="tienedoc_id">
+	                    <select class="form-control" name="tienedoc_id" onChange="selectOnChange16(this)">
 	                        @foreach ($datosDocumento as $documento)
 	                        @php
 								$selected = ($documento->id == $Bformulario->tienedoc_id) ? 'selected' : '';
 							@endphp
-								<option value=" {{$documento->id}} ">{{$documento->nombre}}</option>
+								<option value="{{$documento->id}}" {{ $selected }}>{{$documento->nombre}}</option>
 	                        @endforeach
 	                    </select>
 	                  	{!! $errors->first('tienedoc_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 	                </div>
+
+	                <script>
+	                    function selectOnChange16(sel)
+	                    {
+	                        if (sel.value == "3" || sel.value == "6"){
+	                            divA = document.getElementById("tipodoc");
+	                            divB = document.getElementById("nrodoc");
+	                            divA.style.display="none";
+	                            divB.style.display="none";
+	                            $('#tipodocumento_id').val('7');
+	                            $('#victima_documento').val('No posee / Se desconoce');
+	                        }else{
+	                            $('#tipodocumento_id').val('');
+	                            $('#victima_documento').val('');
+	                            divA.style.display="";
+	                            divB.style.display="";
+	                        }
+	                    }
+	                </script>  
                 <!-- FIN CUARTA PREGUNTA -->
 
                 <!-- QUINTA PREGUNTA -->
-	                <div class="form-group {{ $errors->has('tipodocumento_id') ? 'has-error' : ''}}">
+	                <div class="form-group {{ $errors->has('tipodocumento_id') ? 'has-error' : ''}}" id="tipodoc">
 	                    <label for="">B 5. Tipo de documentación:</label>
 	                    <select class="form-control" id="tipodocumento_id" name="tipodocumento_id" onChange="selectOnChange2(this)">
 	                        @foreach ($datosTipoDocumento as $tipoDocumento)
-	                        @php
-								$selected = ($tipoDocumento->id == $Bformulario->tipodocumento_id) ? 'selected' : '';
-							@endphp
+		                        @php
+									$selected = ($tipoDocumento->id == $Bformulario->tipodocumento_id) ? 'selected' : '';
+								@endphp
 	                        	<option value="{{$tipoDocumento->id}}" {{ $selected }}>{{$tipoDocumento->nombre}}</option>
 	                        @endforeach
 	                   </select>
 	                  	{!! $errors->first('tipodocumento_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+
+	                  	<div id="cual_b14" style="display: none">
+	                        <label for="">B 5.I Estado de la residencia precaria</label>
+	                        <select class="form-control" id="residenciaprecaria_id" name="residenciaprecaria_id" class="form-control">
+                            	<option value="">Estado?</option>
+	                            @foreach ($datosResidencia as $residenciaprecaria)
+		                            @php
+										$selected = ($residenciaprecaria->id == $Bformulario->residenciaprecaria_id) ? 'selected' : '';
+									@endphp
+	                                <option value="{{$residenciaprecaria->getId()}}" {{ $selected }}>{{$residenciaprecaria->getNombre()}}</option>
+	                            @endforeach
+	                        </select>
+	                    </div>
+
 	                    <div id="cual_b2" style="display: none">
 	                        <label for="">Cual?</label>
 	                        <div class="">
@@ -169,23 +188,29 @@
 					{{-- funcion js para el, otro --}}
 	                <script>
 						function selectOnChange2(sel) {
-							if (sel.value=="7"){
+	                        if (sel.value=="6"){
+	                            divC = document.getElementById("cual_b14");
+	                            divC.style.display = "";
+	                        }else{
+	                            divC = document.getElementById("cual_b14");
+	                            $('#residenciaprecaria_id').val('');
+	                            divC.style.display="none";
+	                        }
+
+							if (sel.value=="8"){
 								divC = document.getElementById("cual_b2");
 								divC.style.display = "";
-
-
 							}else{
 								divC = document.getElementById("cual_b2");
 								$('#victima_tipo_documento_otro').val('');
 								divC.style.display="none";
 							}
-
 						}
-			        </script>
+		        	</script>
                 <!-- FIN QUINTA PREGUNTA -->
 
 				<!-- SEXTA PREGUNTA -->
-	                <div class="form-group {{ $errors->has('victima_documento') ? 'has-error' : ''}}">
+	                <div class="form-group {{ $errors->has('victima_documento') ? 'has-error' : ''}}" id="nrodoc">
 	                    <label for="">B 6. Nro Documento:</label>
 	                    <input type="text" class="form-control" name="victima_documento" id="victima_documento" value="{{ $Bformulario->victima_documento }}">
 	                  	{!! $errors->first('victima_documento', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -196,16 +221,15 @@
 	                <script>
 			            function check3(checkbox)
                     	{
-                        if (checkbox.checked)
-                            {
-                                $('#victima_documento').val('Se desconoce');
-                                var elCampo = document.getElementById('victima_documento');
-                                elCampo.setAttribute("value", "Se desconoce");
-                                elCampo.disabled = checkbox.checked;
-                            }else
-                                { $('#victima_documento').val('');
-                                    document.getElementById('victima_documento').disabled=false;
-                                }
+	                        if (checkbox.checked)
+	                        {
+	                            $('#victima_documento').val('Se desconoce');
+	                            document.getElementById('victima_documento').setAttribute("readonly", "readonly");
+	                        }else
+	                            { 
+	                                $('#victima_documento').val('');
+	                                document.getElementById('victima_documento').removeAttribute("readonly");  
+	                            }
                     	}
 			        </script>
                 <!-- FIN SEXTA PREGUNTA -->
@@ -226,23 +250,35 @@
 	                {{-- funcion js para cuando se seleccione Pais->aparezcan las Provincias --}}
 			        <script>
 						function selectOnChange3(sel) {
-							if (sel.value=="13"){
-							    divC = document.getElementById("argprovincia_id");
-							    divC.style.display = "";
-							}else{
-							    divC = document.getElementById("argprovincia_id");
-							    $('#victima_provincia').val('');
-							    divC.style.display="none";
-							}
-							if (sel.value=="33") {
-							   divC = document.getElementById("brestado_id");
-							   divC.style.display = "";
-							}else{
-							    divC = document.getElementById("brestado_id");
-							    $('#victima_provincia').val('');
-							    divC.style.display="none";
-							}
+						if (sel.value=="7"){
+						    divC = document.getElementById("argprovincia_id");
+						    divC.style.display = "";
+						}else{
+						    divC = document.getElementById("argprovincia_id");
+						    $('#victima_provincia').val('');
+						    divC.style.display="none";
 						}
+						if (sel.value=="24") {
+						   divC = document.getElementById("brestado_id");
+						   divC.style.display = "";
+						}else{
+						    divC = document.getElementById("brestado_id");
+						    $('#victima_provincia').val('');
+						    divC.style.display="none";
+						}
+					}
+                    function check8(checkbox)
+                    {
+                        if (checkbox.checked)
+                        {
+                            $('#pais_id').val('194');
+                            document.getElementById('pais_id').setAttribute("readonly", "readonly");
+                        }else
+                            { 
+                                $('#pais_id').val('');
+                                document.getElementById('pais_id').removeAttribute("readonly");  
+                            }
+                    }
 			        </script>
 	                <!-- si selecciono Argentina aparece un select para todas las provincias de argentina -->
                 <!-- FIN SEPTIMA PREGUNTA -->
@@ -299,24 +335,22 @@
 
 	                <script>
 	                    function check4(checkbox)
-                    	{
-                        if (checkbox.checked)
-                            {
-                                $('#victima_fecha_nacimiento').val('1900-01-01');
-                                var elCampo = document.getElementById('victima_fecha_nacimiento');
-                                elCampo.setAttribute("value", "1900-01-01");
-                                elCampo.disabled = checkbox.checked;
-                            }else
-                                { $('#victima_fecha_nacimiento').val('');
-                                    document.getElementById('victima_fecha_nacimiento').disabled=false;
-                                }
-                    	}
+	                    {
+	                        if (checkbox.checked)
+	                        {
+	                            $('#victima_fecha_nacimiento').val('1900-01-01');
+	                            document.getElementById('victima_fecha_nacimiento').setAttribute("readonly", "readonly");
+	                        }else
+	                            { 
+	                                $('#victima_fecha_nacimiento').val('');
+	                                document.getElementById('victima_fecha_nacimiento').removeAttribute("readonly");  
+	                            }
+	                    }
 	                </script>
                 <!-- FIN DECIMA PREGUNTA -->
 
                 <!-- UNDECIMA PREGUNTA -->
-{{--                 aca pasa algo por como cambia el campo cuando se setea la franja etaria, ver mas adelante
- --}}	                <div class="form-group {{ $errors->has('victima_edad') ? 'has-error' : ''}}">
+	                <div class="form-group {{ $errors->has('victima_edad') ? 'has-error' : ''}}">
 	                    <label for="victima_edad">B 11. Edad:</label>
 	                    <input name="victima_edad" id="victima_edad" class="form-control" type="text" value="{{ $Bformulario->victima_edad }}" onchange="mostrarValor(this.value);">
 	                  	{!! $errors->first('victima_edad', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -327,17 +361,19 @@
 
 		       		 <!-- si clickeo el check de se desconoce automaticamente en la franja etaria ingresa el valor se desconoce y se bloquea el input text para asignar la edad -->
 					<script type="text/javascript">
-			            function check(checkbox) {
-    		           if (checkbox.checked)
-                        {
-                            $('#victima_edad').val('Se desconoce');
-                            var elCampo = document.getElementById('victima_edad');
-                            elCampo.setAttribute("value", "Se desconoce");
-                            elCampo.disabled = checkbox.checked;
-    		            }
-    		            else{ $('#victima_edad').val('');
-    		            document.getElementById('victima_edad').disabled=false;
-    		            }}
+			           function check(checkbox) {
+	    		           if (checkbox.checked)
+	                        {
+	                            $('#victima_edad').val('Se desconoce');
+	                            $('#franjaetaria_id').val('7');
+	                            document.getElementById('victima_edad').setAttribute("readonly", "readonly");
+	    		            }
+	    		            else{ 
+	                            $('#victima_edad').val('');
+	                            $('#franjaetaria_id').val('');
+	                            document.getElementById('victima_edad').removeAttribute("readonly"); 
+	    		            }
+	    		        }
 			        </script>
                 <!-- FIN UNDECIMA PREGUNTA -->
 
@@ -444,23 +480,6 @@
                 <!-- FIN DECIMASEXTA PREGUNTA -->
 
                 <!-- DECIMASEPTIMA PREGUNTA -->
-                <!-- ver como hacer un array que me guarde en todas las victima_discapacidad[] los valores para cada datos -->
-	                {{-- <div class="form-group {{ $errors->has('discapacidad_id') ? 'has-error' : ''}}">
-	                    <label for="">B 17. ¿Presenta algún tipo de discapacidad?</label><br>
-	                    <label for="">En caso de requerir, tildar todas las opciones que considere correspondientes.</label><br>
-	                    <input type="checkbox" name="discapacidad_id[]" value="1">
-	                    <label for="" class="form-check-label">Físico/Motriz</label>
-	                    <input type="checkbox" name="discapacidad_id[]" value="2">
-	                    <label for="" class="form-check-label">Intelectual/Adaptativo</label>
-	                    <input type="checkbox" name="discapacidad_id[]" value="3">
-	                    <label for="">Psíquica</label>
-	                    <input type="checkbox" name="discapacidad_id[]" value="4">
-	                    <label for="">Sensorial</label>
-	                    <input type="checkbox" name="discapacidad_id[]" value="5">
-	                    <label for="">No</label>
-	                    <input type="checkbox" name="discapacidad_id[]" value="6">
-	                    <label for="">Se Desconoce</label><br>
-	                </div> --}}
 	                <div class="form-group {{ $errors->has('discapacidad_id') ? 'has-error' : ''}}">
 	                	<label for="">B 17. ¿Presenta algún tipo de discapacidad?</label><br>
 	                    <label for="">En caso de requerir, tildar todas las opciones que considere correspondientes.</label><br>
@@ -470,14 +489,14 @@
 								$checked = (in_array($discapacidad->id, $discapacidadIds)) ? 'checked' : ''
 							@endphp
 							@if ($discapacidad->getDiscapacidad() === "No")
-	                            <label for="{{ $discapacidad->getDiscapacidad() }}">{{$discapacidad->getDiscapacidad()}}</label>
-	                            <input {{$checked}} type="checkbox" value="{{$discapacidad->getId()}}" name="discapacidad_id[]" id="{{ $discapacidad->getDiscapacidad() }}" onchange="check5(this)">
+	                            <label for="{{ $discapacidad->getDiscapacidad() }}" style="margin-left: 15px;" class="form-check-label">{{$discapacidad->getDiscapacidad()}}</label>
+	                            <input {{$checked}} type="checkbox" value="{{$discapacidad->getId()}}" class="form-check-inline" name="discapacidad_id[]" id="{{ $discapacidad->getDiscapacidad() }}" onchange="check5(this)">
 	                            @elseif ($discapacidad->getDiscapacidad() === "Se desconoce")
-	                                <label for="{{ $discapacidad->getDiscapacidad() }}">{{$discapacidad->getDiscapacidad()}}</label>
-	                                <input {{$checked}} type="checkbox" value="{{$discapacidad->getId()}}" name="discapacidad_id[]" id="{{ $discapacidad->getDiscapacidad() }}" onchange="check6(this)">
+	                                <label for="{{ $discapacidad->getDiscapacidad() }}" style="margin-left: 15px;" class="form-check-label">{{$discapacidad->getDiscapacidad()}}</label>
+	                                <input {{$checked}} type="checkbox" value="{{$discapacidad->getId()}}" class="form-check-inline" name="discapacidad_id[]" id="{{ $discapacidad->getDiscapacidad() }}" onchange="check6(this)">
 	                                @else
-	                                    <label for="{{ $discapacidad->getDiscapacidad() }}">{{$discapacidad->getDiscapacidad()}}</label>
-	                                    <input {{$checked}} type="checkbox" value="{{$discapacidad->getId()}}" id="{{ $discapacidad->getDiscapacidad() }}" name="discapacidad_id[]">
+	                                    <label for="{{ $discapacidad->getDiscapacidad() }}" class=" form-check-inline form-check-label">{{$discapacidad->getDiscapacidad()}}</label>
+	                                    <input {{$checked}} type="checkbox" value="{{$discapacidad->getId()}}" class="form-check-inline" id="{{ $discapacidad->getDiscapacidad() }}" name="discapacidad_id[]">
 	                        @endif  
 							{{-- <label for="">{{$discapacidad->getDiscapacidad()}}</label>
 							<input {{$checked}} type="checkbox" name="discapacidad_id[]" id="" value="{{$discapacidad->getId()}}"> --}}
@@ -552,33 +571,46 @@
 
 	                            <label class="">B 18II. ¿Fue constatado en el momento por algún profesional de la salud? :</label>
 	                            <div class="">
-	                                <select class="form-control" name="lesionconstatada">
+	                                <select class="form-control" name="lesionconstatada" onChange="selectOnChange15(this)">
 	                                    <option value="">Fue constatada?</option>
 				                        @foreach ($datosLesionConstatada as $constatada)
 				                        	<option value="{{$constatada->id}}">{{$constatada->nombre}}</option>
 				                        @endforeach
 	                                </select>
+	                                <div id="victima_lesion_organismo" style="display: none">
+	                                    <label class="">B 18III. ¿A qué organismo pertenece el profesional de la salud?:</label>
+	                                    <div class="">
+	                                        <input name="victima_lesion_organismo" placeholder="" class="form-control" type="text">
+	                                    </div>
+	                                </div>
 	                            </div>
 
-	                            <label class="">B 18III. ¿A qué organismo pertenece el profesional de la salud?:</label>
-	                            <div class="">
-	                                <input name="victima_lesion_organismo" placeholder="" value="{{ $Bformulario->victima_lesion_organismo }}" class="form-control" type="text">
-	                            </div>
 	                        </div>
+
 	                    </div>
 	                </div>
 	                <script>
-			         function selectOnChange10(sel) {
-			           if (sel.value=="1"){
-			                divC = document.getElementById("victima_lesion_si");
-			                divC.style.display = "";
-			           }else{
+				        function selectOnChange10(sel) {
+	                        if (sel.value=="1"){
+	                            divC = document.getElementById("victima_lesion_si");
+	                            divC.style.display = "";
+	                        }else{
+	                            divC = document.getElementById("victima_lesion_si");
+	                            $('#victima_lesion').val('');
+	                            divC.style.display="none";
+	                        }
+	                    }
 
-			                divC = document.getElementById("victima_lesion_si");
-			                $('#victima_lesion').val('');
-			                divC.style.display="none";
-			           }
-			         }
+	                    function selectOnChange15(sel) {
+	                        if (sel.value=="1"){
+	                            divC = document.getElementById("victima_lesion_organismo");
+	                            divC.style.display = "";
+	                        }else{
+	                            divC = document.getElementById("victima_lesion_organismo");
+	                            $('#victima_lesion_organismo').val('');
+	                            divC.style.display="none";
+	                        }
+	                    }
 			        </script>
                 <!-- FIN DECIMAOCTAVA PREGUNTA -->
 
@@ -631,14 +663,14 @@
 									$checked = (in_array($limitacion->id, $limitacionIds)) ? 'checked' : ''
 								@endphp
 								@if ($limitacion->getLimitacion() === "Otro")
-		                            <label for="">{{$limitacion->getLimitacion()}}</label>
-		                            <input {{$checked}} type="checkbox" class="form-check-label" id="checkeado"  onclick="muestroCual()" name="limitacion_id[]" value="{{$limitacion->getId()}}">
+		                            <label for="" class="form-check-label" style="margin-left: 15px; padding-right: 0px; ">{{$limitacion->getLimitacion()}}</label>
+		                            <input {{$checked}} type="checkbox" class="form-check-inline" id="checkeado"  onclick="muestroCual()" name="limitacion_id[]" value="{{$limitacion->getId()}}">
 		                            @elseif ($limitacion->getLimitacion() === "No") 
-		                                <label for="">{{$limitacion->getLimitacion()}}</label>
-		                                <input {{$checked}} type="checkbox" value="{{$limitacion->getId()}}" name="limitacion_id[]" onchange="check7(this)">
+		                                <label for="" class="form-check-label" style="margin-left: 15px; padding-right: 0px; ">{{$limitacion->getLimitacion()}}</label>
+		                                <input {{$checked}} type="checkbox" class="form-check-inline" value="{{$limitacion->getId()}}" name="limitacion_id[]" onchange="check7(this)">
 		                                @else
-		                                    <label for="">{{$limitacion->getLimitacion()}}</label>
-		                                    <input {{$checked}} type="checkbox" value="{{$limitacion->getId()}}" id="{{ $limitacion->getLimitacion() }}" name="limitacion_id[]">
+		                                    <label for="" class="form-check-inline form-check-label" style="margin-left: 15px; margin-right: 0px;">{{$limitacion->getLimitacion()}}</label>
+		                                    <input {{$checked}} type="checkbox" class="form-check-inline" value="{{$limitacion->getId()}}" id="{{ $limitacion->getLimitacion() }}" name="limitacion_id[]">
 		                        @endif
 	                    	@endforeach
 	                    	

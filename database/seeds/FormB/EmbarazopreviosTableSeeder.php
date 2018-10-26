@@ -19,8 +19,6 @@ class EmbarazopreviosTableSeeder extends Seeder
             ['nombre' => 'No'],
 
             ['nombre' => 'Se desconoce']
-
-
         ]);
 
     }

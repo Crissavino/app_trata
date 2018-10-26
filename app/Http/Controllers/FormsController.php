@@ -39,6 +39,9 @@ class FormsController extends Controller
 		$datosTipoDocumento = \App\FormB\Tipodocumento::all();
 		$datosPaises = \App\FormB\Paises::all();
 		$datosArgProvincias = \App\FormB\Argprovincia::all();
+		$datosArgCiudades = \App\FormB\Argciudad::all();
+		$datosUrProvincias = \App\FormB\Urprovincia::all();
+		$datosChProvincias = \App\FormB\Chprovincia::all();
 		$datosBrEstados = \App\FormB\Brestado::all();
 		$datosFranjaEtaria = \App\FormB\Franjaetaria::all();
 		$datosEmbarazadaRelevamiento = \App\FormB\Embarazorelevamiento::all();
@@ -52,6 +55,7 @@ class FormsController extends Controller
 		$datosDiscapacidad = \App\FormB\Discapacidad::all();
 		$datosLimitacion = \App\FormB\Limitacion::all();
 		$datosOficio = \App\FormB\Oficio::all();
+		$datosResidencia = \App\FormB\Residenciaprecaria::all();
 
 		return view('formularios/formularioB', 
 			['datosGenero' => $datosGenero,
@@ -59,6 +63,9 @@ class FormsController extends Controller
 				'datosTipoDocumento' => $datosTipoDocumento,
 				'datosPaises' => $datosPaises,
 				'datosArgProvincias' => $datosArgProvincias,
+				'datosArgCiudades' => $datosArgCiudades,
+				'datosUrProvincias' => $datosUrProvincias,
+				'datosChProvincias' => $datosChProvincias,
 				'datosBrEstados' => $datosBrEstados,
 				'datosFranjaEtaria' => $datosFranjaEtaria,
 				'datosEmbarazadaRelevamiento' => $datosEmbarazadaRelevamiento,
@@ -71,10 +78,10 @@ class FormsController extends Controller
 				'datosNivelEducativo' => $datosNivelEducativo,
 				'datosDiscapacidad' => $datosDiscapacidad,
 				'datosLimitacion' => $datosLimitacion,
-				'datosOficio' => $datosOficio
+				'datosOficio' => $datosOficio,
+				'datosResidencia' => $datosResidencia,
 			]);
 	}
-
 
 	//esta funcion guarda el formulario bien en la base de datos, lo unico que no guarda son los 2 selects multiples en los que se debe hacer una tabla pibot
 	public function insertB()
@@ -190,6 +197,9 @@ class FormsController extends Controller
 		$datosTipoDocumento = \App\FormB\Tipodocumento::all();
 		$datosPaises = \App\FormB\Paises::all();
 		$datosArgProvincias = \App\FormB\Argprovincia::all();
+		$datosArgCiudades = \App\FormB\Argciudad::all();
+		$datosUrProvincias = \App\FormB\Urprovincia::all();
+		$datosChProvincias = \App\FormB\Chprovincia::all();
 		$datosBrEstados = \App\FormB\Brestado::all();
 		$datosFranjaEtaria = \App\FormB\Franjaetaria::all();
 		$datosEmbarazadaRelevamiento = \App\FormB\Embarazorelevamiento::all();
@@ -203,6 +213,7 @@ class FormsController extends Controller
 		$datosOficio = \App\FormB\Oficio::all();
 		$datosDiscapacidad = \App\FormB\Discapacidad::all();
 		$datosLimitacion = \App\FormB\Limitacion::all();
+		$datosResidencia = \App\FormB\Residenciaprecaria::all();
 		$Bformulario = \App\FormB\Bformulario::find($id);
 
 		return view('formularios.editar.formularioB_edit', ['Bformulario' => $Bformulario,
@@ -211,6 +222,9 @@ class FormsController extends Controller
 															'datosTipoDocumento' => $datosTipoDocumento,
 															'datosPaises' => $datosPaises,
 															'datosArgProvincias' => $datosArgProvincias,
+															'datosArgCiudades' => $datosArgCiudades,
+															'datosUrProvincias' => $datosUrProvincias,
+															'datosChProvincias' => $datosChProvincias,
 															'datosBrEstados' => $datosBrEstados,
 															'datosFranjaEtaria' => $datosFranjaEtaria,
 															'datosEmbarazadaRelevamiento' => $datosEmbarazadaRelevamiento,
@@ -223,7 +237,8 @@ class FormsController extends Controller
 															'datosNivelEducativo' => $datosNivelEducativo,
 															'datosDiscapacidad' => $datosDiscapacidad,
 															'datosLimitacion' => $datosLimitacion,
-															'datosOficio' => $datosOficio
+															'datosOficio' => $datosOficio,
+															'datosResidencia' => $datosResidencia,
 															]);
 	}
 
@@ -247,7 +262,18 @@ class FormsController extends Controller
 		$Bformulario->update(request()->all());
 
 		//cuando edito el formulario y le doy enviar, entra en juego la funcion update, y una vez actualizado todo te redirige nuevamente al formulario B, despues se tendria que ver a donde verdaderamente deberia redirigir [recordar que el redirect te lleva a la URL]
-		return redirect('index');
+		return redirect('formularios');
+	}
+
+	public function destroyB($id)
+	{
+		$Bformulario = \App\FormB\Bformulario::find($id);
+
+		$Bformulario->delete();
+
+    	session()->flash('message', 'El formulario se eliminó con éxito.');
+
+    	return redirect('formularios');	
 	}
 
 
@@ -298,20 +324,18 @@ class FormsController extends Controller
 							'datos_numero_carpeta' => 'required',
 							'datos_fecha_ingreso' => 'required|date|before_or_equal:'.$fecha_hoy,
 							'modalidad_id' => 'required',
-							// 'derivacion_otro_organismo_id' => 'required',
-							// 'derivacion_otro_organismo_cual' => 'required',
 							'estadocaso_id' => 'required',
 							'datos_ente_judicial' => 'required',
 							'caratulacionjudicial_id' => 'required',
-							// 'caratulacionjudicial_otro' => 'required',
 							'datos_nro_causa' => 'required',
-							'profesional_id' => 'required|array|filled|min:1',
-							'datos_profesional_interviene_desde' => 'required|array|filled|min:1',
-							'datos_profesional_interviene_hasta' => 'required|array|filled|min:1',
-							// 'datos_profesional_interviene_desde[]' => 'required|date|before:datos_profesional_interviene_hasta',
-							// 'datos_profesional_interviene_desde' => 'required|date|before:datos_profesional_interviene_hasta',
-							// 'datos_profesional_interviene_hasta[]' => 'required|date|after:datos_profesional_interviene_desde',
-							'profesionalactualmente_id' => 'required|array|filled|min:1'
+							'profesional_id.*' => 'nullable',
+							'profesional_id.0' => 'required',
+							'datos_profesional_interviene_desde.*' => 'nullable|date|after_or_equal:datos_fecha_ingreso',
+							'datos_profesional_interviene_desde.0' => 'required|date|after_or_equal:datos_fecha_ingreso',
+							'datos_profesional_interviene_hasta.*' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.*',
+							'datos_profesional_interviene_hasta.0' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.0',
+							'profesionalactualmente_id.*' => 'nullable',
+							'profesionalactualmente_id.0' => 'required',
 						],
 						[		
 
@@ -320,54 +344,44 @@ class FormsController extends Controller
 							'datos_fecha_ingreso.required' => 'Este campo es obligatorio',
 							'datos_fecha_ingreso.before_or_equal' => 'La fecha ingresada es posterior al dia de hoy',
 							'modalidad_id.required' => 'Este campo es obligatorio',
-							// 'derivacion_otro_organismo_id' => 'Este campo es obligatorio',
-							// 'derivacion_otro_organismo_cual' => 'Este campo es obligatorio',
 							'estadocaso_id.required' => 'Este campo es obligatorio',
 							'datos_ente_judicial.required' => 'Este campo es obligatorio',
 							'caratulacionjudicial_id.required' => 'Este campo es obligatorio',
-							// 'caratulacionjudicial_otro.required' => 'Este campo es obligatorio',
 							'datos_nro_causa.required' => 'Este campo es obligatorio',
-							'profesional_id.min' => 'Este campo es obligatorio',
-							'datos_profesional_interviene_desde.required' => 'Este campo es obligatorio',
-							// 'datos_profesional_interviene_desde[].before' => 'El principio de la intervencion no puede ser posterior al fin',
-							'datos_profesional_interviene_hasta.required' => 'Este campo es obligatorio',
-							// 'datos_profesional_interviene_hasta[].after' => 'El fin de la intervencion no puede ser posterior al inicio',
-							'profesionalactualmente_id.required' => 'Este campo es obligatorio'
-
+							'profesional_id.*.required' => 'Este campo es obligatorio',
+							'datos_profesional_interviene_desde.*.required' => 'Este campo es obligatorio',
+							'datos_profesional_interviene_desde.*.after_or_equal' => 'Se ingresó una fecha anterior a la fecha de ingreso del caso',
+							'datos_profesional_interviene_hasta.*.required' => 'Este campo es obligatorio',
+							'datos_profesional_interviene_hasta.*.after_or_equal' => 'Se ingresó un fecha anterior a la fecha de inicio de intervención',
+							'profesionalactualmente_id.*.required' => 'Este campo es obligatorio',
 						]);
 
-		// dd('Hola');
+		// dd($_POST);
 
 		$guardoAformulario = \App\FormA\Aformulario::create(request()->all());
 		// $guardoAformulario = \App\FormA\Aformulario::create(request()->only(['datos_nombre_referencia', 'datos_numero_carpeta', 'datos_fecha_ingreso', 'modalidad_id', 'estadocaso_id', 'datos_ente_judicial', 'caratulacionjudicial_id', 'datos_nro_causa']));
 
-
 		$ultimoId = $guardoAformulario->id;
 
-		
-
-
-
-
-
-		//CONSULTAR CON MAXI PORQUE NO ME VALIDA ESTO, LO SALTEA DIRECTAMENTE, CUANDO PONGO POR EJEMPLO 'profesional_id[]' => 'required' y 'profesional_id[].required' => 'Este campo es obligatorio', ME VALIDA PERO NO ME GUARDA LOS DATOS
-		// request()->validate([
-		// 					'profesional_id[]' => 'required',
-		// 					'datos_profesional_interviene_desde' => 'required',
-		// 					'datos_profesional_interviene_hasta' => 'required',
-		// 					// 'datos_profesional_interviene_desde[]' => 'required|date|before:datos_profesional_interviene_hasta',
-		// 					// 'datos_profesional_interviene_desde' => 'required|date|before:datos_profesional_interviene_hasta',
-		// 					// 'datos_profesional_interviene_hasta[]' => 'required|date|after:datos_profesional_interviene_desde',
-		// 					'profesionalactualmente_id' => 'required'
-		// 					],
-		// 					[
-		// 					'profesional_id.required' => 'Este campo es obligatorio',
-		// 					'datos_profesional_interviene_desde.required' => 'Este campo es obligatorio',
-		// 					// 'datos_profesional_interviene_desde[].before' => 'El principio de la intervencion no puede ser posterior al fin',
-		// 					'datos_profesional_interviene_hasta.required' => 'Este campo es obligatorio',
-		// 					// 'datos_profesional_interviene_hasta[].after' => 'El fin de la intervencion no puede ser posterior al inicio',
-		// 					'profesionalactualmente_id.required' => 'Este campo es obligatorio'
-		// 					]);
+		//**SOLUCIONADO**
+			//CONSULTAR CON MAXI PORQUE NO ME VALIDA ESTO, LO SALTEA DIRECTAMENTE, CUANDO PONGO POR EJEMPLO 'profesional_id[]' => 'required' y 'profesional_id[].required' => 'Este campo es obligatorio', ME VALIDA PERO NO ME GUARDA LOS DATOS
+			// request()->validate([
+			// 					'profesional_id[]' => 'required',
+			// 					'datos_profesional_interviene_desde' => 'required',
+			// 					'datos_profesional_interviene_hasta' => 'required',
+			// 					// 'datos_profesional_interviene_desde[]' => 'required|date|before:datos_profesional_interviene_hasta',
+			// 					// 'datos_profesional_interviene_desde' => 'required|date|before:datos_profesional_interviene_hasta',
+			// 					// 'datos_profesional_interviene_hasta[]' => 'required|date|after:datos_profesional_interviene_desde',
+			// 					'profesionalactualmente_id' => 'required'
+			// 					],
+			// 					[
+			// 					'profesional_id.required' => 'Este campo es obligatorio',
+			// 					'datos_profesional_interviene_desde.required' => 'Este campo es obligatorio',
+			// 					// 'datos_profesional_interviene_desde[].before' => 'El principio de la intervencion no puede ser posterior al fin',
+			// 					'datos_profesional_interviene_hasta.required' => 'Este campo es obligatorio',
+			// 					// 'datos_profesional_interviene_hasta[].after' => 'El fin de la intervencion no puede ser posterior al inicio',
+			// 					'profesionalactualmente_id.required' => 'Este campo es obligatorio'
+			// 					]);
 
 
 		$arrayProfesionales = request()->only(['profesional_id', 'datos_profesional_interviene_desde', 'datos_profesional_interviene_hasta', 'profesionalactualmente_id']);	
@@ -422,22 +436,44 @@ class FormsController extends Controller
 															'datosIntervieneActualmente' => $datosIntervieneActualmente,
 															'datosPresentacion' => $datosPresentacion,
 															'datosOrganismo' => $datosOrganismo,
-															// 'profesionales' => $profesionales,
-															// 'id_profesional' => $id_profesional,
-															// 'nombre_profesional' => $nombre_profesional
 															'todo' => $todo
 															]);
 	}
 
 	public function updateA($id)
-	{
+	{	
 		//busco segun el id el formulario deseado
 		$aFormulario = \App\FormA\Aformulario::find($id);
-
 		                            // //convertir objeto a array
 		                            // $array = json_decode(json_encode($todo), true);
 		                            // //convertir array a objeto stdClass
 		                            // $object = json_decode(json_encode($array), FALSE);
+		// $fecha_hoy = Carbon::now();
+		request()->validate([
+							// 'datos_fecha_ingreso' => 'required|date|before_or_equal:'.$fecha_hoy,
+							'profesional_id.*' => 'nullable',
+							'profesional_id.0' => 'required',
+							'datos_profesional_interviene_desde.*' => 'nullable|date|before_or_equal:datos_profesional_interviene_hasta.*',
+							'datos_profesional_interviene_desde.0' => 'required|date|before_or_equal:datos_profesional_interviene_hasta.0',
+							'datos_profesional_interviene_hasta.*' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.*',
+							'datos_profesional_interviene_hasta.0' => 'required|date|after_or_equal:datos_profesional_interviene_desde.0',
+							'profesionalactualmente_id.*' => 'nullable',
+							'profesionalactualmente_id.0' => 'required',
+						],
+						[		
+
+							// 'datos_fecha_ingreso.required' => 'Este campo es obligatorio',
+							// 'datos_fecha_ingreso.before_or_equal' => 'La fecha ingresada es posterior al dia de hoy',
+							'profesional_id.*.required' => 'Este campo es obligatorio',
+							'datos_profesional_interviene_desde.*.required' => 'Este campo es obligatorio',
+							'datos_profesional_interviene_desde.*.before_or_equal' => 'Se ingresó un fecha posterior a la fecha de fin de intervención',
+							'datos_profesional_interviene_hasta.*.required' => 'Este campo es obligatorio',
+							'datos_profesional_interviene_hasta.*.after_or_equal' => 'Se ingresó un fecha anterior a la fecha de inicio de intervención',
+							'profesionalactualmente_id.*.required' => 'Este campo es obligatorio',
+
+						]);
+
+		$aFormulario->update(request()->all());
 
 		//requiero los datos de los profesionales
 		$arrayProfesionales = request()->only(['profesional_id', 'datos_profesional_interviene_desde', 'datos_profesional_interviene_hasta', 'profesionalactualmente_id']);	
@@ -462,9 +498,19 @@ class FormsController extends Controller
 		//guardo en la tabla pivot
 		$guardoRelacion = $aFormulario->profesionalintervinientes()->sync($profId);
 
-		$aFormulario->update(request()->all());
 
-		return redirect('index');
+		return redirect('formularios');
 	}
 	
+	public function destroyA($id)
+	{
+		$aFormulario = \App\FormA\Aformulario::find($id);
+
+		$aFormulario->delete();
+
+    	session()->flash('message', 'El formulario se eliminó con éxito.');
+
+    	return redirect('formularios');
+		
+	}
 }

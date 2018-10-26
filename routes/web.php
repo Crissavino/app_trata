@@ -23,13 +23,14 @@ Route::get('formularios/A', 'FormsController@createA');
 Route::post('formularios/A', 'FormsController@insertA');
 Route::get('formularios/edicion/A/{id}', 'FormsController@editA');
 Route::put('formularios/edicion/A/{id}', 'FormsController@updateA');
+Route::delete('formularios/edicion/A/{id}', 'FormsController@destroyA');
 
 Route::get('formularios/B', 'FormsController@createB');
 Route::post('formularios/B', 'FormsController@insertB');
 Route::get('formularios/edicion/B/{id}', 'FormsController@editB');
 Route::put('formularios/edicion/B/{id}', 'FormsController@updateB');
-//ver como seguir para cambiar el estado de un formulario y no mostrarlo con deleteB o destroyB
-// Route::put('formularios/edicion/B/{id}', 'FormsController@deleteB');
+Route::delete('formularios/edicion/B/{id}', 'FormsController@destroyB');
+
 
 
 Route::get('formularios', 'FormsController@formularios');

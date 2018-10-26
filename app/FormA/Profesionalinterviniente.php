@@ -8,7 +8,7 @@ class Profesionalinterviniente extends Model
 {
 	protected $fillable = ['profesional_id', 'datos_profesional_interviene_desde', 'datos_profesional_interviene_hasta', 'profesionalactualmente_id'];
 
-	protected $dates = ['datos_profesional_interviene_desde', 'datos_profesional_interviene_hasta'];
+	protected $dates = ['datos_profesional_interviene_desde', 'datos_profesional_interviene_hasta', 'deleted_at', 'created_at', 'updated_at'];
 
     public function aformularios()
 	{

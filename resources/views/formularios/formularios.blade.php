@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
 	<title>Formularios</title>
-	<link rel="stylesheet" type="text/css" href="/css/app.css">
+	@include('partials.head')
 	<style type="text/css">
 		body {
 			padding: 40px
@@ -13,6 +12,8 @@
 			border-color: tomato
 		}*/
 	</style>
+	<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+
 </head>
 <body>
 
@@ -20,11 +21,11 @@
 
 	<h1 class="text-center">Formularios individuales</h1>
 
-	{{-- @if (session()->has('message'))
+	@if (session()->has('message'))
 		<div class="alert alert-success">
 			{{ session()->get('message') }}
 		</div>
-	@endif --}}
+	@endif
 	
 	<div class="container">
 		<h2 class="text-center">Formularios del Eje A: Datos institucionales</h2>
@@ -33,7 +34,14 @@
 		  			<div class="cardForm-body">
 			    		<h5 class="cardForm-title">Carpeta Nº: {{ $aFormulario->datos_numero_carpeta }}</h5>
 			    		{{-- <p class="cardForm-text">Some quick example text to build on the cardForm title and make up the bulk of the cardForm's content.</p> --}}
-			    		<a href="/formularios/edicion/A/{{$aFormulario->id }}" class="btn btn-primary">Ver/Editar</a>
+			    		<a href="/formularios/edicion/A/{{$aFormulario->id }}" class="btn btn-primary float-left" style="margin-right: 10px;">Ver/Editar</a>
+			    		<form action="/formularios/edicion/A/{{$aFormulario->id}}" class="" method="post">
+							@method('DELETE')
+							@csrf
+							<button class="btn btn-danger">
+								<i class="fa fa-trash" aria-hidden="true"></i>
+							</button>
+						</form>
 		  			</div>
 				</div>
 			@endforeach
@@ -47,7 +55,14 @@
 			  <div class="cardForm-body">
 			    <h5 class="cardForm-title">{{ $bFormulario->victima_nombre_y_apellido }} - DNI: {{ $bFormulario->victima_documento }}</h5>
 			    {{-- <p class="cardForm-text">Some quick example text to build on the cardForm title and make up the bulk of the cardForm's content.</p> --}}
-			    <a href="/formularios/edicion/B/{{$bFormulario->id }}" class="btn btn-primary">Ver/Editar</a>
+			    <a href="/formularios/edicion/B/{{$bFormulario->id }}" class="btn btn-primary float-left" style="margin-right: 10px;">Ver/Editar</a>
+			    <form action="/formularios/edicion/B/{{$bFormulario->id}}" method="post">
+					@method('DELETE')
+					@csrf
+					<button class="btn btn-danger">
+						<span class="fa fa-trash" aria-hidden="true"></span>
+					</button>
+				</form>
 			  </div>
 			</div>
 		@endforeach

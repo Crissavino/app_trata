@@ -3,9 +3,12 @@
 namespace App\FormA;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Aformulario extends Model
 {
+	use SoftDeletes;
+	
     protected $fillable = ['datos_nombre_referencia', 
 							'datos_numero_carpeta', 
 							'datos_fecha_ingreso', 
@@ -21,7 +24,7 @@ class Aformulario extends Model
 							'datos_nro_causa',
 						];
 
-	protected $dates = ['datos_fecha_ingreso'];
+	protected $dates = ['datos_fecha_ingreso', 'deleted_at', 'created_at', 'updated_at'];
 
 	public function getId()
 	{

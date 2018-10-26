@@ -398,7 +398,9 @@ class PaisesTableSeeder extends Seeder
 
 			["nombre" => "Zambia"],
 
-			["nombre" => "Zimbabwe"]
+			["nombre" => "Zimbabwe"],
+
+			["nombre" => "Se desconoce"],
 			
 		]);
     }

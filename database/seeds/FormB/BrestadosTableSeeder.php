@@ -66,7 +66,9 @@ class BrestadosTableSeeder extends Seeder
 
 			['nombre_estado' => 'Sergipe'],
 
-			['nombre_estado' => 'Tocantins']
+			['nombre_estado' => 'Tocantins'],
+
+			['nombre_estado' => 'Se desconoce']
 
 		]);
     }

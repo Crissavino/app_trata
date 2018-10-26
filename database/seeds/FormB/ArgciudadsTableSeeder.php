@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class ArgciudadesTableSeeder extends Seeder
+class ArgciudadsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class ArgciudadesTableSeeder extends Seeder
    {
 
 
-	   	DB::table('argciudades')->insert([
+	   	DB::table('argciudads')->insert([
 
 			['provincia_id' => 1,
 	 		'ciudad_nombre' => '25 de Mayo'],
@@ -7157,7 +7157,10 @@ class ArgciudadesTableSeeder extends Seeder
 	 		'ciudad_nombre' => 'Yánima'],
 
 			['provincia_id' => 25,
-	 		'ciudad_nombre' => 'Yerba Buena']
+	 		'ciudad_nombre' => 'Yerba Buena'],
+
+			['provincia_id' => 26,
+			'ciudad_nombre' => 'Se desconoce']
 		]);
     }
 }

@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
     	//SEEDERS FORMULARIO A
+        $this->call(AformulariosTableSeeder::class);
         $this->call(CaratulacionjudicialsTableSeeder::class);
         $this->call(EstadocasosTableSeeder::class);
         $this->call(ModalidadsTableSeeder::class);
@@ -21,10 +22,11 @@ class DatabaseSeeder extends Seeder
         $this->call(ProfesionalsTableSeeder::class);
         
         //SEEDERS FORMULARIO B
-        $this->call(ArgciudadesTableSeeder::class);
+        $this->call(ArgciudadsTableSeeder::class);
         $this->call(ArgprovinciasTableSeeder::class);
         $this->call(BajoefectosTableSeeder::class);
         $this->call(BrestadosTableSeeder::class);
+        $this->call(ChprovinciasTableSeeder::class);
         $this->call(DiscapacidadsTableSeeder::class);
         $this->call(EmbarazopreviosTableSeeder::class);
         $this->call(EmbarazorelevamientosTableSeeder::class);
@@ -37,9 +39,11 @@ class DatabaseSeeder extends Seeder
         $this->call(NiveleducativosTableSeeder::class);
         $this->call(OficiosTableSeeder::class);
         $this->call(PaisesTableSeeder::class);
+        $this->call(ResidenciaprecariasTableSeeder::class);
         $this->call(TienedocsTableSeeder::class);
         $this->call(TienelesionsTableSeeder::class);
         $this->call(TipodocumentosTableSeeder::class);
+        $this->call(UrprovinciasTableSeeder::class);
 
     }
 }

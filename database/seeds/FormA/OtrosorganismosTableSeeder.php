@@ -34,6 +34,16 @@ class OtrosorganismosTableSeeder extends Seeder
 
             ['nombre' => 'Secretaría Nacional de Niñez, Adolescencia y Familia (SENNAF)'],
 
+            ['nombre' => 'Policía Federal'],
+
+            ['nombre' => 'Policía Provincial'],
+
+            ['nombre' => 'Policía Local'],
+
+            ['nombre' => 'Prefectura'],
+            
+            ['nombre' => 'Gendarmería'],
+
             ['nombre' => 'Otro / ¿Cuál?']
 
         ]);
