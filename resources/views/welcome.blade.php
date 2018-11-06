@@ -73,7 +73,7 @@
                     @else
                         <a href="{{ route('login') }}">Logueate</a>
                         {{-- TODAVIA NO VOY A MOSTRAR EL REGISTRATE --}}
-                        <a href="{{ route('register') }}">Registrate</a>
+                        {{-- <a href="{{ route('register') }}">Registrate</a> --}}
                     @endauth
                 </div>
             @endif
