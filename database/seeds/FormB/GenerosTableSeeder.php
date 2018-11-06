@@ -22,7 +22,9 @@ class GenerosTableSeeder extends Seeder
 
             ['nombre' => 'Varon Trans'],
 
-            ['nombre' => 'Otro']
+            ['nombre' => 'Otro'],
+
+            ['nombre' => 'Se desconoce']
 
         ]);
     }

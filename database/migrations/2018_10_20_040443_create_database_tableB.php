@@ -73,6 +73,7 @@ class CreateDatabaseTableB extends Migration
             $table->integer('niveleducativo_id')->unsigned();
             $table->integer('oficio_id')->unsigned();
             $table->string('victima_oficio_cual')->nullable();
+            $table->integer('user_id')->unsigned();
             $table->softDeletesTz();
             $table->timestampsTz();
         });

@@ -45,5 +45,8 @@ class DatabaseSeeder extends Seeder
         $this->call(TipodocumentosTableSeeder::class);
         $this->call(UrprovinciasTableSeeder::class);
 
+        //SEEDERS FORMULARIO B
+        $this->call(OtraspersonasTableSeeder::class);
+        $this->call(VinculosTableSeeder::class);
     }
 }

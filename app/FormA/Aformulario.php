@@ -22,6 +22,7 @@ class Aformulario extends Model
 							'derivacion_otro_organismo_id',
 							'derivacion_otro_organismo_cual',
 							'datos_nro_causa',
+							'user_id',
 						];
 
 	protected $dates = ['datos_fecha_ingreso', 'deleted_at', 'created_at', 'updated_at'];

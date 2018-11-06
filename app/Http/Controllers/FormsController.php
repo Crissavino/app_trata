@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
@@ -20,19 +21,248 @@ class FormsController extends Controller
 	//con esta funcion obtengo una viste de todos los formularios guardados en la base de datos
 	public function formularios()
 	{
-		$aFormularios = \App\FormA\Aformulario::all();
-		$bFormularios = \App\FormB\Bformulario::all();		
+		//quiero acceder a los formularios que cargo cada usuario
+		$userId = auth()->user()->id;
+		$aFormPorId = DB::table('aformularios')
+											->WHERE('user_id', '=', $userId)
+											->ORDERBY('updated_at')
+											->get();
+		$bFormPorId = DB::table('bformularios')
+											->WHERE('user_id', '=', $userId)
+											->ORDERBY('updated_at')
+											->get();
+		//datos del formulario C
+	        // $cFormPorId = DB::table('cformularios')
+									// 			->WHERE('cformularios.user_id', '=', $userId)
+									// 			->ORDERBY('updated_at')
+									// 			->get();
 
-		return view('formularios.formularios', ['aFormularios' => $aFormularios,
-												'bFormularios' => $bFormularios]);
+			$cFormPorId = DB::table('cformularios')
+												->WHERE('cformularios.user_id', '=', $userId)
+												->WHERE('cformularios.deleted_at', '=', null)
+												->JOIN('cformulario_conviviente', 'cformularios.id', '=', 'cformulario_conviviente.cformulario_id')
+												->JOIN('convivientes', 'cformulario_conviviente.conviviente_id', '=', 'convivientes.id')
+												->ORDERBY('convivientes.updated_at', 'desc')
+												->get();
+		//hasta aca
+
+
+		// $aFormularios = \App\FormA\Aformulario::all();
+		// $bFormularios = \App\FormB\Bformulario::all();		
+
+		return view('formularios.formularios', ['aFormPorId' => $aFormPorId,
+												'bFormPorId' => $bFormPorId,
+												'cFormPorId' => $cFormPorId]);
 	}
 
-	// public function mostrarA()
-	// {
-	// 	return view('formularios/formularioA');
-	// }
+	public function createA()
+	{
+		//aca voy a tener que llamar a todos los modelos de los que saque datos
+		$datosModalidad = \App\FormA\Modalidad::all();
+		$datosEstadoCaso = \App\FormA\Estadocaso::all();
+		$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
+		$datosProfesional = \App\FormA\Profesional::all();
+		$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
+		$datosPresentacion = \App\FormA\Presentacionespontanea::all();
+		$datosOrganismo = \App\FormA\Otrosorganismo::all();
+		$ultimoNroCarpeta = DB::table('aformularios')->orderBy('datos_numero_carpeta', 'desc')
+		                                             ->first()
+		                                             ->datos_numero_carpeta;		
 
-    public function createB()
+		return view('formularios.formularioA', ['datosModalidad' => $datosModalidad,
+												'datosEstadoCaso' => $datosEstadoCaso,
+												'datosCaratulacion' => $datosCaratulacion,
+												'datosProfesional' => $datosProfesional,
+												'datosIntervieneActualmente' => $datosIntervieneActualmente,
+												'datosPresentacion' => $datosPresentacion,
+												'datosOrganismo' => $datosOrganismo,
+												'ultimoNroCarpeta' => $ultimoNroCarpeta,
+												]);
+	}
+
+	public function insertA()
+	{
+		$userId = auth()->user()->id;
+		
+		//esta fecha es la del momento
+		$fecha_hoy = Carbon::now();
+
+		request()->validate([
+							'datos_nombre_referencia' => 'required',
+							'datos_numero_carpeta' => 'required',
+							'datos_fecha_ingreso' => 'required|date|before_or_equal:'.$fecha_hoy,
+							'modalidad_id' => 'required',
+							'estadocaso_id' => 'required',
+							'datos_ente_judicial' => 'required',
+							'caratulacionjudicial_id' => 'required',
+							'datos_nro_causa' => 'required',
+							'profesional_id.*' => 'nullable',
+							'profesional_id.0' => 'required',
+							'datos_profesional_interviene_desde.*' => 'nullable|date|after_or_equal:datos_fecha_ingreso',
+							'datos_profesional_interviene_desde.0' => 'required|date|after_or_equal:datos_fecha_ingreso',
+							'datos_profesional_interviene_hasta.*' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.*',
+							'datos_profesional_interviene_hasta.0' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.0',
+							'profesionalactualmente_id.*' => 'nullable',
+							'profesionalactualmente_id.0' => 'required',
+						],
+						[		
+
+							'datos_nombre_referencia.required' => 'Este campo es obligatorio',
+							'datos_numero_carpeta.required' => 'Este campo es obligatorio',
+							'datos_fecha_ingreso.required' => 'Este campo es obligatorio',
+							'datos_fecha_ingreso.before_or_equal' => 'La fecha ingresada es posterior al dia de hoy',
+							'modalidad_id.required' => 'Este campo es obligatorio',
+							'estadocaso_id.required' => 'Este campo es obligatorio',
+							'datos_ente_judicial.required' => 'Este campo es obligatorio',
+							'caratulacionjudicial_id.required' => 'Este campo es obligatorio',
+							'datos_nro_causa.required' => 'Este campo es obligatorio',
+							'profesional_id.*.required' => 'Este campo es obligatorio',
+							'datos_profesional_interviene_desde.*.required' => 'Este campo es obligatorio',
+							'datos_profesional_interviene_desde.*.after_or_equal' => 'Se ingresó una fecha anterior a la fecha de ingreso del caso',
+							'datos_profesional_interviene_hasta.*.required' => 'Este campo es obligatorio',
+							'datos_profesional_interviene_hasta.*.after_or_equal' => 'Se ingresó un fecha anterior a la fecha de inicio de intervención',
+							'profesionalactualmente_id.*.required' => 'Este campo es obligatorio',
+						]);
+		// dd($_POST);
+		$data = request()->all();
+		$data['user_id'] = $userId;
+		// dd($data);
+		$guardoAformulario = \App\FormA\Aformulario::create($data);
+		// $guardoAformulario = \App\FormA\Aformulario::create(request()->only(['datos_nombre_referencia', 'datos_numero_carpeta', 'datos_fecha_ingreso', 'modalidad_id', 'estadocaso_id', 'datos_ente_judicial', 'caratulacionjudicial_id', 'datos_nro_causa']));
+
+		$ultimoId = $guardoAformulario->id;
+
+		//de aca obtengo la cantidad de veces que tengo que iterar para asignarle valores al array
+		$cant = (count(request()->input('profesional_id')));
+
+		for ($i=0; $i < $cant; $i++) 
+		{ 
+			//asigno manualmente los valores
+			$profesional['profesional_id'] = $data['profesional_id'][$i];
+			$profesional['datos_profesional_interviene_desde'] = $data['datos_profesional_interviene_desde'][$i];
+			$profesional['datos_profesional_interviene_hasta'] = $data['datos_profesional_interviene_hasta'][$i];
+			$profesional['profesionalactualmente_id'] = $data['profesionalactualmente_id'][$i];
+			$profesional['user_id'] = $data['user_id'];
+
+			//una vez ya asignados los valores los guardo en la base, en la tabla que corresponde
+			$guardoProfesionalInterviniente = \App\FormA\Profesionalinterviniente::create($profesional);
+			//de aca obtengo los id de los profesionales guardados
+			$profId[] = $guardoProfesionalInterviniente->id;
+		}
+		//busco el id del formulario A guardado recien
+		$aFormulario = \App\FormA\Aformulario::find($ultimoId);
+		//guardo en la tabla pivot
+		$guardoRelacion = $aFormulario->profesionalintervinientes()->sync($profId);
+		//redirijo al formulario siguiente
+	    return redirect('formularios/B');
+	}
+
+	public function editA($id)
+	{
+		$datosModalidad = \App\FormA\Modalidad::all();;
+		$datosEstadoCaso = \App\FormA\Estadocaso::all();
+		$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
+		$datosProfesional = \App\FormA\Profesional::all();
+		$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
+		$datosPresentacion = \App\FormA\Presentacionespontanea::all();
+		$datosOrganismo = \App\FormA\Otrosorganismo::all();
+		$aFormulario = \App\FormA\Aformulario::find($id);
+		$todo = DB::table('aformularios')
+		                            ->WHERE('aformulario_id', '=', $id)
+									->JOIN('aformulario_profesionalinterviniente', 'aformularios.id', '=', 'aformulario_profesionalinterviniente.aformulario_id')
+									->JOIN('profesionalintervinientes', 'aformulario_profesionalinterviniente.profesionalinterviniente_id', '=', 'profesionalintervinientes.id')
+									->JOIN('profesionals', 'profesionalintervinientes.profesional_id', '=', 'profesionals.id')
+									->JOIN('profesionalactualmentes', 'profesionalintervinientes.profesionalactualmente_id', '=', 'profesionalactualmentes.id')
+		                            ->get();
+
+
+		return view('formularios.editar.formularioA_edit', ['aFormulario' => $aFormulario,
+															'datosModalidad' => $datosModalidad,
+															'datosEstadoCaso' => $datosEstadoCaso,
+															'datosCaratulacion' => $datosCaratulacion,
+															'datosProfesional' => $datosProfesional,
+															'datosIntervieneActualmente' => $datosIntervieneActualmente,
+															'datosPresentacion' => $datosPresentacion,
+															'datosOrganismo' => $datosOrganismo,
+															'todo' => $todo
+															]);
+	}
+
+	public function updateA($id)
+	{	
+		//busco segun el id el formulario deseado
+		$aFormulario = \App\FormA\Aformulario::find($id);
+		                            // //convertir objeto a array
+		                            // $array = json_decode(json_encode($todo), true);
+		                            // //convertir array a objeto stdClass
+		                            // $object = json_decode(json_encode($array), FALSE);
+		// $fecha_hoy = Carbon::now();
+		request()->validate([
+							// 'datos_fecha_ingreso' => 'required|date|before_or_equal:'.$fecha_hoy,
+							'profesional_id.*' => 'nullable',
+							'profesional_id.0' => 'required',
+							'datos_profesional_interviene_desde.*' => 'nullable|date|before_or_equal:datos_profesional_interviene_hasta.*',
+							'datos_profesional_interviene_desde.0' => 'required|date|before_or_equal:datos_profesional_interviene_hasta.0',
+							'datos_profesional_interviene_hasta.*' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.*',
+							'datos_profesional_interviene_hasta.0' => 'required|date|after_or_equal:datos_profesional_interviene_desde.0',
+							'profesionalactualmente_id.*' => 'nullable',
+							'profesionalactualmente_id.0' => 'required',
+						],
+						[		
+
+							// 'datos_fecha_ingreso.required' => 'Este campo es obligatorio',
+							// 'datos_fecha_ingreso.before_or_equal' => 'La fecha ingresada es posterior al dia de hoy',
+							'profesional_id.*.required' => 'Este campo es obligatorio',
+							'datos_profesional_interviene_desde.*.required' => 'Este campo es obligatorio',
+							'datos_profesional_interviene_desde.*.before_or_equal' => 'Se ingresó un fecha posterior a la fecha de fin de intervención',
+							'datos_profesional_interviene_hasta.*.required' => 'Este campo es obligatorio',
+							'datos_profesional_interviene_hasta.*.after_or_equal' => 'Se ingresó un fecha anterior a la fecha de inicio de intervención',
+							'profesionalactualmente_id.*.required' => 'Este campo es obligatorio',
+
+						]);
+		$data = request()->all();
+		$data['user_id'] = $userId;
+		$aFormulario->update($data);
+
+		//requiero los datos de los profesionales
+		$arrayProfesionales = request()->only(['profesional_id', 'datos_profesional_interviene_desde', 'datos_profesional_interviene_hasta', 'profesionalactualmente_id']);	
+		
+		//de aca obtengo la cantidad de veces que tengo que iterar para asignarle valores al array
+		$cant = (count(request()->input('profesional_id')));
+
+		// HOY 12 DE OCTUBRE ESTA MANERA BORRA TODOS PROFESIONALES ANTERIORES Y SOLO ASIGNA LOS QUE SE UPDETEAN
+		for ($i=0; $i < $cant; $i++) 
+		{ 
+			//asigno manualmente los valores
+			$profesional['profesional_id'] = $arrayProfesionales['profesional_id'][$i];
+			$profesional['datos_profesional_interviene_desde'] = $arrayProfesionales['datos_profesional_interviene_desde'][$i];
+			$profesional['datos_profesional_interviene_hasta'] = $arrayProfesionales['datos_profesional_interviene_hasta'][$i];
+			$profesional['profesionalactualmente_id'] = $arrayProfesionales['profesionalactualmente_id'][$i];
+			$profesional['user_id'] = $data['user_id'];
+			//una vez ya asignados los valores los guardo en la base, en la tabla que corresponde
+			$guardoProfesionalInterviniente = \App\FormA\Profesionalinterviniente::create($profesional);
+			//de aca obtengo los id de los profesionales guardados
+			$profId[] = $guardoProfesionalInterviniente->id;	
+		}
+		//guardo en la tabla pivot
+		$guardoRelacion = $aFormulario->profesionalintervinientes()->sync($profId);
+
+
+		return redirect('formularios');
+	}
+	
+	public function destroyA($id)
+	{
+		$aFormulario = \App\FormA\Aformulario::find($id);
+
+		$aFormulario->delete();
+
+    	session()->flash('message', 'El formulario se eliminó con éxito.');
+
+    	return redirect('formularios');
+	}
+
+	public function createB()
 	{
 		$datosGenero = \App\FormB\Genero::all();
 		$datosDocumento = \App\FormB\Tienedoc::all();
@@ -56,6 +286,12 @@ class FormsController extends Controller
 		$datosLimitacion = \App\FormB\Limitacion::all();
 		$datosOficio = \App\FormB\Oficio::all();
 		$datosResidencia = \App\FormB\Residenciaprecaria::all();
+		$userId = auth()->user()->id;
+		$numeroCarpeta = DB::table('aformularios')
+											->WHERE('user_id', '=', $userId)
+											->ORDERBY('updated_at', 'desc')
+											->first()
+											->datos_numero_carpeta;
 
 		return view('formularios/formularioB', 
 			['datosGenero' => $datosGenero,
@@ -80,12 +316,14 @@ class FormsController extends Controller
 				'datosLimitacion' => $datosLimitacion,
 				'datosOficio' => $datosOficio,
 				'datosResidencia' => $datosResidencia,
+				'numeroCarpeta' => $numeroCarpeta,
 			]);
 	}
 
-	//esta funcion guarda el formulario bien en la base de datos, lo unico que no guarda son los 2 selects multiples en los que se debe hacer una tabla pibot
 	public function insertB()
 	{
+		$userId = auth()->user()->id;
+
 		request()->validate([
 			'victima_nombre_y_apellido' => 'required',
 			//'victima_nombre_y_apellido_desconoce' => 'required',
@@ -120,7 +358,6 @@ class FormsController extends Controller
 			'oficio_id' => 'required',
 			//'victima_oficio_cual' => 'required',
 		], 
-
 		[
 			'victima_nombre_y_apellido.required' => 'Este campo es obligatorio',
 			//'victima_nombre_y_apellido_desconoce.required' => 'Este campo es obligatorio',
@@ -156,7 +393,10 @@ class FormsController extends Controller
 			//'victima_oficio_cual.required' => 'Este campo es obligatorio',
 		]);
 
-		$guardoBformulario = \App\FormB\Bformulario::create(request()->all());
+		$data = request()->all();
+		$data['user_id'] = $userId;
+
+		$guardoBformulario = \App\FormB\Bformulario::create($data);
 
 		$ultimoId = $guardoBformulario->id;
 
@@ -276,241 +516,173 @@ class FormsController extends Controller
     	return redirect('formularios');	
 	}
 
-
-	//CON ESTA FUNCION LO QUE QUIERO HACER ES CAMBIAR EL ESTADO DE UN FORMULARIO PARA MOSTRARLO O NO
-	// public function deleteB($id)
-	// {
-	// 	dd('Se esta entrando');
-	// 	$Bformulario = \App\FormB\Bformulario::all();
-
-	// 	$cambiarEstado = $Bformulario->id;
-
-
-	// }
-
-	public function createA()
+	public function createC()
 	{
-		//aca voy a tener que llamar a todos los modelos de los que saque datos
-		$datosModalidad = \App\FormA\Modalidad::all();;
-		$datosEstadoCaso = \App\FormA\Estadocaso::all();
-		$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
-		$datosProfesional = \App\FormA\Profesional::all();
-		$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
-		$datosPresentacion = \App\FormA\Presentacionespontanea::all();
-		$datosOrganismo = \App\FormA\Otrosorganismo::all();
+		$datosOtraspersonas = \App\FormC\Otraspersona::all();
+		$datosGeneros = \App\FormB\Genero::all();
+		$datosVinculos = \App\FormC\Vinculo::all();
+		$userId = auth()->user()->id;
 
-		$ultimoNroCarpeta = DB::table('aformularios')->orderBy('datos_numero_carpeta', 'desc')->first()->datos_numero_carpeta;		
+		$numeroCarpeta = DB::table('aformularios')
+											->WHERE('user_id', '=', $userId)
+											->ORDERBY('updated_at')
+											->first()
+											->datos_numero_carpeta;
 
-		return view('formularios.formularioA', ['datosModalidad' => $datosModalidad,
-												'datosEstadoCaso' => $datosEstadoCaso,
-												'datosCaratulacion' => $datosCaratulacion,
-												'datosProfesional' => $datosProfesional,
-												'datosIntervieneActualmente' => $datosIntervieneActualmente,
-												'datosPresentacion' => $datosPresentacion,
-												'datosOrganismo' => $datosOrganismo,
-												'ultimoNroCarpeta' => $ultimoNroCarpeta,
+		return view('formularios.formularioC', ['datosOtraspersonas' => $datosOtraspersonas,
+												'datosGeneros' => $datosGeneros,
+												'datosVinculos' => $datosVinculos,
+												'numeroCarpeta' => $numeroCarpeta,
 												]);
 	}
 
-	public function insertA()
-	{
-
+	public function insertC()
+	{	
 		
-		//esta fecha es la del momento
-		$fecha_hoy = Carbon::now();
+		//guardo el id del usuario en una variable
+		$userId = auth()->user()->id;
 
-		request()->validate([
-							'datos_nombre_referencia' => 'required',
-							'datos_numero_carpeta' => 'required',
-							'datos_fecha_ingreso' => 'required|date|before_or_equal:'.$fecha_hoy,
-							'modalidad_id' => 'required',
-							'estadocaso_id' => 'required',
-							'datos_ente_judicial' => 'required',
-							'caratulacionjudicial_id' => 'required',
-							'datos_nro_causa' => 'required',
-							'profesional_id.*' => 'nullable',
-							'profesional_id.0' => 'required',
-							'datos_profesional_interviene_desde.*' => 'nullable|date|after_or_equal:datos_fecha_ingreso',
-							'datos_profesional_interviene_desde.0' => 'required|date|after_or_equal:datos_fecha_ingreso',
-							'datos_profesional_interviene_hasta.*' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.*',
-							'datos_profesional_interviene_hasta.0' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.0',
-							'profesionalactualmente_id.*' => 'nullable',
-							'profesionalactualmente_id.0' => 'required',
-						],
-						[		
+			request()->validate([
+			'otraspersonas_id' => 'required',
+			'nombre_apellido.*' => 'nullable',
+			'nombre_apellido.0' => 'required',
+			'edad.*' => 'nullable',
+			'edad.0' => 'required',
+			'genero_id.*' => 'nullable',
+			'genero_id.0' => 'required',
+			'vinculo_id.*' => 'nullable',
+			'vinculo_id.0' => 'required',
+		],
+		[
+			'otraspersonas_id.required' => 'Este campo es obligatorio',
+			'nombre_apellido.*.required' => 'Este campo es obligatorio',
+			'edad.*.required' => 'Este campo es obligatorio',
+			'genero_id.*.required' => 'Este campo es obligatorio',
+			'vinculo_id.*.required' => 'Este campo es obligatorio'
+		]);
+		// ver que hacer si la cantidad que se recibe es 0, osea lo mando de una
+		$data = request()->all();
 
-							'datos_nombre_referencia.required' => 'Este campo es obligatorio',
-							'datos_numero_carpeta.required' => 'Este campo es obligatorio',
-							'datos_fecha_ingreso.required' => 'Este campo es obligatorio',
-							'datos_fecha_ingreso.before_or_equal' => 'La fecha ingresada es posterior al dia de hoy',
-							'modalidad_id.required' => 'Este campo es obligatorio',
-							'estadocaso_id.required' => 'Este campo es obligatorio',
-							'datos_ente_judicial.required' => 'Este campo es obligatorio',
-							'caratulacionjudicial_id.required' => 'Este campo es obligatorio',
-							'datos_nro_causa.required' => 'Este campo es obligatorio',
-							'profesional_id.*.required' => 'Este campo es obligatorio',
-							'datos_profesional_interviene_desde.*.required' => 'Este campo es obligatorio',
-							'datos_profesional_interviene_desde.*.after_or_equal' => 'Se ingresó una fecha anterior a la fecha de ingreso del caso',
-							'datos_profesional_interviene_hasta.*.required' => 'Este campo es obligatorio',
-							'datos_profesional_interviene_hasta.*.after_or_equal' => 'Se ingresó un fecha anterior a la fecha de inicio de intervención',
-							'profesionalactualmente_id.*.required' => 'Este campo es obligatorio',
-						]);
+		$data['user_id'] = $userId;
 
-		// dd($_POST);
+		$guardoCformulario = \App\FormC\Cformulario::create($data);
 
-		$guardoAformulario = \App\FormA\Aformulario::create(request()->all());
-		// $guardoAformulario = \App\FormA\Aformulario::create(request()->only(['datos_nombre_referencia', 'datos_numero_carpeta', 'datos_fecha_ingreso', 'modalidad_id', 'estadocaso_id', 'datos_ente_judicial', 'caratulacionjudicial_id', 'datos_nro_causa']));
+		//id del formulario recien creado
+		$ultimoId = $guardoCformulario->id;
 
-		$ultimoId = $guardoAformulario->id;
+		$cant = (count(request()->input('nombre_apellido')));
 
-		//**SOLUCIONADO**
-			//CONSULTAR CON MAXI PORQUE NO ME VALIDA ESTO, LO SALTEA DIRECTAMENTE, CUANDO PONGO POR EJEMPLO 'profesional_id[]' => 'required' y 'profesional_id[].required' => 'Este campo es obligatorio', ME VALIDA PERO NO ME GUARDA LOS DATOS
-			// request()->validate([
-			// 					'profesional_id[]' => 'required',
-			// 					'datos_profesional_interviene_desde' => 'required',
-			// 					'datos_profesional_interviene_hasta' => 'required',
-			// 					// 'datos_profesional_interviene_desde[]' => 'required|date|before:datos_profesional_interviene_hasta',
-			// 					// 'datos_profesional_interviene_desde' => 'required|date|before:datos_profesional_interviene_hasta',
-			// 					// 'datos_profesional_interviene_hasta[]' => 'required|date|after:datos_profesional_interviene_desde',
-			// 					'profesionalactualmente_id' => 'required'
-			// 					],
-			// 					[
-			// 					'profesional_id.required' => 'Este campo es obligatorio',
-			// 					'datos_profesional_interviene_desde.required' => 'Este campo es obligatorio',
-			// 					// 'datos_profesional_interviene_desde[].before' => 'El principio de la intervencion no puede ser posterior al fin',
-			// 					'datos_profesional_interviene_hasta.required' => 'Este campo es obligatorio',
-			// 					// 'datos_profesional_interviene_hasta[].after' => 'El fin de la intervencion no puede ser posterior al inicio',
-			// 					'profesionalactualmente_id.required' => 'Este campo es obligatorio'
-			// 					]);
+		for ($i=0; $i < $cant; $i++) {
 
+			$conviviente['nombre_apellido'] = $data['nombre_apellido'][$i];
+			$conviviente['edad'] = $data['edad'][$i];
+			$conviviente['genero_id'] = $data['genero_id'][$i];
+			$conviviente['vinculo_id'] = $data['vinculo_id'][$i]; 
+			$conviviente['user_id'] = $data['user_id'];
 
-		$arrayProfesionales = request()->only(['profesional_id', 'datos_profesional_interviene_desde', 'datos_profesional_interviene_hasta', 'profesionalactualmente_id']);	
+			$guardoCoviviente = \App\FormC\Conviviente::create($conviviente);
 
-		//de aca obtengo la cantidad de veces que tengo que iterar para asignarle valores al array
-		$cant = (count(request()->input('profesional_id')));
-
-		for ($i=0; $i < $cant; $i++) 
-		{ 
-			//asigno manualmente los valores
-			$profesional['profesional_id'] = $arrayProfesionales['profesional_id'][$i];
-			$profesional['datos_profesional_interviene_desde'] = $arrayProfesionales['datos_profesional_interviene_desde'][$i];
-			$profesional['datos_profesional_interviene_hasta'] = $arrayProfesionales['datos_profesional_interviene_hasta'][$i];
-			$profesional['profesionalactualmente_id'] = $arrayProfesionales['profesionalactualmente_id'][$i];
-
-			//una vez ya asignados los valores los guardo en la base, en la tabla que corresponde
-			$guardoProfesionalInterviniente = \App\FormA\Profesionalinterviniente::create($profesional);
-			//de aca obtengo los id de los profesionales guardados
-			$profId[] = $guardoProfesionalInterviniente->id;	
+			$convivienteId[] = $guardoCoviviente->id;
 		}
-		//busco el id del formulario A guardado recien
-		$aFormulario = \App\FormA\Aformulario::find($ultimoId);
-		//guardo en la tabla pivot
-		$guardoRelacion = $aFormulario->profesionalintervinientes()->sync($profId);
-		//redirijo al formulario siguiente
-	    return redirect('formularios/B');
+
+		$cFormulario = \App\FormC\Cformulario::find($ultimoId);
+
+		$guardoRelacion = $cFormulario->convivientes()->sync($convivienteId);
+
+		return redirect('formularios/D');
+		
 	}
 
-	public function editA($id)
+	public function editC($id)
 	{
-		$datosModalidad = \App\FormA\Modalidad::all();;
-		$datosEstadoCaso = \App\FormA\Estadocaso::all();
-		$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
-		$datosProfesional = \App\FormA\Profesional::all();
-		$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
-		$datosPresentacion = \App\FormA\Presentacionespontanea::all();
-		$datosOrganismo = \App\FormA\Otrosorganismo::all();
-		$aFormulario = \App\FormA\Aformulario::find($id);
-		$todo = DB::table('aformularios')
-		                            ->WHERE('aformulario_id', '=', $id)
-									->JOIN('aformulario_profesionalinterviniente', 'aformularios.id', '=', 'aformulario_profesionalinterviniente.aformulario_id')
-									->JOIN('profesionalintervinientes', 'aformulario_profesionalinterviniente.profesionalinterviniente_id', '=', 'profesionalintervinientes.id')
-									->JOIN('profesionals', 'profesionalintervinientes.profesional_id', '=', 'profesionals.id')
-									->JOIN('profesionalactualmentes', 'profesionalintervinientes.profesionalactualmente_id', '=', 'profesionalactualmentes.id')
+		$datosOtraspersonas = \App\FormC\Otraspersona::all();
+		$datosGeneros = \App\FormB\Genero::all();
+		$datosVinculos = \App\FormC\Vinculo::all();
+		$userId = auth()->user()->id;
+		$datosConvivientes = \App\FormC\Conviviente::all();
+		$cFormulario = \App\FormC\Cformulario::find($id);
+
+		$numeroCarpeta = DB::table('aformularios')
+											->WHERE('user_id', '=', $userId)
+											->ORDERBY('updated_at')
+											->first()
+											->datos_numero_carpeta;
+
+		$datosTodo = DB::table('cformularios')
+		                            ->WHERE('cformularios.id', '=', $id)
+									->JOIN('cformulario_conviviente', 'cformularios.id', '=', 'cformulario_conviviente.cformulario_id')
+									->JOIN('convivientes', 'cformulario_conviviente.conviviente_id', '=', 'convivientes.id')
 		                            ->get();
 
-		return view('formularios.editar.formularioA_edit', ['aFormulario' => $aFormulario,
-															'datosModalidad' => $datosModalidad,
-															'datosEstadoCaso' => $datosEstadoCaso,
-															'datosCaratulacion' => $datosCaratulacion,
-															'datosProfesional' => $datosProfesional,
-															'datosIntervieneActualmente' => $datosIntervieneActualmente,
-															'datosPresentacion' => $datosPresentacion,
-															'datosOrganismo' => $datosOrganismo,
-															'todo' => $todo
-															]);
+
+		return view('formularios.editar.formularioC_edit', [
+															'datosOtraspersonas' => $datosOtraspersonas,
+															'datosGeneros' => $datosGeneros,
+															'datosVinculos' => $datosVinculos,
+															'userId' => $userId,
+															'cFormulario' => $cFormulario,
+															'numeroCarpeta' => $numeroCarpeta,
+															'datosTodo' => $datosTodo,
+														]);
 	}
 
-	public function updateA($id)
+	public function updateC($id)
 	{	
-		//busco segun el id el formulario deseado
-		$aFormulario = \App\FormA\Aformulario::find($id);
-		                            // //convertir objeto a array
-		                            // $array = json_decode(json_encode($todo), true);
-		                            // //convertir array a objeto stdClass
-		                            // $object = json_decode(json_encode($array), FALSE);
-		// $fecha_hoy = Carbon::now();
+		$userId = auth()->user()->id;
+
 		request()->validate([
-							// 'datos_fecha_ingreso' => 'required|date|before_or_equal:'.$fecha_hoy,
-							'profesional_id.*' => 'nullable',
-							'profesional_id.0' => 'required',
-							'datos_profesional_interviene_desde.*' => 'nullable|date|before_or_equal:datos_profesional_interviene_hasta.*',
-							'datos_profesional_interviene_desde.0' => 'required|date|before_or_equal:datos_profesional_interviene_hasta.0',
-							'datos_profesional_interviene_hasta.*' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.*',
-							'datos_profesional_interviene_hasta.0' => 'required|date|after_or_equal:datos_profesional_interviene_desde.0',
-							'profesionalactualmente_id.*' => 'nullable',
-							'profesionalactualmente_id.0' => 'required',
-						],
-						[		
+			'nombre_apellido.*' => 'nullable',
+			'nombre_apellido.0' => 'required',
+			'edad.*' => 'nullable',
+			'edad.0' => 'required',
+			'genero_id.*' => 'nullable',
+			'genero_id.0' => 'required',
+			'vinculo_id.*' => 'nullable',
+			'vinculo_id.0' => 'required',
+		],
+		[
+			'nombre_apellido.*.required' => 'Este campo es obligatorio',
+			'edad.*.required' => 'Este campo es obligatorio',
+			'genero_id.*.required' => 'Este campo es obligatorio',
+			'vinculo_id.*.required' => 'Este campo es obligatorio'
+		]);
+		$data = request()->all();
+		$data['user_id'] = $userId;
 
-							// 'datos_fecha_ingreso.required' => 'Este campo es obligatorio',
-							// 'datos_fecha_ingreso.before_or_equal' => 'La fecha ingresada es posterior al dia de hoy',
-							'profesional_id.*.required' => 'Este campo es obligatorio',
-							'datos_profesional_interviene_desde.*.required' => 'Este campo es obligatorio',
-							'datos_profesional_interviene_desde.*.before_or_equal' => 'Se ingresó un fecha posterior a la fecha de fin de intervención',
-							'datos_profesional_interviene_hasta.*.required' => 'Este campo es obligatorio',
-							'datos_profesional_interviene_hasta.*.after_or_equal' => 'Se ingresó un fecha anterior a la fecha de inicio de intervención',
-							'profesionalactualmente_id.*.required' => 'Este campo es obligatorio',
-
-						]);
-
-		$aFormulario->update(request()->all());
-
-		//requiero los datos de los profesionales
-		$arrayProfesionales = request()->only(['profesional_id', 'datos_profesional_interviene_desde', 'datos_profesional_interviene_hasta', 'profesionalactualmente_id']);	
+		$cant = (count(request()->input('nombre_apellido')));
 		
-		//de aca obtengo la cantidad de veces que tengo que iterar para asignarle valores al array
-		$cant = (count(request()->input('profesional_id')));
+		for ($i=0; $i < $cant; $i++) {
 
-		// HOY 12 DE OCTUBRE ESTA MANERA BORRA TODOS PROFESIONALES ANTERIORES Y SOLO ASIGNA LOS QUE SE UPDETEAN
-		for ($i=0; $i < $cant; $i++) 
-		{ 
-			//asigno manualmente los valores
-			$profesional['profesional_id'] = $arrayProfesionales['profesional_id'][$i];
-			$profesional['datos_profesional_interviene_desde'] = $arrayProfesionales['datos_profesional_interviene_desde'][$i];
-			$profesional['datos_profesional_interviene_hasta'] = $arrayProfesionales['datos_profesional_interviene_hasta'][$i];
-			$profesional['profesionalactualmente_id'] = $arrayProfesionales['profesionalactualmente_id'][$i];
+			$conviviente['nombre_apellido'] = $data['nombre_apellido'][$i];
+			$conviviente['edad'] = $data['edad'][$i];
+			$conviviente['genero_id'] = $data['genero_id'][$i];
+			$conviviente['vinculo_id'] = $data['vinculo_id'][$i]; 
+			$conviviente['user_id'] = $data['user_id'];
 
-			//una vez ya asignados los valores los guardo en la base, en la tabla que corresponde
-			$guardoProfesionalInterviniente = \App\FormA\Profesionalinterviniente::create($profesional);
-			//de aca obtengo los id de los profesionales guardados
-			$profId[] = $guardoProfesionalInterviniente->id;	
+			$guardoCoviviente = \App\FormC\Conviviente::create($conviviente);
+
+			$convivienteId[] = $guardoCoviviente->id;
 		}
-		//guardo en la tabla pivot
-		$guardoRelacion = $aFormulario->profesionalintervinientes()->sync($profId);
+			
+		$cFormulario = \App\FormC\Cformulario::find($id);
 
+		$cFormulario->update($data);
 
-		return redirect('formularios');
+		//de esta manera lo que hago es guardar los convivientes nuevos y mantener los viejos
+		// $guardoRelacion = $cFormulario->convivientes()->sync($convivienteId, false);
+		$guardoRelacion = $cFormulario->convivientes()->sync($convivienteId);
+
+		return redirect('formularios/D');	
 	}
-	
-	public function destroyA($id)
-	{
-		$aFormulario = \App\FormA\Aformulario::find($id);
 
-		$aFormulario->delete();
+	public function destroyC($id)
+	{
+		$Cformulario = \App\FormC\Cformulario::find($id);
+
+		$Cformulario->delete();
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
-    	return redirect('formularios');
-		
+    	return redirect('formularios');	
 	}
 }

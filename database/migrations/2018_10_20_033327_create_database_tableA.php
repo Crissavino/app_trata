@@ -28,6 +28,7 @@ class CreateDatabaseTableA extends Migration
             $table->integer('caratulacionjudicial_id')->unsigned();
             $table->string('caratulacionjudicial_otro')->nullable();
             $table->string('datos_nro_causa');
+            $table->integer('user_id')->unsigned();
             $table->softDeletesTz();
             $table->timestampsTz();
         });
@@ -79,8 +80,9 @@ class CreateDatabaseTableA extends Migration
             $table->bigIncrements('id');
             $table->integer('profesional_id')->unsigned();
             $table->dateTimeTz('datos_profesional_interviene_desde');
-            $table->dateTimeTz('datos_profesional_interviene_hasta');
+            $table->dateTimeTz('datos_profesional_interviene_hasta')->nullable();
             $table->integer('profesionalactualmente_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->softDeletesTz();
             $table->timestampsTz();
         });

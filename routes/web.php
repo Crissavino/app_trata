@@ -13,29 +13,40 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 //rutas de los formularios, lo que debo hacer despues es dejar una variable {tipoDeFormulario} en la que por get la pase un tipo de formulario y cambie
 
-Route::get('index', 'FormsController@index');
+Route::get('index', 'FormsController@index')->middleware('auth');
 
-Route::get('formularios/A', 'FormsController@createA');
+//RUTAS FORMULARIO A
+Route::get('formularios/A', 'FormsController@createA')->middleware('auth');
 Route::post('formularios/A', 'FormsController@insertA');
-Route::get('formularios/edicion/A/{id}', 'FormsController@editA');
+Route::get('formularios/edicion/A/{id}', 'FormsController@editA')->middleware('auth');
 Route::put('formularios/edicion/A/{id}', 'FormsController@updateA');
 Route::delete('formularios/edicion/A/{id}', 'FormsController@destroyA');
 
-Route::get('formularios/B', 'FormsController@createB');
+//RUTAS FORMULARIO B
+//funciona el middleware, de esa manera verifico q haya un usuario registrado
+Route::get('formularios/B', 'FormsController@createB')->middleware('auth', 'noHayCarpeta');
+// Route::get('formularios/B', 'FormsController@createB');
 Route::post('formularios/B', 'FormsController@insertB');
-Route::get('formularios/edicion/B/{id}', 'FormsController@editB');
+Route::get('formularios/edicion/B/{id}', 'FormsController@editB')->middleware('auth');
 Route::put('formularios/edicion/B/{id}', 'FormsController@updateB');
 Route::delete('formularios/edicion/B/{id}', 'FormsController@destroyB');
 
+//RUTAS FORMULARIO C
+//funciona el middleware, de esa manera verifico q haya un usuario registrado
+Route::get('formularios/C', 'FormsController@createC')->middleware('auth', 'noHayCarpeta');
+// Route::get('formularios/C', 'FormsController@createC');
+Route::post('formularios/C', 'FormsController@insertC');
+Route::get('formularios/edicion/C/{id}', 'FormsController@editC')->middleware('auth');
+Route::put('formularios/edicion/C/{id}', 'FormsController@updateC');
+Route::delete('formularios/edicion/C/{id}', 'FormsController@destroyC');
 
+//TODOS LOS FORMULARIOS
+Route::get('formularios', 'FormsController@formularios')->middleware('auth');
 
-Route::get('formularios', 'FormsController@formularios');
-
-
+//RUTAS DE LOGUIN Y REGISTRO QUE CREA LARAVEL
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');

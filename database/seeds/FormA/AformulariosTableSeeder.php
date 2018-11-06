@@ -23,8 +23,21 @@ class AformulariosTableSeeder extends Seeder
         		'estadocaso_id' => '1',
         		'datos_ente_judicial' => '1010',
         		'caratulacionjudicial_id' => '1',
-        		'datos_nro_causa' => '1010'
+        		'datos_nro_causa' => '1010',
+                'updated_at' => '2018-10-31',
+                'user_id' => '1'
         	]
+
+        ]);
+
+        DB::table('users')->insert([
+
+            [
+                'id' => '1',
+                'name' => 'Cristian Savino',
+                'email' => 'savino@cris.com',
+                'password' => '123456'
+            ]
 
         ]);
     }

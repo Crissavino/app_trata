@@ -4,10 +4,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/app.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>Eje A: Datos institucionales</title>
+    <style>
+    table{width:100%;border=0;
+       cellpadding=0;
+        cellspacing=0;}
+table, th, td {
+    border: 1px solid black;
+    ;
+}
+th, td {
+    padding: 5px;
+    text-align: center;
+
+}
+
+</style>
 </head>
 <header>
     <ul class="nav nav-tabs">
@@ -21,12 +37,12 @@
     </ul>
 </header>
 <body>
-    <h1 class="text-center" style="padding: 15px;">Eje A: Datos institucionales</h1>
-
+{{-- con el @auth veo si un usuario esta logueado, y si no esta, lo mando para el login
+@auth  --}}     
     <section class="container">
             <form class="" action="" method="post">
             {{ csrf_field() }}
-
+            
             {{-- INICIO PRIMERA PREGUNTA --}}
                 <div class="form-group {{ $errors->has('datos_nombre_referencia') ? 'has-error' : ''}}">
                     <label for="datos_nombre_referencia">A 1. Nombre de referencia:</label>
@@ -202,12 +218,12 @@
             {{-- FIN OCTAVA PREGUNTA --}}
 
             {{-- INICIO AGREGAR PROFESIONAL PREGUNTA --}}
-                <div id="padre">
-                    <div id="hijo">
+                <div class="padre">
+                    <div class="hijo" style="display: none;">
                         <h3>A 9. Profesional Interviniente:</h3>
                         <div class="form-group {{ $errors->has('profesional_id[]') ? 'has-error' : ''}}">
                             <label for="profesional_id">Profesional que interviene</label>
-                            <select class="form-control" name="profesional_id[]">
+                            <select class="form-control profesional_id">
                                 <option value="">Seleccioná profesional</option>
                                 @foreach ($datosProfesional as $profesional)
                                     <option value="{{ $profesional->getId() }}">{{ $profesional->getNombreCompletoyProfesion() }}</option>
@@ -216,105 +232,71 @@
                             {!! $errors->first('profesional_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                         </div>
 
-                        {{-- LARAVEL ME ESTA TIRANDO UN ERROR PORQUE LOS NAMES DE ACA SON ARREGLOS, Y POR LO VISTO CON EL OLD QUIERO MOSTRAR ARREGLOS Y NO PUEDO, VOY A SACARLO, PERO DEBERIA PREGUNTAR COMO PERSISTIR ESTO --}}
-
-                        <div class="form-group {{ $errors->has('datos_profesional_interviene_desde[]') ? 'has-error' : ''}}">
-                            <label for="datos_profesional_interviene_desde">A 9.3 Interviene desde:</label>
-                            <input type="date" class="form-control" name="datos_profesional_interviene_desde[]" id="datos_profesional_interviene_desde" value="">
-                            {!! $errors->first('datos_profesional_interviene_desde.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-                        </div>
-
                         <div class="form-group {{ $errors->has('profesionalactualmente_id[]') ? 'has-error' : ''}}">
-                            <label for="profesionalactualmente_id">A 9.4 Actualmente Interviene:</label>
-                            <select class="form-control" name="profesionalactualmente_id[]" onChange="selectOnChange1(this)">
+                            <label for="profesionalactualmente_id">A 9.3 Actualmente Interviene:</label>
+                            <select class="form-control actualmente" >
                                 <option value="">Actualmente interviene?</option>
                                 @foreach ($datosIntervieneActualmente as $profesionalInterviene)
                                     <option value="{{ $profesionalInterviene->getId() }}">{{ $profesionalInterviene->getNombre() }}</option>
                                 @endforeach
                             </select>
                             {!! $errors->first('profesionalactualmente_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-                        {{-- <div class="form-group {{ $errors->has('profesionalactualmente_id[]') ? 'has-error' : ''}}">
-                            <label for="profesionalactualmente_id">A 9.4 Actualmente Interviene:</label>
-                            <select class="form-control" name="profesionalactualmente_id[]" id="actualmente" >
-                                <option value="">Actualmente interviene?</option>
-                                @foreach ($datosIntervieneActualmente as $profesionalInterviene)
-                                    <option value="{{ $profesionalInterviene->getId() }}">{{ $profesionalInterviene->getNombre() }}</option>
-                                @endforeach
-                            </select>
-                            {!! $errors->first('profesionalactualmente_id.*', '<p class="help-block" style="color:red";>:message</p>') !!} --}}
+                        </div>
 
-                            <div id="no" style="display: none;">
-                                <div class="form-group {{ $errors->has('datos_profesional_interviene_hasta[]') ? 'has-error' : ''}}">
-                                    <label for="datos_profesional_interviene_hasta">A 9.5 Interviene hasta:</label>
-                                    <input type="date" class="form-control" name="datos_profesional_interviene_hasta[]" id="datos_profesional_interviene_desde" value="">
-                                    {!! $errors->first('datos_profesional_interviene_hasta.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-                                </div>
-                            </div>
+                        <div style="display: none;" class="mostrarInicio form-group {{ $errors->has('datos_profesional_interviene_desde[]') ? 'has-error' : ''}}">
+                            <label for="datos_profesional_interviene_desde">A 9.4 Interviene desde:</label>
+                            <input type="date" class="form-control desde" id="datos_profesional_interviene_desde" value="">
+                            {!! $errors->first('datos_profesional_interviene_desde.*', '<p class="help-block" style="color:red";>:message</p>') !!}
+                        </div>
+
+                        <div style="display: none;" class="mostrarFinal form-group {{ $errors->has('datos_profesional_interviene_hasta[]') ? 'has-error' : ''}}">
+                            <label for="datos_profesional_interviene_hasta">A 9.5 Interviene hasta:</label>
+                            <input type="date" class="form-control hasta" id="datos_profesional_interviene_hasta" value="">
+                            {!! $errors->first('datos_profesional_interviene_hasta.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                         </div>
                     </div>
                 </div>
-                
             {{-- FIN AGREGAR PROFESIONAL PREGUNTA --}}
 
-            <button type="submit" class="btn btn-primary col-xl" name="button">Enviar</button><br><br>
+                <button type="submit" class="btn btn-primary col-xl" name="button">Enviar</button><br><br>
             
-        </form>
+            </form>
 
-        <button id="anadir" class="btn btn-secondary col-sm" type="button"> Agregar profesional </button><br><br>
-        <button id="borra" class="btn btn-secondary col-sm" type="button" onclick="borra()">Borrar profesional</button><br><br>
+        <button id="anadir" class="btn btn-outline-primary col-xl anadirProfesional" type="button"> Agregar profesional </button><br><br>
+        <button id="borra" class="btn btn-outline-danger col-xl" type="button" onclick="borra()">Borrar profesional</button><br><br>
 
     </section>
         
         {{-- SCRIPTS --}}
-            {{-- SCRIPT PARA CONTAR HIJOS --}}
-            <script>
-                var padres = $('div#padre').children('div#hijo').length;
-                console.log(padres);
-            </script>
-
-            {{-- SCRIPT PARA VER FECHA INTERVIENE HASTA --}}
-            <script>
-                //PRUEBA
-                // var no = $('#no').html();
-
-                // $('#actualmente').on('change', function (e){
-                //     $('#hijo').append(no);
-                //     });
-                //FIN PRUEBA  
-                function selectOnChange1(sel) {
-                    if (sel.value=="2"){
-                        divC = document.getElementById("no");
-                        divC.style.display = "";
-                    }else{
-                        divC = document.getElementById("no");
-                        $('#datos_profesional_interviene_hasta').val('');
-                        divC.style.display="none";
-                    }
-                }
-            </script>
+            <script src="/js/formularioA.js" type="text/javascript" charset="utf-8" async defer></script>
+            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
             {{-- SCRIPT PARA AGREGAR Y BORRAR PROFESIONALES --}}
             <script>
-                // $(document).ready(function(){
-                //     var nueva_entrada ='';
-                //     $(document).ready(function() {
-                    var nueva_entrada = $('#padre').html();
-                    // });
+                    var nueva_entrada = $('.padre').html();
 
                     $("#anadir").click(function(){
-                        $("#padre").append(nueva_entrada);
+                        $(".padre").append(nueva_entrada);
                     });
 
-                // });
-
                 function borra() {
-                    $('#hijo').last().remove();
-                   // var padre = document.getElementById("padre");
-                   // var hijo = document.getElementById("hijo")
-                   //  padre.removeChild(hijo);
+                    $('.hijo').last().remove();
+                    swal('Se borro un profesional');
+                }
+            </script>
+
+            {{-- ALERTA PARA LLENAR PRIMERO EL FORMULARIO A --}}
+            <script>
+                var msg = '{{Session::get('alert')}}';
+                var exist = '{{Session::has('alert')}}';
+                if(exist){
+                  swal(msg);
                 }
             </script>
         {{-- FIN SCRIPT --}}
-
+{{-- @else
+    <script>window.location = "/login";</script>
+@endauth --}}
 </body>
 </html>
+

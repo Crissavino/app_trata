@@ -20,8 +20,11 @@
 	</ul>
 </header>
 <body>
-
-	<h1 class="text-center" style="padding: 15px;">Eje B: Caracterización de la victima</h1>
+@auth 
+	<h1 class="text-center" style="padding: 15px;">
+        Eje B: Caracterización de la victima
+        <h5 style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5>
+    </h1>
 
 	<section class="container">	
 
@@ -882,6 +885,8 @@
 		</form>
 
 	</section>
-	
+@else
+    <script>window.location = "/login";</script>
+@endauth
 </body>
 </html>
