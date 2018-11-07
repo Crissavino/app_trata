@@ -9,21 +9,6 @@
     <link rel="stylesheet" href="/css/app.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>Eje A: Datos institucionales</title>
-    <style>
-    table{width:100%;border=0;
-       cellpadding=0;
-        cellspacing=0;}
-table, th, td {
-    border: 1px solid black;
-    ;
-}
-th, td {
-    padding: 5px;
-    text-align: center;
-
-}
-
-</style>
 </head>
 <header>
     <ul class="nav nav-tabs">
@@ -116,7 +101,7 @@ th, td {
 
                 <script>
                     function selectOnChange3(sel) {
-                        if (sel.value=="11"){
+                        if (sel.value=="16"){
                             divC = document.getElementById("derivacion_otro_organismo_cual");
                             divC.style.display = "";
                         }else{

@@ -84,49 +84,49 @@ class ProfesionalsTableSeeder extends Seeder
              'email' => 'paolaveganazar@hotmail.com'],
 
             ['nombre_apellido_equipo' => 'Belén Della Croce - Equipo de rescate',
-             'email' => 'belendellacroce@gmail.com'],
+             'email' => 'belendellacroce@gmail.com']
 
-            ['nombre_apellido_equipo' => 'Diego Campero - Equipo de planificación',
-             'email' => 'lic.diegocampero@gmail.com'],
+            // ['nombre_apellido_equipo' => 'Diego Campero - Equipo de planificación',
+            //  'email' => 'lic.diegocampero@gmail.com'],
 
-            ['nombre_apellido_equipo' => 'Maria Alejandro Cardoso - Equipo de planificación',
-             'email' => 'alejandrocardoso@yahoo.com'],
+            // ['nombre_apellido_equipo' => 'Maria Alejandro Cardoso - Equipo de planificación',
+            //  'email' => 'alejandrocardoso@yahoo.com'],
 
-            ['nombre_apellido_equipo' => 'Luciano Ramis - Equipo de planificación',
-             'email' => 'luchoramis@hotmail.com'],
+            // ['nombre_apellido_equipo' => 'Luciano Ramis - Equipo de planificación',
+            //  'email' => 'luchoramis@hotmail.com'],
 
-            ['nombre_apellido_equipo' => 'Cecilia Svanossi - Equipo de planificación',
-             'email' => 'cecilia_svanossi2@hotmail.com'],
+            // ['nombre_apellido_equipo' => 'Cecilia Svanossi - Equipo de planificación',
+            //  'email' => 'cecilia_svanossi2@hotmail.com'],
 
-            ['nombre_apellido_equipo' => 'Paula Labombarda - Equipo de planificación',
-             'email' => 'polilabomba@hotmail.com'],
+            // ['nombre_apellido_equipo' => 'Paula Labombarda - Equipo de planificación',
+            //  'email' => 'polilabomba@hotmail.com'],
 
-            ['nombre_apellido_equipo' => 'Camila Ledesma - Equipo de planificación',
-             'email' => 'camilaledesma93@outlook.es'],
+            // ['nombre_apellido_equipo' => 'Camila Ledesma - Equipo de planificación',
+            //  'email' => 'camilaledesma93@outlook.es'],
 
-            ['nombre_apellido_equipo' => 'Luciana Salgueira - Equipo de planificación',
-             'email' => 'lusalgueira@gmail.com'],
+            // ['nombre_apellido_equipo' => 'Luciana Salgueira - Equipo de planificación',
+            //  'email' => 'lusalgueira@gmail.com'],
 
-            ['nombre_apellido_equipo' => 'María Garro - Administrativo',
-             'email' => 'mariag.garro_jcmc@hotmail.com'],
+            // ['nombre_apellido_equipo' => 'María Garro - Administrativo',
+            //  'email' => 'mariag.garro_jcmc@hotmail.com'],
 
-            ['nombre_apellido_equipo' => 'Soledad Iglesias - Administrativo',
-             'email' => 'soleiglesias87@gmail.com'],
+            // ['nombre_apellido_equipo' => 'Soledad Iglesias - Administrativo',
+            //  'email' => 'soleiglesias87@gmail.com'],
 
-            ['nombre_apellido_equipo' => 'Denisse Noguera - Administrativo',
-             'email' => 'denisse-noguera@hotmail.com'],
+            // ['nombre_apellido_equipo' => 'Denisse Noguera - Administrativo',
+            //  'email' => 'denisse-noguera@hotmail.com'],
 
-            ['nombre_apellido_equipo' => 'Florencia Sánchez Turi - Administrativo',
-             'email' => 'florenciasanchez_turi@hotmail.com'],
+            // ['nombre_apellido_equipo' => 'Florencia Sánchez Turi - Administrativo',
+            //  'email' => 'florenciasanchez_turi@hotmail.com'],
 
-            ['nombre_apellido_equipo' => 'Rosario Sánchez - Subsecretaría',
-             'email' => 'rosariosanchez@live.com.ar'],
+            // ['nombre_apellido_equipo' => 'Rosario Sánchez - Subsecretaría',
+            //  'email' => 'rosariosanchez@live.com.ar'],
 
-            ['nombre_apellido_equipo' => 'Lorena Signore - Subsecretaría',
-             'email' => 'lorenasignore@hotmail.com'],
+            // ['nombre_apellido_equipo' => 'Lorena Signore - Subsecretaría',
+            //  'email' => 'lorenasignore@hotmail.com'],
 
-            ['nombre_apellido_equipo' => 'Lucía Moreno - Subsecretaría',
-             'email' => 'lucia.moreno@outlook.com.ar']
+            // ['nombre_apellido_equipo' => 'Lucía Moreno - Subsecretaría',
+            //  'email' => 'lucia.moreno@outlook.com.ar']
 
 
         ]);
