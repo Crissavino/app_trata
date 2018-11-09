@@ -13,13 +13,21 @@ window.onload =function (){
  		if (this.value == '2' || this.value == '3') {
 			var convivientes = document.querySelector('.padre');
 			convivientes.style.display = "none";
+			var btnAnadir = document.querySelector('.clickAnadir');
+			var btnBorrar = document.querySelector('.clickBorrar');
  		}else if(this.value == '1'){
  			var convivientes = document.querySelector('.padre');
 			convivientes.style.display = "";
+			var btnAnadir = document.querySelector('.clickAnadir');
+			var btnBorrar = document.querySelector('.clickBorrar');
+			btnAnadir.removeAttribute('disabled', 'disabled');
+			btnBorrar.removeAttribute('disabled', 'disabled');
 			swal("Agregá al menos un conviviente");
  		}else{
  			var convivientes = document.querySelector('.padre');
  			convivientes.style.display = "";
+ 			var btnAnadir = document.querySelector('.clickAnadir');
+			var btnBorrar = document.querySelector('.clickBorrar');
  		}
  	};
 //hasta aca
@@ -28,7 +36,7 @@ window.onload =function (){
 
 	var agregar = document.querySelector('.clickAnadir');
 
- 	agregar.addEventListener('click', funcionalidadCheck);
+ 	var agrego = agregar.addEventListener('click', funcionalidadCheck);
 
  	var clicks = 0;
 
@@ -153,6 +161,25 @@ window.onload =function (){
 		otroVinculoN.setAttribute('name', 'vinculo_otro[]')
 	};
 
+	var formulario = document.querySelector('.ejeC');
+
+	var elementosForm = formulario.elements;
+
+	var arrayElementos = Array.from(elementosForm);
+
+	arrayElementos.pop()
+
+	console.log(arrayElementos[2]);
+
+	// arrayElementos.forEach(function(element, index){
+	// 	addEventListener('submit', function(event){
+	// 		event.preventDefault();
+	// 		if (element.name == 'nombre_apellido') {
+	// 			console.log(element.value);
+	// 			alert('hola');
+	// 		}
+	// 	})
+	// })
 
 //---------FIN FORMULARIO C--------------
 

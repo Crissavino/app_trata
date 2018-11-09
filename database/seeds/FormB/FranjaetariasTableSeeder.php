@@ -26,7 +26,7 @@ class FranjaetariasTableSeeder extends Seeder
 
             ['nombre' => '65 años o más'],
 
-            ['nombre' => 'Se deconoce']
+            ['nombre' => 'Se desconoce']
 
         ]);  
     }

@@ -28,6 +28,8 @@ class TipodocumentosTableSeeder extends Seeder
 
             ['nombre' => 'Se Desconoce'],
 
+            ['nombre' => 'No posee'],
+
             ['nombre' => 'Otro']
 
         ]);

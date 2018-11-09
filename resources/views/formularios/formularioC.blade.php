@@ -27,12 +27,12 @@
 		<h5 style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5>
 	</h1>
         <section class="container">
-        <form name="ejeC" action="" method="post">
+        <form class="ejeC" action="" method="post">
         	{{ csrf_field() }}
             <div class="form-group">
             	<label for="otraspersonas_id">C 1. ¿Se encontraba con otras personas en el lugar de explotación? </label>
 	            <select class="form-control noPersonas" name="otraspersonas_id" {{ $errors->has('otraspersonas_id') ? 'has-error' : ''}}>
-	            	<option value="">Había otras personas?</option>
+	            	<option value="">Otras personas en el lugar de explotación</option>
 	                @foreach ($datosOtraspersonas as $otrasPersonas)
 	                	<option value="{{ $otrasPersonas->getId() }}">{{ $otrasPersonas->getNombre() }}</option>
 	                @endforeach
@@ -91,12 +91,12 @@
                </div>
             </div>
 
-            <button type="submit" class="btn btn-primary col-xl" name="button">Enviar</button><br><br>
+            <button type="submit" class="btn btn-primary col-xl enviar" name="button">Enviar</button><br><br>
 
         </form>
 
-        <button type="button" id="anadir" class="clickAnadir btn btn-outline-primary col-xl"> Agregar conviviente </button><br><br>
-        <button id="borra" type="button" class="btn btn-outline-danger col-xl" onclick="borra()">Borrar conviviente</button>
+        <button type="button" id="anadir" disabled="disabled" class="clickAnadir btn btn-outline-primary col-xl"> Agregar conviviente </button><br><br>
+        <button id="borra" type="button" disabled="disabled" class="clickBorrar btn btn-outline-danger col-xl" onclick="borra()">Borrar conviviente</button>
         </section>
 
         <!-- este script lo que hace es agregar otro formulario de profesionales en el caso que intervenga mas de un profesional en el caso -->

@@ -127,13 +127,20 @@
                 <script>
                     function selectOnChange16(sel)
                     {
-                        if (sel.value == "3" || sel.value == "6"){
+                        if (sel.value == "3"){
                             divA = document.getElementById("tipodoc");
                             divB = document.getElementById("nrodoc");
                             divA.style.display="none";
                             divB.style.display="none";
                             $('#tipodocumento_id').val('7');
-                            $('#victima_documento').val('No posee / Se desconoce');
+                            $('#victima_documento').val('No posee');
+                        }else if(sel.value == "6"){
+                            divA = document.getElementById("tipodoc");
+                            divB = document.getElementById("nrodoc");
+                            divA.style.display="none";
+                            divB.style.display="none";
+                            $('#tipodocumento_id').val('8');
+                            $('#victima_documento').val('Se desconoce');
                         }else{
                             $('#tipodocumento_id').val('');
                             $('#victima_documento').val('');
@@ -185,7 +192,7 @@
                             divC.style.display="none";
                         }
 
-						if (sel.value=="8"){
+						if (sel.value=="9"){
 							divC = document.getElementById("cual_b2");
 							divC.style.display = "";
 						}else{

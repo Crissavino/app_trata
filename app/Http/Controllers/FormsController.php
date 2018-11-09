@@ -394,6 +394,7 @@ class FormsController extends Controller
 		]);
 
 		$data = request()->all();
+
 		$data['user_id'] = $userId;
 
 		$guardoBformulario = \App\FormB\Bformulario::create($data);
@@ -427,7 +428,7 @@ class FormsController extends Controller
 
 
  		// dsp deberia redirigir al formC [esta es la URL no la view]
-	    return redirect('formularios/A');
+	    return redirect('formularios/B');
 	}
 
 	public function editB($id)
@@ -545,52 +546,57 @@ class FormsController extends Controller
 			request()->validate([
 			'otraspersonas_id' => 'required',
 			'nombre_apellido.*' => 'nullable',
-			'nombre_apellido.0' => 'required',
+			'nombre_apellido.0' => 'required_if:otraspersonas_id,==,1',
 			'edad.*' => 'nullable',
-			'edad.0' => 'required',
+			'edad.0' => 'required_if:otraspersonas_id,==,1',
 			'genero_id.*' => 'nullable',
-			'genero_id.0' => 'required',
+			'genero_id.0' => 'required_if:otraspersonas_id,==,1',
 			'vinculo_id.*' => 'nullable',
-			'vinculo_id.0' => 'required',
+			'vinculo_id.0' => 'required_if:otraspersonas_id,==,1',
 		],
 		[
 			'otraspersonas_id.required' => 'Este campo es obligatorio',
-			'nombre_apellido.*.required' => 'Este campo es obligatorio',
-			'edad.*.required' => 'Este campo es obligatorio',
-			'genero_id.*.required' => 'Este campo es obligatorio',
-			'vinculo_id.*.required' => 'Este campo es obligatorio'
+			'nombre_apellido.*.required_if' => 'Este campo es obligatorio',
+			'edad.*.required_if' => 'Este campo es obligatorio',
+			'genero_id.*.required_if' => 'Este campo es obligatorio',
+			'vinculo_id.*.required_if' => 'Este campo es obligatorio'
 		]);
 		// ver que hacer si la cantidad que se recibe es 0, osea lo mando de una
 		$data = request()->all();
+		// dd($data);
 
 		$data['user_id'] = $userId;
+		// dd(isset($data['nombre_apellido']));
 
 		$guardoCformulario = \App\FormC\Cformulario::create($data);
 
 		//id del formulario recien creado
 		$ultimoId = $guardoCformulario->id;
 
-		$cant = (count(request()->input('nombre_apellido')));
+		if (isset($data['nombre_apellido'])) {
+			$cant = (count(request()->input('nombre_apellido')));
 
-		for ($i=0; $i < $cant; $i++) {
+			for ($i=0; $i < $cant; $i++) {
 
-			$conviviente['nombre_apellido'] = $data['nombre_apellido'][$i];
-			$conviviente['edad'] = $data['edad'][$i];
-			$conviviente['genero_id'] = $data['genero_id'][$i];
-			$conviviente['vinculo_id'] = $data['vinculo_id'][$i]; 
-			$conviviente['user_id'] = $data['user_id'];
+				$conviviente['nombre_apellido'] = $data['nombre_apellido'][$i];
+				$conviviente['edad'] = $data['edad'][$i];
+				$conviviente['genero_id'] = $data['genero_id'][$i];
+				$conviviente['vinculo_id'] = $data['vinculo_id'][$i]; 
+				$conviviente['user_id'] = $data['user_id'];
 
-			$guardoCoviviente = \App\FormC\Conviviente::create($conviviente);
+				$guardoCoviviente = \App\FormC\Conviviente::create($conviviente);
 
-			$convivienteId[] = $guardoCoviviente->id;
-		}
+				$convivienteId[] = $guardoCoviviente->id;
+			}
 
-		$cFormulario = \App\FormC\Cformulario::find($ultimoId);
+			$cFormulario = \App\FormC\Cformulario::find($ultimoId);
 
-		$guardoRelacion = $cFormulario->convivientes()->sync($convivienteId);
+			$guardoRelacion = $cFormulario->convivientes()->sync($convivienteId);
 
-		return redirect('formularios/D');
-		
+			return redirect('formularios/D');
+		}else{
+			return redirect('formularios/D');
+		}		
 	}
 
 	public function editC($id)
@@ -685,4 +691,26 @@ class FormsController extends Controller
 
     	return redirect('formularios');	
 	}
+
+	public function createC()
+	{
+
+	}
+
+	public function insertC(){
+
+	}
+
+	public function editC($id){
+
+	}
+
+	public function updateC($id){
+
+	}
+
+	public function destroyC($id){
+
+	}
+
 }

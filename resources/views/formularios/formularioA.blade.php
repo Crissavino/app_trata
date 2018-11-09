@@ -217,6 +217,12 @@
                             {!! $errors->first('profesional_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                         </div>
 
+                        <div class="mostrarInicio form-group {{ $errors->has('datos_profesional_interviene_desde[]') ? 'has-error' : ''}}">
+                            <label for="datos_profesional_interviene_desde">A 9.4 Interviene desde:</label>
+                            <input type="date" class="form-control desde" id="datos_profesional_interviene_desde" value="">
+                            {!! $errors->first('datos_profesional_interviene_desde.*', '<p class="help-block" style="color:red";>:message</p>') !!}
+                        </div>
+
                         <div class="form-group {{ $errors->has('profesionalactualmente_id[]') ? 'has-error' : ''}}">
                             <label for="profesionalactualmente_id">A 9.3 Actualmente Interviene:</label>
                             <select class="form-control actualmente" >
@@ -226,12 +232,6 @@
                                 @endforeach
                             </select>
                             {!! $errors->first('profesionalactualmente_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-                        </div>
-
-                        <div style="display: none;" class="mostrarInicio form-group {{ $errors->has('datos_profesional_interviene_desde[]') ? 'has-error' : ''}}">
-                            <label for="datos_profesional_interviene_desde">A 9.4 Interviene desde:</label>
-                            <input type="date" class="form-control desde" id="datos_profesional_interviene_desde" value="">
-                            {!! $errors->first('datos_profesional_interviene_desde.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                         </div>
 
                         <div style="display: none;" class="mostrarFinal form-group {{ $errors->has('datos_profesional_interviene_hasta[]') ? 'has-error' : ''}}">

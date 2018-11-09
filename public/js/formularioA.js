@@ -101,13 +101,10 @@ window.onload =function (){
 
 		actualmente.addEventListener('change', function(){
 			if (actualmenteN.value == "1") {
-				inicioN.style.display = '';
 				finalN.style.display = 'none';
 			}else if(actualmenteN.value == "2"){
-				inicioN.style.display = '';
 				finalN.style.display = '';
 			}else{
-				inicioN.style.display = 'none';
 				finalN.style.display = 'none';
 			}
 		})
