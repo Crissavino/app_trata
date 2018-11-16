@@ -44,6 +44,13 @@ Route::get('formularios/edicion/C/{id}', 'FormsController@editC')->middleware('a
 Route::put('formularios/edicion/C/{id}', 'FormsController@updateC');
 Route::delete('formularios/edicion/C/{id}', 'FormsController@destroyC');
 
+//RUTAS FORMULARIO D
+Route::get('formularios/D', 'FormsController@createD')->middleware('auth', 'noHayCarpeta');
+Route::post('formularios/D', 'FormsController@insertD');
+Route::get('formularios/edicion/D/{id}', 'FormsController@editD')->middleware('auth');
+Route::put('formularios/edicion/D/{id}', 'FormsController@updateD');
+// Route::delete('formularios/edicion/D/{id}', 'FormsController@destroyD');
+
 //TODOS LOS FORMULARIOS
 Route::get('formularios', 'FormsController@formularios')->middleware('auth');
 

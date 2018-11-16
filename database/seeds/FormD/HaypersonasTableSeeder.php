@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class /FormD/HaypersonasTableSeeder extends Seeder
+class HaypersonasTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +12,13 @@ class /FormD/HaypersonasTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('haypersonas')->insert([
+
+            ['nombre' => 'Si'],
+
+            ['nombre' => 'No'],
+
+            ['nombre' => 'Se desconoce']
+        ]);
     }
 }

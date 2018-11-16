@@ -48,5 +48,40 @@ class DatabaseSeeder extends Seeder
         //SEEDERS FORMULARIO C
         $this->call(OtraspersonasTableSeeder::class);
         $this->call(VinculosTableSeeder::class);
+
+        //SEEDERS FORMULARIO D
+        $this->call(CalificaciongeneralsTableSeeder::class);
+        $this->call(CalificacionespecificasTableSeeder::class);
+        $this->call(FinalidadsTableSeeder::class);
+        $this->call(ActividadsTableSeeder::class);
+        $this->call(PrivadosTableSeeder::class);
+        $this->call(TextilsTableSeeder::class);
+        $this->call(RuralsTableSeeder::class);
+        $this->call(ContactoexplotacionsTableSeeder::class);
+        $this->call(ViajosTableSeeder::class);
+        $this->call(AcompanadosTableSeeder::class);
+        $this->call(AcompanadoredsTableSeeder::class);
+        $this->call(ResidelugarsTableSeeder::class);
+        $this->call(EnganosTableSeeder::class);
+        $this->call(HaypersonasTableSeeder::class);
+        $this->call(TipovictimasTableSeeder::class);
+        $this->call(FrecuenciapagosTableSeeder::class);
+        $this->call(ModalidadpagosTableSeeder::class);
+        $this->call(EspeciaconceptosTableSeeder::class);
+        $this->call(DeudasTableSeeder::class);
+        $this->call(MotivodeudasTableSeeder::class);
+        $this->call(LugardeudasTableSeeder::class);
+        $this->call(PermanenciasTableSeeder::class);
+        $this->call(TestigosTableSeeder::class);
+        $this->call(HaycorrientesTableSeeder::class);
+        $this->call(HaygasTableSeeder::class);
+        $this->call(HaymedidasTableSeeder::class);
+        $this->call(HayhacinamientosTableSeeder::class);
+        $this->call(HayaguasTableSeeder::class);
+        $this->call(HaybanosTableSeeder::class);
+        $this->call(CuantosbanosTableSeeder::class);
+        $this->call(MaterialsTableSeeder::class);
+        $this->call(ElementotrabajosTableSeeder::class);
+        $this->call(ElementoseguridadsTableSeeder::class);
     }
 }

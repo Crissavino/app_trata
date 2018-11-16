@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class /FormD/RuralsTableSeeder extends Seeder
+class RuralsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +12,19 @@ class /FormD/RuralsTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('rurals')->insert([
+
+            ['nombre' => 'Feria'],
+
+            ['nombre' => 'Verdulería'],
+
+            ['nombre' => 'Supermercado'],
+
+            ['nombre' => 'Particular'],
+
+            ['nombre' => 'Se desconoce'],
+
+            ['nombre' => 'Otro']
+        ]);
     }
 }

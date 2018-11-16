@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class /FormD/TipovictimasTableSeeder extends Seeder
+class TipovictimasTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +12,15 @@ class /FormD/TipovictimasTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('tipovictimas')->insert([
+
+            ['nombre' => 'Directa'],
+
+            ['nombre' => 'Indirecta'],
+
+            ['nombre' => 'No es víctima'],
+
+            ['nombre' => 'Se desconoce']
+        ]);
     }
 }

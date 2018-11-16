@@ -692,25 +692,326 @@ class FormsController extends Controller
     	return redirect('formularios');	
 	}
 
-	public function createC()
+	public function createD()
 	{
+		$userId = auth()->user()->id;
+		$numeroCarpeta = DB::table('aformularios')
+											->WHERE('user_id', '=', $userId)
+											->ORDERBY('updated_at')
+											->first()
+											->datos_numero_carpeta;
+		$datosAcompanado = \App\FormD\Acompanado::all();
+		$datosAcompanadoRed = \App\FormD\Acompanadored::all();
+		$datosActividad = \App\FormD\Actividad::all();
+		$datosCalificacionEspecifica = \App\FormD\Calificacionespecifica::all();
+		$datosCalificacionGeneral = \App\FormD\Calificaciongeneral::all();
+		$datosContactoExplotacion = \App\FormD\Contactoexplotacion::all();
+		$datosCuantosBano = \App\FormD\Cuantosbano::all();
+		$datosDeuda = \App\FormD\Deuda::all();
+		$datosElementoSeguridad = \App\FormD\Elementoseguridad::all();
+		$datosElementoTrabajo = \App\FormD\Elementotrabajo::all();
+		$datosEngano = \App\FormD\Engano::all();
+		$datosEspeciaConcepto = \App\FormD\Especiaconcepto::all();
+		$datosFinalidad = \App\FormD\Finalidad::all();
+		$datosFrecuenciaPago = \App\FormD\Frecuenciapago::all();
+		$datosHayAgua = \App\FormD\Hayagua::all();
+		$datosHayBano = \App\FormD\Haybano::all();
+		$datosHayCorriente = \App\FormD\Haycorriente::all();
+		$datosHayGas = \App\FormD\Haygas::all();
+		$datosHayHacinamiento = \App\FormD\Hayhacinamiento::all();
+		$datosHayMedida = \App\FormD\Haymedida::all();
+		$datosHayPersona = \App\FormD\Haypersona::all();
+		$datosLugarDeuda = \App\FormD\Lugardeuda::all();
+		$datosMaterial = \App\FormD\Material::all();
+		$datosModalidadPago = \App\FormD\Modalidadpago::all();
+		$datosMotivoDeuda = \App\FormD\Motivodeuda::all();
+		$datosPermanencia = \App\FormD\Permanencia::all();
+		$datosPrivado = \App\FormD\Privado::all();
+		$datosResideLugar = \App\FormD\Residelugar::all();
+		$datosRural = \App\FormD\Rural::all();
+		$datosTestigo = \App\FormD\Testigo::all();
+		$datosTextil = \App\FormD\Textil::all();
+		$datosTipoVictima = \App\FormD\Tipovictima::all();
+		$datosViajo = \App\FormD\Viajo::all();
 
+		return view('formularios.formularioD', ['numeroCarpeta' => $numeroCarpeta,
+												'datosAcompanado' => $datosAcompanado,
+												'datosAcompanadoRed' => $datosAcompanadoRed,
+												'datosActividad' => $datosActividad,
+												'datosCalificacionEspecifica' => $datosCalificacionEspecifica,
+												'datosCalificacionGeneral' => $datosCalificacionGeneral,
+												'datosContactoExplotacion' => $datosContactoExplotacion,
+												'datosCuantosBano' => $datosCuantosBano,
+												'datosDeuda' => $datosDeuda,
+												'datosElementoSeguridad' => $datosElementoSeguridad,
+												'datosElementoTrabajo' => $datosElementoTrabajo,
+												'datosEngano' => $datosEngano,
+												'datosEspeciaConcepto' => $datosEspeciaConcepto,
+												'datosFinalidad' => $datosFinalidad,
+												'datosFrecuenciaPago' => $datosFrecuenciaPago,
+												'datosHayAgua' => $datosHayAgua,
+												'datosHayBano' => $datosHayBano,
+												'datosHayCorriente' => $datosHayCorriente,
+												'datosHayGas' => $datosHayGas,
+												'datosHayHacinamiento' => $datosHayHacinamiento,
+												'datosHayMedida' => $datosHayMedida,
+												'datosHayPersona' => $datosHayPersona,
+												'datosLugarDeuda' => $datosLugarDeuda,
+												'datosMaterial' => $datosMaterial,
+												'datosModalidadPago' => $datosModalidadPago,
+												'datosMotivoDeuda' => $datosMotivoDeuda,
+												'datosPermanencia' => $datosPermanencia,
+												'datosPrivado' => $datosPrivado,
+												'datosResideLugar' => $datosResideLugar,
+												'datosRural' => $datosRural,
+												'datosTestigo' => $datosTestigo,
+												'datosTextil' => $datosTextil,
+												'datosTipoVictima' => $datosTipoVictima,
+												'datosViajo' => $datosViajo,
+											]);
 	}
 
-	public function insertC(){
+	public function insertD(){
 
+		$userId = auth()->user()->id;
+
+		request()->validate(
+			[
+				'calificaciongeneral_id' => 'required',
+				'calificaciongeneral_otra' => 'required_if:calificaciongeneral_id,==,8',
+				'calificacionespecifica_id' => 'required',
+				'finalidad_id' => 'required',
+				'finalidad_otra' => 'required_if:finalidad_id,==,5',
+				'actividad_id' => 'required',
+				'actividad_otra' => 'required_if:actividad_id,==,8',
+				'privado_id' => 'required_if:actividad_id,==,3',
+				'privado_otra' => 'required_if:privado_id,==,8',
+				'rural_id' => 'required_if:actividad_id,==,1',
+				'domicilioVenta' => 'required_if:actividad_id,==,1',
+				'rural_otra' => 'required_if:rural_id,==,6',
+				'textil_id' => 'required_if:actividad_id,==,6',
+				'marcaTextil' => 'required_if:actividad_id,==,6',
+				'textil_otra' => 'required_if:textil_id,==,6',
+				'contactoexplotacion_id' => 'required',
+				'contactoexplotacion_otro' => 'required_if:contactoexplotacion_id,==,6',
+				'viajo_id' => 'required',
+				'acompanado_id' => 'required_if:viajo_id,==,2',
+				'acompanadored_id' => 'required_if:viajo_id,==,2',
+				'domicilio' => 'required',
+				'residelugar_id' => 'required',
+				'engano_id' => 'required',
+				'haypersona_id' => 'required',
+				'tipovictima_id' => 'required',
+				'tarea' => 'required',
+				'horasTarea' => 'required',
+				'frecuenciapago_id' => 'required',
+				'modalidadpagos_id' => 'required',
+				'especiaconcepto_id' => 'required_if:modalidadpagos_id,==,4',
+				'especiaconceptos_otro' => 'required_if:especiaconcepto_id,==,5',
+				'montoPago' => 'required',
+				'deuda_id' => 'required',
+				'motivodeuda_id' => 'required_if:deuda_id,==,1',
+				'lugardeuda_id' => 'required_if:deuda_id,==,1',
+				'motivodeuda_otro' => 'required_if:motivodeuda_id,==,5',
+				'permanencia_id' => 'required',
+				'testigo_id' => 'required',
+				'coordinadorPTN' => 'required_if:testigo_id,==,1',
+				'coordinadorPTN_otro' => 'required_if:testigo_id,==,1',
+				'haycorriente_id' => 'required',
+				'haygas_id' => 'required',
+				'haymedida_id' => 'required',
+				'haymedidas_otro' => 'required_if:haymedida_id,==,6',
+				'hayhacinamiento_id' => 'required',
+				'hayagua_id' => 'required',
+				'haybano_id' => 'required',
+				'cuantosbano_id' => 'required',
+				'material_id' => 'required',
+				'material_otro' => 'required_if:material_id,==,7',
+				'elementotrabajo_id' => 'required',
+				'elementoseguridad_id' => 'required',
+			],
+			[
+				'calificaciongeneral_id.required' => 'Este campo es obligatorio',
+				'calificaciongeneral_otra.required_if' => 'Este campo es obligatorio',
+				'calificacionespecifica_id.required' => 'Este campo es obligatorio',
+				'finalidad_id.required' => 'Este campo es obligatorio',
+				'finalidad_otra.required_if' => 'Este campo es obligatorio',
+				'actividad_id.required' => 'Este campo es obligatorio',
+				'actividad_otra.required_if' => 'Este campo es obligatorio',
+				'privado_id.required_if' => 'Este campo es obligatorio',
+				'privado_otra.required_if' => 'Este campo es obligatorio',
+				'rural_id.required_if' => 'Este campo es obligatorio',
+				'domicilioVenta.required_if' => 'Este campo es obligatorio',
+				'rural_otra.required_if' => 'Este campo es obligatorio',
+				'textil_id.required_if' => 'Este campo es obligatorio',
+				'marcaTextil.required_if' => 'Este campo es obligatorio',
+				'textil_otra.required_if' => 'Este campo es obligatorio',
+				'contactoexplotacion_id.required' => 'Este campo es obligatorio',
+				'contactoexplotacion_otro.required_if' => 'Este campo es obligatorio',
+				'viajo_id.required' => 'Este campo es obligatorio',
+				'acompanado_id.required_if' => 'Este campo es obligatorio',
+				'acompanadored_id.required_if' => 'Este campo es obligatorio',
+				'domicilio.required' => 'Este campo es obligatorio',
+				'residelugar_id.required' => 'Este campo es obligatorio',
+				'engano_id.required' => 'Este campo es obligatorio',
+				'haypersona_id.required' => 'Este campo es obligatorio',
+				'tipovictima_id.required' => 'Este campo es obligatorio',
+				'tarea.required' => 'Este campo es obligatorio',
+				'horasTarea.required' => 'Este campo es obligatorio',
+				'frecuenciapago_id.required' => 'Este campo es obligatorio',
+				'modalidadpagos_id.required' => 'Este campo es obligatorio',
+				'especiaconcepto_id.required_if' => 'Este campo es obligatorio',
+				'especiaconceptos_otro.required_if' => 'Este campo es obligatorio',
+				'montoPago.required' => 'Este campo es obligatorio',
+				'deuda_id.required' => 'Este campo es obligatorio',
+				'motivodeuda_id.required_if' => 'Este campo es obligatorio',
+				'lugardeuda_id.required_if' => 'Este campo es obligatorio',
+				'motivodeuda_otro.required_if' => 'Este campo es obligatorio',
+				'permanencia_id.required' => 'Este campo es obligatorio',
+				'testigo_id.required' => 'Este campo es obligatorio',
+				'coordinadorPTN.required_if' => 'Este campo es obligatorio',
+				'coordinadorPTN_otro.required_if' => 'Este campo es obligatorio',
+				'haycorriente_id.required' => 'Este campo es obligatorio',
+				'haygas_id.required' => 'Este campo es obligatorio',
+				'haymedida_id.required' => 'Este campo es obligatorio',
+				'haymedidas_otro.required_if' => 'Este campo es obligatorio',
+				'hayhacinamiento_id.required' => 'Este campo es obligatorio',
+				'hayagua_id.required' => 'Este campo es obligatorio',
+				'haybano_id.required' => 'Este campo es obligatorio',
+				'cuantosbano_id.required' => 'Este campo es obligatorio',
+				'material_id.required' => 'Este campo es obligatorio',
+				'material_otro.required_if' => 'Este campo es obligatorio',
+				'elementotrabajo_id.required' => 'Este campo es obligatorio',
+				'elementoseguridad_id.required' => 'Este campo es obligatorio',
+			]);
+
+		$data = request()->all();
+
+		$data['user_id'] = $userId;
+
+		$guardoDformulario = \App\FormD\Dformulario::create($data);
+
+		$ultimoId = $guardoDformulario->id;
+
+		$dFormulario = \App\FormD\Dformulario::find($ultimoId);
+
+		if (isset($data['privado_id'])) {
+			$dFormulario->privados()->sync($data['privado_id']);
+		}
+
+		if (isset($data['textil_id'])) {
+			$dFormulario->textils()->sync($data['textil_id']);
+		}
+
+		if (isset($data['rural_id'])) {
+			$dFormulario->rurals()->sync($data['rural_id']);
+		}
+
+		if (isset($data['especiaconcepto_id'])) {
+			$dFormulario->especiaconceptos()->sync($data['especiaconcepto_id']);
+		}
+
+		if (isset($data['motivodeuda_id'])) {
+			$dFormulario->motivodeudas()->sync($data['motivodeuda_id']);
+		}
+
+		if (isset($data['haymedida_id'])) {
+			$dFormulario->haymedidas()->sync($data['haymedida_id']);
+		}
+
+		return redirect('formularios/D');
 	}
 
-	public function editC($id){
+	public function editD($id){
+		$userId = auth()->user()->id;
+		$numeroCarpeta = DB::table('aformularios')
+											->WHERE('user_id', '=', $userId)
+											->ORDERBY('updated_at')
+											->first()
+											->datos_numero_carpeta;
+		$datosAcompanado = \App\FormD\Acompanado::all();
+		$datosAcompanadoRed = \App\FormD\Acompanadored::all();
+		$datosActividad = \App\FormD\Actividad::all();
+		$datosCalificacionEspecifica = \App\FormD\Calificacionespecifica::all();
+		$datosCalificacionGeneral = \App\FormD\Calificaciongeneral::all();
+		$datosContactoExplotacion = \App\FormD\Contactoexplotacion::all();
+		$datosCuantosBano = \App\FormD\Cuantosbano::all();
+		$datosDeuda = \App\FormD\Deuda::all();
+		$datosElementoSeguridad = \App\FormD\Elementoseguridad::all();
+		$datosElementoTrabajo = \App\FormD\Elementotrabajo::all();
+		$datosEngano = \App\FormD\Engano::all();
+		$datosEspeciaConcepto = \App\FormD\Especiaconcepto::all();
+		$datosFinalidad = \App\FormD\Finalidad::all();
+		$datosFrecuenciaPago = \App\FormD\Frecuenciapago::all();
+		$datosHayAgua = \App\FormD\Hayagua::all();
+		$datosHayBano = \App\FormD\Haybano::all();
+		$datosHayCorriente = \App\FormD\Haycorriente::all();
+		$datosHayGas = \App\FormD\Haygas::all();
+		$datosHayHacinamiento = \App\FormD\Hayhacinamiento::all();
+		$datosHayMedida = \App\FormD\Haymedida::all();
+		$datosHayPersona = \App\FormD\Haypersona::all();
+		$datosLugarDeuda = \App\FormD\Lugardeuda::all();
+		$datosMaterial = \App\FormD\Material::all();
+		$datosModalidadPago = \App\FormD\Modalidadpago::all();
+		$datosMotivoDeuda = \App\FormD\Motivodeuda::all();
+		$datosPermanencia = \App\FormD\Permanencia::all();
+		$datosPrivado = \App\FormD\Privado::all();
+		$datosResideLugar = \App\FormD\Residelugar::all();
+		$datosRural = \App\FormD\Rural::all();
+		$datosTestigo = \App\FormD\Testigo::all();
+		$datosTextil = \App\FormD\Textil::all();
+		$datosTipoVictima = \App\FormD\Tipovictima::all();
+		$datosViajo = \App\FormD\Viajo::all();
+		$dFormulario = \App\FormD\Dformulario::find($id);
+		// $dFormulario = DB::table('dformularios')
+		// 								->WHERE('user_id', '=', $userId)
+		// 								->WHERE('id', '=', $id)
+		// 								// ->ORDERBY('updated_at')
+		// 								->get();
 
+		return view('formularios.formularioD', ['numeroCarpeta' => $numeroCarpeta,
+												'datosAcompanado' => $datosAcompanado,
+												'datosAcompanadoRed' => $datosAcompanadoRed,
+												'datosActividad' => $datosActividad,
+												'datosCalificacionEspecifica' => $datosCalificacionEspecifica,
+												'datosCalificacionGeneral' => $datosCalificacionGeneral,
+												'datosContactoExplotacion' => $datosContactoExplotacion,
+												'datosCuantosBano' => $datosCuantosBano,
+												'datosDeuda' => $datosDeuda,
+												'datosElementoSeguridad' => $datosElementoSeguridad,
+												'datosElementoTrabajo' => $datosElementoTrabajo,
+												'datosEngano' => $datosEngano,
+												'datosEspeciaConcepto' => $datosEspeciaConcepto,
+												'datosFinalidad' => $datosFinalidad,
+												'datosFrecuenciaPago' => $datosFrecuenciaPago,
+												'datosHayAgua' => $datosHayAgua,
+												'datosHayBano' => $datosHayBano,
+												'datosHayCorriente' => $datosHayCorriente,
+												'datosHayGas' => $datosHayGas,
+												'datosHayHacinamiento' => $datosHayHacinamiento,
+												'datosHayMedida' => $datosHayMedida,
+												'datosHayPersona' => $datosHayPersona,
+												'datosLugarDeuda' => $datosLugarDeuda,
+												'datosMaterial' => $datosMaterial,
+												'datosModalidadPago' => $datosModalidadPago,
+												'datosMotivoDeuda' => $datosMotivoDeuda,
+												'datosPermanencia' => $datosPermanencia,
+												'datosPrivado' => $datosPrivado,
+												'datosResideLugar' => $datosResideLugar,
+												'datosRural' => $datosRural,
+												'datosTestigo' => $datosTestigo,
+												'datosTextil' => $datosTextil,
+												'datosTipoVictima' => $datosTipoVictima,
+												'datosViajo' => $datosViajo,
+											]);
 	}
 
-	public function updateC($id){
+	// public function updateD($id){
 
-	}
+	// }
 
-	public function destroyC($id){
+	// public function destroyD($id){
 
-	}
+	// }
 
 }

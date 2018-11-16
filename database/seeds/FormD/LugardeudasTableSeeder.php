@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class /FormD/LugardeudasTableSeeder extends Seeder
+class LugardeudasTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +12,11 @@ class /FormD/LugardeudasTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('lugardeudas')->insert([
+
+            ['nombre' => 'Nacional'],
+
+            ['nombre' => 'Exterior']
+        ]);
     }
 }

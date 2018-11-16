@@ -1,12 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-	<link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
-	<link rel="stylesheet" href="/css/app.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	@include('partials.head')
 	<title>Eje C: Grupo Conviviente</title>
 </head>
 <header>
@@ -99,12 +94,10 @@
         <button id="borra" type="button" disabled="disabled" class="clickBorrar btn btn-outline-danger col-xl" onclick="borra()">Borrar conviviente</button>
         </section>
 
-        <!-- este script lo que hace es agregar otro formulario de profesionales en el caso que intervenga mas de un profesional en el caso -->
-        
-
         <script src="/js/formularioC.js" type="text/javascript" charset="utf-8" async defer></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
+        
+        <!-- este script lo que hace es agregar otro formulario de profesionales en el caso que intervenga mas de un profesional en el caso -->
         <script>
             $(document).ready(function(){
                 var nueva_entrada ='';

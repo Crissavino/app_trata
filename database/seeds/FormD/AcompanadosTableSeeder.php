@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class AcompanadoTableSeeder extends Seeder
+class AcompanadosTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +12,16 @@ class AcompanadoTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+
+        DB::table('acompanados')->insert([
+
+            ['nombre' => 'Familiar'],
+
+            ['nombre' => 'Conocido'],
+
+            ['nombre' => 'No conocido'],
+
+            ['nombre' => 'Se desconoce']
+        ]);
     }
 }

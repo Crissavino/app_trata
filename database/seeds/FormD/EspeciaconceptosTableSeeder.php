@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class /FormD/EspeciaconceptosTableSeeder extends Seeder
+class EspeciaconceptosTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +12,22 @@ class /FormD/EspeciaconceptosTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('especiaconceptos')->insert([
+
+            ['nombre' => 'Comida'],
+            
+            ['nombre' => 'Vivienda'],
+            
+            ['nombre' => 'Escolarización de hijos'],
+            
+            ['nombre' => 'Vestimenta'],
+            
+            ['nombre' => 'Otro']
+            
+        ]);
     }
 }
+ 
+ 
+ 
+ 

@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class /FormD/ContactoexplotacionsTableSeeder extends Seeder
+class ContactoexplotacionsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +12,22 @@ class /FormD/ContactoexplotacionsTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('contactoexplotacions')->insert([
+
+            ['nombre' => 'Conocido circunstancial'],
+
+            ['nombre' => 'Cartel-ofrecimiento en vía pública'],
+
+            ['nombre' => 'Familiar'],
+
+            ['nombre' => 'Conocido no circunstancial'],
+
+            ['nombre' => 'Redes sociales'],
+
+            ['nombre' => 'Otro'],
+
+            ['nombre' => 'Se desconoce']
+
+        ]);
     }
 }

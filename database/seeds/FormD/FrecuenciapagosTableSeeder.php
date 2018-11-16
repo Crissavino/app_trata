@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class /FormD/FrecuenciapagosTableSeeder extends Seeder
+class FrecuenciapagosTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +12,16 @@ class /FormD/FrecuenciapagosTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('frecuenciapagos')->insert([
+
+            ['nombre' => 'Diaria'],
+            
+            ['nombre' => 'Mensual'],
+
+            ['nombre' => 'Nula'],
+            
+            ['nombre' => 'Se desconoce']
+            
+        ]);
     }
 }
