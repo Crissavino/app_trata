@@ -22,7 +22,7 @@
 		<a href="/formularios/A" class="list-group-item list-group-item-action text-center active btn-primary">Eje A: Datos Institucionales</a><br>
 		<a href="/formularios/B" class="list-group-item list-group-item-action text-center active btn-primary">Eje B: Caracterización de la víctima</a><br>
 		<a href="/formularios/C" class="list-group-item list-group-item-action text-center active btn-primary">Eje C: Grupo Conviviente</a><br>
-		<a href="" class="list-group-item list-group-item-action text-center disabled">Eje D: Datos de delito</a><br>
+		<a href="/formularios/D" class="list-group-item list-group-item-action text-center active btn-primary">Eje D: Datos de delito</a><br>
 		<a href="" class="list-group-item list-group-item-action text-center disabled">Eje E: Datos del imputado</a><br>
 		<a href="" class="list-group-item list-group-item-action text-center disabled">Eje F: Atención del caso</a><br>
 		<a href="" class="list-group-item list-group-item-action text-center disabled">Eje G: Documentación</a><br>
