@@ -37,14 +37,19 @@ class FormsController extends Controller
 									// 			->ORDERBY('updated_at')
 									// 			->get();
 
-			$cFormPorId = DB::table('cformularios')
-												->WHERE('cformularios.user_id', '=', $userId)
-												->WHERE('cformularios.deleted_at', '=', null)
-												->JOIN('cformulario_conviviente', 'cformularios.id', '=', 'cformulario_conviviente.cformulario_id')
-												->JOIN('convivientes', 'cformulario_conviviente.conviviente_id', '=', 'convivientes.id')
-												->ORDERBY('convivientes.updated_at', 'desc')
-												->get();
+		$cFormPorId = DB::table('cformularios')
+											->WHERE('cformularios.user_id', '=', $userId)
+											->WHERE('cformularios.deleted_at', '=', null)
+											->JOIN('cformulario_conviviente', 'cformularios.id', '=', 'cformulario_conviviente.cformulario_id')
+											->JOIN('convivientes', 'cformulario_conviviente.conviviente_id', '=', 'convivientes.id')
+											->ORDERBY('convivientes.updated_at', 'desc')
+											->get();
 		//hasta aca
+		$dFormPorId = DB::table('dformularios')
+											->WHERE('user_id', '=', $userId)
+											->ORDERBY('updated_at')
+											->get();
+
 
 
 		// $aFormularios = \App\FormA\Aformulario::all();
@@ -52,7 +57,8 @@ class FormsController extends Controller
 
 		return view('formularios.formularios', ['aFormPorId' => $aFormPorId,
 												'bFormPorId' => $bFormPorId,
-												'cFormPorId' => $cFormPorId]);
+												'cFormPorId' => $cFormPorId,
+												'dFormPorId' => $dFormPorId]);
 	}
 
 	public function createA()
@@ -771,10 +777,11 @@ class FormsController extends Controller
 											]);
 	}
 
-	public function insertD(){
-
+	public function insertD()
+	{
+		//funciona todo 10 puntos
 		$userId = auth()->user()->id;
-
+			// dd($userId);
 		request()->validate(
 			[
 				'calificaciongeneral_id' => 'required',
@@ -885,9 +892,12 @@ class FormsController extends Controller
 				'elementoseguridad_id.required' => 'Este campo es obligatorio',
 			]);
 
+
 		$data = request()->all();
 
 		$data['user_id'] = $userId;
+
+		// dd($data);
 
 		$guardoDformulario = \App\FormD\Dformulario::create($data);
 
@@ -922,7 +932,8 @@ class FormsController extends Controller
 		return redirect('formularios/D');
 	}
 
-	public function editD($id){
+	public function editD($id)
+	{
 		$userId = auth()->user()->id;
 		$numeroCarpeta = DB::table('aformularios')
 											->WHERE('user_id', '=', $userId)
@@ -969,7 +980,7 @@ class FormsController extends Controller
 		// 								// ->ORDERBY('updated_at')
 		// 								->get();
 
-		return view('formularios.formularioD', ['numeroCarpeta' => $numeroCarpeta,
+		return view('formularios.editar.formularioD_edit', ['numeroCarpeta' => $numeroCarpeta,
 												'datosAcompanado' => $datosAcompanado,
 												'datosAcompanadoRed' => $datosAcompanadoRed,
 												'datosActividad' => $datosActividad,
@@ -1003,15 +1014,205 @@ class FormsController extends Controller
 												'datosTextil' => $datosTextil,
 												'datosTipoVictima' => $datosTipoVictima,
 												'datosViajo' => $datosViajo,
+												'dFormulario' => $dFormulario
 											]);
 	}
 
-	// public function updateD($id){
+	public function updateD($id)
+	{
+		$userId = auth()->user()->id;
 
-	// }
+		// request()->validate(
+		// 	[
+		// 		'calificaciongeneral_id' => 'required',
+		// 		'calificaciongeneral_otra' => 'required_if:calificaciongeneral_id,==,8',
+		// 		'calificacionespecifica_id' => 'required',
+		// 		'finalidad_id' => 'required',
+		// 		'finalidad_otra' => 'required_if:finalidad_id,==,5',
+		// 		'actividad_id' => 'required',
+		// 		'actividad_otra' => 'required_if:actividad_id,==,8',
+		// 		'privado_id' => 'required_if:actividad_id,==,3',
+		// 		'privado_otra' => 'required_if:privado_id,==,8',
+		// 		'rural_id' => 'required_if:actividad_id,==,1',
+		// 		'domicilioVenta' => 'required_if:actividad_id,==,1',
+		// 		'rural_otra' => 'required_if:rural_id,==,6',
+		// 		'textil_id' => 'required_if:actividad_id,==,6',
+		// 		'marcaTextil' => 'required_if:actividad_id,==,6',
+		// 		'textil_otra' => 'required_if:textil_id,==,6',
+		// 		'contactoexplotacion_id' => 'required',
+		// 		'contactoexplotacion_otro' => 'required_if:contactoexplotacion_id,==,6',
+		// 		'viajo_id' => 'required',
+		// 		'acompanado_id' => 'required_if:viajo_id,==,2',
+		// 		'acompanadored_id' => 'required_if:viajo_id,==,2',
+		// 		'domicilio' => 'required',
+		// 		'residelugar_id' => 'required',
+		// 		'engano_id' => 'required',
+		// 		'haypersona_id' => 'required',
+		// 		'tipovictima_id' => 'required',
+		// 		'tarea' => 'required',
+		// 		'horasTarea' => 'required',
+		// 		'frecuenciapago_id' => 'required',
+		// 		'modalidadpagos_id' => 'required',
+		// 		'especiaconcepto_id' => 'required_if:modalidadpagos_id,==,4',
+		// 		'especiaconceptos_otro' => 'required_if:especiaconcepto_id,==,5',
+		// 		'montoPago' => 'required',
+		// 		'deuda_id' => 'required',
+		// 		'motivodeuda_id' => 'required_if:deuda_id,==,1',
+		// 		'lugardeuda_id' => 'required_if:deuda_id,==,1',
+		// 		'motivodeuda_otro' => 'required_if:motivodeuda_id,==,5',
+		// 		'permanencia_id' => 'required',
+		// 		'testigo_id' => 'required',
+		// 		'coordinadorPTN' => 'required_if:testigo_id,==,1',
+		// 		'coordinadorPTN_otro' => 'required_if:testigo_id,==,1',
+		// 		'haycorriente_id' => 'required',
+		// 		'haygas_id' => 'required',
+		// 		'haymedida_id' => 'required',
+		// 		'haymedidas_otro' => 'required_if:haymedida_id,==,6',
+		// 		'hayhacinamiento_id' => 'required',
+		// 		'hayagua_id' => 'required',
+		// 		'haybano_id' => 'required',
+		// 		'cuantosbano_id' => 'required',
+		// 		'material_id' => 'required',
+		// 		'material_otro' => 'required_if:material_id,==,7',
+		// 		'elementotrabajo_id' => 'required',
+		// 		'elementoseguridad_id' => 'required',
+		// 	],
+		// 	[
+		// 		'calificaciongeneral_id.required' => 'Este campo es obligatorio',
+		// 		'calificaciongeneral_otra.required_if' => 'Este campo es obligatorio',
+		// 		'calificacionespecifica_id.required' => 'Este campo es obligatorio',
+		// 		'finalidad_id.required' => 'Este campo es obligatorio',
+		// 		'finalidad_otra.required_if' => 'Este campo es obligatorio',
+		// 		'actividad_id.required' => 'Este campo es obligatorio',
+		// 		'actividad_otra.required_if' => 'Este campo es obligatorio',
+		// 		'privado_id.required_if' => 'Este campo es obligatorio',
+		// 		'privado_otra.required_if' => 'Este campo es obligatorio',
+		// 		'rural_id.required_if' => 'Este campo es obligatorio',
+		// 		'domicilioVenta.required_if' => 'Este campo es obligatorio',
+		// 		'rural_otra.required_if' => 'Este campo es obligatorio',
+		// 		'textil_id.required_if' => 'Este campo es obligatorio',
+		// 		'marcaTextil.required_if' => 'Este campo es obligatorio',
+		// 		'textil_otra.required_if' => 'Este campo es obligatorio',
+		// 		'contactoexplotacion_id.required' => 'Este campo es obligatorio',
+		// 		'contactoexplotacion_otro.required_if' => 'Este campo es obligatorio',
+		// 		'viajo_id.required' => 'Este campo es obligatorio',
+		// 		'acompanado_id.required_if' => 'Este campo es obligatorio',
+		// 		'acompanadored_id.required_if' => 'Este campo es obligatorio',
+		// 		'domicilio.required' => 'Este campo es obligatorio',
+		// 		'residelugar_id.required' => 'Este campo es obligatorio',
+		// 		'engano_id.required' => 'Este campo es obligatorio',
+		// 		'haypersona_id.required' => 'Este campo es obligatorio',
+		// 		'tipovictima_id.required' => 'Este campo es obligatorio',
+		// 		'tarea.required' => 'Este campo es obligatorio',
+		// 		'horasTarea.required' => 'Este campo es obligatorio',
+		// 		'frecuenciapago_id.required' => 'Este campo es obligatorio',
+		// 		'modalidadpagos_id.required' => 'Este campo es obligatorio',
+		// 		'especiaconcepto_id.required_if' => 'Este campo es obligatorio',
+		// 		'especiaconceptos_otro.required_if' => 'Este campo es obligatorio',
+		// 		'montoPago.required' => 'Este campo es obligatorio',
+		// 		'deuda_id.required' => 'Este campo es obligatorio',
+		// 		'motivodeuda_id.required_if' => 'Este campo es obligatorio',
+		// 		'lugardeuda_id.required_if' => 'Este campo es obligatorio',
+		// 		'motivodeuda_otro.required_if' => 'Este campo es obligatorio',
+		// 		'permanencia_id.required' => 'Este campo es obligatorio',
+		// 		'testigo_id.required' => 'Este campo es obligatorio',
+		// 		'coordinadorPTN.required_if' => 'Este campo es obligatorio',
+		// 		'coordinadorPTN_otro.required_if' => 'Este campo es obligatorio',
+		// 		'haycorriente_id.required' => 'Este campo es obligatorio',
+		// 		'haygas_id.required' => 'Este campo es obligatorio',
+		// 		'haymedida_id.required' => 'Este campo es obligatorio',
+		// 		'haymedidas_otro.required_if' => 'Este campo es obligatorio',
+		// 		'hayhacinamiento_id.required' => 'Este campo es obligatorio',
+		// 		'hayagua_id.required' => 'Este campo es obligatorio',
+		// 		'haybano_id.required' => 'Este campo es obligatorio',
+		// 		'cuantosbano_id.required' => 'Este campo es obligatorio',
+		// 		'material_id.required' => 'Este campo es obligatorio',
+		// 		'material_otro.required_if' => 'Este campo es obligatorio',
+		// 		'elementotrabajo_id.required' => 'Este campo es obligatorio',
+		// 		'elementoseguridad_id.required' => 'Este campo es obligatorio',
+		// 	]);
 
-	// public function destroyD($id){
+		$data = request()->all();
 
-	// }
+		$data['user_id'] = $userId;
+		// $dato = json_decode($_POST['dato'], true);
+
+		// dd($data);
+
+
+
+		$formularioD = \App\FormD\Dformulario::find($id);
+
+		if ($_POST['paisCaptacion'] === '') {
+
+			$data['paisCaptacion'] = $formularioD->paisCaptacion;
+		}
+
+		if ($_POST['provinciaCaptacion'] === '') {
+
+			$data['provinciaCaptacion'] = $formularioD->provinciaCaptacion;
+		}
+
+		if ($_POST['ciudadCaptacion'] === '') {
+
+			$data['ciudadCaptacion'] = $formularioD->ciudadCaptacion;
+		}
+
+		if ($_POST['paisExplotacion'] === '') {
+
+			$data['paisExplotacion'] = $formularioD->paisExplotacion;
+		}
+
+		if ($_POST['provinciaExplotacion'] === '') {
+
+			$data['provinciaExplotacion'] = $formularioD->provinciaExplotacion;
+		}
+
+		if ($_POST['ciudadExplotacion'] === '') {
+
+			$data['ciudadExplotacion'] = $formularioD->ciudadExplotacion;
+		}
+
+		$formularioD->update($data);
+
+
+		if (isset($data['privado_id'])) {
+			$formularioD->privados()->sync($data['privado_id']);
+		}
+
+		if (isset($data['textil_id'])) {
+			$formularioD->textils()->sync($data['textil_id']);
+		}
+
+		if (isset($data['rural_id'])) {
+			$formularioD->rurals()->sync($data['rural_id']);
+		}
+
+		if (isset($data['especiaconcepto_id'])) {
+			$formularioD->especiaconceptos()->sync($data['especiaconcepto_id']);
+		}
+
+		if (isset($data['motivodeuda_id'])) {
+			$formularioD->motivodeudas()->sync($data['motivodeuda_id']);
+		}
+
+		if (isset($data['haymedida_id'])) {
+			$formularioD->haymedidas()->sync($data['haymedida_id']);
+		}
+
+		return redirect('formularios/D');
+	}
+
+	public function destroyD($id){
+
+		$Dformulario = \App\FormD\Dformulario::find($id);
+
+		$Dformulario->delete();
+
+    	session()->flash('message', 'El formulario se eliminó con éxito.');
+
+    	return redirect('formularios');	
+
+	}
 
 }

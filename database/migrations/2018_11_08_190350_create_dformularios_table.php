@@ -27,11 +27,17 @@ class CreateDformulariosTable extends Migration
             $table->string('textil_otra')->nullable()->nullable();
             $table->string('rural_otra')->nullable()->nullable();
             $table->string('domicilioVenta')->nullable();
+            $table->string('paisCaptacion')->nullable();
+            $table->string('provinciaCaptacion')->nullable();
+            $table->string('ciudadCaptacion')->nullable();
             $table->integer('contactoexplotacion_id')->unsigned();
             $table->string('contactoexplotacion_otro')->nullable();
             $table->integer('viajo_id')->unsigned();
             $table->integer('acompanado_id')->unsigned()->nullable();
             $table->integer('acompanadored_id')->unsigned()->nullable();
+            $table->string('paisExplotacion')->nullable();
+            $table->string('provinciaExplotacion')->nullable();
+            $table->string('ciudadExplotacion')->nullable();
             $table->string('domicilio');
             $table->integer('residelugar_id')->unsigned();
             $table->integer('engano_id')->unsigned();

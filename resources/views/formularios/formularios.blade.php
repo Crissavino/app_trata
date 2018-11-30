@@ -12,12 +12,9 @@
 			border-color: tomato
 		}*/
 	</style>
-	<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
 
 </head>
 <body>
-
-
 
 	<h1 class="text-center">Formularios individuales</h1>
 
@@ -34,12 +31,12 @@
 		  			<div class="cardForm-body">
 			    		<h5 class="cardForm-title">Carpeta Nº: {{ $aFormulario->datos_numero_carpeta }}</h5>
 			    		{{-- <p class="cardForm-text">Some quick example text to build on the cardForm title and make up the bulk of the cardForm's content.</p> --}}
-			    		<a href="/formularios/edicion/A/{{$aFormulario->id }}" class="btn btn-primary float-left" style="margin-right: 10px;">Ver/Editar</a>
+			    		<a href="/formularios/edicion/A/{{$aFormulario->id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
 			    		<form action="/formularios/edicion/A/{{$aFormulario->id}}" class="" method="post">
 							@method('DELETE')
 							@csrf
 							<button class="btn btn-danger">
-								<i class="fa fa-trash" aria-hidden="true"></i>
+								<i class="far fa-trash-alt"></i> Borrar </span>
 							</button>
 						</form>
 		  			</div>
@@ -54,12 +51,12 @@
 			  <div class="cardForm-body">
 			    <h5 class="cardForm-title">{{ $bFormulario->victima_nombre_y_apellido }} - DNI: {{ $bFormulario->victima_documento }}</h5>
 			    {{-- <p class="cardForm-text">Some quick example text to build on the cardForm title and make up the bulk of the cardForm's content.</p> --}}
-			    <a href="/formularios/edicion/B/{{$bFormulario->id }}" class="btn btn-primary float-left" style="margin-right: 10px;">Ver/Editar</a>
+			    <a href="/formularios/edicion/B/{{$bFormulario->id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
 			    <form action="/formularios/edicion/B/{{$bFormulario->id}}" method="post">
 					@method('DELETE')
 					@csrf
 					<button class="btn btn-danger">
-						<span class="fa fa-trash" aria-hidden="true"></span>
+						<i class="far fa-trash-alt"></i> Borrar </span>
 					</button>
 				</form>
 			  </div>
@@ -74,12 +71,33 @@
 			  <div class="cardForm-body">
 			    <h5 class="cardForm-title">{{ $cFormulario->nombre_apellido }}</h5>
 			    {{-- <p class="cardForm-text">Some quick example text to build on the cardForm title and make up the bulk of the cardForm's content.</p> --}}
-			    <a href="/formularios/edicion/C/{{$cFormulario->cformulario_id }}" class="btn btn-primary float-left" style="margin-right: 10px;">Ver/Editar</a>
+			    <a href="/formularios/edicion/C/{{$cFormulario->cformulario_id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+			    <i class="far fa-edit"></i>
 			    <form action="/formularios/edicion/C/{{$cFormulario->cformulario_id}}" method="post">
 					@method('DELETE')
 					@csrf
 					<button class="btn btn-danger">
-						<span class="fa fa-trash" aria-hidden="true"></span>
+						<i class="far fa-trash-alt"></i> Borrar </span>
+					</button>
+				</form>
+			  </div>
+			</div>
+		@endforeach
+	</div>
+
+	<div class="container">
+		<h2 class="text-center">Formularios del Eje D: Datos de delito</h2>
+		@foreach ($dFormPorId as $dFormulario)
+			<div class="cardForm" style="width: 18rem;">
+			  <div class="cardForm-body">
+			    <h5 class="cardForm-title">{{ $dFormulario->calificaciongeneral_id }}</h5>
+			    {{-- <p class="cardForm-text">Some quick example text to build on the cardForm title and make up the bulk of the cardForm's content.</p> --}}
+			    <a href="/formularios/edicion/D/{{$dFormulario->id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+			    <form action="/formularios/edicion/D/{{$dFormulario->id}}" method="post">
+					@method('DELETE')
+					@csrf
+					<button class="btn btn-danger">
+						<i class="far fa-trash-alt"></i> Borrar </span>
 					</button>
 				</form>
 			  </div>

@@ -18,26 +18,26 @@
 <body>
 	<h1 class="text-center" style="padding: 15px;">
         Eje D: Datos de delito
-        <h5 style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5>
+        {{-- <h5 style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5> --}}
     </h1>
 
     <section class="container">
-    	<form action="" class="form-group" method="post">
+    	<form action="" class="form-group formDedit" method="POST">
 	    	{{ csrf_field() }}
-
+	    	@method('PUT')
 	    	<div class="form-group">
 	    		<label for="">D 1. Calificación general: </label>
 	    		<select class="form-control calificacionGeneral" name="calificaciongeneral_id" {{ $errors->has('calificaciongeneral_id') ? 'has-error' : ''}}>
 	    			<option value="">Seleccioná una calificación</option>
 	    			@foreach ($datosCalificacionGeneral as $calificacionGeneral)
-	    				<option value="{{ $calificacionGeneral->getId() }}" {{ old('calificaciongeneral_id') == $calificacionGeneral->getId() ? 'selected' : '' }}>{{ $calificacionGeneral->getNombre() }}</option>
+	    				<option value="{{ $calificacionGeneral->getId() }}" {{ $calificacionGeneral->id == $dFormulario->calificaciongeneral_id ? 'selected' : '' }}>{{ $calificacionGeneral->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    		{!! $errors->first('calificaciongeneral_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 	
 	    	 	<div style="display: none;" class="calificacionGeneralCual" {{ $errors->has('calificaciongeneral_otra') ? 'has-error' : ''}}>
 	    	 		<label for="">Cual?</label>
-	    	 		<input type="text" class="form-control" name="calificaciongeneral_otra" value="{{ old('calificaciongeneral_otra') }}">
+	    	 		<input type="text" class="form-control calificaciongeneral_otra" name="calificaciongeneral_otra" value="{{ $dFormulario->calificaciongeneral_otra }}">
 	    	 	</div>
 	    		{!! $errors->first('calificaciongeneral_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	</div>
@@ -47,7 +47,7 @@
 	    		<select class="form-control" name="calificacionespecifica_id" {{ $errors->has('calificacionespecifica_id') ? 'has-error' : ''}}>
 	    			<option value="">Seleccioná una calificación específica</option>
 	    			@foreach ($datosCalificacionEspecifica as $calificacionEspecifica)
-	    				<option value="{{ $calificacionEspecifica->getId() }}" {{ old('calificacionespecifica_id') == $calificacionEspecifica->getId() ? 'selected' : '' }}>{{ $calificacionEspecifica->getNombre() }}</option>
+	    				<option value="{{ $calificacionEspecifica->getId() }}" {{ $dFormulario->calificacionespecifica_id == $calificacionEspecifica->id ? 'selected' : '' }}>{{ $calificacionEspecifica->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    		{!! $errors->first('calificacionespecifica_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -58,14 +58,14 @@
 	    		<select class="form-control finalidad" name="finalidad_id" {{ $errors->has('finalidad_id') ? 'has-error' : ''}}>
 	    			<option value="">Seleccioná una finalidad</option>
 	    			@foreach ($datosFinalidad as $finalidad)
-	    				<option value="{{ $finalidad->getId() }}" {{ old('finalidad_id') == $finalidad->getId() ? 'selected' : '' }}>{{ $finalidad->getNombre() }}</option>
+	    				<option value="{{ $finalidad->getId() }}" {{ $dFormulario->finalidad_id == $finalidad->getId() ? 'selected' : '' }}>{{ $finalidad->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    		{!! $errors->first('finalidad_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 	
 	    	 	<div style="display: none;" class="finalidadCual" {{ $errors->has('finalidad_otra') ? 'has-error' : ''}}>
 	    	 		<label for="">Cual?</label>
-	    	 		<input type="text" class="form-control" name="finalidad_otra" value="{{ old('finalidad_otra') }}">
+	    	 		<input type="text" class="form-control" name="finalidad_otra" value="{{ $dFormulario->finalidad_otra }}">
 	    	 	</div>
 	    		{!! $errors->first('finalidad_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	</div>
@@ -75,14 +75,14 @@
 	    		<select class="form-control actividad" name="actividad_id" {{ $errors->has('actividad_id') ? 'has-error' : ''}}>
 	    			<option value="">Seleccioná una actividad</option>
 	    			@foreach ($datosActividad as $actividad)
-	    				<option value="{{ $actividad->getId() }}" {{ old('actividad_id') == $actividad->getId() ? 'selected' : '' }}>{{ $actividad->getNombre() }}</option>
+	    				<option value="{{ $actividad->getId() }}" {{ $dFormulario->actividad_id == $actividad->getId() ? 'selected' : '' }}>{{ $actividad->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    		{!! $errors->first('actividad_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 
 	    		<div style="display: none;" class="actividadCual" {{ $errors->has('actividad_otra') ? 'has-error' : ''}}>
 	    	 		<label for="">Cual?</label>
-	    	 		<input type="text" class="form-control" name="actividad_otra" value="{{ old('actividad_otra') }}">
+	    	 		<input type="text" class="form-control" name="actividad_otra" value="{{ $dFormulario->actividad_otra }}">
 	    	 	</div>
 	    		{!! $errors->first('actividad_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 	
@@ -94,15 +94,19 @@
 	    	 		<div>
 	    	 			<div class="checkPrivado" {{ $errors->has('privado_id[]') ? 'has-error' : ''}}>
 	    	 				@foreach ($datosPrivado as $privado)
+		    	 				@php
+									$privadoIds = $dFormulario->privados->pluck('id')->toArray();
+									$checked = (in_array($privado->id, $privadoIds)) ? 'checked' : ''
+								@endphp
 		    	 				@if ($privado->getNombre() == 'Otro')
 		    	 					<label for="{{ $privado->getNombre().'Privado' }}" style="margin-left: 15px;" >{{ $privado->getNombre() }}</label>
-		    	 					<input type="checkbox" id="{{ $privado->getNombre().'Privado' }}" class="checkPrivadoOtro" value="{{ $privado->getId() }}" name="privado_id[]">
+		    	 					<input {{ $checked }} type="checkbox" id="{{ $privado->getNombre().'Privado' }}" class="checkPrivadoOtro" value="{{ $privado->getId() }}" name="privado_id[]">
 		    	 				@elseif($privado->getNombre() == 'Se desconoce')
 		    	 					<label for="{{ $privado->getNombre().'Privado' }}" style="margin-left: 15px;" >{{ $privado->getNombre() }}</label>
-			    	 				<input type="checkbox" id="{{ $privado->getNombre().'Privado' }}" class="checkPrivadoDesconoce" value="{{ $privado->getId() }}" name="privado_id[]">
+			    	 				<input {{ $checked }} type="checkbox" id="{{ $privado->getNombre().'Privado' }}" class="checkPrivadoDesconoce" value="{{ $privado->getId() }}" name="privado_id[]">
 		    	 				@else
 			    	 				<label for="{{ $privado->getNombre().'Privado' }}" style="margin-left: 15px;" >{{ $privado->getNombre() }}</label>
-			    	 				<input type="checkbox" id="{{ $privado->getNombre().'Privado' }}" value="{{ $privado->getId() }}" name="privado_id[]">
+			    	 				<input {{ $checked }} type="checkbox" id="{{ $privado->getNombre().'Privado' }}" value="{{ $privado->getId() }}" name="privado_id[]">
 		    	 				@endif
 			    			@endforeach
 	    					{!! $errors->first('privado_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -110,7 +114,7 @@
 
 	    	 			<div style="display: none;" class="privadoCual" {{ $errors->has('privado_otra') ? 'has-error' : ''}}>
 			    	 		<label for="">Cual?</label>
-			    	 		<input type="text" class="form-control" name="privado_otra" value="{{ old('privado_otra') }}">
+			    	 		<input type="text" class="form-control privado_otra" name="privado_otra" value="{{ $dFormulario->privado_otra }}">
 			    	 	</div>
 	    				{!! $errors->first('privado_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 		</div>
@@ -120,7 +124,7 @@
 	    	 		<label for="">D 5 II.</label>
 	    	 		<div {{ $errors->has('marcaTextil') ? 'has-error' : ''}}>
 	    	 			<label for="">a) Nombre de marca, sello, nombre registral o franquicia:</label>
-	    	 			<input type="text" class="form-control" name="marcaTextil">
+	    	 			<input type="text" class="form-control marcaTextil" name="marcaTextil" value="{{ $dFormulario->marcaTextil }}">
 	    	 		</div>
 	    			{!! $errors->first('marcaTextil', '<p class="help-block" style="color:red";>:message</p>') !!}
 
@@ -129,15 +133,19 @@
 	    	 		<label for="">(En caso de requerir, tildar todas las opciones que considere correspondientes)</label>
 	    	 		<div {{ $errors->has('textil_id[]') ? 'has-error' : ''}}>
 	    	 			@foreach ($datosTextil as $textil)
+	    	 				@php
+								$textilIds = $dFormulario->textils->pluck('id')->toArray();
+								$checked = (in_array($textil->id, $textilIds)) ? 'checked' : ''
+							@endphp
 	    	 				@if ($textil->getNombre() == 'Otro')
 	    	 					<label for="{{ $textil->getNombre().'Textil' }}" style="margin-left: 15px;">{{ $textil->getNombre() }}</label>
-	    	 					<input type="checkbox" id="{{ $textil->getNombre().'Textil' }}" class="checkTextilOtro" value="{{ $textil->getId() }}" name="textil_id[]">
+	    	 					<input {{ $checked }} type="checkbox" id="{{ $textil->getNombre().'Textil' }}" class="checkTextilOtro" value="{{ $textil->getId() }}" name="textil_id[]">
     	 					@elseif ($textil->getNombre() == 'Se desconoce')
     	 						<label for="{{ $textil->getNombre().'Textil' }}" style="margin-left: 15px;">{{ $textil->getNombre() }}</label>
-    	 						<input type="checkbox" id="{{ $textil->getNombre().'Textil' }}" class="checkTextilDesconoce" value="{{ $textil->getId() }}" name="textil_id[]">
+    	 						<input {{ $checked }} type="checkbox" id="{{ $textil->getNombre().'Textil' }}" class="checkTextilDesconoce" value="{{ $textil->getId() }}" name="textil_id[]">
 	    	 				@else
 	    	 					<label for="{{ $textil->getNombre().'Textil' }}" style="margin-left: 15px;">{{ $textil->getNombre() }}</label>
-	    	 					<input type="checkbox" id="{{ $textil->getNombre().'Textil' }}" class="checkTextil" value="{{ $textil->getId() }}" name="textil_id[]">
+	    	 					<input {{ $checked }} type="checkbox" id="{{ $textil->getNombre().'Textil' }}" class="checkTextil" value="{{ $textil->getId() }}" name="textil_id[]">
 	    	 				@endif
 		    			@endforeach
 	    				{!! $errors->first('textil_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -145,7 +153,7 @@
 
 	    	 		<div style="display: none;" class="textilCual" {{ $errors->has('textil_otra') ? 'has-error' : ''}}>
 		    	 		<label for="">Cual?</label>
-		    	 		<input type="text" class="form-control" name="textil_otra" value="{{ old('textil_otra') }}">
+		    	 		<input type="text" class="form-control textil_otra" name="textil_otra" value="{{ $dFormulario->textil_otra }}">
 		    	 	</div>
 	    			{!! $errors->first('textil_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 	</div>
@@ -157,41 +165,69 @@
 	    	 		<label for="">(En caso de requerir, tildar todas las opciones que considere correspondientes)</label>
 	    	 		<div {{ $errors->has('rural_id[]') ? 'has-error' : ''}}>
 	    	 			@foreach ($datosRural as $rural)
+	    	 				@php
+								$ruralIds = $dFormulario->rurals->pluck('id')->toArray();
+								$checked = (in_array($rural->id, $ruralIds)) ? 'checked' : ''
+							@endphp
 	    	 				@if ($rural->getNombre() == 'Otro')
 	    	 					<label for="{{ $rural->getNombre().'Rural' }}" style="margin-left: 15px;">{{ $rural->getNombre() }}</label>
-	    	 					<input type="checkbox" id="{{ $rural->getNombre().'Rural' }}" class="checkRuralOtro" value="{{ $rural->getId() }}" name="rural_id[]">
+	    	 					<input {{ $checked }} type="checkbox" id="{{ $rural->getNombre().'Rural' }}" class="checkRuralOtro" value="{{ $rural->getId() }}" name="rural_id[]">
 	    	 				@elseif ($rural->getNombre() == 'Se desconoce')
 	    	 					<label for="{{ $rural->getNombre().'Rural' }}" style="margin-left: 15px;">{{ $rural->getNombre() }}</label>
-	    	 					<input type="checkbox" id="{{ $rural->getNombre().'Rural' }}" class="checkRuralDesconoce" value="{{ $rural->getId() }}" name="rural_id[]">
+	    	 					<input {{ $checked }} type="checkbox" id="{{ $rural->getNombre().'Rural' }}" class="checkRuralDesconoce" value="{{ $rural->getId() }}" name="rural_id[]">
 	    	 				@else
 	    	 					<label for="{{ $rural->getNombre().'Rural' }}" style="margin-left: 15px;">{{ $rural->getNombre() }}</label>
-	    	 					<input type="checkbox" id="{{ $rural->getNombre().'Rural' }}" value="{{ $rural->getId() }}" name="rural_id[]">
+	    	 					<input {{ $checked }} type="checkbox" id="{{ $rural->getNombre().'Rural' }}" value="{{ $rural->getId() }}" name="rural_id[]">
 	    	 				@endif
 		    			@endforeach
 	    				{!! $errors->first('rural_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 
 	    	 			<div style="display: none;" class="ruralCual" {{ $errors->has('rural_otra') ? 'has-error' : ''}}>
 			    	 		<label for="">Cual?</label>
-			    	 		<input type="text" class="form-control" name="rural_otra" value="{{ old('rural_otra') }}">
+			    	 		<input type="text" class="form-control rural_otra" name="rural_otra" value="{{ $dFormulario->rural_otra }}">
 			    	 	</div>
 	    	 		</div>
 	    			{!! $errors->first('rural_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
 
 	    	 		<div {{ $errors->has('domicilioVenta') ? 'has-error' : ''}}>
 	    	 			<label for="">b) Domicilio del lugar de venta:</label>
-		    	 		<input type="text" class="form-control ruralCualDomicilio" name="domicilioVenta">
+		    	 		<input type="text" class="form-control ruralCualDomicilio" name="domicilioVenta" value="{{ $dFormulario->domicilioVenta }}">
 		    	 		
 		    	 		<label for="">Se desconoce</label>
-			 			<input type="checkbox" class="ruralCualDesconoce" name="">
+			 			<input {{ $dFormulario->domicilioVenta == 'Se desconoce' ? 'checked' : '' }} type="checkbox" class="ruralCualDesconoce" name="">
 	    	 		</div>
 	    			{!! $errors->first('domicilioVenta', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 	</div>
 	    	</div>
 
-	    	<div>
-		 		PAIS DE CAPTACION
-		 		PROVINCIA DE CAPTACION
-		 		LOCALIDAD DE CAPTACION
+	    	<div class="form-group">
+		 		<!-- {{-- PAISES --}} -->
+		 		{{-- ver como hacer para los casos en que se desconozca --}}
+		 			<label for="countryId">D 6. País de captación: {{ $dFormulario->paisCaptacion }}</label>
+			        <select name="paisCaptacion" class="countries order-alpha form-control" id="countryId">
+					    <option value="">Seleccioná pais de captación</option>
+					</select>
+
+					<label for="desconocePaisCaptacion">Se desconoce</label>
+					<input type="checkbox" name="" id="desconocePaisCaptacion" value="Se desconoce"><br>
+
+					<label for="stateId">D 7. Provincia de captación: {{ $dFormulario->provinciaCaptacion }}</label>
+			        <select name="provinciaCaptacion" class="states order-alpha form-control" id="stateId">
+			            <option value="">Seleccioná provincia de captación</option>
+			        </select>
+
+			        <label for="desconoceProvinciaCaptacion">Se desconoce</label>
+					<input type="checkbox" name="" id="desconoceProvinciaCaptacion" value="Se desconoce"><br>
+
+			        <label for="cityId">D 8. Localidad de captación: {{ $dFormulario->ciudadCaptacion }}</label>
+			        <select name="ciudadCaptacion" class="cities order-alpha form-control" id="cityId">
+			            <option value="">Seleccioná ciudad de captación</option>
+			        </select>
+
+			        <label for="desconoceCiudadCaptacion">Se desconoce</label>
+					<input type="checkbox" name="" id="desconoceCiudadCaptacion" value="Se desconoce"><br>
+
+			    <!-- {{-- FIN PAISES --}} -->
 		 	</div>
 
 		 	<div class="form-group" {{ $errors->has('contactoexplotacion_id') ? 'has-error' : ''}}>
@@ -199,24 +235,35 @@
 	    		<select class="form-control contactoExplotacion" name="contactoexplotacion_id">
 	    			<option value="">Seleccioná un modo de contacto</option>
 	    			@foreach ($datosContactoExplotacion as $contactoExplotacion)
-	    				<option value="{{ $contactoExplotacion->getId() }}" {{ old('contactoexplotacion_id') == $contactoExplotacion->getId() ? 'selected' : '' }}>{{ $contactoExplotacion->getNombre() }}</option>
+	    				<option value="{{ $contactoExplotacion->getId() }}" {{ $dFormulario->contactoexplotacion_id == $contactoExplotacion->getId() ? 'selected' : '' }}>{{ $contactoExplotacion->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    		{!! $errors->first('contactoexplotacion_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 	
 	    	 	<div style="display: none;" class="contactoExplotacionCual" {{ $errors->has('contactoexplotacion_otro') ? 'has-error' : ''}}>
 	    	 		<label for="">Cual?</label>
-	    	 		<input type="text" class="form-control" name="contactoexplotacion_otro" value="{{ old('contactoexplotacion_otro') }}">
+	    	 		<input type="text" class="form-control contactoexplotacion_otro" name="contactoexplotacion_otro" value="{{ $dFormulario->contactoexplotacion_otro }}">
 	    	 	</div>
 	    		{!! $errors->first('contactoexplotacion_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	</div>
+
+	    	<script>
+			    // $.ajax({
+			    // 	url: 'formularios/D',
+			    // 	data: 'contactoexplotacion_otro=""',
+			    // 	method: 'PUT',
+			    // 	succes: function(){
+			    // 		alert('Entro')
+			    // 	}
+			    // });
+	    	</script>
 
 	    	<div class="form-group" {{ $errors->has('viajo_id') ? 'has-error' : ''}}>
 	    		<label for="">D 10 Viajó:</label>
 	    		<select class="form-control viajo" name="viajo_id">
 	    			<option value="">Seleccioná como viajó</option>
 	    			@foreach ($datosViajo as $viajo)
-	    				<option value="{{ $viajo->getId() }}" {{ old('viajo_id') == $viajo->getId() ? 'selected' : '' }}>{{ $viajo->getNombre() }}</option>
+	    				<option value="{{ $viajo->getId() }}" {{ $dFormulario->viajo_id == $viajo->getId() ? 'selected' : '' }}>{{ $viajo->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    		{!! $errors->first('viajo_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -224,10 +271,10 @@
 	    		<div style="display: none;" class="viajoAcompanado">
 	    	 		<div {{ $errors->has('acompanado_id') ? 'has-error' : ''}}>
 	    	 			<label for="">D 10 I. ¿Por quién?:</label>
-			    		<select class="form-control" name="acompanado_id">
+			    		<select class="form-control acompanado_id" name="acompanado_id">
 			    			<option value="">Seleccioná quién la/lo acompañó</option>
 			    			@foreach ($datosAcompanado as $acompanado)
-			    				<option value="{{ $acompanado->getId() }}" {{ old('acompanado_id') == $acompanado->getId() ? 'selected' : '' }}>{{ $acompanado->getNombre() }}</option>
+			    				<option value="{{ $acompanado->getId() }}" {{ $dFormulario->acompanado_id == $acompanado->getId() ? 'selected' : '' }}>{{ $acompanado->getNombre() }}</option>
 			    			@endforeach
 			    		</select>
 	    	 		</div>
@@ -235,10 +282,10 @@
 
 	    	 		<div {{ $errors->has('acompanadored_id') ? 'has-error' : ''}}>
 	    	 			<label for="">D 10 II. Acompañante relacionado con la red:</label>
-			    		<select class="form-control" name="acompanadored_id">
+			    		<select class="form-control acompanadored_id" name="acompanadored_id">
 			    			<option value="">Estaba relacionado?</option>
 			    			@foreach ($datosAcompanadoRed as $acompanadoRed)
-			    				<option value="{{ $acompanadoRed->getId() }}" {{ old('acompanadored_id') == $acompanadoRed->getId() ? 'selected' : '' }}>{{ $acompanadoRed->getNombre() }}</option>
+			    				<option value="{{ $acompanadoRed->getId() }}" {{ $dFormulario->acompanadored_id == $acompanadoRed->getId() ? 'selected' : '' }}>{{ $acompanadoRed->getNombre() }}</option>
 			    			@endforeach
 			    		</select>
 	    	 		</div>
@@ -246,21 +293,46 @@
 	    	 	</div>
 	    	</div>
 
-	    	<div>
-		 		PAIS DE EXPLOTACION
-		 		PROVINCIA DE EXPLOTACION
-		 		LOCALIDAD DE EXPLOTACION
+	    	<div class="form-group">
+		 		<!-- {{-- PAISES --}} -->
+		 		{{-- ver como hacer para los casos en que se desconozca --}}
+
+		 			<label for="countryId2">D 11. País de explotación: {{ $dFormulario->paisExplotacion }}</label>
+			        <select name="paisExplotacion" class="countries2 order-alpha form-control" id="countryId2">
+			            <option value="">Seleccioná pais de explotación</option>
+			        </select>
+
+			        <label for="desconocePaisExplotacion">Se desconoce</label>
+					<input type="checkbox" name="" id="desconocePaisExplotacion" value="Se desconoce"><br>
+
+			        <label for="stateId2">D 12. Provincia de explotación: {{ $dFormulario->provinciaExplotacion }}</label>
+			        <select name="provinciaExplotacion" class="states2 order-alpha form-control" id="stateId2">
+			            <option value="">Seleccioná provincia de explotación</option>
+			        </select>
+
+			        <label for="desconoceProvinciaExplotacion">Se desconoce</label>
+					<input type="checkbox" name="" id="desconoceProvinciaExplotacion" value="Se desconoce"><br>
+
+			        <label for="cityId2">D 13. Localidad de explotación: {{ $dFormulario->ciudadExplotacion }}</label>
+			        <select name="ciudadExplotacion" class="cities2 order-alpha form-control" id="cityId2">
+			            <option value="">Seleccioná ciudad de explotación</option>
+			        </select>
+
+			        <label for="desconoceCiudadExplotacion">Se desconoce</label>
+					<input type="checkbox" name="" id="desconoceCiudadExplotacion" value="Se desconoce"><br>
+
+			    <!-- {{-- FIN PAISES --}} -->
 		 	</div>
 
 		 	<div class="form-group">
 		 		<div {{ $errors->has('domicilio') ? 'has-error' : ''}}>
 		 			<label for="">D 14. Domicilio de explotación:</label>
-		 			<input type="text" class="form-control domicilio" name="domicilio" value="{{ old('domicilio') }}">
+		 			<input type="text" class="form-control domicilio" name="domicilio" value="{{ $dFormulario->domicilio }}">
 		 		</div>
 	    		{!! $errors->first('domicilio', '<p class="help-block" style="color:red";>:message</p>') !!}
 
 		 		<label for="">Se desconoce</label>
-		 		<input type="checkbox" class="domicilioDesconoce" name="">
+		 		<input {{ $dFormulario->domicilio == 'Se desconoce' ? 'checked' : '' }} type="checkbox" class="domicilioDesconoce" name="">
 		 	</div>
 
 		 	<div class="form-group" {{ $errors->has('residelugar_id') ? 'has-error' : ''}}>
@@ -268,7 +340,7 @@
 	    		<select class="form-control" name="residelugar_id">
 	    			<option value="">Seleccioná donde reside</option>
 	    			@foreach ($datosResideLugar as $resideLugar)
-	    				<option value="{{ $resideLugar->getId() }}" {{ old('residelugar_id') == $resideLugar->getId() ? 'selected' : '' }}>{{ $resideLugar->getNombre() }}</option>
+	    				<option value="{{ $resideLugar->getId() }}" {{ $dFormulario->residelugar_id == $resideLugar->getId() ? 'selected' : '' }}>{{ $resideLugar->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    	</div>
@@ -279,7 +351,7 @@
 	    		<select class="form-control" name="engano_id">
 	    			<option value="">Fue engañada?</option>
 	    			@foreach ($datosEngano as $engano)
-	    				<option value="{{ $engano->getId() }}" {{ old('engano_id') == $engano->getId() ? 'selected' : '' }}>{{ $engano->getNombre() }}</option>
+	    				<option value="{{ $engano->getId() }}" {{ $dFormulario->engano_id == $engano->getId() ? 'selected' : '' }}>{{ $engano->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    	</div>
@@ -290,7 +362,7 @@
 	    		<select class="form-control" name="haypersona_id">
 	    			<option value="">Hay mas personas?</option>
 	    			@foreach ($datosHayPersona as $hayPersona)
-	    				<option value="{{ $hayPersona->getId() }}" {{ old('haypersona_id') == $hayPersona->getId() ? 'selected' : '' }}>{{ $hayPersona->getNombre() }}</option>
+	    				<option value="{{ $hayPersona->getId() }}" {{ $dFormulario->haypersona_id == $hayPersona->getId() ? 'selected' : '' }}>{{ $hayPersona->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    	</div>
@@ -301,7 +373,7 @@
 	    		<select class="form-control" name="tipovictima_id">
 	    			<option value="">Seleccioná una opción</option>
 	    			@foreach ($datosTipoVictima as $tipoVictima)
-	    				<option value="{{ $tipoVictima->getId() }}" {{ old('tipovictima_id') == $tipoVictima->getId() ? 'selected' : '' }}>{{ $tipoVictima->getNombre() }}</option>
+	    				<option value="{{ $tipoVictima->getId() }}" {{ $dFormulario->tipovictima_id == $tipoVictima->getId() ? 'selected' : '' }}>{{ $tipoVictima->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    	</div>
@@ -309,19 +381,19 @@
 
 	    	<div class="form-group" {{ $errors->has('tarea') ? 'has-error' : ''}}>
 		 		<label for="">D 19. ¿Qué tareas realiza?</label>
-		 		<input type="text" class="form-control" name="tarea" value="{{ old('tarea') }}">
+		 		<input type="text" class="form-control" name="tarea" value="{{ $dFormulario->tarea }}">
 		 	</div>
 	    	{!! $errors->first('tarea', '<p class="help-block" style="color:red";>:message</p>') !!}
 
 		 	<div class="form-group">
 		 		<div {{ $errors->has('horasTarea') ? 'has-error' : ''}}>
 		 			<label for="">D 20. Aproximado de horas diarias dedicadas a la actividad:</label>
-		 			<input type="text" class="form-control horasTarea" name="horasTarea" value="{{ old('horasTarea') }}">
+		 			<input type="text" class="form-control horasTarea" name="horasTarea" value="{{ $dFormulario->horasTarea }}">
 		 		</div>
 	    		{!! $errors->first('horasTarea', '<p class="help-block" style="color:red";>:message</p>') !!}
 		 		
 		 		<label for="">Se desconoce</label>
-		 		<input type="checkbox" class="horasTareaDesconoce" name="">
+		 		<input {{ $dFormulario->horasTarea == 'Se desconoce' ? 'checked' : '' }} type="checkbox" class="horasTareaDesconoce" name="">
 		 	</div>
 
 		 	<div class="form-group" {{ $errors->has('frecuenciapago_id') ? 'has-error' : ''}}>
@@ -329,7 +401,7 @@
 	    		<select class="form-control" name="frecuenciapago_id">
 	    			<option value="">Seleccioná frecuencia</option>
 	    			@foreach ($datosFrecuenciaPago as $frecuenciaPago)
-	    				<option value="{{ $frecuenciaPago->getId() }}" {{ old('frecuenciapago_id') == $frecuenciaPago->getId() ? 'selected' : '' }}>{{ $frecuenciaPago->getNombre() }}</option>
+	    				<option value="{{ $frecuenciaPago->getId() }}" {{ $dFormulario->frecuenciapago_id == $frecuenciaPago->getId() ? 'selected' : '' }}>{{ $frecuenciaPago->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    	</div>
@@ -341,7 +413,7 @@
 		    		<select class="form-control modalidadPagos" name="modalidadpagos_id">
 		    			<option value="">Seleccioná modalidad</option>
 		    			@foreach ($datosModalidadPago as $modalidadPago)
-		    				<option value="{{ $modalidadPago->getId() }}" {{ old('modalidadpagos_id') == $modalidadPago->getId() ? 'selected' : '' }}>{{ $modalidadPago->getNombre() }}</option>
+		    				<option value="{{ $modalidadPago->getId() }}" {{ $dFormulario->modalidadpagos_id == $modalidadPago->getId() ? 'selected' : '' }}>{{ $modalidadPago->getNombre() }}</option>
 		    			@endforeach
 		    		</select>
 	    		</div>
@@ -353,12 +425,16 @@
 			 		<label for="">(En caso de requerir, tildar todas las opciones que considere correspondientes)</label>
 			 		<div {{ $errors->has('especiaconcepto_id[]') ? 'has-error' : ''}}>
 			 			@foreach ($datosEspeciaConcepto as $especiaConcepto)
+			 				@php
+								$especiaConceptoIds = $dFormulario->especiaconceptos->pluck('id')->toArray();
+								$checked = (in_array($especiaConcepto->id, $especiaConceptoIds)) ? 'checked' : ''
+							@endphp
 			 				@if ($especiaConcepto->getNombre() == 'Otro')
 			 					<label for="" style="margin-left: 15px;">{{ $especiaConcepto->getNombre() }}</label>
-	    	 					<input type="checkbox" class="especiasOtro" value="{{ $especiaConcepto->getId() }}" name="especiaconcepto_id[]">
+	    	 					<input {{ $checked }} type="checkbox" class="especiasOtro" value="{{ $especiaConcepto->getId() }}" name="especiaconcepto_id[]">
 			 				@else
 			 					<label for="" style="margin-left: 15px;">{{ $especiaConcepto->getNombre() }}</label>
-	    	 					<input type="checkbox" value="{{ $especiaConcepto->getId() }}" name="especiaconcepto_id[]">
+	    	 					<input {{ $checked }} type="checkbox" value="{{ $especiaConcepto->getId() }}" name="especiaconcepto_id[]">
 			 				@endif
 		    			@endforeach
 		    		</div>
@@ -366,7 +442,7 @@
 
 		 			<div style="display: none;" class="especiasCual" {{ $errors->has('especiaconceptos_otro') ? 'has-error' : ''}}>
 		    	 		<label for="">Cual?</label>
-		    	 		<input type="text" class="form-control" name="especiaconceptos_otro" value="{{ old('especiaconceptos_otro') }}">
+		    	 		<input type="text" class="form-control especiaconceptos_otro" name="especiaconceptos_otro" value="{{ $dFormulario->especiaconceptos_otro }}">
 		    	 	</div>
 	    			{!! $errors->first('especiaconceptos_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
 			 	</div>
@@ -375,12 +451,12 @@
 	    	<div class="form-group">
 		 		<div {{ $errors->has('montoPago') ? 'has-error' : ''}}>
 		 			<label for="">D 23. Monto en Pesos: $</label>
-		 			<input type="text" class="form-control montoPago" name="montoPago" value="{{ old('montoPago') }}">
+		 			<input type="text" class="form-control montoPago" name="montoPago" value="{{ $dFormulario->montoPago }}">
 		 		</div>
 	    		{!! $errors->first('montoPago', '<p class="help-block" style="color:red";>:message</p>') !!}
 
 		 		<label for="">Se desconoce</label>
-		 		<input type="checkbox" class="montoPagoDesconoce" name="">
+		 		<input {{ $dFormulario->montoPago == 'Se desconoce' ? 'checked' : '' }} type="checkbox" class="montoPagoDesconoce" name="">
 		 	</div>
 
 		 	<div class="form-group">
@@ -389,7 +465,7 @@
 		    		<select class="form-control deuda" name="deuda_id">
 		    			<option value="">Seleccioná si hubo deuda</option>
 		    			@foreach ($datosDeuda as $deuda)
-		    				<option value="{{ $deuda->getId() }}" {{ old('deuda_id') == $deuda->getId() ? 'selected' : '' }}>{{ $deuda->getNombre() }}</option>
+		    				<option value="{{ $deuda->getId() }}" {{ $dFormulario->deuda_id == $deuda->getId() ? 'selected' : '' }}>{{ $deuda->getNombre() }}</option>
 		    			@endforeach
 		    		</select>
 	    			{!! $errors->first('deuda_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -402,12 +478,16 @@
 	    	 		<div class="" {{ $errors->has('motivodeuda_id[]') ? 'has-error' : ''}}>
 				 		<div>
 				 			@foreach ($datosMotivoDeuda as $motivoDeuda)
+				 				@php
+									$motivoDeudaIds = $dFormulario->motivodeudas->pluck('id')->toArray();
+									$checked = (in_array($motivoDeuda->id, $motivoDeudaIds)) ? 'checked' : ''
+								@endphp
 				 				@if ($motivoDeuda->getNombre() == 'Otro')
 				 					<label for="" style="margin-left: 15px;">{{ $motivoDeuda->getNombre() }}</label>
-		    	 					<input type="checkbox" class="deudaOtro" value="{{ $motivoDeuda->getId() }}" name="motivodeuda_id[]">
+		    	 					<input {{ $checked }} type="checkbox" class="deudaOtro" value="{{ $motivoDeuda->getId() }}" name="motivodeuda_id[]">
 		    	 				@else
 				    				<label for="" style="margin-left: 15px;">{{ $motivoDeuda->getNombre() }}</label>
-			    	 				<input type="checkbox" value="{{ $motivoDeuda->getId() }}" name="motivodeuda_id[]">
+			    	 				<input {{ $checked }} type="checkbox" value="{{ $motivoDeuda->getId() }}" name="motivodeuda_id[]">
 				 				@endif
 			    			@endforeach
 	    					{!! $errors->first('motivodeuda_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -415,17 +495,17 @@
 
 			 			<div style="display: none;" class="deudaCual" {{ $errors->has('motivodeuda_otro') ? 'has-error' : ''}}>
 			    	 		<label for="">Cual?</label>
-			    	 		<input type="text" class="form-control" name="motivodeuda_otro" value="{{ old('motivodeuda_otro') }}">
+			    	 		<input type="text" class="form-control motivodeuda_otro" name="motivodeuda_otro" value="{{ $dFormulario->motivodeuda_otro }}">
 			    	 	</div>
 	    				{!! $errors->first('motivodeuda_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
 				 	</div>
 
 	    	 		<div {{ $errors->has('lugardeuda_id') ? 'has-error' : ''}}>
 	    	 			<label for="">D 24 II. Lugar de deuda</label>
-			    		<select class="form-control" name="lugardeuda_id">
+			    		<select class="form-control lugardeuda_id" name="lugardeuda_id">
 			    			<option value="">Lugar de dueda?</option>
 			    			@foreach ($datosLugarDeuda as $lugarDeuda)
-			    				<option value="{{ $lugarDeuda->getId() }}" {{ old('lugardeuda_id') == $lugarDeuda->getId() ? 'selected' : '' }}>{{ $lugarDeuda->getNombre() }}</option>
+			    				<option value="{{ $lugarDeuda->getId() }}" {{ $dFormulario->lugardeuda_id == $lugarDeuda->getId() ? 'selected' : '' }}>{{ $lugarDeuda->getNombre() }}</option>
 			    			@endforeach
 			    		</select>
 	    				{!! $errors->first('lugardeuda_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -438,7 +518,7 @@
 	    		<select class="form-control" name="permanencia_id">
 	    			<option value="">Seleccioná tiempo de permanencia</option>
 	    			@foreach ($datosPermanencia as $permanencia)
-	    				<option value="{{ $permanencia->getId() }}" {{ old('permanencia_id') == $permanencia->getId() ? 'selected' : '' }}>{{ $permanencia->getNombre() }}</option>
+	    				<option value="{{ $permanencia->getId() }}" {{ $dFormulario->permanencia_id == $permanencia->getId() ? 'selected' : '' }}>{{ $permanencia->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    		{!! $errors->first('permanencia_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -449,7 +529,7 @@
 	    		<select class="form-control testigo" name="testigo_id">
 	    			<option value="">Seleccioná</option>
 	    			@foreach ($datosTestigo as $testigo)
-	    				<option value="{{ $testigo->getId() }}" {{ old('testigo_id') == $testigo->getId() ? 'selected' : '' }}>{{ $testigo->getNombre() }}</option>
+	    				<option value="{{ $testigo->getId() }}" {{ $dFormulario->testigo_id == $testigo->getId() ? 'selected' : '' }}>{{ $testigo->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    		{!! $errors->first('testigo_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -457,13 +537,13 @@
 	    		<div style="display: none;" class="testigoSi">
 	    	 		<div {{ $errors->has('coordinadorPTN') ? 'has-error' : ''}}>
 	    	 			<label for=""> D 26 I. Coordinador PNT a cargo:</label>
-			    		<input type="text" class="form-control" name="coordinadorPTN" value="{{ old('coordinadorPTN') }}">
+			    		<input type="text" class="form-control coordinadorPTN" name="coordinadorPTN" value="{{ $dFormulario->coordinadorPTN }}">
 	    	 		</div>
 	    		{!! $errors->first('coordinadorPTN', '<p class="help-block" style="color:red";>:message</p>') !!}
 
 	    	 		<div {{ $errors->has('coordinadorPTN_otro') ? 'has-error' : ''}}>
 	    	 			<label for="">D 26 II. Otros datos:</label>
-			    		<input type="text" class="form-control" name="coordinadorPTN_otro" value="{{ old('coordinadorPTN_otro') }}">
+			    		<input type="text" class="form-control coordinadorPTN_otro" name="coordinadorPTN_otro" value="{{ $dFormulario->coordinadorPTN_otro }}">
 	    	 		</div>
 	    	 	</div>
 	    		{!! $errors->first('coordinadorPTN_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -474,7 +554,7 @@
 	    		<select class="form-control" name="haycorriente_id">
 	    			<option value="">Cuanta con corriente?</option>
 	    			@foreach ($datosHayCorriente as $hayCorriente)
-	    				<option value="{{ $hayCorriente->getId() }}" {{ old('haycorriente_id') == $hayCorriente->getId() ? 'selected' : '' }}>{{ $hayCorriente->getNombre() }}</option>
+	    				<option value="{{ $hayCorriente->getId() }}" {{ $dFormulario->haycorriente_id == $hayCorriente->getId() ? 'selected' : '' }}>{{ $hayCorriente->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    		{!! $errors->first('haycorriente_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -485,7 +565,7 @@
 	    		<select class="form-control" name="haygas_id">
 	    			<option value="">Cuanta con gas?</option>
 	    			@foreach ($datosHayGas as $hayGas)
-	    				<option value="{{ $hayGas->getId() }}" {{ old('haygas_id') == $hayGas->getId() ? 'selected' : '' }}>{{ $hayGas->getNombre() }}</option>
+	    				<option value="{{ $hayGas->getId() }}" {{ $dFormulario->haygas_id == $hayGas->getId() ? 'selected' : '' }}>{{ $hayGas->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    		{!! $errors->first('haygas_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -497,18 +577,22 @@
 		 		<label for="">(En caso de requerir, tildar todas las opciones que considere correspondientes)</label>
 		 		<div {{ $errors->has('haymedida_id[]') ? 'has-error' : ''}}>
 		 			@foreach ($datosHayMedida as $hayMedida)
+		 				@php
+							$hayMedidaIds = $dFormulario->haymedidas->pluck('id')->toArray();
+							$checked = (in_array($hayMedida->id, $hayMedidaIds)) ? 'checked' : ''
+						@endphp
 		 				@if ($hayMedida->getNombre() == 'Otro')
 		 					<label for="{{ $hayMedida->getNombre() }}" style="margin-left: 15px;">{{ $hayMedida->getNombre() }}</label>
-    	 					<input type="checkbox" id="{{ $hayMedida->getNombre() }}" class="hayMedidaOtro" value="{{ $hayMedida->getId() }}" name="haymedida_id[]">
+    	 					<input {{ $checked }} type="checkbox" id="{{ $hayMedida->getNombre() }}" class="hayMedidaOtro" value="{{ $hayMedida->getId() }}" name="haymedida_id[]">
     	 				@elseif($hayMedida->getNombre() == 'Se desconoce')
 		    				<label for="{{ $hayMedida->getNombre() }}" style="margin-left: 15px;">{{ $hayMedida->getNombre() }}</label>
-	    	 				<input type="checkbox" id="{{ $hayMedida->getNombre() }}" class="hayMedidaDesconoce" value="{{ $hayMedida->getId() }}" name="haymedida_id[]">
+	    	 				<input {{ $checked }} type="checkbox" id="{{ $hayMedida->getNombre() }}" class="hayMedidaDesconoce" value="{{ $hayMedida->getId() }}" name="haymedida_id[]">
 	    	 			@elseif($hayMedida->getNombre() == 'No posee')
 	    	 				<label for="{{ $hayMedida->getNombre() }}" style="margin-left: 15px;">{{ $hayMedida->getNombre() }}</label>
-	    	 				<input type="checkbox" id="{{ $hayMedida->getNombre() }}" class="hayMedidaNoPosee" value="{{ $hayMedida->getId() }}" name="haymedida_id[]">
+	    	 				<input {{ $checked }} type="checkbox" id="{{ $hayMedida->getNombre() }}" class="hayMedidaNoPosee" value="{{ $hayMedida->getId() }}" name="haymedida_id[]">
 	    	 			@else
 		    				<label for="{{ $hayMedida->getNombre() }}" style="margin-left: 15px;">{{ $hayMedida->getNombre() }}</label>
-	    	 				<input type="checkbox" id="{{ $hayMedida->getNombre() }}" value="{{ $hayMedida->getId() }}" name="haymedida_id[]">
+	    	 				<input {{ $checked }} type="checkbox" id="{{ $hayMedida->getNombre() }}" value="{{ $hayMedida->getId() }}" name="haymedida_id[]">
 		 				@endif
 	    			@endforeach
 	    		</div>
@@ -516,7 +600,7 @@
 
 	 			<div style="display: none;" class="hayMedidaCual" {{ $errors->has('haymedidas_otro') ? 'has-error' : ''}}>
 	    	 		<label for="">Cual?</label>
-	    	 		<input type="text" class="form-control" name="haymedidas_otro" value="{{ old('haymedidas_otro') }}">
+	    	 		<input type="text" class="form-control haymedidas_otro" name="haymedidas_otro" value="{{ $dFormulario->haymedidas_otro }}">
 	    	 	</div>
 	    		{!! $errors->first('haymedidas_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
 		 	</div>
@@ -526,7 +610,7 @@
 	    		<select class="form-control" name="hayhacinamiento_id">
 	    			<option value="">Hay hacinamiento?</option>
 	    			@foreach ($datosHayHacinamiento as $hayHacinamiento)
-	    				<option value="{{ $hayHacinamiento->getId() }}" {{ old('hayhacinamiento_id') == $hayHacinamiento->getId() ? 'selected' : '' }}>{{ $hayHacinamiento->getNombre() }}</option>
+	    				<option value="{{ $hayHacinamiento->getId() }}" {{ $dFormulario->hayhacinamiento_id == $hayHacinamiento->getId() ? 'selected' : '' }}>{{ $hayHacinamiento->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    		{!! $errors->first('hayhacinamiento_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -537,7 +621,7 @@
 	    		<select class="form-control" name="hayagua_id">
 	    			<option value="">Cuanta con agua potable?</option>
 	    			@foreach ($datosHayAgua as $hayAgua)
-	    				<option value="{{ $hayAgua->getId() }}" {{ old('hayagua_id') == $hayAgua->getId() ? 'selected' : '' }}>{{ $hayAgua->getNombre() }}</option>
+	    				<option value="{{ $hayAgua->getId() }}" {{ $dFormulario->hayagua_id == $hayAgua->getId() ? 'selected' : '' }}>{{ $hayAgua->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    		{!! $errors->first('hayagua_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -548,7 +632,7 @@
 	    		<select class="form-control" name="haybano_id">
 	    			<option value="">Seleccioná una opción</option>
 	    			@foreach ($datosHayBano as $hayBano)
-	    				<option value="{{ $hayBano->getId() }}" {{ old('haybano_id') == $hayBano->getId() ? 'selected' : '' }}>{{ $hayBano->getNombre() }}</option>
+	    				<option value="{{ $hayBano->getId() }}" {{ $dFormulario->haybano_id == $hayBano->getId() ? 'selected' : '' }}>{{ $hayBano->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    		{!! $errors->first('haybano_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -559,7 +643,7 @@
 	    		<select class="form-control" name="cuantosbano_id">
 	    			<option value="">Hay baños suficientes?</option>
 	    			@foreach ($datosCuantosBano as $cuantosBano)
-	    				<option value="{{ $cuantosBano->getId() }}" {{ old('cuantosbano_id') == $cuantosBano->getId() ? 'selected' : '' }}>{{ $cuantosBano->getNombre() }}</option>
+	    				<option value="{{ $cuantosBano->getId() }}" {{ $dFormulario->cuantosbano_id == $cuantosBano->getId() ? 'selected' : '' }}>{{ $cuantosBano->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    		{!! $errors->first('cuantosbano_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -571,7 +655,7 @@
 		    		<select class="form-control material" name="material_id">
 		    			<option value="">Seleccioná material de contrucción</option>
 		    			@foreach ($datosMaterial as $material)
-		    				<option value="{{ $material->getId() }}" {{ old('material_id') == $material->getId() ? 'selected' : '' }}>{{ $material->getNombre() }}</option>
+		    				<option value="{{ $material->getId() }}" {{ $dFormulario->material_id == $material->getId() ? 'selected' : '' }}>{{ $material->getNombre() }}</option>
 		    			@endforeach
 		    		</select>
 	    			{!! $errors->first('material_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -579,7 +663,7 @@
 	    	 	
 	    	 	<div style="display: none;" class="materialCual" {{ $errors->has('material_otro') ? 'has-error' : ''}}>
 	    	 		<label for="">Cual?</label>
-	    	 		<input type="text" class="form-control" name="material_otro" value="{{ old('material_otro') }}">
+	    	 		<input type="text" class="form-control material_otro" name="material_otro" value="{{ $dFormulario->material_otro }}">
 	    	 	</div>
 	    		{!! $errors->first('material_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	</div>
@@ -589,7 +673,7 @@
 	    		<select class="form-control" name="elementotrabajo_id">
 	    			<option value="">Daban elementos de trabajo?</option>
 	    			@foreach ($datosElementoTrabajo as $elementoTrabajo)
-	    				<option value="{{ $elementoTrabajo->getId() }}" {{ old('elementotrabajo_id') == $elementoTrabajo->getId() ? 'selected' : '' }}>{{ $elementoTrabajo->getNombre() }}</option>
+	    				<option value="{{ $elementoTrabajo->getId() }}" {{ $dFormulario->elementotrabajo_id == $elementoTrabajo->getId() ? 'selected' : '' }}>{{ $elementoTrabajo->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    		{!! $errors->first('elementotrabajo_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -600,7 +684,7 @@
 	    		<select class="form-control" name="elementoseguridad_id">
 	    			<option value="">Daban elementos de seguridad?</option>
 	    			@foreach ($datosElementoSeguridad as $elementoSeguridad)
-	    				<option value="{{ $elementoSeguridad->getId() }}" {{ old('elementoseguridad_id') == $elementoSeguridad->getId() ? 'selected' : '' }}>{{ $elementoSeguridad->getNombre() }}</option>
+	    				<option value="{{ $elementoSeguridad->getId() }}" {{ $dFormulario->elementoseguridad_id == $elementoSeguridad->getId() ? 'selected' : '' }}>{{ $elementoSeguridad->getNombre() }}</option>
 	    			@endforeach
 	    		</select>
 	    		{!! $errors->first('elementoseguridad_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -610,32 +694,11 @@
 	    </form>
     </section>
 
-    <script src="/js/formularioD.js" type="text/javascript" charset="utf-8" async defer></script>
+    <script src="/js/paises.js" type="text/javascript"></script>
+	<script src="/js/paises2.js" type="text/javascript"></script>
+	{{-- <script src="/js/formularioD_edit.js" type="text/javascript" charset="utf-8" async defer></script> --}}
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-    {{-- menu desplegable --}}
-    	{{-- <style> 
-			#panel, #flip {
-			    padding: 5px;
-			    text-align: center;
-			    background-color: #e5eecc;
-			    border: solid 1px #c3c3c3;
-			}
-
-			#panel {
-			    padding: 50px;
-			    display: none;
-			}
-		</style>
-	    <div id="flip">Click to slide down panel</div>
-		<div id="panel">Hello world!</div>
-
-		<script>
-			$("#flip").click(function(){
-		        $("#panel").slideToggle();
-		    });
-		</script> --}}
-	{{-- hasta aca --}}
+    <script src="/js/formularioD.js" type="text/javascript" charset="utf-8" async defer></script>
 
 </body>
 </html>

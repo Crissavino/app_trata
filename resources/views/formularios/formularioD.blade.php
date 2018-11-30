@@ -120,7 +120,7 @@
 	    	 		<label for="">D 5 II.</label>
 	    	 		<div {{ $errors->has('marcaTextil') ? 'has-error' : ''}}>
 	    	 			<label for="">a) Nombre de marca, sello, nombre registral o franquicia:</label>
-	    	 			<input type="text" class="form-control" name="marcaTextil">
+	    	 			<input type="text" class="form-control" name="marcaTextil" value="{{ old('marcaTextil') }}">
 	    	 		</div>
 	    			{!! $errors->first('marcaTextil', '<p class="help-block" style="color:red";>:message</p>') !!}
 
@@ -179,7 +179,7 @@
 
 	    	 		<div {{ $errors->has('domicilioVenta') ? 'has-error' : ''}}>
 	    	 			<label for="">b) Domicilio del lugar de venta:</label>
-		    	 		<input type="text" class="form-control ruralCualDomicilio" name="domicilioVenta">
+		    	 		<input type="text" class="form-control ruralCualDomicilio" name="domicilioVenta" value="{{ old('domicilioVenta') }}">
 		    	 		
 		    	 		<label for="">Se desconoce</label>
 			 			<input type="checkbox" class="ruralCualDesconoce" name="">
@@ -188,10 +188,34 @@
 	    	 	</div>
 	    	</div>
 
-	    	<div>
-		 		PAIS DE CAPTACION
-		 		PROVINCIA DE CAPTACION
-		 		LOCALIDAD DE CAPTACION
+	    	<div class="form-group">
+		 		<!-- {{-- PAISES --}} -->
+		 		{{-- ver como hacer para los casos en que se desconozca --}}
+		 			<label for="countryId">D 6. País de captación:</label>
+			        <select name="paisCaptacion" class="countries order-alpha form-control" id="countryId">
+					    <option value="">Seleccioná pais de captación</option>
+					</select>
+
+					<label for="desconocePaisCaptacion">Se desconoce</label>
+					<input type="checkbox" name="" id="desconocePaisCaptacion" value="Se desconoce"><br>
+
+					<label for="stateId">D 7. Provincia de captación:</label>
+			        <select name="provinciaCaptacion" class="states order-alpha form-control" id="stateId">
+			            <option value="">Seleccioná provincia de captación</option>
+			        </select>
+
+			        <label for="desconoceProvinciaCaptacion">Se desconoce</label>
+					<input type="checkbox" name="" id="desconoceProvinciaCaptacion" value="Se desconoce"><br>
+
+			        <label for="cityId">D 8. Localidad de captación:</label>
+			        <select name="ciudadCaptacion" class="cities order-alpha form-control" id="cityId">
+			            <option value="">Seleccioná ciudad de captación</option>
+			        </select>
+
+			        <label for="desconoceCiudadCaptacion">Se desconoce</label>
+					<input type="checkbox" name="" id="desconoceCiudadCaptacion" value="Se desconoce"><br>
+
+			    <!-- {{-- FIN PAISES --}} -->
 		 	</div>
 
 		 	<div class="form-group" {{ $errors->has('contactoexplotacion_id') ? 'has-error' : ''}}>
@@ -246,10 +270,35 @@
 	    	 	</div>
 	    	</div>
 
-	    	<div>
-		 		PAIS DE EXPLOTACION
-		 		PROVINCIA DE EXPLOTACION
-		 		LOCALIDAD DE EXPLOTACION
+	    	<div class="form-group">
+		 		<!-- {{-- PAISES --}} -->
+		 		{{-- ver como hacer para los casos en que se desconozca --}}
+
+		 			<label for="countryId2">D 11. País de explotación:</label>
+			        <select name="paisExplotacion" class="countries2 order-alpha form-control" id="countryId2">
+			            <option value="">Seleccioná pais de explotación</option>
+			        </select>
+
+			        <label for="desconocePaisExplotacion">Se desconoce</label>
+					<input type="checkbox" name="" id="desconocePaisExplotacion" value="Se desconoce"><br>
+
+			        <label for="stateId2">D 12. Provincia de explotación:</label>
+			        <select name="provinciaExplotacion" class="states2 order-alpha form-control" id="stateId2">
+			            <option value="">Seleccioná provincia de explotación</option>
+			        </select>
+
+			        <label for="desconoceProvinciaExplotacion">Se desconoce</label>
+					<input type="checkbox" name="" id="desconoceProvinciaExplotacion" value="Se desconoce"><br>
+
+			        <label for="cityId2">D 13. Localidad de explotación:</label>
+			        <select name="ciudadExplotacion" class="cities2 order-alpha form-control" id="cityId2">
+			            <option value="">Seleccioná ciudad de explotación</option>
+			        </select>
+
+			        <label for="desconoceCiudadExplotacion">Se desconoce</label>
+					<input type="checkbox" name="" id="desconoceCiudadExplotacion" value="Se desconoce"><br>
+
+			    <!-- {{-- FIN PAISES --}} -->
 		 	</div>
 
 		 	<div class="form-group">
@@ -516,7 +565,7 @@
 
 	 			<div style="display: none;" class="hayMedidaCual" {{ $errors->has('haymedidas_otro') ? 'has-error' : ''}}>
 	    	 		<label for="">Cual?</label>
-	    	 		<input type="text" class="form-control" name="haymedidas_otro" value="{{ old('haymedidas_otro') }}">
+	    	 		<input type="text" class="form-control haymedidas_otro" name="haymedidas_otro" value="{{ old('haymedidas_otro') }}">
 	    	 	</div>
 	    		{!! $errors->first('haymedidas_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
 		 	</div>
@@ -609,33 +658,11 @@
 	    	<button type="submit" class="btn btn-primary col-xl" name="button">Enviar</button><br><br>
 	    </form>
     </section>
-
+			        
+	<script src="/js/paises.js" type="text/javascript"></script>
+	<script src="/js/paises2.js" type="text/javascript"></script>
     <script src="/js/formularioD.js" type="text/javascript" charset="utf-8" async defer></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-    {{-- menu desplegable --}}
-    	{{-- <style> 
-			#panel, #flip {
-			    padding: 5px;
-			    text-align: center;
-			    background-color: #e5eecc;
-			    border: solid 1px #c3c3c3;
-			}
-
-			#panel {
-			    padding: 50px;
-			    display: none;
-			}
-		</style>
-	    <div id="flip">Click to slide down panel</div>
-		<div id="panel">Hello world!</div>
-
-		<script>
-			$("#flip").click(function(){
-		        $("#panel").slideToggle();
-		    });
-		</script> --}}
-	{{-- hasta aca --}}
 
 </body>
 </html>

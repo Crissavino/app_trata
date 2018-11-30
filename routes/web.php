@@ -49,7 +49,7 @@ Route::get('formularios/D', 'FormsController@createD')->middleware('auth', 'noHa
 Route::post('formularios/D', 'FormsController@insertD');
 Route::get('formularios/edicion/D/{id}', 'FormsController@editD')->middleware('auth');
 Route::put('formularios/edicion/D/{id}', 'FormsController@updateD');
-// Route::delete('formularios/edicion/D/{id}', 'FormsController@destroyD');
+Route::delete('formularios/edicion/D/{id}', 'FormsController@destroyD');
 
 //TODOS LOS FORMULARIOS
 Route::get('formularios', 'FormsController@formularios')->middleware('auth');
