@@ -49,16 +49,17 @@ class FormsController extends Controller
 											->WHERE('user_id', '=', $userId)
 											->ORDERBY('updated_at')
 											->get();
-
-
-
-		// $aFormularios = \App\FormA\Aformulario::all();
-		// $bFormularios = \App\FormB\Bformulario::all();		
+											
+		$eFormPorId = DB::table('eformularios')
+											->WHERE('user_id', '=', $userId)
+											->ORDERBY('updated_at')
+											->get();
 
 		return view('formularios.formularios', ['aFormPorId' => $aFormPorId,
 												'bFormPorId' => $bFormPorId,
 												'cFormPorId' => $cFormPorId,
-												'dFormPorId' => $dFormPorId]);
+												'dFormPorId' => $dFormPorId,
+												'eFormPorId' => $eFormPorId]);
 	}
 
 	public function createA()
@@ -98,9 +99,14 @@ class FormsController extends Controller
 							'datos_numero_carpeta' => 'required',
 							'datos_fecha_ingreso' => 'required|date|before_or_equal:'.$fecha_hoy,
 							'modalidad_id' => 'required',
+							'presentacion_espontanea_id' => 'required_if:modalidad_id,==,3',
+							'derivacion_otro_organismo_id' => 'required_if:modalidad_id,==,4',
+							'derivacion_otro_organismo_cual' => 'required_if:derivacion_otro_organismo_id,==,16',
+							// 'nombre_apellido.0' => 'required_if:otraspersonas_id,==,1',
 							'estadocaso_id' => 'required',
 							'datos_ente_judicial' => 'required',
 							'caratulacionjudicial_id' => 'required',
+							'caratulacionjudicial_otro' => 'required_if:caratulacionjudicial_id,==,25',
 							'datos_nro_causa' => 'required',
 							'profesional_id.*' => 'nullable',
 							'profesional_id.0' => 'required',
@@ -128,6 +134,10 @@ class FormsController extends Controller
 							'datos_profesional_interviene_hasta.*.required' => 'Este campo es obligatorio',
 							'datos_profesional_interviene_hasta.*.after_or_equal' => 'Se ingresó un fecha anterior a la fecha de inicio de intervención',
 							'profesionalactualmente_id.*.required' => 'Este campo es obligatorio',
+							'presentacion_espontanea_id.required_if' => 'Este campo es obligatorio', 
+							'derivacion_otro_organismo_id.required_if' => 'Este campo es obligatorio', 
+							'derivacion_otro_organismo_cual.required_if' => 'Este campo es obligatorio', 
+							'caratulacionjudicial_otro.required_if' => 'Este campo es obligatorio', 
 						]);
 		// dd($_POST);
 		$data = request()->all();
@@ -196,65 +206,77 @@ class FormsController extends Controller
 
 	public function updateA($id)
 	{	
+		$userId = auth()->user()->id;
 		//busco segun el id el formulario deseado
 		$aFormulario = \App\FormA\Aformulario::find($id);
-		                            // //convertir objeto a array
-		                            // $array = json_decode(json_encode($todo), true);
-		                            // //convertir array a objeto stdClass
-		                            // $object = json_decode(json_encode($array), FALSE);
-		// $fecha_hoy = Carbon::now();
+		                       
+		$fecha_hoy = Carbon::now();
 		request()->validate([
-							// 'datos_fecha_ingreso' => 'required|date|before_or_equal:'.$fecha_hoy,
+							'datos_nombre_referencia' => 'required',
+							'datos_numero_carpeta' => 'required',
+							'datos_fecha_ingreso' => 'required|date|before_or_equal:'.$fecha_hoy,
+							'modalidad_id' => 'required',
+							'presentacion_espontanea_id' => 'required_if:modalidad_id,==,3',
+							'derivacion_otro_organismo_id' => 'required_if:modalidad_id,==,4',
+							'derivacion_otro_organismo_cual' => 'required_if:derivacion_otro_organismo_id,==,16',
+							'estadocaso_id' => 'required',
+							'datos_ente_judicial' => 'required',
+							'caratulacionjudicial_id' => 'required',
+							'caratulacionjudicial_otro' => 'required_if:caratulacionjudicial_id,==,25',
+							'datos_nro_causa' => 'required',
 							'profesional_id.*' => 'nullable',
-							'profesional_id.0' => 'required',
 							'datos_profesional_interviene_desde.*' => 'nullable|date|before_or_equal:datos_profesional_interviene_hasta.*',
-							'datos_profesional_interviene_desde.0' => 'required|date|before_or_equal:datos_profesional_interviene_hasta.0',
 							'datos_profesional_interviene_hasta.*' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.*',
-							'datos_profesional_interviene_hasta.0' => 'required|date|after_or_equal:datos_profesional_interviene_desde.0',
 							'profesionalactualmente_id.*' => 'nullable',
-							'profesionalactualmente_id.0' => 'required',
 						],
 						[		
-
-							// 'datos_fecha_ingreso.required' => 'Este campo es obligatorio',
-							// 'datos_fecha_ingreso.before_or_equal' => 'La fecha ingresada es posterior al dia de hoy',
-							'profesional_id.*.required' => 'Este campo es obligatorio',
-							'datos_profesional_interviene_desde.*.required' => 'Este campo es obligatorio',
-							'datos_profesional_interviene_desde.*.before_or_equal' => 'Se ingresó un fecha posterior a la fecha de fin de intervención',
-							'datos_profesional_interviene_hasta.*.required' => 'Este campo es obligatorio',
-							'datos_profesional_interviene_hasta.*.after_or_equal' => 'Se ingresó un fecha anterior a la fecha de inicio de intervención',
-							'profesionalactualmente_id.*.required' => 'Este campo es obligatorio',
-
+							'datos_nombre_referencia.required' => 'Este campo es obligatorio',
+							'datos_numero_carpeta.required' => 'Este campo es obligatorio',
+							'datos_fecha_ingreso.required' => 'Este campo es obligatorio',
+							'datos_fecha_ingreso.before_or_equal' => 'La fecha ingresada es posterior al dia de hoy',
+							'modalidad_id.required' => 'Este campo es obligatorio',
+							'estadocaso_id.required' => 'Este campo es obligatorio',
+							'datos_ente_judicial.required' => 'Este campo es obligatorio',
+							'caratulacionjudicial_id.required' => 'Este campo es obligatorio',
+							'datos_nro_causa.required' => 'Este campo es obligatorio',
+							'presentacion_espontanea_id.required_if' => 'Este campo es obligatorio', 
+							'derivacion_otro_organismo_id.required_if' => 'Este campo es obligatorio', 
+							'derivacion_otro_organismo_cual.required_if' => 'Este campo es obligatorio', 
+							'caratulacionjudicial_otro.required_if' => 'Este campo es obligatorio', 
 						]);
+
 		$data = request()->all();
 		$data['user_id'] = $userId;
 		$aFormulario->update($data);
 
 		//requiero los datos de los profesionales
 		$arrayProfesionales = request()->only(['profesional_id', 'datos_profesional_interviene_desde', 'datos_profesional_interviene_hasta', 'profesionalactualmente_id']);	
-		
-		//de aca obtengo la cantidad de veces que tengo que iterar para asignarle valores al array
-		$cant = (count(request()->input('profesional_id')));
 
-		// HOY 12 DE OCTUBRE ESTA MANERA BORRA TODOS PROFESIONALES ANTERIORES Y SOLO ASIGNA LOS QUE SE UPDETEAN
-		for ($i=0; $i < $cant; $i++) 
-		{ 
-			//asigno manualmente los valores
-			$profesional['profesional_id'] = $arrayProfesionales['profesional_id'][$i];
-			$profesional['datos_profesional_interviene_desde'] = $arrayProfesionales['datos_profesional_interviene_desde'][$i];
-			$profesional['datos_profesional_interviene_hasta'] = $arrayProfesionales['datos_profesional_interviene_hasta'][$i];
-			$profesional['profesionalactualmente_id'] = $arrayProfesionales['profesionalactualmente_id'][$i];
-			$profesional['user_id'] = $data['user_id'];
-			//una vez ya asignados los valores los guardo en la base, en la tabla que corresponde
-			$guardoProfesionalInterviniente = \App\FormA\Profesionalinterviniente::create($profesional);
-			//de aca obtengo los id de los profesionales guardados
-			$profId[] = $guardoProfesionalInterviniente->id;	
+		if (request()->input('profesional_id') !== null) {
+			//de aca obtengo la cantidad de veces que tengo que iterar para asignarle valores al array
+			$cant = (count(request()->input('profesional_id')));
+
+			// HOY 12 DE OCTUBRE ESTA MANERA BORRA TODOS PROFESIONALES ANTERIORES Y SOLO ASIGNA LOS QUE SE UPDETEAN
+			for ($i=0; $i < $cant; $i++) 
+			{ 
+				//asigno manualmente los valores
+				$profesional['profesional_id'] = $arrayProfesionales['profesional_id'][$i];
+				$profesional['datos_profesional_interviene_desde'] = $arrayProfesionales['datos_profesional_interviene_desde'][$i];
+				$profesional['datos_profesional_interviene_hasta'] = $arrayProfesionales['datos_profesional_interviene_hasta'][$i];
+				$profesional['profesionalactualmente_id'] = $arrayProfesionales['profesionalactualmente_id'][$i];
+				$profesional['user_id'] = $data['user_id'];
+				//una vez ya asignados los valores los guardo en la base, en la tabla que corresponde
+				$guardoProfesionalInterviniente = \App\FormA\Profesionalinterviniente::create($profesional);
+				//de aca obtengo los id de los profesionales guardados
+				$profId[] = $guardoProfesionalInterviniente->id;	
+			}
+			//guardo en la tabla pivot
+			$guardoRelacion = $aFormulario->profesionalintervinientes()->sync($profId);
+
+			return redirect('formularios');
+		}else{
+			return redirect('formularios');
 		}
-		//guardo en la tabla pivot
-		$guardoRelacion = $aFormulario->profesionalintervinientes()->sync($profId);
-
-
-		return redirect('formularios');
 	}
 	
 	public function destroyA($id)
@@ -1135,11 +1157,6 @@ class FormsController extends Controller
 		$data = request()->all();
 
 		$data['user_id'] = $userId;
-		// $dato = json_decode($_POST['dato'], true);
-
-		// dd($data);
-
-
 
 		$formularioD = \App\FormD\Dformulario::find($id);
 
@@ -1203,8 +1220,8 @@ class FormsController extends Controller
 		return redirect('formularios/D');
 	}
 
-	public function destroyD($id){
-
+	public function destroyD($id)
+	{
 		$Dformulario = \App\FormD\Dformulario::find($id);
 
 		$Dformulario->delete();
@@ -1212,7 +1229,161 @@ class FormsController extends Controller
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
     	return redirect('formularios');	
+	}
 
+	public function createE()
+	{
+		$userId = auth()->user()->id;
+		$numeroCarpeta = DB::table('aformularios')
+											->WHERE('user_id', '=', $userId)
+											->ORDERBY('updated_at')
+											->first()
+											->datos_numero_carpeta;
+		$documentos = \App\FormE\Edocumento::all();
+		$generos = \App\FormB\Genero::all();
+		$vinculaciones = \App\FormE\Vinculacion::all();
+		$roles = \App\FormE\Roldelito::all();
+
+		return view('formularios.formularioE', 
+												['numeroCarpeta' => $numeroCarpeta,
+												   
+											    'documentos' => $documentos,
+											   
+											    'generos' => $generos,
+											   
+											    'vinculaciones' => $vinculaciones,
+											   
+											    'roles' => $roles]);
+	}
+
+	public function insertE()
+	{
+		$userId = auth()->user()->id;
+		
+		request()->validate(
+			[
+				'nombreApellido' => 'required',
+				'edocumentos_id' => 'required',
+				'documentoCual' => 'required_if:edocumentos_id,==,7',
+				'numeroDocumento' => 'required',
+				'edad' => 'required',
+				'genero_id' => 'required',
+				'generoCual' => 'required_if:genero_id,==,5',
+				'vinculacion_id' => 'required',
+				'vinculacionCual' => 'required_if:vinculacion_id,==,6',
+				'rolDelito_id' => 'required'
+			],
+			[
+				'nombreApellido.required' => 'Este campo es obligatorio',
+				'edocumentos_id.required' => 'Este campo es obligatorio',
+				'documentoCual.required_if' => 'Este campo es obligatorio',
+				'numeroDocumento.required' => 'Este campo es obligatorio',
+				'edad.required' => 'Este campo es obligatorio',
+				'genero_id.required' => 'Este campo es obligatorio',
+				'generoCual.required_if' => 'Este campo es obligatorio',
+				'vinculacion_id.required' => 'Este campo es obligatorio',
+				'vinculacionCual.required_if' => 'Este campo es obligatorio',
+				'rolDelito_id.required' => 'Este campo es obligatorio'
+			]);
+
+		$data = request()->all();
+
+		$data['user_id'] = $userId;
+
+		// dd($data);
+
+		$guardoEformulario = \App\FormE\Eformulario::create($data);
+
+		$ultimoId = $guardoEformulario->id;
+
+		$eFormulario = \App\FormE\Eformulario::find($ultimoId);
+
+		$eFormulario->roldelitos()->sync($data['rolDelito_id']);
+
+		return redirect('formularios/E');
+	}
+
+	public function editE($id)
+	{
+		$userId = auth()->user()->id;
+		$numeroCarpeta = DB::table('aformularios')
+											->WHERE('user_id', '=', $userId)
+											->ORDERBY('updated_at')
+											->first()
+											->datos_numero_carpeta;
+		$documentos = \App\FormE\Edocumento::all();
+		$generos = \App\FormB\Genero::all();
+		$vinculaciones = \App\FormE\Vinculacion::all();
+		$roles = \App\FormE\Roldelito::all();
+		$eFormulario = \App\FormE\Eformulario::find($id);
+
+		return view('formularios.editar.formularioE_edit', 
+															['numeroCarpeta' => $numeroCarpeta,
+															   
+														    'documentos' => $documentos,
+														   
+														    'generos' => $generos,
+														   
+														    'vinculaciones' => $vinculaciones,
+														   
+														    'roles' => $roles,
+
+															'eFormulario' => $eFormulario]
+														);
+	}
+
+	public function updateE($id)
+	{
+		$userId = auth()->user()->id;
+		
+		request()->validate(
+			[
+				'nombreApellido' => 'required',
+				'edocumentos_id' => 'required',
+				'documentoCual' => 'required_if:edocumentos_id,==,7',
+				'numeroDocumento' => 'required',
+				'edad' => 'required',
+				'genero_id' => 'required',
+				'generoCual' => 'required_if:genero_id,==,5',
+				'vinculacion_id' => 'required',
+				'vinculacionCual' => 'required_if:vinculacion_id,==,6',
+				'rolDelito_id' => 'required'
+			],
+			[
+				'nombreApellido.required' => 'Este campo es obligatorio',
+				'edocumentos_id.required' => 'Este campo es obligatorio',
+				'documentoCual.required_if' => 'Este campo es obligatorio',
+				'numeroDocumento.required' => 'Este campo es obligatorio',
+				'edad.required' => 'Este campo es obligatorio',
+				'genero_id.required' => 'Este campo es obligatorio',
+				'generoCual.required_if' => 'Este campo es obligatorio',
+				'vinculacion_id.required' => 'Este campo es obligatorio',
+				'vinculacionCual.required_if' => 'Este campo es obligatorio',
+				'rolDelito_id.required' => 'Este campo es obligatorio'
+			]);
+
+		$data = request()->all();
+
+		$data['user_id'] = $userId;
+
+		$formularioE = \App\FormE\Eformulario::find($id);
+
+		$formularioE->update($data);
+
+		$formularioE->roldelitos()->sync($data['rolDelito_id']);
+
+		return redirect('formularios/E');
+	}
+
+	public function destroyE($id)
+	{
+		$Eformulario = \App\FormE\Eformulario::find($id);
+
+		$Eformulario->delete();
+
+    	session()->flash('message', 'El formulario se eliminó con éxito.');
+
+    	return redirect('formularios');	
 	}
 
 }

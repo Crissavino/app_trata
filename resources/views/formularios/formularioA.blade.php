@@ -53,7 +53,7 @@
                 {{-- TODAVIA NO SE COMO HACER PARA PERSISTIR LA OPCION ELEGIDA DE LOS SELECTS DINAMICOS --}}
                 <div class="form-group {{ $errors->has('modalidad_id') ? 'has-error' : ''}}">
                     <label for="modalidad_id">A 4. Modalidad de Ingreso</label>
-                    <select class="form-control" name="modalidad_id" onChange="selectOnChange2(this)" >
+                    <select class="form-control modalidad" name="modalidad_id" onChange="selectOnChange2(this)" >
                         <option value="">Modalidad</option>
                         @foreach ($datosModalidad as $modalidad)
                             @php
@@ -64,8 +64,8 @@
                     </select>
                     {!! $errors->first('modalidad_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 
-                    <div id="presentacion_espontanea_id" style="display: none;"><br>
-                        <select class="form-control" name="presentacion_espontanea_id">
+                    <div id="presentacion_espontanea_id" class="presentacion_espontanea" style="display: none;"><br>
+                        <select class="form-control presentacion" name="presentacion_espontanea_id">
                             <option value="">De que tipo?</option>
                             @foreach ($datosPresentacion as $presentacion)
                                 @php
@@ -76,8 +76,8 @@
                         </select>
                     </div>
 
-                    <div id="derivacion_otro_organismo_id" style="display: none;"><br>
-                        <select class="form-control" onChange="selectOnChange3(this)" name="derivacion_otro_organismo_id">
+                    <div id="derivacion_otro_organismo_id" class="derivacion_otro_organismo" style="display: none;"><br>
+                        <select class="form-control derivacion_otro_organismo_select" onChange="selectOnChange3(this)" name="derivacion_otro_organismo_id">
                             <option value="">Que Organismo?</option>
                             @foreach ($datosOrganismo as $organismo)
                                 @php
@@ -88,10 +88,10 @@
                         </select>
                     </div>
 
-                    <div id="derivacion_otro_organismo_cual" style="display: none;">
+                    <div id="derivacion_otro_organismo_cual" class="derivacion_otro_organismo_cual" style="display: none;">
                         <br><label for="">Cuál?</label>
                         <div class="">
-                            <input class="form-control" name="derivacion_otro_organismo_cual" type="text" onclick="derivacion_otro_organismo_cual()">
+                            <input class="form-control derivacion_otro_organismo_cual_input" name="derivacion_otro_organismo_cual" type="text" onclick="derivacion_otro_organismo_cual()">
                         </div>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
             {{-- INICIO SEPTIMA PREGUNTA --}}
                 <div class="form-group {{ $errors->has('caratulacionjudicial_id') ? 'has-error' : ''}}">
                     <label for="caratulacionjudicial_id">A 7. Caratulación Judicial:</label>
-                    <select class="form-control" name="caratulacionjudicial_id" onChange="selectOnChange(this)">
+                    <select class="form-control caratulacionjudicial" name="caratulacionjudicial_id" onChange="selectOnChange(this)">
                         <option value="">Caratulación</option>
                         @foreach ($datosCaratulacion as $caratulacion)
                             @php
@@ -169,11 +169,9 @@
                         @endforeach
                     </select>
                     {!! $errors->first('caratulacionjudicial_id', '<p class="help-block" style="color:red";>:message</p>') !!}
-                    <div id="cual" style="display: none;">
+                    <div id="cual" class="caratulacionjudicial_cual" style="display: none;">
                         <br><label for="">Cuál?</label>
-                        <div class="">
-                            <input class="form-control" name="caratulacionjudicial_otro" id="caratulacionjudicial_otro" type="text" onclick="cual()">
-                        </div>
+                        <input class="form-control caratulacionjudicial_otro" name="caratulacionjudicial_otro" id="caratulacionjudicial_otro" type="text" onclick="cual()">
                     </div>
                 </div>
 
@@ -262,7 +260,7 @@
                     });
 
                 function borra() {
-                    $('.hijo').last().remove();
+                    $('.hijo').first().remove();
                     swal('Se borro un profesional');
                 }
             </script>

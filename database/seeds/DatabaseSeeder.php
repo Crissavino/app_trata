@@ -83,5 +83,10 @@ class DatabaseSeeder extends Seeder
         $this->call(MaterialsTableSeeder::class);
         $this->call(ElementotrabajosTableSeeder::class);
         $this->call(ElementoseguridadsTableSeeder::class);
+
+        //SEEDERS FORMULARIO D
+        $this->call(RoldelitosTableSeeder::class);
+        $this->call(EdocumentosTableSeeder::class);
+        $this->call(VinculacionsTableSeeder::class);
     }
 }

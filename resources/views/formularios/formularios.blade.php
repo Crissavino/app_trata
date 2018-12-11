@@ -105,5 +105,25 @@
 		@endforeach
 	</div>
 
+	<div class="container">
+		<h2 class="text-center">Eje E: Datos del imputado</h2>
+		@foreach ($eFormPorId as $eFormulario)
+			<div class="cardForm" style="width: 18rem;">
+			  <div class="cardForm-body">
+			    <h5 class="cardForm-title">{{ $eFormulario->nombreApellido }}</h5>
+			    {{-- <p class="cardForm-text">Some quick example text to build on the cardForm title and make up the bulk of the cardForm's content.</p> --}}
+			    <a href="/formularios/edicion/E/{{$eFormulario->id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+			    <form action="/formularios/edicion/E/{{$eFormulario->id}}" method="post">
+					@method('DELETE')
+					@csrf
+					<button class="btn btn-danger">
+						<i class="far fa-trash-alt"></i> Borrar </span>
+					</button>
+				</form>
+			  </div>
+			</div>
+		@endforeach
+	</div>
+
 </body>
 </html>

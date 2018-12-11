@@ -12,7 +12,6 @@ class AcompanadosTableSeeder extends Seeder
      */
     public function run()
     {
-
         DB::table('acompanados')->insert([
 
             ['nombre' => 'Familiar'],
