@@ -1451,7 +1451,10 @@ class FormsController extends Controller
 		$userId = auth()->user()->id;
 
 		$data = request()->all();
+
 		$data['user_id'] = $userId;
+		// var_dump($data['user_id']);
+		// dd($data);
 
 		$guardoFormularioF = \App\FormF\Fformulario::create($data);
 
@@ -1467,7 +1470,9 @@ class FormsController extends Controller
 
 		$fFromulario->asistencias()->sync($data['asistencia_id']);
 
-		$fFromulario->socioeconomics()->sync($data['socioeconomic_id']);
+		if (isset($data['socioeconomic_id'])) {
+			$fFromulario->socioeconomics()->sync($data['socioeconomic_id']);
+		}
 
 		$fFromulario->orgjudicialactualmentes()->sync($data['orgjudicialactualmentes_id']);
 

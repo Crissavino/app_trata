@@ -16,7 +16,7 @@
     </ul>
 </header>
 <body>
-	<h1 class="text-center" style="padding: 15px;">
+    <h1 class="text-center" style="padding: 15px;">
         Eje F: Atención del caso
         <h5 style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5>
     </h1>
@@ -37,10 +37,15 @@
 		            				value="{{ $organismo->nombre }}">
 	            				@endif
             				@endforeach
-            			@elseif($aFormulario->derivacion_otro_organismo_id == 16)
+                        @endif
+            			@if($aFormulario->derivacion_otro_organismo_id == 16)
             				<input type="text" name="" class="form-control ml-3" readonly="readonly" 
 	            				value="{{ $aFormulario->derivacion_otro_organismo_cual }}">
             			@endif
+                        @if($aFormulario->derivacion_otro_organismo_id === null)
+                            <input type="text" name="" class="form-control ml-3" readonly="readonly" 
+                                value="No intervino ningún organismo previamente">
+                        @endif
 	            	@endif
             	@endforeach
             </div>
