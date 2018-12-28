@@ -84,9 +84,20 @@ class DatabaseSeeder extends Seeder
         $this->call(ElementotrabajosTableSeeder::class);
         $this->call(ElementoseguridadsTableSeeder::class);
 
-        //SEEDERS FORMULARIO D
+        //SEEDERS FORMULARIO E
         $this->call(RoldelitosTableSeeder::class);
         $this->call(EdocumentosTableSeeder::class);
         $this->call(VinculacionsTableSeeder::class);
+
+        //SEEDERS FORMULARIO F
+        $this->call(OrgjudicialsTableSeeder::class);
+        $this->call(OrgprognacionalsTableSeeder::class);
+        $this->call(PoliciaTableSeeder::class);
+        $this->call(OrgjudicialactualmentesTableSeeder::class);
+        $this->call(OrgprognacionalactualmentesTableSeeder::class);
+        $this->call(PoliciaactualmentesTableSeeder::class);
+        $this->call(AsistenciaTableSeeder::class);
+        $this->call(SocioeconomicsTableSeeder::class);
+        
     }
 }

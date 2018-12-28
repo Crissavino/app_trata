@@ -68,6 +68,7 @@ class CreateDformulariosTable extends Migration
             $table->integer('elementotrabajo_id')->unsigned();
             $table->integer('elementoseguridad_id')->unsigned();
             $table->integer('user_id')->unsigned();
+            $table->string('numeroCarpeta');
             $table->softDeletes();
             $table->timestamps();
         });

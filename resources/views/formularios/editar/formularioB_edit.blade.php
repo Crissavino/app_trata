@@ -10,18 +10,18 @@
 </head>
 <header>
 	<ul class="nav nav-tabs">
-		<li class="nav-item"> <a class="nav-link" href="/formularios/edicion/A">Eje A: Datos institucionales</a> </li>
+		{{-- <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/A">Eje A: Datos institucionales</a> </li> --}}
 		<li class="nav-item"> <a class="nav-link active" href="B">Eje B: Caracterización de la victima</a> </li>
-		<li class="nav-item"> <a class="nav-link " href="/formularios/edicion/C">Eje C: Grupo Conviviente</a> </li>
+		{{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/C">Eje C: Grupo Conviviente</a> </li>
 		<li class="nav-item"> <a class="nav-link " href="/formularios/edicion/D">Eje D: Datos de delito</a> </li>
 		<li class="nav-item"> <a class="nav-link " href="/formularios/edicion/E">Eje E: Datos del imputado</a> </li>
 		<li class="nav-item"> <a class="nav-link " href="/formularios/edicion/F">Eje F: Atención del caso</a> </li>
-		<li class="nav-item"> <a class="nav-link " href="/formularios/edicion/G">Eje G: Documentación</a> </li>
+		<li class="nav-item"> <a class="nav-link " href="/formularios/edicion/G">Eje G: Documentación</a> </li> --}}
 	</ul>
 </header>
 <body>
 
-	<h1 class="text-center" style="padding: 15px;">Formulario B</h1>
+	<h1 class="text-center" style="padding: 15px;">Eje B: Caracterización de la victima</h1>
 
 	<section class="container">
 		
@@ -30,6 +30,7 @@
             <form class="" action="{{$Bformulario->id}}" method="post">
             	{{-- inicio esta proteccion contra datos maliciosso --}}
             	{{ csrf_field() }}
+            	<input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
             	@method('PUT')
                 <!-- PRIMERA PREGUNTA -->
                 
@@ -234,94 +235,35 @@
 			        </script>
                 <!-- FIN SEXTA PREGUNTA -->
 
-                <!-- SEPTIMA PREGUNTA -->
-					<div class="form-group {{ $errors->has('pais_id') ? 'has-error' : ''}}">
-	                    <label for="">B 7. Pais de Nacimiento: </label>
-	                    <select id="pais" class="form-control" name="pais_id" onChange="selectOnChange3(this)">
-								@foreach ($datosPaises as $pais)
-								@php
-									$selected = ($pais->id == $Bformulario->pais_id) ? 'selected' : '';
-								@endphp
-									<option value="{{$pais->id}}" {{ $selected }}>{{$pais->nombre}}</option>
-								@endforeach
+                <div class="form-group">
+	                <!-- {{-- PAISES --}} -->
+	                {{-- ver como hacer para los casos en que se desconozca --}}
+	                    <label for="countryId">B 7. País de Nacimiento: {{ $Bformulario->paisNacimiento }}</label>
+	                    <select name="paisNacimiento" class="countries order-alpha form-control" id="countryId">
+	                        <option value="">Seleccioná pais de captación</option>
 	                    </select>
-	                  	{!! $errors->first('pais_id', '<p class="help-block" style="color:red";>:message</p>') !!}
-	                </div>
-	                {{-- funcion js para cuando se seleccione Pais->aparezcan las Provincias --}}
-			        <script>
-						function selectOnChange3(sel) {
-						if (sel.value=="7"){
-						    divC = document.getElementById("argprovincia_id");
-						    divC.style.display = "";
-						}else{
-						    divC = document.getElementById("argprovincia_id");
-						    $('#victima_provincia').val('');
-						    divC.style.display="none";
-						}
-						if (sel.value=="24") {
-						   divC = document.getElementById("brestado_id");
-						   divC.style.display = "";
-						}else{
-						    divC = document.getElementById("brestado_id");
-						    $('#victima_provincia').val('');
-						    divC.style.display="none";
-						}
-					}
-                    function check8(checkbox)
-                    {
-                        if (checkbox.checked)
-                        {
-                            $('#pais_id').val('194');
-                            document.getElementById('pais_id').setAttribute("readonly", "readonly");
-                        }else
-                            { 
-                                $('#pais_id').val('');
-                                document.getElementById('pais_id').removeAttribute("readonly");  
-                            }
-                    }
-			        </script>
-	                <!-- si selecciono Argentina aparece un select para todas las provincias de argentina -->
-                <!-- FIN SEPTIMA PREGUNTA -->
 
-                <!-- OCTAVA PREGUNTA -->
-	                <div class="form-group" id="argprovincia_id" style="display: none">
-	                    <label for="">B 8. Provincia de nacimiento: </label>
-	                    <select class="form-control" name="argprovincia_id">
-								@foreach ($datosArgProvincias as $provinciaARG)
-								@php
-									$selected = ($provinciaARG->id == $Bformulario->argprovincia_id) ? 'selected' : '';
-								@endphp
-	                       			<option value="{{$provinciaARG->id}}" {{ $selected }}>{{$provinciaARG->nombre}}</option>
-	                       		@endforeach
-	                    </select>
-	                </div>
-	                <div class="form-group" id="brestado_id" style="display: none">
-	                    <label for="">B 8. Provincia de nacimiento: </label>
-	                    <select class="form-control" name="brestado_id">
-	                       	<option value="">Elegi Provincia</option>
-	                       	@foreach ($datosBrEstados as $estadoBR)
-	                       		@php
-									$selected = ($estadoBR->id == $Bformulario->brestado_id) ? 'selected' : '';
-								@endphp
-	                       		<option value="{{$estadoBR->id}}" {{ $selected }}>{{$estadoBR->nombre}}</option>
-	                       	@endforeach
-	                    </select>
-	                </div>
-	                <!-- seguir cargando el array de las provincias de chile, uruguay, peru, paraguay y bolivia -->
-                <!-- FIN OCTAVA PREGUNTA -->
+	                    <label for="desconocePaisNacimiento">Se desconoce</label>
+	                    <input type="checkbox" name="" id="desconocePaisNacimiento" value="Se desconoce"><br>
 
-                <!-- de acuerdo a la provincia que seleccione me deberian aparecer las localidades de las mismas -->
-                <!-- deberian de cargarse a mano con un input text las localidades, en caso de no gustar hacer un array de las localidades de cada provincia, es la mejor manera pero llevaria mucho tiempo -->
-                <!-- NOVENA PREGUNTA -->
-	                <div class="form-group">
-	                    <div class="" id="localidad" style="display: none">
-	                        <label for="">B 8. Localidad de nacimiento: </label>
-	                        <select class="form-control" name="victima_localidad">
-	                           <option value="">Elegi la localidad</option>
-	                       </select>
-	                    </div>
-	                </div>
-                <!-- FIN NOVENA PREGUNTA -->
+	                    <label for="stateId">B 8. Provincia de nacimiento: {{ $Bformulario->provinciaNacimiento }}</label>
+	                    <select name="provinciaNacimiento" class="states order-alpha form-control" id="stateId">
+	                        <option value="">Seleccioná provincia de captación</option>
+	                    </select>
+
+	                    <label for="desconoceProvinciaNacimiento">Se desconoce</label>
+	                    <input type="checkbox" name="" id="desconoceProvinciaNacimiento" value="Se desconoce"><br>
+
+	                    <label for="cityId">B 9. Localidad de nacimiento: {{ $Bformulario->ciudadNacimiento }}</label>
+	                    <select name="ciudadNacimiento" class="cities order-alpha form-control" id="cityId">
+	                        <option value="">Seleccioná ciudad de captación</option>
+	                    </select>
+
+	                    <label for="desconoceCiudadNacimiento">Se desconoce</label>
+	                    <input type="checkbox" name="" id="desconoceCiudadNacimiento" value="Se desconoce"><br>
+
+	                <!-- {{-- FIN PAISES --}} -->
+	            </div>
 
                 <!-- DECIMA PREGUNTA -->
 	                <div class="form-group {{ $errors->has('victima_fecha_nacimiento') ? 'has-error' : ''}}">
@@ -768,13 +710,12 @@
 						
 
 				<button type="submit" class="btn btn-primary" name="button">Actualizar</button>
-
-				{{-- Aca iria un boton que diga borrar formulario --}}
-				{{-- <a class="btn btn-secondary" href="/formularios/edicion/B/{{$Bformulario->id}}"> Borrar Formulario </a> --}} 
-
 			</form>
 
 	</section>
+
+	<script src="/js/formularioB.js" type="text/javascript" charset="utf-8" async defer></script>
+    <script src="/js/paises.js" type="text/javascript" charset="utf-8" async defer></script>
 	
 </body>
 </html>

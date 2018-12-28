@@ -40,17 +40,21 @@ class CalificacionespecificasTableSeeder extends Seeder
 
             ['nombre' => 'Sin datos'],
 
-            ['nombre' => 'Trabajoforzoso (FinalidadesdelaLey26.842)'],
+            ['nombre' => 'Trabajo forzoso (FinalidadesdelaLey26.842)'],
 
             ['nombre' => 'Trabajo precario (No es delito)'],
 
-            ['nombre' => 'rata de personas con fines de explotación laboral'],
+            ['nombre' => 'Trata de personas con fines de explotación laboral'],
 
-            ['nombre' => 'Trata de personas con fines de explotación sexual Trata laboral infantil (148 bis CP)'],
+            ['nombre' => 'Trata de personas con fines de explotación sexual'],
+
+            ['nombre' => 'Trata laboral infantil (148 bis CP)'],
 
             ['nombre' => 'Trata mixta'],
 
-            ['nombre' => 'Trata - matrimonio forzoso Trata - pornografía infantil'],
+            ['nombre' => 'Trata - matrimonio forzoso'],
+
+            ['nombre' => 'Trata - pornografía infantil'],
 
             ['nombre' => 'No es delito'],
         ]);

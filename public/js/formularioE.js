@@ -71,6 +71,20 @@
 
 window.onload = function(){
 
+	//pregunta 1
+		var nombreApellido = document.querySelector('.nombreApellido');
+		var nomSeDesconoce = document.querySelector('.nomSeDesconoce');
+
+		nomSeDesconoce.addEventListener('click', function(){
+			if (this.checked) {
+				nombreApellido.setAttribute('readonly', 'readonly');
+				nombreApellido.value = 'Se desconoce';
+			}else{
+				nombreApellido.removeAttribute('readonly');
+				nombreApellido.value = '';
+			}
+		});
+
 	//pregunta 2
 		var selectDocumento = document.querySelector('.documentos');
 		var documentoOtro = document.querySelector('.documentoOtro');

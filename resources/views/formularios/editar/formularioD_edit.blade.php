@@ -25,6 +25,8 @@
     	<form action="" class="form-group formDedit" method="POST">
 	    	{{ csrf_field() }}
 	    	@method('PUT')
+            <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
+	    	
 	    	<div class="form-group">
 	    		<label for="">D 1. Calificación general: </label>
 	    		<select class="form-control calificacionGeneral" name="calificaciongeneral_id" {{ $errors->has('calificaciongeneral_id') ? 'has-error' : ''}}>
@@ -37,7 +39,7 @@
 	    	 	
 	    	 	<div style="display: none;" class="calificacionGeneralCual" {{ $errors->has('calificaciongeneral_otra') ? 'has-error' : ''}}>
 	    	 		<label for="">Cual?</label>
-	    	 		<input type="text" class="form-control calificaciongeneral_otra" name="calificaciongeneral_otra" value="{{ $dFormulario->calificaciongeneral_otra }}">
+	    	 		<input type="text" class="form-control calificacionGeneralOtraInput" name="calificaciongeneral_otra" value="{{ $dFormulario->calificaciongeneral_otra }}">
 	    	 	</div>
 	    		{!! $errors->first('calificaciongeneral_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	</div>
@@ -65,7 +67,7 @@
 	    	 	
 	    	 	<div style="display: none;" class="finalidadCual" {{ $errors->has('finalidad_otra') ? 'has-error' : ''}}>
 	    	 		<label for="">Cual?</label>
-	    	 		<input type="text" class="form-control" name="finalidad_otra" value="{{ $dFormulario->finalidad_otra }}">
+	    	 		<input type="text" class="form-control finalidadOtraInput" name="finalidad_otra" value="{{ $dFormulario->finalidad_otra }}">
 	    	 	</div>
 	    		{!! $errors->first('finalidad_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	</div>
@@ -82,7 +84,7 @@
 
 	    		<div style="display: none;" class="actividadCual" {{ $errors->has('actividad_otra') ? 'has-error' : ''}}>
 	    	 		<label for="">Cual?</label>
-	    	 		<input type="text" class="form-control" name="actividad_otra" value="{{ $dFormulario->actividad_otra }}">
+	    	 		<input type="text" class="form-control actividadOtraInput" name="actividad_otra" value="{{ $dFormulario->actividad_otra }}">
 	    	 	</div>
 	    		{!! $errors->first('actividad_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 	
@@ -114,7 +116,7 @@
 
 	    	 			<div style="display: none;" class="privadoCual" {{ $errors->has('privado_otra') ? 'has-error' : ''}}>
 			    	 		<label for="">Cual?</label>
-			    	 		<input type="text" class="form-control privado_otra" name="privado_otra" value="{{ $dFormulario->privado_otra }}">
+			    	 		<input type="text" class="form-control privadoOtraInput" name="privado_otra" value="{{ $dFormulario->privado_otra }}">
 			    	 	</div>
 	    				{!! $errors->first('privado_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 		</div>
@@ -127,6 +129,10 @@
 	    	 			<input type="text" class="form-control marcaTextil" name="marcaTextil" value="{{ $dFormulario->marcaTextil }}">
 	    	 		</div>
 	    			{!! $errors->first('marcaTextil', '<p class="help-block" style="color:red";>:message</p>') !!}
+	    			<div class="form-group">
+	    				<label for="">Se desconoce</label>
+	    				<input type="checkbox" class="marcaDesconoce" name="">
+	    			</div>	
 
 	    			<label for="">b) Lugar de venta:</label>
 	    	 		{{-- ver como ponerlo como subtitulo --}}
@@ -153,7 +159,7 @@
 
 	    	 		<div style="display: none;" class="textilCual" {{ $errors->has('textil_otra') ? 'has-error' : ''}}>
 		    	 		<label for="">Cual?</label>
-		    	 		<input type="text" class="form-control textil_otra" name="textil_otra" value="{{ $dFormulario->textil_otra }}">
+		    	 		<input type="text" class="form-control textilOtraInput" name="textil_otra" value="{{ $dFormulario->textil_otra }}">
 		    	 	</div>
 	    			{!! $errors->first('textil_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 	</div>
@@ -184,7 +190,7 @@
 
 	    	 			<div style="display: none;" class="ruralCual" {{ $errors->has('rural_otra') ? 'has-error' : ''}}>
 			    	 		<label for="">Cual?</label>
-			    	 		<input type="text" class="form-control rural_otra" name="rural_otra" value="{{ $dFormulario->rural_otra }}">
+			    	 		<input type="text" class="form-control ruralOtraInput" name="rural_otra" value="{{ $dFormulario->rural_otra }}">
 			    	 	</div>
 	    	 		</div>
 	    			{!! $errors->first('rural_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -194,7 +200,7 @@
 		    	 		<input type="text" class="form-control ruralCualDomicilio" name="domicilioVenta" value="{{ $dFormulario->domicilioVenta }}">
 		    	 		
 		    	 		<label for="">Se desconoce</label>
-			 			<input {{ $dFormulario->domicilioVenta == 'Se desconoce' ? 'checked' : '' }} type="checkbox" class="ruralCualDesconoce" name="">
+			 			<input type="checkbox" class="ruralCualDesconoce" name="">
 	    	 		</div>
 	    			{!! $errors->first('domicilioVenta', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 	</div>
@@ -246,17 +252,6 @@
 	    	 	</div>
 	    		{!! $errors->first('contactoexplotacion_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	</div>
-
-	    	<script>
-			    // $.ajax({
-			    // 	url: 'formularios/D',
-			    // 	data: 'contactoexplotacion_otro=""',
-			    // 	method: 'PUT',
-			    // 	succes: function(){
-			    // 		alert('Entro')
-			    // 	}
-			    // });
-	    	</script>
 
 	    	<div class="form-group" {{ $errors->has('viajo_id') ? 'has-error' : ''}}>
 	    		<label for="">D 10 Viajó:</label>
@@ -552,7 +547,7 @@
 	    	<div class="form-group" {{ $errors->has('haycorriente_id') ? 'has-error' : ''}}>
 	    		<label for="">D 27. ¿El lugar de explotación cuenta con corriente eléctrica?:</label>
 	    		<select class="form-control" name="haycorriente_id">
-	    			<option value="">Cuanta con corriente?</option>
+	    			<option value="">Cuenta con corriente?</option>
 	    			@foreach ($datosHayCorriente as $hayCorriente)
 	    				<option value="{{ $hayCorriente->getId() }}" {{ $dFormulario->haycorriente_id == $hayCorriente->getId() ? 'selected' : '' }}>{{ $hayCorriente->getNombre() }}</option>
 	    			@endforeach
@@ -696,7 +691,6 @@
 
     <script src="/js/paises.js" type="text/javascript"></script>
 	<script src="/js/paises2.js" type="text/javascript"></script>
-	{{-- <script src="/js/formularioD_edit.js" type="text/javascript" charset="utf-8" async defer></script> --}}
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/js/formularioD.js" type="text/javascript" charset="utf-8" async defer></script>
 

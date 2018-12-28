@@ -24,6 +24,8 @@
         <section class="container">
         <form class="ejeC" action="" method="post">
         	{{ csrf_field() }}
+            <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
+            
             <div class="form-group">
             	<label for="otraspersonas_id">C 1. ¿Se encontraba con otras personas en el lugar de explotación? </label>
 	            <select class="form-control noPersonas" name="otraspersonas_id" {{ $errors->has('otraspersonas_id') ? 'has-error' : ''}}>

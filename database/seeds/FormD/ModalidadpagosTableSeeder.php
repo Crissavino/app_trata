@@ -16,7 +16,7 @@ class ModalidadpagosTableSeeder extends Seeder
 
             ['nombre' => 'Fijo'],
 
-            ['nombre' => 'Adestajo'],
+            ['nombre' => 'A destajo'],
 
             ['nombre' => 'Porcentaje'],
 

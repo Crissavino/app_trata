@@ -24,6 +24,7 @@
     <section class="container">
     	<form action="" class="form-group" method="post">
 	    	{{ csrf_field() }}
+            <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
 
 	    	<div class="form-group">
 	    		<label for="">D 1. Calificación general: </label>
@@ -37,7 +38,7 @@
 	    	 	
 	    	 	<div style="display: none;" class="calificacionGeneralCual" {{ $errors->has('calificaciongeneral_otra') ? 'has-error' : ''}}>
 	    	 		<label for="">Cual?</label>
-	    	 		<input type="text" class="form-control" name="calificaciongeneral_otra" value="{{ old('calificaciongeneral_otra') }}">
+	    	 		<input type="text" class="form-control calificacionGeneralOtraInput" name="calificaciongeneral_otra" value="{{ old('calificaciongeneral_otra') }}">
 	    	 	</div>
 	    		{!! $errors->first('calificaciongeneral_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	</div>
@@ -82,7 +83,7 @@
 
 	    		<div style="display: none;" class="actividadCual" {{ $errors->has('actividad_otra') ? 'has-error' : ''}}>
 	    	 		<label for="">Cual?</label>
-	    	 		<input type="text" class="form-control" name="actividad_otra" value="{{ old('actividad_otra') }}">
+	    	 		<input type="text" class="form-control actividadOtraInput" name="actividad_otra" value="{{ old('actividad_otra') }}">
 	    	 	</div>
 	    		{!! $errors->first('actividad_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 	
@@ -110,7 +111,7 @@
 
 	    	 			<div style="display: none;" class="privadoCual" {{ $errors->has('privado_otra') ? 'has-error' : ''}}>
 			    	 		<label for="">Cual?</label>
-			    	 		<input type="text" class="form-control" name="privado_otra" value="{{ old('privado_otra') }}">
+			    	 		<input type="text" class="form-control privadoOtraInput" name="privado_otra" value="{{ old('privado_otra') }}">
 			    	 	</div>
 	    				{!! $errors->first('privado_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 		</div>
@@ -120,9 +121,13 @@
 	    	 		<label for="">D 5 II.</label>
 	    	 		<div {{ $errors->has('marcaTextil') ? 'has-error' : ''}}>
 	    	 			<label for="">a) Nombre de marca, sello, nombre registral o franquicia:</label>
-	    	 			<input type="text" class="form-control" name="marcaTextil" value="{{ old('marcaTextil') }}">
+	    	 			<input type="text" class="form-control marcaTextil" name="marcaTextil" value="{{ old('marcaTextil') }}">
 	    	 		</div>
 	    			{!! $errors->first('marcaTextil', '<p class="help-block" style="color:red";>:message</p>') !!}
+	    			<div class="form-group">
+	    				<label for="">Se desconoce</label>
+	    				<input type="checkbox" class="marcaDesconoce" name="">
+	    			</div>	
 
 	    			<label for="">b) Lugar de venta:</label>
 	    	 		{{-- ver como ponerlo como subtitulo --}}
@@ -145,7 +150,7 @@
 
 	    	 		<div style="display: none;" class="textilCual" {{ $errors->has('textil_otra') ? 'has-error' : ''}}>
 		    	 		<label for="">Cual?</label>
-		    	 		<input type="text" class="form-control" name="textil_otra" value="{{ old('textil_otra') }}">
+		    	 		<input type="text" class="form-control textilOtraInput" name="textil_otra" value="{{ old('textil_otra') }}">
 		    	 	</div>
 	    			{!! $errors->first('textil_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 	</div>
@@ -172,7 +177,7 @@
 
 	    	 			<div style="display: none;" class="ruralCual" {{ $errors->has('rural_otra') ? 'has-error' : ''}}>
 			    	 		<label for="">Cual?</label>
-			    	 		<input type="text" class="form-control" name="rural_otra" value="{{ old('rural_otra') }}">
+			    	 		<input type="text" class="form-control ruralOtraInput" name="rural_otra" value="{{ old('rural_otra') }}">
 			    	 	</div>
 	    	 		</div>
 	    			{!! $errors->first('rural_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -521,7 +526,7 @@
 	    	<div class="form-group" {{ $errors->has('haycorriente_id') ? 'has-error' : ''}}>
 	    		<label for="">D 27. ¿El lugar de explotación cuenta con corriente eléctrica?:</label>
 	    		<select class="form-control" name="haycorriente_id">
-	    			<option value="">Cuanta con corriente?</option>
+	    			<option value="">Cuenta con corriente?</option>
 	    			@foreach ($datosHayCorriente as $hayCorriente)
 	    				<option value="{{ $hayCorriente->getId() }}" {{ old('haycorriente_id') == $hayCorriente->getId() ? 'selected' : '' }}>{{ $hayCorriente->getNombre() }}</option>
 	    			@endforeach

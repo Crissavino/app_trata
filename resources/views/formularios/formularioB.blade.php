@@ -19,7 +19,7 @@
 @auth 
 	<h1 class="text-center" style="padding: 15px;">
         Eje B: Caracterización de la victima
-        <h5 style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5>
+        <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5>
     </h1>
 
 	<section class="container">	
@@ -27,6 +27,7 @@
         <form class="" action="" method="post">
         	{{-- inicio esta proteccion contra datos maliciosso --}}
         	{{ csrf_field() }}
+            <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
         	
             <!-- PRIMERA PREGUNTA -->
                 <div class="form-group {{ $errors->has('victima_nombre_y_apellido') ? 'has-error' : ''}}">
@@ -225,247 +226,37 @@
                 </script>
             <!-- FIN SEXTA PREGUNTA -->
 
-            <!-- SEPTIMA PREGUNTA -->
-				<div class="form-group {{ $errors->has('pais_id') ? 'has-error' : ''}}">
-                    <label for="">B 7. País de Nacimiento: </label>
-                    <select id="pais_id" class="form-control" name="pais_id" onChange="selectOnChange3(this)">
-						<option value="">Elegí País</option>
-							@foreach ($datosPaises as $pais)
-    						  <option value="{{$pais->getIdPais()}}" {{ old('pais_id') == $pais->getIdPais() ? 'selected' : '' }}>{{$pais->getNombrePais()}}</option>
-    						@endforeach
+            <div class="form-group">
+                <!-- {{-- PAISES --}} -->
+                {{-- ver como hacer para los casos en que se desconozca --}}
+                    <label for="countryId">B 7. País de Nacimiento: </label>
+                    <select name="paisNacimiento" class="countries order-alpha form-control" id="countryId">
+                        <option value="">Seleccioná pais de captación</option>
                     </select>
-                  	{!! $errors->first('pais_id', '<p class="help-block" style="color:red";>:message</p>') !!}
-                    <label for="bloqueo8" class="form-check-label">Se desconoce</label>
-                    <input type="checkbox" id="bloqueo8" name="pais_desconoce" value="Se desconoce" onchange="check8(this)">
-                </div>
 
-                {{-- funcion js para cuando se seleccione Pais->aparezcan las Provincias --}}
-		        <script>
-					function selectOnChange3(sel) {
-						if (sel.value=="7"){
-                            divC = document.getElementById("provinciasARG");
-						    divB = document.getElementById("localidadAR");
-                            divC.style.display = "";
-						    divB.style.display = "";
-						}else{
-                            divC = document.getElementById("provinciasARG");
-						    divB = document.getElementById("provinciasARG");
-						    $('#victima_provincia').val('');
-                            divB.style.display = "none";
-						    divC.style.display="none";
-						}
+                    <label for="desconocePaisNacimiento">Se desconoce</label>
+                    <input type="checkbox" name="" id="desconocePaisNacimiento" value="Se desconoce"><br>
 
-                        if (sel.value=="185"){
-                            divC = document.getElementById("provinciasUR");
-                            divC.style.display = "";
-                        }else{
-                            divC = document.getElementById("provinciasUR");
-                            $('#victima_provincia').val('');
-                            divC.style.display="none";
-                        }
+                    <label for="stateId">B 8. Provincia de nacimiento: </label>
+                    <select name="provinciaNacimiento" class="states order-alpha form-control" id="stateId">
+                        <option value="">Seleccioná provincia de captación</option>
+                    </select>
 
-						if (sel.value=="24") {
-						   divC = document.getElementById("provinciasBR");
-						   divC.style.display = "";
-						}else{
-						    divC = document.getElementById("provinciasBR");
-						    $('#victima_provincia').val('');
-						    divC.style.display="none";
-						}
+                    <label for="desconoceProvinciaNacimiento">Se desconoce</label>
+                    <input type="checkbox" name="" id="desconoceProvinciaNacimiento" value="Se desconoce"><br>
 
-                        if (sel.value=="35") {
-                           divC = document.getElementById("provinciasCH");
-                           divC.style.display = "";
-                        }else{
-                            divC = document.getElementById("provinciasCH");
-                            $('#victima_provincia').val('');
-                            divC.style.display="none";
-                        }
-					}
-                    function check8(checkbox)
-                    {
-                        if (checkbox.checked)
-                        {
-                            $('#pais_id').val('194');
-                            document.getElementById('pais_id').setAttribute("readonly", "readonly");
-                        }else
-                            { 
-                                $('#pais_id').val('');
-                                document.getElementById('pais_id').removeAttribute("readonly");  
-                            }
-                    }
-		        </script>
-                <!-- si selecciono Argentina aparece un select para todas las provincias de argentina -->
-            <!-- FIN SEPTIMA PREGUNTA -->
+                    <label for="cityId">B 9. Localidad de nacimiento: </label>
+                    <select name="ciudadNacimiento" class="cities order-alpha form-control" id="cityId">
+                        <option value="">Seleccioná ciudad de captación</option>
+                    </select>
 
+                    <label for="desconoceCiudadNacimiento">Se desconoce</label>
+                    <input type="checkbox" name="" id="desconoceCiudadNacimiento" value="Se desconoce"><br>
 
-            <!-- OCTAVA PREGUNTA -->
-                {{-- PROVINCIAS DE ARGENTINA --}}
-                    <div class="form-group" id="provinciasARG">
-                        <label for="">B 8. Provincia de nacimiento: </label>
-                        <select class="form-control" id="argprovincia_id" name="argprovincia_id">
-                           	<option value="">Elegí Provincia</option>
-    							@foreach ($datosArgProvincias as $provinciaARG)
-                           			<option value="{{$provinciaARG->getIdProvincia()}}" {{ old('argprovincia_id') == $provinciaARG->getIdProvincia() ? 'selected' : '' }}>{{$provinciaARG->getNombreProvincia()}}</option>
-                           		@endforeach
-                        </select>
-                        <label for="bloqueo9" class="form-check-label">Se desconoce</label>
-                        <input type="checkbox" id="bloqueo9" name="provinciasARG_desconoce" value="Se desconoce" onchange="check9(this)">
-                    </div>
-                    <script>
-                        function check9(checkbox)
-                        {
-                            if (checkbox.checked)
-                            {
-                                $('#argprovincia_id').val('26');
-                                document.getElementById('argprovincia_id').setAttribute("readonly", "readonly");
-                            }else
-                                { 
-                                    $('#argprovincia_id').val('');
-                                    document.getElementById('argprovincia_id').removeAttribute("readonly");  
-                                }
-                        }
-                    </script>
-                {{-- PROVINCIAS DE BRASIL --}}
-                    <div class="form-group" id="provinciasBR" style="display: none">
-                        <label for="">B 8. Provincia de nacimiento: </label>
-                        <select class="form-control" id="brestado_id" name="brestado_id">
-                           	<option value="">Elegí Provincia</option>
-                           	@foreach ($datosBrEstados as $estadoBR)
-                           		<option value="{{$estadoBR->getIdEstado()}}" {{ old('brestado_id') == $estadoBR->getIdEstado() ? 'selected' : '' }}>{{$estadoBR->getNombreEstado()}}</option>
-                           	@endforeach
-                        </select>
-                        <label for="bloqueo10" class="form-check-label">Se desconoce</label>
-                        <input type="checkbox" id="bloqueo10" name="provinciasBR_desconoce" value="Se desconoce" onchange="check10(this)">
-                    </div>
-                    <script>
-                        function check10(checkbox)
-                        {
-                            if (checkbox.checked)
-                            {
-                                $('#brestado_id').val('28');
-                                document.getElementById('brestado_id').setAttribute("readonly", "readonly");
-                            }else
-                                { 
-                                    $('#brestado_id').val('');
-                                    document.getElementById('brestado_id').removeAttribute("readonly");  
-                                }
-                        }
-                    </script>
-                {{-- PROVINCIAS URUGUAY --}}
-                    <div class="form-group" id="provinciasUR" style="display: none">
-                        <label for="">B 8. Provincia de nacimiento: </label>
-                        <select class="form-control" id="urprovincia_id" name="urprovincia_id">
-                            <option value="">Elegí Provincia</option>
-                                @foreach ($datosUrProvincias as $provinciaUR)
-                                    <option value="{{$provinciaUR->getIdProvincia()}}" {{ old('urprovincia_id') == $provinciaUR->getIdProvincia() ? 'selected' : '' }}>{{$provinciaUR->getNombreProvincia()}}</option>
-                                @endforeach
-                        </select>
-                        <label for="bloqueo11" class="form-check-label">Se desconoce</label>
-                        <input type="checkbox" id="bloqueo11" name="provinciasUR_desconoce" value="Se desconoce" onchange="check11(this)">
-                    </div>
-                    <script>
-                        function check11(checkbox)
-                        {
-                            if (checkbox.checked)
-                            {
-                                $('#urprovincia_id').val('20');
-                                document.getElementById('urprovincia_id').setAttribute("readonly", "readonly");
-                            }else
-                                { 
-                                    $('#urprovincia_id').val('');
-                                    document.getElementById('urprovincia_id').removeAttribute("readonly");  
-                                }
-                        }
-                    </script>
-                {{-- PROVINCIAS CHILE --}}
-                    <div class="form-group" id="provinciasCH" style="display: none">
-                        <label for="">B 8. Provincia de nacimiento: </label>
-                        <select class="form-control" id="chprovincia_id" name="chprovincia_id">
-                            <option value="">Elegí Provincia</option>
-                                @foreach ($datosChProvincias as $provinciasCH)
-                                    <option value="{{$provinciasCH->getIdProvincia()}}" {{ old('chprovincia_id') == $provinciasCH->getIdProvincia() ? 'selected' : '' }}>{{$provinciasCH->getNombreProvincia()}}</option>
-                                @endforeach
-                        </select>
-                        <label for="bloqueo12" class="form-check-label">Se desconoce</label>
-                        <input type="checkbox" id="bloqueo12" name="provinciasCH_desconoce" value="Se desconoce" onchange="check12(this)">
-                    </div>
-                    <script>
-                        function check12(checkbox)
-                        {
-                            if (checkbox.checked)
-                            {
-                                $('#chprovincia_id').val('55');
-                                document.getElementById('chprovincia_id').setAttribute("readonly", "readonly");
-                            }else
-                                { 
-                                    $('#chprovincia_id').val('');
-                                    document.getElementById('chprovincia_id').removeAttribute("readonly");  
-                                }
-                        }
-                    </script>
-                {{-- PROVINCIAS PERU --}}
-                    {{-- <div class="form-group" id="brestado_id" style="display: none">
-                        <label for="">B 8. Provincia de nacimiento: </label>
-                        <select class="form-control" name="brestado_id">
-                            <option value="">Elegí Provincia</option>
-                            @foreach ($datosBrEstados as $estadoBR)
-                                <option value="{{$estadoBR->getIdEstado()}}" {{ old('brestado_id') == $estadoBR->getIdEstado() ? 'selected' : '' }}>{{$estadoBR->getNombreEstado()}}</option>
-                            @endforeach
-                        </select>
-                    </div> --}}
-                {{-- PROVINCIAS PARAGUAY --}}
-                    {{-- <div class="form-group" id="brestado_id" style="display: none">
-                        <label for="">B 8. Provincia de nacimiento: </label>
-                        <select class="form-control" name="brestado_id">
-                            <option value="">Elegí Provincia</option>
-                            @foreach ($datosBrEstados as $estadoBR)
-                                <option value="{{$estadoBR->getIdEstado()}}" {{ old('brestado_id') == $estadoBR->getIdEstado() ? 'selected' : '' }}>{{$estadoBR->getNombreEstado()}}</option>
-                            @endforeach
-                        </select>
-                    </div> --}}
-                {{-- PROVINCIAS BOLIVIA --}}
-                    {{-- <div class="form-group" id="brestado_id" style="display: none">
-                        <label for="">B 8. Provincia de nacimiento: </label>
-                        <select class="form-control" name="brestado_id">
-                            <option value="">Elegí Provincia</option>
-                            @foreach ($datosBrEstados as $estadoBR)
-                                <option value="{{$estadoBR->getIdEstado()}}" {{ old('brestado_id') == $estadoBR->getIdEstado() ? 'selected' : '' }}>{{$estadoBR->getNombreEstado()}}</option>
-                            @endforeach
-                        </select>
-                    </div> --}}
-            <!-- FIN OCTAVA PREGUNTA -->
+                <!-- {{-- FIN PAISES --}} -->
+            </div>
 
-            <!-- de acuerdo a la provincia que seleccione me deberian aparecer las localidades de las mismas -->
-            <!-- deberian de cargarse a mano con un input text las localidades, en caso de no gustar hacer un array de las localidades de cada provincia, es la mejor manera pero llevaria mucho tiempo -->
-            <!-- NOVENA PREGUNTA -->
-                {{-- LOCALIDADES ARG --}}
-                    <div class="form-group" id="localidadAR" style="display: none">
-                        <label for="">B 9. Localidad de nacimiento: </label>
-                        <select class="form-control" name="localidadAR_id" id="localidadAR_id">
-                            <option value="">Elegí localidad</option>
-                            @foreach ($datosArgCiudades as $ciudadesAR)
-                                <option value="{{$ciudadesAR->getIdCiudad()}}" {{ old('localidadAR_id') == $ciudadesAR->getIdCiudad() ? 'selected' : '' }}>{{$ciudadesAR->getNombreCiudad()}}</option>
-                            @endforeach
-                        </select>
-                        <label for="bloqueo16" class="form-check-label">Se desconoce</label>
-                        <input type="checkbox" id="bloqueo16" name="localidadAR_desconoce" value="Se desconoce" onchange="check16(this)">
-                    </div>
-                    <script>
-                        function check16(checkbox)
-                        {
-                            if (checkbox.checked)
-                            {
-                                $('#localidadAR_id').val('2382');
-                                document.getElementById('localidadAR_id').setAttribute("readonly", "readonly");
-                            }else
-                                { 
-                                    $('#localidadAR_id').val('');
-                                    document.getElementById('localidadAR_id').removeAttribute("readonly");  
-                                }
-                        }
-                    </script>
-            <!-- FIN NOVENA PREGUNTA -->
+            
 
             <!-- DECIMA PREGUNTA -->
                 <div class="form-group {{ $errors->has('victima_fecha_nacimiento') ? 'has-error' : ''}}">
@@ -888,6 +679,8 @@
 		</form>
 
 	</section>
+    <script src="/js/formularioB.js" type="text/javascript" charset="utf-8" async defer></script>
+    <script src="/js/paises.js" type="text/javascript" charset="utf-8" async defer></script>
 @else
     <script>window.location = "/login";</script>
 @endauth

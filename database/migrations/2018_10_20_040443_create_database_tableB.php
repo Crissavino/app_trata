@@ -48,12 +48,9 @@ class CreateDatabaseTableB extends Migration
             $table->integer('residenciaprecaria_id')->unsigned()->nullable();
             $table->string('victima_tipo_documento_otro')->nullable();
             $table->string('victima_documento');
-            $table->integer('pais_id')->unsigned();
-            $table->integer('argprovincia_id')->unsigned()->nullable();
-            $table->integer('localidadAR_id')->unsigned()->nullable();
-            $table->integer('brestado_id')->unsigned()->nullable();
-            $table->integer('urprovincia_id')->unsigned()->nullable();
-            $table->integer('chprovincia_id')->unsigned()->nullable();
+            $table->string('paisNacimiento')->nullable();
+            $table->string('provinciaNacimiento')->nullable();
+            $table->string('ciudadNacimiento')->nullable();
             $table->dateTime('victima_fecha_nacimiento');
             $table->string('victima_fecha_nacimiento_desconoce')->nullable();
             $table->string('victima_edad');
@@ -74,6 +71,7 @@ class CreateDatabaseTableB extends Migration
             $table->integer('oficio_id')->unsigned();
             $table->string('victima_oficio_cual')->nullable();
             $table->integer('user_id')->unsigned();
+            $table->string('numeroCarpeta');
             $table->softDeletesTz();
             $table->timestampsTz();
         });

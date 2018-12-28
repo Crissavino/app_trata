@@ -11,13 +11,13 @@
 </head>
 <header>
 	<ul class="nav nav-tabs">
-        <li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li>
-        <li class="nav-item"> <a class="nav-link" href="B">Eje B: Caracterización de la victima</a> </li>
+        {{-- <li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="B">Eje B: Caracterización de la victima</a> </li> --}}
         <li class="nav-item"> <a class="nav-link active" href="C">Eje C: Grupo Conviviente</a> </li>
-        <li class="nav-item"> <a class="nav-link" href="D">Eje D: Datos de delito</a> </li>
+       {{--  <li class="nav-item"> <a class="nav-link" href="D">Eje D: Datos de delito</a> </li>
         <li class="nav-item"> <a class="nav-link" href="E">Eje E: Datos del imputado</a> </li>
         <li class="nav-item"> <a class="nav-link" href="F">Eje F: Atención del caso</a> </li>
-        <li class="nav-item"> <a class="nav-link" href="G">Eje G: Documentación</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="G">Eje G: Documentación</a> </li> --}}
 	</ul>
 </header>
 <body>
@@ -29,6 +29,8 @@
         <form class="" action="{{$cFormulario->id}}" method="post">
         	{{ csrf_field() }}
         	@method('PUT')
+            <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
+            
             <div class="form-group">
             	<label for="otraspersonas_id">C 1. ¿Se encontraba con otras personas en el lugar de explotación? </label>
 	            <select class="form-control noPersonas" name="otraspersonas_id" {{ $errors->has('otraspersonas_id') ? 'has-error' : ''}}>
@@ -81,10 +83,22 @@
                         </select>
                     </div>
                     
-                    <div class="form-group"">
+                    <div class="form-group divVinculoOtro" style="display: none;">
                         <label for="vinculo_otro">Cuál?</label>
-                        <input type="text" value="{{ $todo->vinculo_otro }}" readonly="readonly" class=" form-control vinculo_otro">
+                        <input id="" type="text" name="vinculo_otro" value="{{ $todo->vinculo_otro }}" readonly="readonly" class=" form-control vinculo_otro">
                     </div>
+
+
+                    <script>
+                        var vinculo = document.querySelector('#vinculo_id');
+                        var divVinculoOtro = document.querySelector('.divVinculoOtro');
+
+                        if (vinculo.value == 6) {
+                            divVinculoOtro.style.display = '';
+                        }else {
+                            divVinculoOtro.style.display = 'none';
+                        }
+                    </script>
                 </div>  
             @endforeach
         {{-- FIN CONVIVIENTES CARGADOS ANTERIORMENTE --}}

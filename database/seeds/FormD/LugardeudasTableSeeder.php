@@ -16,7 +16,9 @@ class LugardeudasTableSeeder extends Seeder
 
             ['nombre' => 'Nacional'],
 
-            ['nombre' => 'Exterior']
+            ['nombre' => 'Exterior'],
+
+            ['nombre' => 'Nacional y Exterior']
         ]);
     }
 }

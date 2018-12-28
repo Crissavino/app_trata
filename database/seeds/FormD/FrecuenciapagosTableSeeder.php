@@ -15,6 +15,8 @@ class FrecuenciapagosTableSeeder extends Seeder
         DB::table('frecuenciapagos')->insert([
 
             ['nombre' => 'Diaria'],
+
+            ['nombre' => 'Semanal'],
             
             ['nombre' => 'Mensual'],
 

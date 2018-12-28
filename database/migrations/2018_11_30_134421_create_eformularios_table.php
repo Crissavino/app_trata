@@ -25,6 +25,7 @@ class CreateEformulariosTable extends Migration
             $table->integer('vinculacion_id')->unsigned();
             $table->string('vinculacionCual')->nullable();
             $table->integer('user_id')->unsigned();
+            $table->string('numeroCarpeta');
             $table->softDeletesTz();
             $table->timestampsTz();
         });

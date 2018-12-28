@@ -24,10 +24,14 @@
     <section class="container">
     	<form action="" class="form-group" method="post">
 	    	{{ csrf_field() }}
+            <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
 
 	    	<div class="form-group">
 	    		<label for=""><span>E 1.</span> Nombre y Apellido:</label>
-	    		<input type="text" class="form-control" name="nombreApellido">
+	    		<input type="text" class="form-control nombreApellido" name="nombreApellido">
+
+	    		<label for="nomDesconoce">Se desconoce</label>
+	    		<input type="checkbox" id="nomDesconoce" class="nomSeDesconoce">
 	    	</div>
 
 	    	<div class="form-group">

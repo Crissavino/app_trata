@@ -17,6 +17,7 @@ class CreateCformulariosTable extends Migration
             $table->bigIncrements('id');
             $table->integer('otraspersonas_id')->unsigned();
             $table->integer('user_id')->unsigned();
+            $table->string('numeroCarpeta');
             $table->softDeletes();
             $table->timestamps();
         });

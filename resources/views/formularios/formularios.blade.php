@@ -23,7 +23,81 @@
 			{{ session()->get('message') }}
 		</div>
 	@endif
-	
+
+	<div class="container">
+		<h2 class="text-center">Formularios</h2>
+			@foreach ($aFormPorId as $aFormulario)
+				<div class="cardForm" style="width: 18rem;">
+		  			<div class="cardForm-body">
+			    		<h4 class="cardForm-title">Carpeta Nº: {{ $aFormulario->datos_numero_carpeta }}</h4>
+			    		<h5 class="cardForm-title">Eje A</h5>
+			    		{{-- <p class="cardForm-text">Some quick example text to build on the cardForm title and make up the bulk of the cardForm's content.</p> --}}
+			    		<a href="/formularios/edicion/A/{{$aFormulario->id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+			    		<form action="/formularios/edicion/A/{{$aFormulario->id}}" class="" method="post">
+							@method('DELETE')
+							@csrf
+							<button class="btn btn-danger">
+								<i class="far fa-trash-alt"></i> Borrar </span>
+							</button>
+						</form>
+						@foreach ($bFormPorId as $bFormulario)
+							@if ($aFormulario->datos_numero_carpeta == $bFormulario->numeroCarpeta)
+			    				<h5 class="cardForm-title">Eje B</h5>
+								<a href="/formularios/edicion/B/{{ $bFormulario->id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+					    		<form action="/formularios/edicion/B/{{ $bFormulario->id }}" class="" method="post">
+									@method('DELETE')
+									@csrf
+									<button class="btn btn-danger">
+										<i class="far fa-trash-alt"></i> Borrar </span>
+									</button>
+								</form>
+							@endif
+						@endforeach
+						@foreach ($cFormPorId as $cFormulario)
+							@if ($aFormulario->datos_numero_carpeta == $cFormulario->numeroCarpeta)
+			    				<h5 class="cardForm-title">Eje C</h5>
+								<a href="/formularios/edicion/C/{{ $cFormulario->id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+					    		<form action="/formularios/edicion/C/{{ $cFormulario->id }}" class="" method="post">
+									@method('DELETE')
+									@csrf
+									<button class="btn btn-danger">
+										<i class="far fa-trash-alt"></i> Borrar </span>
+									</button>
+								</form>
+							@endif
+						@endforeach
+						@foreach ($dFormPorId as $dFormulario)
+							@if ($aFormulario->datos_numero_carpeta == $dFormulario->numeroCarpeta)
+			    				<h5 class="cardForm-title">Eje D</h5>
+								<a href="/formularios/edicion/D/{{ $dFormulario->id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+					    		<form action="/formularios/edicion/D/{{ $dFormulario->id }}" class="" method="post">
+									@method('DELETE')
+									@csrf
+									<button class="btn btn-danger">
+										<i class="far fa-trash-alt"></i> Borrar </span>
+									</button>
+								</form>
+							@endif
+						@endforeach
+						@foreach ($eFormPorId as $eFormulario)
+							@if ($aFormulario->datos_numero_carpeta == $eFormulario->numeroCarpeta)
+			    				<h5 class="cardForm-title">Eje E</h5>
+								<a href="/formularios/edicion/E/{{ $eFormulario->id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+					    		<form action="/formularios/edicion/E/{{ $eFormulario->id }}" class="" method="post">
+									@method('DELETE')
+									@csrf
+									<button class="btn btn-danger">
+										<i class="far fa-trash-alt"></i> Borrar </span>
+									</button>
+								</form>
+							@endif
+						@endforeach
+		  			</div>
+				</div>
+			@endforeach
+	</div>
+
+
 	<div class="container">
 		<h2 class="text-center">Formularios del Eje A: Datos institucionales</h2>
 			@foreach ($aFormPorId as $aFormulario)
@@ -47,6 +121,7 @@
 	<div class="container">
 		<h2 class="text-center">Formularios del Eje B: Caracterización de la victima</h2>
 		@foreach ($bFormPorId as $bFormulario)
+	@dd($bFormulario->numeroCarpeta)
 			<div class="cardForm" style="width: 18rem;">
 			  <div class="cardForm-body">
 			    <h5 class="cardForm-title">{{ $bFormulario->victima_nombre_y_apellido }} - DNI: {{ $bFormulario->victima_documento }}</h5>
