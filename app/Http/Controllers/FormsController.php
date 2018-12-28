@@ -23,17 +23,21 @@ class FormsController extends Controller
 	{
 		//quiero acceder a los formularios que cargo cada usuario
 		$userId = auth()->user()->id;
+		$userName = auth()->user()->name;
 		$aFormPorId = DB::table('aformularios')
 											->WHERE('user_id', '=', $userId)
+											->WHERE('aformularios.deleted_at', '=', null)
 											->ORDERBY('updated_at')
 											->get();
 		$bFormPorId = DB::table('bformularios')
 											->WHERE('user_id', '=', $userId)
+											->WHERE('bformularios.deleted_at', '=', null)
 											->ORDERBY('updated_at')
 											->get();
 		//datos del formulario C
         $cFormPorId = DB::table('cformularios')
 												->WHERE('cformularios.user_id', '=', $userId)
+												->WHERE('cformularios.deleted_at', '=', null)
 												->ORDERBY('updated_at')
 												->get();
 
@@ -49,19 +53,28 @@ class FormsController extends Controller
 		//hasta aca
 		$dFormPorId = DB::table('dformularios')
 											->WHERE('user_id', '=', $userId)
+											->WHERE('dformularios.deleted_at', '=', null)
 											->ORDERBY('updated_at')
 											->get();
 											
 		$eFormPorId = DB::table('eformularios')
 											->WHERE('user_id', '=', $userId)
+											->WHERE('eformularios.deleted_at', '=', null)
+											->ORDERBY('updated_at')
+											->get();
+		$fFormPorId = DB::table('fformularios')
+											->WHERE('user_id', '=', $userId)
+											->WHERE('fformularios.deleted_at', '=', null)
 											->ORDERBY('updated_at')
 											->get();
 
-		return view('formularios.formularios', ['aFormPorId' => $aFormPorId,
+		return view('formularios.formularios', ['userName' => $userName,
 												'bFormPorId' => $bFormPorId,
+												'aFormPorId' => $aFormPorId,
 												'cFormPorId' => $cFormPorId,
 												'dFormPorId' => $dFormPorId,
-												'eFormPorId' => $eFormPorId]);
+												'eFormPorId' => $eFormPorId,
+												'fFormPorId' => $fFormPorId]);
 	}
 
 	public function createA()
@@ -1435,10 +1448,10 @@ class FormsController extends Controller
 	public function insertF()
 	{
 		// request()->validate([],[]);
+		$userId = auth()->user()->id;
 
 		$data = request()->all();
-
-		// dd($data);
+		$data['user_id'] = $userId;
 
 		$guardoFormularioF = \App\FormF\Fformulario::create($data);
 
@@ -1589,8 +1602,10 @@ class FormsController extends Controller
 	public function updateF($id)
 	{
 		// request()->validate([],[]);
+		$userId = auth()->user()->id;
 
 		$data = request()->all();
+		$data['user_id'] = $userId;
 
 		// dd($data);
 
@@ -1806,14 +1821,18 @@ class FormsController extends Controller
 				}
 			}
 		}
-		
-		dd('Chau');
 
 		return redirect('formularios/G');
 	}
 
-	// public function destroyF()
-	// {
-	// 	# code...
-	// }
+	public function destroyF($id)
+	{
+		$Fformulario = \App\FormF\Fformulario::find($id);
+
+		$Fformulario->delete();
+
+    	session()->flash('message', 'El formulario se eliminó con éxito.');
+
+    	return redirect('formularios');	
+	}
 }

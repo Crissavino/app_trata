@@ -24,7 +24,7 @@
 		<a href="/formularios/C" class="list-group-item list-group-item-action text-center active btn-primary">Eje C: Grupo Conviviente</a><br>
 		<a href="/formularios/D" class="list-group-item list-group-item-action text-center active btn-primary">Eje D: Datos de delito</a><br>
 		<a href="/formularios/E" class="list-group-item list-group-item-action text-center active btn-primary">Eje E: Datos del imputado</a><br>
-		<a href="" class="list-group-item list-group-item-action text-center disabled">Eje F: Atención del caso</a><br>
+		<a href="/formularios/F" class="list-group-item list-group-item-action text-center active btn-primary">Eje F: Atención del caso</a><br>
 		<a href="" class="list-group-item list-group-item-action text-center disabled">Eje G: Documentación</a><br>
 	</div>
 

@@ -28,6 +28,7 @@ class CreateFformulariosTable extends Migration
             // $table->string('orgProgProvincialesActualmente');
             // $table->string('orgProgMunicipalesActualmente');
             // $table->string('orgSocCivilActualmente');
+            $table->integer('user_id')->unsigned();
             $table->softDeletesTz();
             $table->timestamps();
         });
