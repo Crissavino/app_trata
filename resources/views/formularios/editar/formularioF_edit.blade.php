@@ -30,20 +30,26 @@
             <div class="form-group">
             	<label for="">F 1. Organismos que intervinieron previamente:</label>
             	@foreach ($aFormularios as $aFormulario)
-            		@if ($aFormulario->datos_numero_carpeta === $formularioF->numeroCarpeta)
-            			@if ($aFormulario->derivacion_otro_organismo_id !== 16)
-            				@foreach ($derivacionOrganismo as $organismo)
-	            				@if ($organismo->id === $aFormulario->derivacion_otro_organismo_id)
-	            					<input type="text" name="" class="form-control ml-3" readonly="readonly" 
-		            				value="{{ $organismo->nombre }}">
-	            				@endif
-            				@endforeach
-            			@elseif($aFormulario->derivacion_otro_organismo_id == 16)
-            				<input type="text" name="" class="form-control ml-3" readonly="readonly" 
-	            				value="{{ $aFormulario->derivacion_otro_organismo_cual }}">
-            			@endif
-	            	@endif
-            	@endforeach
+                    @if ($aFormulario->datos_numero_carpeta === $formularioF->numeroCarpeta)
+                        @if ($aFormulario->derivacion_otro_organismo_id !== 16)
+                            @foreach ($derivacionOrganismo as $organismo)
+                                @if ($organismo->id === $aFormulario->derivacion_otro_organismo_id)
+                                    <input type="text" name="" class="form-control ml-3" readonly="readonly" 
+                                    value="{{ $organismo->nombre }}">
+                                @endif
+                            @endforeach
+                        @endif
+                        @if($aFormulario->derivacion_otro_organismo_id == 16)
+                            <input type="text" name="" class="form-control ml-3" readonly="readonly" 
+                                value="{{ $aFormulario->derivacion_otro_organismo_cual }}">
+                        @endif
+                        @if($aFormulario->derivacion_otro_organismo_id === null)
+                            <input type="text" name="" class="form-control ml-3" readonly="readonly" 
+                                value="No intervino ningún organismo previamente">
+                        @endif
+                    @endif
+                @endforeach
+
             </div>
 
             <div class="form-group">
@@ -69,7 +75,7 @@
             	@foreach ($datosProgNacionales as $progNacionales)
                     @php
                         $progNacionalesIds = $formularioF->orgprognacionals->pluck('id')->toArray();
-                        $checked = (in_array($progNacionales->id, $progNacionalesIds)) ? 'checked' : ''
+                        $checked = (in_array($progNacionales->id, $progNacionalesIds)) ? 'checked' : '';
                     @endphp
 					<div class="ml-3">
 						@if ($progNacionales->nombre == 'Otro')
@@ -77,18 +83,22 @@
             						<input {{ $checked }} type="checkbox" id="{{ $progNacionales->id }}" value="{{ $progNacionales->id }}" name="orgprognacionals_id[]" class="orgProgNacionalOtro">
 						@else
 							<label for="{{ $progNacionales->id }}">{{ $progNacionales->nombre }}</label>
-            				<input type="checkbox" id="{{ $progNacionales->id }}" value="{{ $progNacionales->id }}" name="orgprognacionals_id[]">
+            				<input {{ $checked }} type="checkbox" id="{{ $progNacionales->id }}" value="{{ $progNacionales->id }}" name="orgprognacionals_id[]">
 						@endif		
 					</div>		
             	@endforeach
 
-            	<div id="orgProgNacionalCual" class="form-group orgProgNacionalCual" style="display: none;">
+            	<div class="form-group orgProgNacionalCual" style="display: none;">
                     @foreach ($orgProgNacionalOtro as $otroProgNacional)
                         @if ($otroProgNacional->fformulario_id === $formularioF->id)
-                            <label for="">Cual?</label>
-                            <input type="text" class="form-control ml-3 orgProgNacionalCualInput" value="{{ $otroProgNacional->nombreOrganismo }}" name="orgprognacionalOtro[]"><br>
+                            <label for="">Cual?(Cargados Anteriormente)</label>
+                            <input type="text" class="form-control ml-3 orgProgNacionalCualInput" value="{{ $otroProgNacional->nombreOrganismo }}" readonly="readonly"><br>
                         @endif
                     @endforeach
+                    <div id="orgProgNacionalCual">
+                        <label for="">Cual?</label>
+                        <input type="text" class="form-control ml-3 orgProgNacionalCualInput" name="orgprognacionalOtro[]"><br>
+                    </div>
 	            	
 
 	            	<input type="button" class="ml-3 btn btn-outline-primary btnOrgProgNacionalAgregarOtro" value="Agregar Otro" name="">
@@ -96,25 +106,33 @@
 	            </div>
             </div>
 
-            <div id="orgProgProvinciales" class="form-group">
+            <div class="form-group">
                 @foreach ($orgProgProvincial as $programaProv)
                     @if ($programaProv->fformulario_id === $formularioF->id)
-                        <label for="">F 1 III. Organismos/Programas Provinciales:</label>
-                        <input type="text" class="form-control ml-3" value="{{ $programaProv->nombreOrganismo }}" name="orgProgProvinciales[]">
+                        <label for="">F 1 III. Organismos/Programas Provinciales Cargados Anteriormente:</label>
+                        <input type="text" class="form-control ml-3 mb-3" value="{{ $programaProv->nombreOrganismo }}" readonly="readonly">
                     @endif
                 @endforeach
+                <div id="orgProgProvinciales">
+                    <label for="">F 1 III. Organismos/Programas Provinciales:</label>
+                    <input type="text" class="form-control ml-3" value="" name="orgProgProvinciales[]">
+                </div>
             	
             </div>
             <input type="button" class="ml-3 btn btn-outline-primary btnOrgProgProvincialesOtro" value="Agregar Otro" name="">
             <input type="button" class="ml-3 btn btn-outline-primary btnOrgProgProvincialesBorrarOtro" value="Borrar Otro" name=""><br><br>
 
-            <div id="orgProgMunicipales" class="form-group">
+            <div class="form-group">
                 @foreach ($orgProgMunipal as $programaMuni)
                     @if ($programaMuni->fformulario_id === $formularioF->id)
-                        <label for="">F 1 IV. Organismos/Programas Municipales:</label>
-                        <input type="text" class="form-control ml-3" value="{{ $programaMuni->nombreOrganismo  }}" name="orgProgMunicipales[]">
+                        <label for="">F 1 IV. Organismos/Programas Municipales Cargado Anteriormente:</label>
+                        <input type="text" class="form-control ml-3" value="{{ $programaMuni->nombreOrganismo  }}" readonly="readonly">
                     @endif
                 @endforeach
+                <div id="orgProgMunicipales">
+                    <label for="">F 1 IV. Organismos/Programas Municipales:</label>
+                    <input type="text" class="form-control ml-3" name="orgProgMunicipales[]">
+                </div>
             	
             </div>
             <input type="button" class="ml-3 btn btn-outline-primary btnOrgProgMunicipalesAgregarOtro" value="Agregar Otro" name="">
@@ -136,13 +154,18 @@
             	@endforeach
             </div>
 
-            <div id="orgSocCivil" class="form-group">
+            <div class="form-group">
                 @foreach ($orgSocCivil as $organizacion)
                     @if ($organizacion->fformulario_id === $formularioF->id)
-                        <label for="">F 1 VI. Organizaciones de la Sociedad Civil:</label>
-                        <input type="text" class="ml-3 form-control" value="{{ $organizacion->nombreOrganismo  }}" name="orgSocCivil[]">
+                        <label for="">F 1 VI. Organizaciones de la Sociedad Civil Cargadas Anteriormete:</label>
+                        <input type="text" class="ml-3 form-control" value="{{ $organizacion->nombreOrganismo  }}" readonly="readonly">
                     @endif
                 @endforeach
+                <div id="orgSocCivil">
+                    <label for="">F 1 VI. Organizaciones de la Sociedad Civil:</label>
+                    <input type="text" class="ml-3 form-control" name="orgSocCivil[]">
+                </div>
+               
             	
             </div>
             <input type="button" class="ml-3 btn btn-outline-primary btnOrgSocCivilAgregarOtro" value="Agregar Otro" name="">
@@ -225,13 +248,18 @@
 						</div>
 	            	@endforeach		
 
-            	<div id="orgprognacionalActualmenteCual" class="form-group orgprognacionalActualmenteCual" style="display: none;">
+            	<div class="form-group orgprognacionalActualmenteCual" style="display: none;">
 	            	@foreach ($orgProgNacionalActualmenteOtro as $progNacionalOtro)
                         @if ($progNacionalOtro->fformulario_id === $formularioF->id)
-                            <label for="">Cual?</label>
-                            <input type="text" class="form-control ml-3 orgProgNacionalActualmenteCualInput" value="{{ $progNacionalOtro->nombreOrganismo }}" name="orgprognacionalActualmenteOtro[]"><br>
+                            <label for="">Cual?(Cargado Anteriormente)</label>
+                            <input type="text" class="form-control ml-3" value="{{ $progNacionalOtro->nombreOrganismo }}" readonly="readonly"><br>
                         @endif
                     @endforeach
+
+                    <div id="orgprognacionalActualmenteCual">
+                        <label for="">Cual?</label>
+                        <input type="text" class="form-control ml-3 orgProgNacionalActualmenteCualInput" name="orgprognacionalActualmenteOtro[]"><br>
+                    </div>
                     
 	            	<input type="button" class="ml-3 btn btn-outline-primary btnOrgprognacionalActualmenteAgregarOtro" value="Agregar Otro" name="">
             		<input type="button" class="ml-3 btn btn-outline-primary btnOrgprognacionalActualmenteBorrarOtro" value="Borrar Otro" name=""><br><br>
@@ -239,25 +267,33 @@
             </div>
 
 
-            <div id="orgProgProvincialesActualmente" class="form-group orgProgProvincialesActualmente">
+            <div class="form-group orgProgProvincialesActualmente">
                 @foreach ($orgProgProvincialesAlactualmente as $provActualmente)
                     @if ($provActualmente->fformulario_id === $formularioF->id)
-                        <label for="">F 3 III. Organismos/Programas Provinciales:</label>
-                        <input type="text" class="form-control ml-3" value="{{ $provActualmente->nombreOrganismo }}" name="orgProgProvincialesActualmente[]">
+                        <label for="">F 3 III. Organismos/Programas Provinciales Cargados Anteriormente:</label>
+                        <input type="text" class="form-control ml-3 mb-3" value="{{ $provActualmente->nombreOrganismo }}" readonly="readonly">
                     @endif
                 @endforeach
+            </div>
+            <div id="orgProgProvincialesActualmente">
+                <label for="">F 3 III. Organismos/Programas Provinciales:</label>
+                <input type="text" class="form-control ml-3 mb-3" name="orgProgProvincialesActualmente[]">
             </div>
 
             <input type="button" class="ml-3 btn btn-outline-primary btnOrgProgProvincialesActualmenteAgregarOtro" value="Agregar Otro" name="">
             <input type="button" class="ml-3 btn btn-outline-primary btnOrgProgProvincialesActualmenteBorrarOtro" value="Borrar Otro" name=""><br><br>
 
-            <div id="orgProgMunicipalesActualmente" class="form-group orgProgMunicipalesActualmente">
+            <div class="form-group orgProgMunicipalesActualmente">
                 @foreach ($orgProgMunipalesActualmente as $muniActualmente)
                     @if ($muniActualmente->fformulario_id === $formularioF->id)
-                        <label for="">F 3 IV. Organismos/Programas Municipales:</label>
-                        <input type="text" class="form-control ml-3" value="{{ $muniActualmente->nombreOrganismo }}" name="orgProgMunicipalesActualmente[]">
+                        <label for="">F 3 IV. Organismos/Programas Municipales Cargados Anteriormente:</label>
+                        <input type="text" class="form-control ml-3 mb-3" value="{{ $muniActualmente->nombreOrganismo }}" readonly="readonly">
                     @endif
                 @endforeach
+            </div>
+            <div id="orgProgMunicipalesActualmente">
+                <label for="">F 3 IV. Organismos/Programas Municipales:</label>
+                <input type="text" class="form-control ml-3 mb-3" name="orgProgMunicipalesActualmente[]">
             </div>
 
             <input type="button" class="ml-3 btn btn-outline-primary btnOrgProgMunicipalesActualmenteAgregarOtro" value="Agregar Otro" name="">
@@ -279,15 +315,19 @@
             	@endforeach
             </div>
 
-            <div id="orgSocCivilActualmente" class="form-group orgSocCivilActualmente">
+            <div class="form-group orgSocCivilActualmente">
                 @foreach ($orgSocCivilActualmente as $socCivilActualmente)
                     @if ($socCivilActualmente->fformulario_id === $formularioF->id)
-                        <label for="">F 3 VI. Organizaciones de la Sociedad Civil:</label>
-                        <input type="text" class="form-control ml-3" value="{{ $socCivilActualmente->nombreOrganismo }}" name="orgSocCivilActualmente[]">
+                        <label for="">F 3 VI. Organizaciones de la Sociedad Civil Cargadas Anteriormente:</label>
+                        <input type="text" class="form-control ml-3 mb-3" value="{{ $socCivilActualmente->nombreOrganismo }}" readonly="readonly">
                     @endif
                 @endforeach
             </div>
-
+            <div id="orgSocCivilActualmente">
+                <label for="">F 3 VI. Organizaciones de la Sociedad Civil:</label>
+                <input type="text" class="form-control ml-3 mb-3" name="orgSocCivilActualmente[]">
+            </div>
+            
             <input type="button" class="ml-3 btn btn-outline-primary btnOrgSocCivilActualmenteAgregarOtro" value="Agregar Otro" name="">
             <input type="button" class="ml-3 btn btn-outline-primary btnOrgSocCivilActualmenteBorrarOtro" value="Borrar Otro" name=""><br><br>
 

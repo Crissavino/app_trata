@@ -37,7 +37,7 @@ class CreateFformulariosTable extends Migration
         Schema::create('orgprognacionalotros', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombreOrganismo')->nullable();
-            $table->integer('fformulario_id')->unsigned();
+            $table->integer('fformulario_id')->nullable()->unsigned();
             $table->softDeletesTz();
             $table->timestampsTz();
         });
@@ -45,7 +45,7 @@ class CreateFformulariosTable extends Migration
         Schema::create('orgprogprovincials', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombreOrganismo')->nullable();
-            $table->integer('fformulario_id')->unsigned();
+            $table->integer('fformulario_id')->nullable()->unsigned();
             $table->softDeletesTz();
             $table->timestampsTz();
         });
@@ -53,7 +53,7 @@ class CreateFformulariosTable extends Migration
         Schema::create('orgprogmunicipals', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombreOrganismo')->nullable();
-            $table->integer('fformulario_id')->unsigned();
+            $table->integer('fformulario_id')->nullable()->unsigned();
             $table->softDeletesTz();
             $table->timestampsTz();
         });
@@ -61,7 +61,7 @@ class CreateFformulariosTable extends Migration
         Schema::create('orgsoccivils', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombreOrganismo')->nullable();
-            $table->integer('fformulario_id')->unsigned();
+            $table->integer('fformulario_id')->nullable()->unsigned();
             $table->softDeletesTz();
             $table->timestampsTz();
         });
@@ -69,7 +69,7 @@ class CreateFformulariosTable extends Migration
         Schema::create('orgprognacionalactualmenteotros', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombreOrganismo')->nullable();
-            $table->integer('fformulario_id')->unsigned();
+            $table->integer('fformulario_id')->nullable()->unsigned();
             $table->softDeletesTz();
             $table->timestampsTz();
         });
@@ -77,7 +77,7 @@ class CreateFformulariosTable extends Migration
         Schema::create('orgprogprovincialesactualmentes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombreOrganismo')->nullable();
-            $table->integer('fformulario_id')->unsigned();
+            $table->integer('fformulario_id')->nullable()->unsigned();
             $table->softDeletesTz();
             $table->timestampsTz();
         });
@@ -85,7 +85,7 @@ class CreateFformulariosTable extends Migration
         Schema::create('orgprogmunicipalesactualmentes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombreOrganismo')->nullable();
-            $table->integer('fformulario_id')->unsigned();
+            $table->integer('fformulario_id')->nullable()->unsigned();
             $table->softDeletesTz();
             $table->timestampsTz();
         });
@@ -93,7 +93,7 @@ class CreateFformulariosTable extends Migration
         Schema::create('orgsoccivilactualmentes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombreOrganismo')->nullable();
-            $table->integer('fformulario_id')->unsigned();
+            $table->integer('fformulario_id')->nullable()->unsigned();
             $table->softDeletesTz();
             $table->timestampsTz();
         });

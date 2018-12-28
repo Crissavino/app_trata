@@ -1462,86 +1462,108 @@ class FormsController extends Controller
 
 		$fFromulario = \App\FormF\Fformulario::find($idFormularioF);
 
-		$fFromulario->orgjudicials()->sync($data['orgjudicials_id']);
+		if (isset($data['orgjudicials_id'])) {
+			$fFromulario->orgjudicials()->sync($data['orgjudicials_id']);
+		}else{
+			$fFromulario->orgjudicials()->sync(null);
+		}
 
-		$fFromulario->orgprognacionals()->sync($data['orgprognacionals_id']);
+		if (isset($data['orgprognacionals_id'])) {
+			$fFromulario->orgprognacionals()->sync($data['orgprognacionals_id']);
+		}else{
+			$fFromulario->orgprognacionals()->sync(null);
+		}
 
-		$fFromulario->policias()->sync($data['policias_id']);
+		if (isset($data['policias_id'])) {
+			$fFromulario->policias()->sync($data['policias_id']);
+		}else{
+			$fFromulario->policias()->sync(null);
+		}
 
-		$fFromulario->asistencias()->sync($data['asistencia_id']);
+		if (isset($data['asistencia_id'])) {
+			$fFromulario->asistencias()->sync($data['asistencia_id']);
+		}else{
+			$fFromulario->asistencias()->sync(null);
+		}
 
 		if (isset($data['socioeconomic_id'])) {
 			$fFromulario->socioeconomics()->sync($data['socioeconomic_id']);
+		}else{
+			$fFromulario->socioeconomics()->sync(null);
 		}
 
-		$fFromulario->orgjudicialactualmentes()->sync($data['orgjudicialactualmentes_id']);
+		if (isset($data['orgjudicialactualmentes_id'])) {
+			$fFromulario->orgjudicialactualmentes()->sync($data['orgjudicialactualmentes_id']);
+		}else{
+			$fFromulario->orgjudicialactualmentes()->sync(null);
+		}
 
-		$fFromulario->orgprognacionalactualmentes()->sync($data['orgprognacionalactualmente_id']);
+		if (isset($data['orgprognacionalactualmente_id'])) {
+			$fFromulario->orgprognacionalactualmentes()->sync($data['orgprognacionalactualmente_id']);
+		}else{
+			$fFromulario->orgprognacionalactualmentes()->sync(null);
+		}
 
-		$fFromulario->policiaactualmentes()->sync($data['policiaactualmentes_id']);
+		if (isset($data['policiaactualmentes_id'])) {
+			$fFromulario->policiaactualmentes()->sync($data['policiaactualmentes_id']);
+		}else{
+			$fFromulario->policiaactualmentes()->sync(null);
+		}
 
-		$orgProgNacionalOtro = $data['orgprognacionalOtro'];
-
-		if (isset($orgProgNacionalOtro[0])) {
-			foreach ($orgProgNacionalOtro as $nombre) {
+		// $orgProgNacionalOtro = $data['orgprognacionalOtro'];
+		if (isset($data['orgprognacionalOtro'][0])) {
+			foreach ($data['orgprognacionalOtro'] as $nombre) {
 			$guardoOrgProgNacionalOtro = \App\FormF\Orgprognacionalotro::create(['nombreOrganismo' => $nombre, 'fformulario_id' => $idFormularioF]);
 			}
 		}
 		
-		$orgProgProvincial = $data['orgProgProvinciales'];
-
-		if (isset($orgProgProvincial[0])) {
-			foreach ($orgProgProvincial as $nombre) {
+		// $orgProgProvincial = $data['orgProgProvinciales'];
+		if (isset($data['orgProgProvinciales'][0])) {
+			foreach ($data['orgProgProvinciales'] as $nombre) {
 			$guardoOrgProgProvincial = \App\FormF\Orgprogprovincial::create(['nombreOrganismo' => $nombre, 'fformulario_id' => $idFormularioF]);
 			}
 		}
 
-		$orgProgMunicipales = $data['orgProgMunicipales'];
-
-		if (isset($orgProgMunicipales[0])) {
-			foreach ($orgProgMunicipales as $nombre) {
+		// $orgProgMunicipales = $data['orgProgMunicipales'];
+		if (isset($data['orgProgMunicipales'][0])) {
+			foreach ($data['orgProgMunicipales'] as $nombre) {
 				$guardoOrgProgMunicipales = \App\FormF\Orgprogmunicipal::create(['nombreOrganismo' => $nombre, 'fformulario_id' => $idFormularioF]);
 			}
 		}
 
-		$orgSocCivil = $data['orgSocCivil'];
-
-		if (isset($orgSocCivil[0])) {
-			foreach ($orgSocCivil as $nombre) {
+		// $orgSocCivil = $data['orgSocCivil'];
+		if (isset($data['orgSocCivil'][0])) {
+			foreach ($data['orgSocCivil'] as $nombre) {
 				$guardoOrgSocCivil = \App\FormF\Orgsoccivil::create(['nombreOrganismo' => $nombre, 'fformulario_id' => $idFormularioF]);
 			}
 		}
 
 		//-------Parte de Actualmente
 
-		$orgProgNacionalActualmenteOtro = $data['orgprognacionalActualmenteOtro'];
-
-		if (isset($orgProgNacionalActualmenteOtro[0])) {
-			foreach ($orgProgNacionalActualmenteOtro as $nombre) {
+		// $orgProgNacionalActualmenteOtro = $data['orgprognacionalActualmenteOtro'];
+		if (isset($data['orgprognacionalActualmenteOtro'][0])) {
+			foreach ($data['orgprognacionalActualmenteOtro'] as $nombre) {
 			$guardoOrgProgNacionalActualmenteOtro = \App\FormF\Orgprognacionalactualmenteotro::create(['nombreOrganismo' => $nombre, 'fformulario_id' => $idFormularioF]);
 			}
 		}
 		
-		$orgProgProvincialesActualmente = $data['orgProgProvincialesActualmente'];
-
-		if (isset($orgProgProvincialesActualmente[0])) {
-			foreach ($orgProgProvincialesActualmente as $nombre) {
+		// $orgProgProvincialesActualmente = $data['orgProgProvincialesActualmente'];
+		if (isset($data['orgProgProvincialesActualmente'][0])) {
+			foreach ($data['orgProgProvincialesActualmente'] as $nombre) {
 			$guardoOrgProgProvincialesActualmente = \App\FormF\Orgprogprovincialesactualmente::create(['nombreOrganismo' => $nombre, 'fformulario_id' => $idFormularioF]);
 			}
 		}
 
-		$orgProgMunicipalesActualmente = $data['orgProgMunicipalesActualmente'];
-
-		if (isset($orgProgMunicipalesActualmente[0])) {
-			foreach ($orgProgMunicipalesActualmente as $nombre) {
+		// $orgProgMunicipalesActualmente = $data['orgProgMunicipalesActualmente'];
+		if (isset($data['orgProgMunicipalesActualmente'][0])) {
+			foreach ($data['orgProgMunicipalesActualmente'] as $nombre) {
 				$guardoOrgProgMunicipalesActualmente = \App\FormF\Orgprogmunicipalesactualmente::create(['nombreOrganismo' => $nombre, 'fformulario_id' => $idFormularioF]);
 			}
 		}
 
-		$orgSocCivilActualmente = $data['orgSocCivilActualmente'];
-
-		if (isset($orgSocCivilActualmente[0])) {
-			foreach ($orgSocCivilActualmente as $nombre) {
+		// $orgSocCivilActualmente = $data['orgSocCivilActualmente'];
+		if (isset($data['orgSocCivilActualmente'][0])) {
+			foreach ($data['orgSocCivilActualmente'] as $nombre) {
 				$guardoOrgSocCivilActualmente = \App\FormF\Orgsoccivilactualmente::create(['nombreOrganismo' => $nombre, 'fformulario_id' => $idFormularioF]);
 			}
 		}
@@ -1554,11 +1576,11 @@ class FormsController extends Controller
 	{
 		$userId = auth()->user()->id;
 		$aFormularios = \App\FormA\Aformulario::all();
-		// $numeroCarpeta = DB::table('aformularios')
-		// 									->WHERE('user_id', '=', $userId)
-		// 									->ORDERBY('updated_at', 'desc')
-		// 									->first()
-		// 									->datos_numero_carpeta;
+		$numeroCarpeta = DB::table('aformularios')
+											->WHERE('user_id', '=', $userId)
+											->ORDERBY('updated_at', 'desc')
+											->first()
+											->datos_numero_carpeta;
 		$derivacionOrganismo = DB::table('otrosorganismos')
 											->get();
 		$datosOrgJudiciales = \App\FormF\Orgjudicial::all();
@@ -1623,206 +1645,303 @@ class FormsController extends Controller
 
 		// $fFromulario = \App\FormF\Fformulario::find($idFormularioF);
 
-		$formularioF->orgjudicials()->sync($data['orgjudicials_id']);
+		if (isset($data['orgjudicials_id'])) {
+			$formularioF->orgjudicials()->sync($data['orgjudicials_id']);
+		}else{
+			$formularioF->orgjudicials()->sync(null);
+		}
 
-		$formularioF->orgprognacionals()->sync($data['orgprognacionals_id']);
+		if (isset($data['orgprognacionals_id'])) {
+			$formularioF->orgprognacionals()->sync($data['orgprognacionals_id']);
+		}else{
+			$formularioF->orgprognacionals()->sync(null);
+		}
 
-		$formularioF->policias()->sync($data['policias_id']);
+		if (isset($data['policias_id'])) {
+			$formularioF->policias()->sync($data['policias_id']);
+		}else{
+			$formularioF->policias()->sync(null);
+		}
 
-		$formularioF->asistencias()->sync($data['asistencia_id']);
+		if (isset($data['asistencia_id'])) {
+			$formularioF->asistencias()->sync($data['asistencia_id']);
+		}else{
+			$formularioF->asistencias()->sync(null);
+		}
 
-		$formularioF->socioeconomics()->sync($data['socioeconomic_id']);
+		if (isset($data['socioeconomic_id'])) {
+			$formularioF->socioeconomics()->sync($data['socioeconomic_id']);
+		}else{
+			$formularioF->socioeconomics()->sync(null);
+		}
 
-		$formularioF->orgjudicialactualmentes()->sync($data['orgjudicialactualmentes_id']);
+		if (isset($data['orgjudicialactualmentes_id'])) {
+			$formularioF->orgjudicialactualmentes()->sync($data['orgjudicialactualmentes_id']);
+		}else{
+			$formularioF->orgjudicialactualmentes()->sync(null);
+		}
 
-		$formularioF->orgprognacionalactualmentes()->sync($data['orgprognacionalactualmente_id']);
+		if (isset($data['orgprognacionalactualmente_id'])) {
+			$formularioF->orgprognacionalactualmentes()->sync($data['orgprognacionalactualmente_id']);
+		}else{
+			$formularioF->orgprognacionalactualmentes()->sync(null);
+		}
 
-		$formularioF->policiaactualmentes()->sync($data['policiaactualmentes_id']);
+		if (isset($data['policiaactualmentes_id'])) {
+			$formularioF->policiaactualmentes()->sync($data['policiaactualmentes_id']);
+		}else{
+			$formularioF->policiaactualmentes()->sync(null);
+		}
 
 		$orgProgNacionalOtro = $formularioF->orgprognacionalotros;
 
-		$orgProgNacionalOtroDatosActualizado = $data['orgprognacionalOtro'];
+		// dd(isset($data['orgprognacionalOtro'][0]));
 
-		if (isset($orgProgNacionalOtroDatosActualizado[0])) {
-			if(count($orgProgNacionalOtroDatosActualizado) === count($formularioF->orgprognacionalotros)) {
+		// $orgProgNacionalOtroDatosActualizado = $data['orgprognacionalOtro'];
+		if (isset($data['orgprognacionalOtro'][0])) {
+			if(count($data['orgprognacionalOtro']) === count($formularioF->orgprognacionalotros)) {
 				for ($i=0; $i < count($formularioF->orgprognacionalotros); $i++) { 
-					$orgProgNacionalOtro[$i]->update(['nombreOrganismo' => $orgProgNacionalOtroDatosActualizado[$i], 'fformulario_id' => $id]);
+					$orgProgNacionalOtro[$i]->update(['nombreOrganismo' => $data['orgprognacionalOtro'][$i], 'fformulario_id' => $id]);
 				}
-			}else{
+			}elseif(count($data['orgprognacionalOtro']) > count($formularioF->orgprognacionalotros)){
 				// dd('Entra');
-				// $numActualizado = count($orgProgNacionalOtroDatosActualizado);//4
+				// $numActualizado = count($data['orgprognacionalOtro']);//4
 				$a = 0;
 				do {
 					for ($i=0; $i < count($formularioF->orgprognacionalotros); $i++) { 
-						$orgProgNacionalOtro[$i]->update(['nombreOrganismo' => $orgProgNacionalOtroDatosActualizado[$i], 'fformulario_id' => $id]);
+						$orgProgNacionalOtro[$i]->update(['nombreOrganismo' => $data['orgprognacionalOtro'][$i], 'fformulario_id' => $id]);
 					}
 					$a++;
 				} while ($a < count($formularioF->orgprognacionalotros));
-				// dd(count($orgProgNacionalOtroDatosActualizado));
-				for ($i=count($formularioF->orgprognacionalotros); $i < count($orgProgNacionalOtroDatosActualizado); $i++) { 
-					$guardoOrgProgNacionalOtroNuevo = \App\FormF\Orgprognacionalotro::create(['nombreOrganismo' => $orgProgNacionalOtroDatosActualizado[$i], 'fformulario_id' => $id]);
+				// dd(count($data['orgprognacionalOtro']));
+				for ($i=count($formularioF->orgprognacionalotros); $i < count($data['orgprognacionalOtro']); $i++) { 
+					$guardoOrgProgNacionalOtroNuevo = \App\FormF\Orgprognacionalotro::create(['nombreOrganismo' => $data['orgprognacionalOtro'][$i], 'fformulario_id' => $id]);
+				}
+			}else{
+				for ($i=0; $i < count($data['orgprognacionalOtro']) ; $i++) { 
+						$orgProgNacionalOtro[$i]->update(['nombreOrganismo' => $data['orgprognacionalOtro'][$i], 'fformulario_id' => $id]);
+				}
+				for ($i=count($data['orgprognacionalOtro']); $i < count($formularioF->orgprognacionalotros); $i++) { 
+					$orgProgNacionalOtro[$i]->update(['nombreOrganismo' => null, 'fformulario_id' => null]);
 				}
 			}
 		}
 
 
 		$orgProgProvincial = $formularioF->orgprogprovincials;
+		// dd($orgProgProvincial->toArray());
+		// dd(isset($data['orgProgProvinciales'][0]));
 
-		$orgProgProvincialDatosActualizado = $data['orgProgProvinciales'];
-
-		if (isset($orgProgProvincialDatosActualizado[0])) {
-			if(count($orgProgProvincialDatosActualizado) === count($formularioF->orgprogprovincials)) {
+		// $orgProgProvincialDatosActualizado = $data['orgProgProvinciales'];
+		// dd(isset($data['orgProgProvinciales'][0]));
+		if (isset($data['orgProgProvinciales'][0])) {
+			if(count($data['orgProgProvinciales']) === count($formularioF->orgprogprovincials)) {
 				for ($i=0; $i < count($formularioF->orgprogprovincials); $i++) { 
-					$orgProgProvincial[$i]->update(['nombreOrganismo' => $orgProgProvincialDatosActualizado[$i], 'fformulario_id' => $id]);
+					$orgProgProvincial[$i]->update(['nombreOrganismo' => $data['orgProgProvinciales'][$i], 'fformulario_id' => $id]);
 				}
-			}else{
+			}elseif(count($data['orgProgProvinciales']) > count($formularioF->orgprogprovincials)){
 				$a = 0;
 				do {
 					for ($i=0; $i < count($formularioF->orgprogprovincials); $i++) { 
-						$orgProgProvincial[$i]->update(['nombreOrganismo' => $orgProgProvincialDatosActualizado[$i], 'fformulario_id' => $id]);
+						$orgProgProvincial[$i]->update(['nombreOrganismo' => $data['orgProgProvinciales'][$i], 'fformulario_id' => $id]);
 					}
 					$a++;
 				} while ($a < count($formularioF->orgprogprovincials));
-				for ($i=count($formularioF->orgprogprovincials); $i < count($orgProgProvincialDatosActualizado); $i++) { 
-					$guardoOrgProgProvincialNuevo = \App\FormF\Orgprogprovincial::create(['nombreOrganismo' => $orgProgProvincialDatosActualizado[$i], 'fformulario_id' => $id]);
+				for ($i=count($formularioF->orgprogprovincials); $i < count($data['orgProgProvinciales']); $i++) { 
+					$guardoOrgProgProvincialNuevo = \App\FormF\Orgprogprovincial::create(['nombreOrganismo' => $data['orgProgProvinciales'][$i], 'fformulario_id' => $id]);
+				}
+			}else{
+				for ($i=0; $i < count($data['orgProgProvinciales']) ; $i++) { 
+						$orgProgProvincial[$i]->update(['nombreOrganismo' => $data['orgProgProvinciales'][$i], 'fformulario_id' => $id]);
+				}
+				for ($i=count($data['orgProgProvinciales']); $i < count($formularioF->orgprogprovincials); $i++) { 
+					$orgProgProvincial[$i]->update(['nombreOrganismo' => null, 'fformulario_id' => null]);
 				}
 			}
 		}
 
 		$orgProgMunicipales = $formularioF->orgprogmunicipals;
 
-		$orgProgMunicipalesDatosActualizado = $data['orgProgMunicipales'];
-
-		if (isset($orgProgMunicipalesDatosActualizado[0])) {
-			if(count($orgProgMunicipalesDatosActualizado) === count($formularioF->orgprogmunicipals)) {
+		// $orgProgMunicipalesDatosActualizado = $data['orgProgMunicipales'];
+		// dd(isset($data['orgProgMunicipales'][0]));
+		// dd(count($data['orgProgMunicipales']) > count($formularioF->orgprogmunicipals));
+		if (isset($data['orgProgMunicipales'][0])) {
+			if(count($data['orgProgMunicipales']) === count($formularioF->orgprogmunicipals)) {
 				for ($i=0; $i < count($formularioF->orgprogmunicipals); $i++) { 
-					$orgProgMunicipales[$i]->update(['nombreOrganismo' => $orgProgMunicipalesDatosActualizado[$i], 'fformulario_id' => $id]);
+					$orgProgMunicipales[$i]->update(['nombreOrganismo' => $data['orgProgMunicipales'][$i], 'fformulario_id' => $id]);
 				}
-			}else{
+			}elseif(count($data['orgProgMunicipales']) > count($formularioF->orgprogmunicipals)){
 				$a = 0;
 				do {
 					for ($i=0; $i < count($formularioF->orgprogmunicipals); $i++) { 
-						$orgProgMunicipales[$i]->update(['nombreOrganismo' => $orgProgMunicipalesDatosActualizado[$i], 'fformulario_id' => $id]);
+						$orgProgMunicipales[$i]->update(['nombreOrganismo' => $data['orgProgMunicipales'][$i], 'fformulario_id' => $id]);
 					}
 					$a++;
 				} while ($a < count($formularioF->orgprogmunicipals));
-				for ($i=count($formularioF->orgprogmunicipals); $i < count($orgProgMunicipalesDatosActualizado); $i++) { 
-					$guardoOrgProgMunicipalesNuevo = \App\FormF\Orgprogmunicipal::create(['nombreOrganismo' => $orgProgMunicipalesDatosActualizado[$i], 'fformulario_id' => $id]);
+				for ($i=count($formularioF->orgprogmunicipals); $i < count($data['orgProgMunicipales']); $i++) { 
+					$guardoOrgProgMunicipalesNuevo = \App\FormF\Orgprogmunicipal::create(['nombreOrganismo' => $data['orgProgMunicipales'][$i], 'fformulario_id' => $id]);
+				}
+			}else{
+				for ($i=0; $i < count($data['orgProgMunicipales']) ; $i++) { 
+						$orgProgMunicipales[$i]->update(['nombreOrganismo' => $data['orgProgMunicipales'][$i], 'fformulario_id' => $id]);
+				}
+				for ($i=count($data['orgProgMunicipales']); $i < count($formularioF->orgprogmunicipals); $i++) { 
+					$orgProgMunicipales[$i]->update(['nombreOrganismo' => null, 'fformulario_id' => null]);
 				}
 			}
 		}
 
 		$orgSocCivil = $formularioF->orgsoccivils;
 
-		$orgSocCivilDatosActualizado = $data['orgSocCivil'];
+		// $orgSocCivilDatosActualizado = $data['orgSocCivil'];
+		// dd(isset($data['orgSocCivil'][0]));
 
-		if (isset($orgSocCivilDatosActualizado[0])) {
-			if(count($orgSocCivilDatosActualizado) === count($formularioF->orgsoccivils)) {
+		if (isset($data['orgSocCivil'][0])) {
+			if(count($data['orgSocCivil']) === count($formularioF->orgsoccivils)) {
 				for ($i=0; $i < count($formularioF->orgsoccivils); $i++) { 
-					$orgSocCivil[$i]->update(['nombreOrganismo' => $orgSocCivilDatosActualizado[$i], 'fformulario_id' => $id]);
+					$orgSocCivil[$i]->update(['nombreOrganismo' => $data['orgSocCivil'][$i], 'fformulario_id' => $id]);
 				}
-			}else{
+			}elseif(count($data['orgSocCivil']) > count($formularioF->orgsoccivils)){
 				$a = 0;
 				do {
 					for ($i=0; $i < count($formularioF->orgsoccivils); $i++) { 
-						$orgSocCivil[$i]->update(['nombreOrganismo' => $orgSocCivilDatosActualizado[$i], 'fformulario_id' => $id]);
+						$orgSocCivil[$i]->update(['nombreOrganismo' => $data['orgSocCivil'][$i], 'fformulario_id' => $id]);
 					}
 					$a++;
 				} while ($a < count($formularioF->orgsoccivils));
-				for ($i=count($formularioF->orgsoccivils); $i < count($orgSocCivilDatosActualizado); $i++) { 
-					$guardoOrgSocCivilNuevo = \App\FormF\Orgsoccivil::create(['nombreOrganismo' => $orgSocCivilDatosActualizado[$i], 'fformulario_id' => $id]);
+				for ($i=count($formularioF->orgsoccivils); $i < count($data['orgSocCivil']); $i++) { 
+					$guardoOrgSocCivilNuevo = \App\FormF\Orgsoccivil::create(['nombreOrganismo' => $data['orgSocCivil'][$i], 'fformulario_id' => $id]);
+				}
+			}else{
+				for ($i=0; $i < count($data['orgSocCivil']) ; $i++) { 
+						$orgSocCivil[$i]->update(['nombreOrganismo' => $data['orgSocCivil'][$i], 'fformulario_id' => $id]);
+				}
+				for ($i=count($data['orgSocCivil']); $i < count($formularioF->orgsoccivils); $i++) { 
+					$orgSocCivil[$i]->update(['nombreOrganismo' => null, 'fformulario_id' => null]);
 				}
 			}
 		}
 
 		$orgProgNacionalActualmenteOtro = $formularioF->orgprognacionalactualmenteotros;
 
-		$orgProgNacionalActualmenteOtroDatosActualizado = $data['orgprognacionalActualmenteOtro'];
+		// $orgProgNacionalActualmenteOtroDatosActualizado = $data['orgprognacionalActualmenteOtro'];
+		// dd(isset($data['orgprognacionalActualmenteOtro'][0]));
 
-		if (isset($orgProgNacionalActualmenteOtroDatosActualizado[0])) {
-			if(count($orgProgNacionalActualmenteOtroDatosActualizado) === count($formularioF->orgprognacionalactualmenteotros)) {
+		if (isset($data['orgprognacionalActualmenteOtro'][0])) {
+			if(count($data['orgprognacionalActualmenteOtro']) === count($formularioF->orgprognacionalactualmenteotros)) {
 				for ($i=0; $i < count($formularioF->orgprognacionalactualmenteotros); $i++) { 
-					$orgProgNacionalActualmenteOtro[$i]->update(['nombreOrganismo' => $orgProgNacionalActualmenteOtroDatosActualizado[$i], 'fformulario_id' => $id]);
+					$orgProgNacionalActualmenteOtro[$i]->update(['nombreOrganismo' => $data['orgprognacionalActualmenteOtro'][$i], 'fformulario_id' => $id]);
 				}
-			}else{
+			}elseif(count($data['orgprognacionalActualmenteOtro']) > count($formularioF->orgprognacionalactualmenteotros)){
 				$a = 0;
 				do {
 					for ($i=0; $i < count($formularioF->orgprognacionalactualmenteotros); $i++) { 
-						$orgProgNacionalActualmenteOtro[$i]->update(['nombreOrganismo' => $orgProgNacionalActualmenteOtroDatosActualizado[$i], 'fformulario_id' => $id]);
+						$orgProgNacionalActualmenteOtro[$i]->update(['nombreOrganismo' => $data['orgprognacionalActualmenteOtro'][$i], 'fformulario_id' => $id]);
 					}
 					$a++;
 				} while ($a < count($formularioF->orgprognacionalactualmenteotros));
-				for ($i=count($formularioF->orgprognacionalactualmenteotros); $i < count($orgProgNacionalActualmenteOtroDatosActualizado); $i++) { 
-					$guardoOrgProgNacionalActualmenteOtroNuevo = \App\FormF\Orgprognacionalactualmenteotro::create(['nombreOrganismo' => $orgProgNacionalActualmenteOtroDatosActualizado[$i], 'fformulario_id' => $id]);
+				for ($i=count($formularioF->orgprognacionalactualmenteotros); $i < count($data['orgprognacionalActualmenteOtro']); $i++) { 
+					$guardoOrgProgNacionalActualmenteOtroNuevo = \App\FormF\Orgprognacionalactualmenteotro::create(['nombreOrganismo' => $data['orgprognacionalActualmenteOtro'][$i], 'fformulario_id' => $id]);
+				}
+			}else{
+				for ($i=0; $i < count($data['orgprognacionalActualmenteOtro']) ; $i++) { 
+						$orgProgNacionalActualmenteOtro[$i]->update(['nombreOrganismo' => $data['orgprognacionalActualmenteOtro'][$i], 'fformulario_id' => $id]);
+				}
+				for ($i=count($data['orgprognacionalActualmenteOtro']); $i < count($formularioF->orgprognacionalactualmenteotros); $i++) { 
+					$orgProgNacionalActualmenteOtro[$i]->update(['nombreOrganismo' => null, 'fformulario_id' => null]);
 				}
 			}
 		}
 
 		$orgProgProvincialesActualmente = $formularioF->orgprogprovincialesactualmentes;
 
-		$orgProgProvincialesActualmenteDatosActualizado = $data['orgProgProvincialesActualmente'];
+		// $orgProgProvincialesActualmenteDatosActualizado = $data['orgProgProvincialesActualmente'];
+		// dd(isset($data['orgProgProvincialesActualmente'][0]));
 
-		if (isset($orgProgProvincialesActualmenteDatosActualizado[0])) {
-			if(count($orgProgProvincialesActualmenteDatosActualizado) === count($formularioF->orgprogprovincialesactualmentes)) {
+		if (isset($data['orgProgProvincialesActualmente'][0])) {
+			if(count($data['orgProgProvincialesActualmente']) === count($formularioF->orgprogprovincialesactualmentes)) {
 				for ($i=0; $i < count($formularioF->orgprogprovincialesactualmentes); $i++) { 
-					$orgProgProvincialesActualmente[$i]->update(['nombreOrganismo' => $orgProgProvincialesActualmenteDatosActualizado[$i], 'fformulario_id' => $id]);
+					$orgProgProvincialesActualmente[$i]->update(['nombreOrganismo' => $data['orgProgProvincialesActualmente'][$i], 'fformulario_id' => $id]);
 				}
-			}else{
+			}elseif(count($data['orgProgProvincialesActualmente']) > count($formularioF->orgprogprovincialesactualmentes)){
 				$a = 0;
 				do {
 					for ($i=0; $i < count($formularioF->orgprogprovincialesactualmentes); $i++) { 
-						$orgProgProvincialesActualmente[$i]->update(['nombreOrganismo' => $orgProgProvincialesActualmenteDatosActualizado[$i], 'fformulario_id' => $id]);
+						$orgProgProvincialesActualmente[$i]->update(['nombreOrganismo' => $data['orgProgProvincialesActualmente'][$i], 'fformulario_id' => $id]);
 					}
 					$a++;
 				} while ($a < count($formularioF->orgprogprovincialesactualmentes));
-				for ($i=count($formularioF->orgprogprovincialesactualmentes); $i < count($orgProgProvincialesActualmenteDatosActualizado); $i++) { 
-					$guardoOrgProgProvincialesActualmenteDatosActualizadoNuevo = \App\FormF\Orgprogprovincialesactualmente::create(['nombreOrganismo' => $orgProgProvincialesActualmenteDatosActualizado[$i], 'fformulario_id' => $id]);
+				for ($i=count($formularioF->orgprogprovincialesactualmentes); $i < count($data['orgProgProvincialesActualmente']); $i++) { 
+					$guardoOrgProgProvincialesActualmenteDatosActualizadoNuevo = \App\FormF\Orgprogprovincialesactualmente::create(['nombreOrganismo' => $data['orgProgProvincialesActualmente'][$i], 'fformulario_id' => $id]);
+				}
+			}else{
+				for ($i=0; $i < count($data['orgProgProvincialesActualmente']) ; $i++) { 
+						$orgProgProvincialesActualmente[$i]->update(['nombreOrganismo' => $data['orgProgProvincialesActualmente'][$i], 'fformulario_id' => $id]);
+				}
+				for ($i=count($data['orgProgProvincialesActualmente']); $i < count($formularioF->orgprogprovincialesactualmentes); $i++) { 
+					$orgProgProvincialesActualmente[$i]->update(['nombreOrganismo' => null, 'fformulario_id' => null]);
 				}
 			}
 		}
 
 		$orgProgMunicipalesActualmente = $formularioF->orgprogmunicipalesactualmentes;
 
-		$orgProgMunicipalesActualmenteDatosActualizado = $data['orgProgMunicipalesActualmente'];
+		// $orgProgMunicipalesActualmenteDatosActualizado = $data['orgProgMunicipalesActualmente'];
+		// dd(isset($data['orgProgMunicipalesActualmente'][0]));
 
-		if (isset($orgProgMunicipalesActualmenteDatosActualizado[0])) {
-			if(count($orgProgMunicipalesActualmenteDatosActualizado) === count($formularioF->orgprogmunicipalesactualmentes)) {
+		if (isset($data['orgProgMunicipalesActualmente'][0])) {
+			if(count($data['orgProgMunicipalesActualmente']) === count($formularioF->orgprogmunicipalesactualmentes)) {
 				for ($i=0; $i < count($formularioF->orgprogmunicipalesactualmentes); $i++) { 
-					$orgProgMunicipalesActualmente[$i]->update(['nombreOrganismo' => $orgProgMunicipalesActualmenteDatosActualizado[$i], 'fformulario_id' => $id]);
+					$orgProgMunicipalesActualmente[$i]->update(['nombreOrganismo' => $data['orgProgMunicipalesActualmente'][$i], 'fformulario_id' => $id]);
 				}
-			}else{
+			}elseif(count($data['orgProgMunicipalesActualmente']) > count($formularioF->orgprogmunicipalesactualmentes)){
 				$a = 0;
 				do {
 					for ($i=0; $i < count($formularioF->orgprogmunicipalesactualmentes); $i++) { 
-						$orgProgMunicipalesActualmente[$i]->update(['nombreOrganismo' => $orgProgMunicipalesActualmenteDatosActualizado[$i], 'fformulario_id' => $id]);
+						$orgProgMunicipalesActualmente[$i]->update(['nombreOrganismo' => $data['orgProgMunicipalesActualmente'][$i], 'fformulario_id' => $id]);
 					}
 					$a++;
 				} while ($a < count($formularioF->orgprogmunicipalesactualmentes));
-				for ($i=count($formularioF->orgprogmunicipalesactualmentes); $i < count($orgProgMunicipalesActualmenteDatosActualizado); $i++) { 
-					$guardoOrgProgMunicipalesActualmenteDatosActualizadoNuevo = \App\FormF\Orgprogmunicipalesactualmente::create(['nombreOrganismo' => $orgProgMunicipalesActualmenteDatosActualizado[$i], 'fformulario_id' => $id]);
+				for ($i=count($formularioF->orgprogmunicipalesactualmentes); $i < count($data['orgProgMunicipalesActualmente']); $i++) { 
+					$guardoOrgProgMunicipalesActualmenteDatosActualizadoNuevo = \App\FormF\Orgprogmunicipalesactualmente::create(['nombreOrganismo' => $data['orgProgMunicipalesActualmente'][$i], 'fformulario_id' => $id]);
+				}
+			}else{
+				for ($i=0; $i < count($data['orgProgMunicipalesActualmente']) ; $i++) { 
+						$orgProgMunicipalesActualmente[$i]->update(['nombreOrganismo' => $data['orgProgMunicipalesActualmente'][$i], 'fformulario_id' => $id]);
+				}
+				for ($i=count($data['orgProgMunicipalesActualmente']); $i < count($formularioF->orgprogmunicipalesactualmentes); $i++) { 
+					$orgProgMunicipalesActualmente[$i]->update(['nombreOrganismo' => null, 'fformulario_id' => null]);
 				}
 			}
 		}
 
 		$orgSocCivilActualmente = $formularioF->orgsoccivilactualmentes;
 
-		$orgSocCivilActualmenteDatosActualizado = $data['orgSocCivilActualmente'];
+		// $orgSocCivilActualmenteDatosActualizado = $data['orgSocCivilActualmente'];
+		// dd(isset($data['orgSocCivilActualmente'][0]));
 
-		if (isset($orgSocCivilActualmenteDatosActualizado[0])) {
-			if(count($orgSocCivilActualmenteDatosActualizado) === count($formularioF->orgsoccivilactualmentes)) {
+		if (isset($data['orgSocCivilActualmente'][0])) {
+			if(count($data['orgSocCivilActualmente']) === count($formularioF->orgsoccivilactualmentes)) {
 				for ($i=0; $i < count($formularioF->orgsoccivilactualmentes); $i++) { 
-					$orgSocCivilActualmente[$i]->update(['nombreOrganismo' => $orgSocCivilActualmenteDatosActualizado[$i], 'fformulario_id' => $id]);
+					$orgSocCivilActualmente[$i]->update(['nombreOrganismo' => $data['orgSocCivilActualmente'][$i], 'fformulario_id' => $id]);
 				}
-			}else{
+			}elseif(count($data['orgSocCivilActualmente']) > count($formularioF->orgsoccivilactualmentes)){
 				$a = 0;
 				do {
 					for ($i=0; $i < count($formularioF->orgsoccivilactualmentes); $i++) { 
-						$orgSocCivilActualmente[$i]->update(['nombreOrganismo' => $orgSocCivilActualmenteDatosActualizado[$i], 'fformulario_id' => $id]);
+						$orgSocCivilActualmente[$i]->update(['nombreOrganismo' => $data['orgSocCivilActualmente'][$i], 'fformulario_id' => $id]);
 					}
 					$a++;
 				} while ($a < count($formularioF->orgsoccivilactualmentes));
-				for ($i=count($formularioF->orgsoccivilactualmentes); $i < count($orgSocCivilActualmenteDatosActualizado); $i++) { 
-					$guardoOrgSocCivilActualmenteDatosActualizadoNuevo = \App\FormF\OrgSocCivilActualmente::create(['nombreOrganismo' => $orgSocCivilActualmenteDatosActualizado[$i], 'fformulario_id' => $id]);
+				for ($i=count($formularioF->orgsoccivilactualmentes); $i < count($data['orgSocCivilActualmente']); $i++) { 
+					$guardoOrgSocCivilActualmenteDatosActualizadoNuevo = \App\FormF\OrgSocCivilActualmente::create(['nombreOrganismo' => $data['orgSocCivilActualmente'][$i], 'fformulario_id' => $id]);
+				}
+			}else{
+				for ($i=0; $i < count($data['orgSocCivilActualmente']) ; $i++) { 
+						$orgSocCivilActualmente[$i]->update(['nombreOrganismo' => $data['orgSocCivilActualmente'][$i], 'fformulario_id' => $id]);
+				}
+				for ($i=count($data['orgSocCivilActualmente']); $i < count($formularioF->orgsoccivilactualmentes); $i++) { 
+					$orgSocCivilActualmente[$i]->update(['nombreOrganismo' => null, 'fformulario_id' => null]);
 				}
 			}
 		}
