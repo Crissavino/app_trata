@@ -279,8 +279,9 @@
 
                 {{-- Introduccion --}}
                     <h2 class="text-center m-5">Introducción</h2>
-                    <div class="form-group">
+                    <div class="form-group" {{ $errors->has('introduccion') ? 'has-error' : ''}}>
                         <textarea class="form-control" name="introduccion"></textarea>
+                        {!! $errors->first('introduccion', '<p class="help-block" style="color:red";>:message</p>') !!}
                     </div>
                 {{-- Fin introduccion --}}
 

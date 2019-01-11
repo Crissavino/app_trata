@@ -2063,16 +2063,16 @@ class FormsController extends Controller
 	{
 		$userId = auth()->user()->id;
 
-		// request()->validate(
-		// 	[
+		request()->validate(
+			[	'introduccion' => 'required',
 		// 		'docInterna.0' => 'required|max:10000',
 		// 		'docExterna.0' => 'required|max:10000',
 		// 		'notRelacionadas.0' => 'required|max:10000',
 		// 		'intervencionEstrategias.0' => 'required|max:10000',
 		// 		'infoSocioambiental.0' => 'required|max:10000',
 
-		// 	],
-		// 	[
+			],
+			[	'introduccion.required' => 'Debes completar la introduccion',
 		// 		'docInterna.*.required' => 'Subi un archivo, dale!',
 		// 		'docExterna.*.required' => 'Subi un archivo, dale!',
 		// 		'notRelacionadas.*.required' => 'Subi un archivo, dale!',
@@ -2083,7 +2083,7 @@ class FormsController extends Controller
 		// 		'notRelacionadas.*.max' => 'El tamaño del archivo supera el límite permitido',
 		// 		'intervencionEstrategias.*.max' => 'El tamaño del archivo supera el límite permitido',
 		// 		'infoSocioambiental.*.max' => 'El tamaño del archivo supera el límite permitido',
-		// 	]);
+			]);
 
 		$data = request()->all();
 
@@ -2097,9 +2097,11 @@ class FormsController extends Controller
 
 		if (isset($data['docInterna'])) {
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
-			$j = 1; 
 			for ($i=0; $i < count($data['docInterna']); $i++) { 
-				$docInterna = 'Documentación Interna Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+				$nombreArchivoCliente = request()->file('docInterna')[$i]->getClientOriginalName();
+
+				$docInterna = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $docInterna = $docInterna.'.'.request()->file('docInterna')[$i]->extension();
 
@@ -2111,15 +2113,16 @@ class FormsController extends Controller
 
 	            $guardoDocInterna = \App\FormG\Docinterna::create($datos);
 
-	            $j++;
 			}
         }
 
         if (isset($data['docExterna'])) {
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
-			$j = 1; 
 			for ($i=0; $i < count($data['docExterna']); $i++) { 
-				$docExterna = 'Documentación Externa Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+				$nombreArchivoCliente = request()->file('docExterna')[$i]->getClientOriginalName();
+
+				$docExterna = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $docExterna = $docExterna.'.'.request()->file('docExterna')[$i]->extension();
 
@@ -2131,15 +2134,16 @@ class FormsController extends Controller
 
 	            $guardodDocExterna = \App\FormG\Docexterna::create($datos);
 
-	            $j++;
 			}
         }
 
         if (isset($data['notRelacionadas'])) {
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
-			$j = 1; 
 			for ($i=0; $i < count($data['notRelacionadas']); $i++) { 
-				$notRelacionadas = 'Noticias realacionadas Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+				$nombreArchivoCliente = request()->file('notRelacionadas')[$i]->getClientOriginalName();
+
+				$notRelacionadas = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $notRelacionadas = $notRelacionadas.'.'.request()->file('notRelacionadas')[$i]->extension();
 
@@ -2151,15 +2155,16 @@ class FormsController extends Controller
 
 	            $guardoNotRelacionadas = \App\FormG\Notrelacionada::create($datos);
 
-	            $j++;
 			}
         }
 
         if (isset($data['intervencionEstrategias'])) {
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
-			$j = 1; 
 			for ($i=0; $i < count($data['intervencionEstrategias']); $i++) { 
-				$intervencionEstrategias = 'Plan de Intervención - Estrategias de abordaje Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+				$nombreArchivoCliente = request()->file('intervencionEstrategias')[$i]->getClientOriginalName();
+
+				$intervencionEstrategias = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $intervencionEstrategias = $intervencionEstrategias.'.'.request()->file('intervencionEstrategias')[$i]->extension();
 
@@ -2171,15 +2176,16 @@ class FormsController extends Controller
 
 	            $guardoIntervencionEstrategias = \App\FormG\Intervencionestrategia::create($datos);
 
-	            $j++;
 			}
         }
 
         if (isset($data['infoSocioambiental'])) {
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
-			$j = 1; 
 			for ($i=0; $i < count($data['infoSocioambiental']); $i++) { 
-				$infoSocioambiental = 'Informe Socioambiental Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+				$nombreArchivoCliente = request()->file('infoSocioambiental')[$i]->getClientOriginalName();
+
+				$infoSocioambiental = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $infoSocioambiental = $infoSocioambiental.'.'.request()->file('infoSocioambiental')[$i]->extension();
 
@@ -2191,7 +2197,6 @@ class FormsController extends Controller
 
 	            $guardoInfoSocioambiental = \App\FormG\Infosocioambiental::create($datos);
 
-	            $j++;
 			}
         }
 
@@ -2335,16 +2340,16 @@ class FormsController extends Controller
 	{
 		$userId = auth()->user()->id;
 
-		// request()->validate(
-		// 	[
+		request()->validate(
+			[	'introduccion' => 'required',
 		// 		'docInterna.0' => 'required|max:10000',
 		// 		'docExterna.0' => 'required|max:10000',
 		// 		'notRelacionadas.0' => 'required|max:10000',
 		// 		'intervencionEstrategias.0' => 'required|max:10000',
 		// 		'infoSocioambiental.0' => 'required|max:10000',
 
-		// 	],
-		// 	[
+			],
+			[	'introduccion.required' => 'Debes completar la introduccion',
 		// 		'docInterna.*.required' => 'Subi un archivo, dale!',
 		// 		'docExterna.*.required' => 'Subi un archivo, dale!',
 		// 		'notRelacionadas.*.required' => 'Subi un archivo, dale!',
@@ -2355,7 +2360,7 @@ class FormsController extends Controller
 		// 		'notRelacionadas.*.max' => 'El tamaño del archivo supera el límite permitido',
 		// 		'intervencionEstrategias.*.max' => 'El tamaño del archivo supera el límite permitido',
 		// 		'infoSocioambiental.*.max' => 'El tamaño del archivo supera el límite permitido',
-		// 	]);
+			]);
 
 		$data = request()->all();
 
@@ -2369,9 +2374,11 @@ class FormsController extends Controller
 
 		if (isset($data['docInterna'])) {
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
-			$j = 1; 
 			for ($i=0; $i < count($data['docInterna']); $i++) { 
-				$docInterna = 'Documentación Interna Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+				$nombreArchivoCliente = request()->file('docInterna')[$i]->getClientOriginalName();
+
+				$docInterna = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $docInterna = $docInterna.'.'.request()->file('docInterna')[$i]->extension();
 
@@ -2383,15 +2390,16 @@ class FormsController extends Controller
 
 	            $guardoDocInterna = \App\FormG\Docinterna::create($datos);
 
-	            $j++;
 			}
         }
 
         if (isset($data['docExterna'])) {
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
-			$j = 1; 
 			for ($i=0; $i < count($data['docExterna']); $i++) { 
-				$docExterna = 'Documentación Externa Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+				
+				$nombreArchivoCliente = request()->file('docExterna')[$i]->getClientOriginalName();
+
+				$docExterna = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $docExterna = $docExterna.'.'.request()->file('docExterna')[$i]->extension();
 
@@ -2403,15 +2411,16 @@ class FormsController extends Controller
 
 	            $guardodDocExterna = \App\FormG\Docexterna::create($datos);
 
-	            $j++;
 			}
         }
 
         if (isset($data['notRelacionadas'])) {
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
-			$j = 1; 
 			for ($i=0; $i < count($data['notRelacionadas']); $i++) { 
-				$notRelacionadas = 'Noticias realacionadas Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+				$nombreArchivoCliente = request()->file('notRelacionadas')[$i]->getClientOriginalName();
+
+				$notRelacionadas = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $notRelacionadas = $notRelacionadas.'.'.request()->file('notRelacionadas')[$i]->extension();
 
@@ -2423,15 +2432,16 @@ class FormsController extends Controller
 
 	            $guardoNotRelacionadas = \App\FormG\Notrelacionada::create($datos);
 
-	            $j++;
 			}
         }
 
         if (isset($data['intervencionEstrategias'])) {
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
-			$j = 1; 
 			for ($i=0; $i < count($data['intervencionEstrategias']); $i++) { 
-				$intervencionEstrategias = 'Plan de Intervención - Estrategias de abordaje Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+				$nombreArchivoCliente = request()->file('intervencionEstrategias')[$i]->getClientOriginalName();
+
+				$intervencionEstrategias = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $intervencionEstrategias = $intervencionEstrategias.'.'.request()->file('intervencionEstrategias')[$i]->extension();
 
@@ -2443,15 +2453,16 @@ class FormsController extends Controller
 
 	            $guardoIntervencionEstrategias = \App\FormG\Intervencionestrategia::create($datos);
 
-	            $j++;
 			}
         }
 
         if (isset($data['infoSocioambiental'])) {
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
-			$j = 1; 
 			for ($i=0; $i < count($data['infoSocioambiental']); $i++) { 
-				$infoSocioambiental = 'Informe Socioambiental Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+				$nombreArchivoCliente = request()->file('infoSocioambiental')[$i]->getClientOriginalName();
+
+				$infoSocioambiental = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $infoSocioambiental = $infoSocioambiental.'.'.request()->file('infoSocioambiental')[$i]->extension();
 
@@ -2463,7 +2474,6 @@ class FormsController extends Controller
 
 	            $guardoInfoSocioambiental = \App\FormG\Infosocioambiental::create($datos);
 
-	            $j++;
 			}
         }
 
