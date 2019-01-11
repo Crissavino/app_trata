@@ -14,7 +14,7 @@ class CreateFformulariosTable extends Migration
     public function up()
     {
         Schema::create('fformularios', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('numeroCarpeta');
             // $table->integer('orgJudiciales_id')->unsigned();
             // $table->integer('orgProgNacionales_id')->unsigned();
@@ -249,5 +249,8 @@ class CreateFformulariosTable extends Migration
         Schema::dropIfExists('fformulario_policia');
         Schema::dropIfExists('asistencia_fformulario');
         Schema::dropIfExists('fformulario_socioeconomic');
+        Schema::dropIfExists('fformulario_orgjudicialactualmente');
+        Schema::dropIfExists('fformulario_orgprognacionalactualmente');
+        Schema::dropIfExists('fformulario_policiaactualmente');
     }
 }

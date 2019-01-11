@@ -201,7 +201,7 @@
                 <div class="padre">
                     <div class="hijo" style="display: none;">
                         <h3>A 9. Profesional Interviniente:</h3>
-                        <div class="form-group {{ $errors->has('profesional_id[]') ? 'has-error' : ''}}">
+                        <div class="form-group" {{ $errors->has('profesional_id[]') ? 'has-error' : ''}}>
                             <label for="profesional_id">Profesional que interviene</label>
                             <select class="form-control profesional_id">
                                 <option value="">Seleccioná profesional</option>

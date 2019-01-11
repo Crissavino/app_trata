@@ -98,6 +98,9 @@ class DatabaseSeeder extends Seeder
         $this->call(PoliciaactualmentesTableSeeder::class);
         $this->call(AsistenciaTableSeeder::class);
         $this->call(SocioeconomicsTableSeeder::class);
+
+        //SEEDERS FORMULARIO G
+        $this->call(TemaintervencionsTableSeeder::class);
         
     }
 }

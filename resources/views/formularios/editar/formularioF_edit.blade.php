@@ -331,7 +331,11 @@
             <input type="button" class="ml-3 btn btn-outline-primary btnOrgSocCivilActualmenteAgregarOtro" value="Agregar Otro" name="">
             <input type="button" class="ml-3 btn btn-outline-primary btnOrgSocCivilActualmenteBorrarOtro" value="Borrar Otro" name=""><br><br>
 
-	    	<button type="submit" class="btn btn-primary col-xl" name="button">Enviar</button><br><br>
+	    	<br><br>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary mr-5 col-5" name="button">Enviar</button>
+                <a href="/formularios" class="btn btn-primary col-5" title="">Volver</a>
+            </div>
 	    </form>
 
 

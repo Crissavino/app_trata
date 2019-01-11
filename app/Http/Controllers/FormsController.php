@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 class FormsController extends Controller
 {
@@ -68,13 +69,20 @@ class FormsController extends Controller
 											->ORDERBY('updated_at')
 											->get();
 
+		$gFormPorId = DB::table('gformularios')
+											->WHERE('user_id', '=', $userId)
+											->WHERE('gformularios.deleted_at', '=', null)
+											->ORDERBY('updated_at')
+											->get();
 		return view('formularios.formularios', ['userName' => $userName,
 												'bFormPorId' => $bFormPorId,
 												'aFormPorId' => $aFormPorId,
 												'cFormPorId' => $cFormPorId,
 												'dFormPorId' => $dFormPorId,
 												'eFormPorId' => $eFormPorId,
-												'fFormPorId' => $fFormPorId]);
+												'fFormPorId' => $fFormPorId,
+												'gFormPorId' => $gFormPorId
+												]);
 	}
 
 	public function createA()
@@ -1954,6 +1962,543 @@ class FormsController extends Controller
 		$Fformulario = \App\FormF\Fformulario::find($id);
 
 		$Fformulario->delete();
+
+    	session()->flash('message', 'El formulario se eliminó con éxito.');
+
+    	return redirect('formularios');	
+	}
+
+	public function createG()
+	{
+		$userId = auth()->user()->id;
+		$numeroCarpeta = DB::table('aformularios')
+											->WHERE('user_id', '=', $userId)
+											->ORDERBY('updated_at', 'desc')
+											->first()
+											->datos_numero_carpeta;
+		//datos del formulario A
+			$datosModalidad = \App\FormA\Modalidad::all();;
+			$datosEstadoCaso = \App\FormA\Estadocaso::all();
+			$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
+			$datosProfesional = \App\FormA\Profesional::all();
+			$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
+			$datosPresentacion = \App\FormA\Presentacionespontanea::all();
+			$datosOrganismo = \App\FormA\Otrosorganismo::all();
+			$getIdA = DB::table('aformularios')
+			                            ->WHERE('datos_numero_carpeta', '=', $numeroCarpeta)
+										->ORDERBY('updated_at', 'desc')
+										->first()
+										->id;
+			$aFormulario = \App\FormA\Aformulario::find($getIdA);
+			$todo = DB::table('aformularios')
+			                            ->WHERE('aformulario_id', '=', $getIdA)
+										->JOIN('aformulario_profesionalinterviniente', 'aformularios.id', '=', 'aformulario_profesionalinterviniente.aformulario_id')
+										->JOIN('profesionalintervinientes', 'aformulario_profesionalinterviniente.profesionalinterviniente_id', '=', 'profesionalintervinientes.id')
+										->JOIN('profesionals', 'profesionalintervinientes.profesional_id', '=', 'profesionals.id')
+										->JOIN('profesionalactualmentes', 'profesionalintervinientes.profesionalactualmente_id', '=', 'profesionalactualmentes.id')
+			                            ->get();
+		//fin datos del formulario A
+
+		//datos del formulario F
+			$datosOrgJudicialesActualmente = \App\FormF\Orgjudicialactualmente::all();
+			$datosProgNacionalesActualmente = \App\FormF\Orgprognacionalactualmente::all();
+			$datosPoliciaActualmente = \App\FormF\Policiaactualmente::all();
+			// ---necesarios para el edit
+			$getIdF = DB::table('fformularios')
+			                            ->WHERE('numeroCarpeta', '=', $numeroCarpeta)
+										->ORDERBY('updated_at', 'desc')
+										->first()
+										->id;
+										// dd($getIdF);
+			$formularioF = \App\FormF\Fformulario::find($getIdF);
+			$orgProgNacionalOtro = \App\FormF\Orgprognacionalotro::all();
+			$orgProgProvincial = \App\FormF\Orgprogprovincial::all();
+			$orgProgMunipal = \App\FormF\Orgprogmunicipal::all();
+			$orgSocCivil = \App\FormF\Orgsoccivil::all();
+			$orgProgNacionalActualmenteOtro = \App\FormF\Orgprognacionalactualmenteotro::all();
+			$orgProgProvincialesAlactualmente = \App\FormF\Orgprogprovincialesactualmente::all();
+			$orgProgMunipalesActualmente = \App\FormF\Orgprogmunicipalesactualmente::all();
+			$orgSocCivilActualmente = \App\FormF\Orgsoccivilactualmente::all();
+		//fin datos del formulario F
+
+		//datos del G
+			$temaIntervencion = \App\FormG\Temaintervencion::all();
+		//Fin datos del G
+
+		return view('formularios.formularioG', [
+												'numeroCarpeta' => $numeroCarpeta,
+												'aFormulario' => $aFormulario,
+												//formulario A
+												'datosModalidad' => $datosModalidad,
+												'datosEstadoCaso' => $datosEstadoCaso,
+												'datosCaratulacion' => $datosCaratulacion,
+												'datosProfesional' => $datosProfesional,
+												'datosIntervieneActualmente' => $datosIntervieneActualmente,
+												'datosPresentacion' => $datosPresentacion,
+												'datosOrganismo' => $datosOrganismo,
+												'todo' => $todo,
+												//fin formulario A
+												//formulario F
+												'datosOrgJudicialesActualmente' => $datosOrgJudicialesActualmente,
+												'datosProgNacionalesActualmente' => $datosProgNacionalesActualmente,
+												'datosPoliciaActualmente' => $datosPoliciaActualmente,
+												// 'datosAsistencia' => $datosAsistencia,
+												// 'datosSocioeconomica' => $datosSocioeconomica,
+												// 'derivacionOrganismo' => $derivacionOrganismo,
+												'formularioF' => $formularioF,
+												'orgProgNacionalOtro' => $orgProgNacionalOtro,
+												'orgProgProvincial' => $orgProgProvincial,
+												'orgProgMunipal' => $orgProgMunipal,
+												'orgSocCivil' => $orgSocCivil,
+												'orgProgNacionalActualmenteOtro' => $orgProgNacionalActualmenteOtro,
+												'orgProgProvincialesAlactualmente' => $orgProgProvincialesAlactualmente,
+												'orgProgMunipalesActualmente' => $orgProgMunipalesActualmente,
+												'orgSocCivilActualmente' => $orgSocCivilActualmente,
+												//fin formulario F
+												'temaIntervencion' => $temaIntervencion
+												]);
+	}
+
+	public function insertG()
+	{
+		$userId = auth()->user()->id;
+
+		// request()->validate(
+		// 	[
+		// 		'docInterna.0' => 'required|max:10000',
+		// 		'docExterna.0' => 'required|max:10000',
+		// 		'notRelacionadas.0' => 'required|max:10000',
+		// 		'intervencionEstrategias.0' => 'required|max:10000',
+		// 		'infoSocioambiental.0' => 'required|max:10000',
+
+		// 	],
+		// 	[
+		// 		'docInterna.*.required' => 'Subi un archivo, dale!',
+		// 		'docExterna.*.required' => 'Subi un archivo, dale!',
+		// 		'notRelacionadas.*.required' => 'Subi un archivo, dale!',
+		// 		'intervencionEstrategias.*.required' => 'Subi un archivo, dale!',
+		// 		'infoSocioambiental.*.required' => 'Subi un archivo, dale!',
+		// 		'docInterna.*.max' => 'El tamaño del archivo supera el límite permitido',
+		// 		'docExterna.*.max' => 'El tamaño del archivo supera el límite permitido',
+		// 		'notRelacionadas.*.max' => 'El tamaño del archivo supera el límite permitido',
+		// 		'intervencionEstrategias.*.max' => 'El tamaño del archivo supera el límite permitido',
+		// 		'infoSocioambiental.*.max' => 'El tamaño del archivo supera el límite permitido',
+		// 	]);
+
+		$data = request()->all();
+
+		$data['user_id'] = $userId;
+
+		$gFormularioGuardado = \App\FormG\Gformulario::create($data);
+
+		$idGFormularioGuardado = $gFormularioGuardado->id;
+
+		// dd(request()->file('docInterna')[0]);
+
+		if (isset($data['docInterna'])) {
+			//j sirve para agregarle un indice al archivo y que no arranca en 0
+			$j = 1; 
+			for ($i=0; $i < count($data['docInterna']); $i++) { 
+				$docInterna = 'Documentación Interna Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+	            $docInterna = $docInterna.'.'.request()->file('docInterna')[$i]->extension();
+
+	            $pathDocInterna = request()->file('docInterna')[$i]->storeAs('public/archivos/docInterna', $docInterna);
+
+	            $pathDocInterna = str_replace('public', 'storage', $pathDocInterna);
+
+	            $datos = ['nombreArchivo' => $docInterna, 'path' => $pathDocInterna, 'gformulario_id' => $idGFormularioGuardado];
+
+	            $guardoDocInterna = \App\FormG\Docinterna::create($datos);
+
+	            $j++;
+			}
+        }
+
+        if (isset($data['docExterna'])) {
+			//j sirve para agregarle un indice al archivo y que no arranca en 0
+			$j = 1; 
+			for ($i=0; $i < count($data['docExterna']); $i++) { 
+				$docExterna = 'Documentación Externa Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+	            $docExterna = $docExterna.'.'.request()->file('docExterna')[$i]->extension();
+
+	            $pathDocExterna = request()->file('docExterna')[$i]->storeAs('public/archivos/docExterna', $docExterna);
+
+	            $pathDocExterna = str_replace('public', 'storage', $pathDocExterna);
+
+	            $datos = ['nombreArchivo' => $docExterna, 'path' => $pathDocExterna, 'gformulario_id' => $idGFormularioGuardado];
+
+	            $guardodDocExterna = \App\FormG\Docexterna::create($datos);
+
+	            $j++;
+			}
+        }
+
+        if (isset($data['notRelacionadas'])) {
+			//j sirve para agregarle un indice al archivo y que no arranca en 0
+			$j = 1; 
+			for ($i=0; $i < count($data['notRelacionadas']); $i++) { 
+				$notRelacionadas = 'Noticias realacionadas Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+	            $notRelacionadas = $notRelacionadas.'.'.request()->file('notRelacionadas')[$i]->extension();
+
+	            $pathNotRelacionadas = request()->file('notRelacionadas')[$i]->storeAs('public/archivos/notRelacionadas', $notRelacionadas);
+
+	            $pathNotRelacionadas = str_replace('public', 'storage', $pathNotRelacionadas);
+
+	            $datos = ['nombreArchivo' => $notRelacionadas, 'path' => $pathNotRelacionadas, 'gformulario_id' => $idGFormularioGuardado];
+
+	            $guardoNotRelacionadas = \App\FormG\Notrelacionada::create($datos);
+
+	            $j++;
+			}
+        }
+
+        if (isset($data['intervencionEstrategias'])) {
+			//j sirve para agregarle un indice al archivo y que no arranca en 0
+			$j = 1; 
+			for ($i=0; $i < count($data['intervencionEstrategias']); $i++) { 
+				$intervencionEstrategias = 'Plan de Intervención - Estrategias de abordaje Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+	            $intervencionEstrategias = $intervencionEstrategias.'.'.request()->file('intervencionEstrategias')[$i]->extension();
+
+	            $pathIntervencionEstrategias = request()->file('intervencionEstrategias')[$i]->storeAs('public/archivos/intervencionEstrategias', $intervencionEstrategias);
+
+	            $pathIntervencionEstrategias = str_replace('public', 'storage', $pathIntervencionEstrategias);
+
+	            $datos = ['nombreArchivo' => $intervencionEstrategias, 'path' => $pathIntervencionEstrategias, 'gformulario_id' => $idGFormularioGuardado];
+
+	            $guardoIntervencionEstrategias = \App\FormG\Intervencionestrategia::create($datos);
+
+	            $j++;
+			}
+        }
+
+        if (isset($data['infoSocioambiental'])) {
+			//j sirve para agregarle un indice al archivo y que no arranca en 0
+			$j = 1; 
+			for ($i=0; $i < count($data['infoSocioambiental']); $i++) { 
+				$infoSocioambiental = 'Informe Socioambiental Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+	            $infoSocioambiental = $infoSocioambiental.'.'.request()->file('infoSocioambiental')[$i]->extension();
+
+	            $pathInfoSocioambiental = request()->file('infoSocioambiental')[$i]->storeAs('public/archivos/infoSocioambiental', $infoSocioambiental);
+
+	            $pathInfoSocioambiental = str_replace('public', 'storage', $pathInfoSocioambiental);
+
+	            $datos = ['nombreArchivo' => $infoSocioambiental, 'path' => $pathInfoSocioambiental, 'gformulario_id' => $idGFormularioGuardado];
+
+	            $guardoInfoSocioambiental = \App\FormG\Infosocioambiental::create($datos);
+
+	            $j++;
+			}
+        }
+
+        if (isset($data['fechaIntervencion'])) {
+			$cant = (count(request()->input('fechaIntervencion')));
+
+			for ($i=0; $i < $cant; $i++) {
+
+				$intervencion['fechaIntervencion'] = $data['fechaIntervencion'][$i];
+				$intervencion['temaIntervencion_id'] = $data['temaIntervencion_id'][$i];
+				$intervencion['temaOtro'] = $data['temaOtro'][$i];
+				$intervencion['nombreContacto'] = $data['nombreContacto'][$i]; 
+				$intervencion['telefonoContacto'] = $data['telefonoContacto'][$i]; 
+				$intervencion['descripcionIntervencion'] = $data['descripcionIntervencion'][$i];
+				$intervencion['user_id'] = $data['user_id'];
+
+				$guardoIntervencion = \App\FormG\Intervencion::create($intervencion);
+
+				$intervencionId[] = $guardoIntervencion->id;
+			}
+
+			$gFormulario = \App\FormG\Gformulario::find($idGFormularioGuardado);
+
+			$guardoRelacion = $gFormulario->intervencions()->sync($intervencionId);
+
+		}
+
+		return redirect('/formularios');	
+	}
+
+	public function editG($id)
+	{
+		$userId = auth()->user()->id;
+		$numeroCarpeta = DB::table('aformularios')
+											->WHERE('user_id', '=', $userId)
+											->ORDERBY('updated_at', 'desc')
+											->first()
+											->datos_numero_carpeta;
+		//datos del formulario A
+			$datosModalidad = \App\FormA\Modalidad::all();;
+			$datosEstadoCaso = \App\FormA\Estadocaso::all();
+			$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
+			$datosProfesional = \App\FormA\Profesional::all();
+			$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
+			$datosPresentacion = \App\FormA\Presentacionespontanea::all();
+			$datosOrganismo = \App\FormA\Otrosorganismo::all();
+			$getIdA = DB::table('aformularios')
+			                            ->WHERE('datos_numero_carpeta', '=', $numeroCarpeta)
+										->ORDERBY('updated_at', 'desc')
+										->first()
+										->id;
+			$aFormulario = \App\FormA\Aformulario::find($getIdA);
+			$todo = DB::table('aformularios')
+			                            ->WHERE('aformulario_id', '=', $getIdA)
+										->JOIN('aformulario_profesionalinterviniente', 'aformularios.id', '=', 'aformulario_profesionalinterviniente.aformulario_id')
+										->JOIN('profesionalintervinientes', 'aformulario_profesionalinterviniente.profesionalinterviniente_id', '=', 'profesionalintervinientes.id')
+										->JOIN('profesionals', 'profesionalintervinientes.profesional_id', '=', 'profesionals.id')
+										->JOIN('profesionalactualmentes', 'profesionalintervinientes.profesionalactualmente_id', '=', 'profesionalactualmentes.id')
+			                            ->get();
+		//fin datos del formulario A
+
+		//datos del formulario F
+			$datosOrgJudicialesActualmente = \App\FormF\Orgjudicialactualmente::all();
+			$datosProgNacionalesActualmente = \App\FormF\Orgprognacionalactualmente::all();
+			$datosPoliciaActualmente = \App\FormF\Policiaactualmente::all();
+			// ---necesarios para el edit
+			$getIdF = DB::table('fformularios')
+			                            ->WHERE('numeroCarpeta', '=', $numeroCarpeta)
+										->ORDERBY('updated_at', 'desc')
+										->first()
+										->id;
+										// dd($getIdF);
+			$formularioF = \App\FormF\Fformulario::find($getIdF);
+			$orgProgNacionalOtro = \App\FormF\Orgprognacionalotro::all();
+			$orgProgProvincial = \App\FormF\Orgprogprovincial::all();
+			$orgProgMunipal = \App\FormF\Orgprogmunicipal::all();
+			$orgSocCivil = \App\FormF\Orgsoccivil::all();
+			$orgProgNacionalActualmenteOtro = \App\FormF\Orgprognacionalactualmenteotro::all();
+			$orgProgProvincialesAlactualmente = \App\FormF\Orgprogprovincialesactualmente::all();
+			$orgProgMunipalesActualmente = \App\FormF\Orgprogmunicipalesactualmente::all();
+			$orgSocCivilActualmente = \App\FormF\Orgsoccivilactualmente::all();
+		//fin datos del formulario F
+
+		//datos del G
+			$temaIntervencion = \App\FormG\Temaintervencion::all();
+			$formularioG = \App\FormG\Gformulario::find($id);
+			$intervenciones = $formularioG->intervencions;
+			$docInterna = $formularioG->docinternas;
+			$docExterna = $formularioG->docexternas;
+			$infoSocioambiental = $formularioG->infosocioambientals;
+			$intervencionEstrategias = $formularioG->intervencionestrategias;
+			$notRelacionadas = $formularioG->notrelacionadas;
+			// response()->file($docInterna);
+			// dd($docInterna);
+		//Fin datos del G
+
+		return view('formularios.editar.formularioG_edit', [
+												'numeroCarpeta' => $numeroCarpeta,
+												'aFormulario' => $aFormulario,
+												//formulario A
+												'datosModalidad' => $datosModalidad,
+												'datosEstadoCaso' => $datosEstadoCaso,
+												'datosCaratulacion' => $datosCaratulacion,
+												'datosProfesional' => $datosProfesional,
+												'datosIntervieneActualmente' => $datosIntervieneActualmente,
+												'datosPresentacion' => $datosPresentacion,
+												'datosOrganismo' => $datosOrganismo,
+												'todo' => $todo,
+												//fin formulario A
+												//formulario F
+												'datosOrgJudicialesActualmente' => $datosOrgJudicialesActualmente,
+												'datosProgNacionalesActualmente' => $datosProgNacionalesActualmente,
+												'datosPoliciaActualmente' => $datosPoliciaActualmente,
+												// 'datosAsistencia' => $datosAsistencia,
+												// 'datosSocioeconomica' => $datosSocioeconomica,
+												// 'derivacionOrganismo' => $derivacionOrganismo,
+												'formularioF' => $formularioF,
+												'orgProgNacionalOtro' => $orgProgNacionalOtro,
+												'orgProgProvincial' => $orgProgProvincial,
+												'orgProgMunipal' => $orgProgMunipal,
+												'orgSocCivil' => $orgSocCivil,
+												'orgProgNacionalActualmenteOtro' => $orgProgNacionalActualmenteOtro,
+												'orgProgProvincialesAlactualmente' => $orgProgProvincialesAlactualmente,
+												'orgProgMunipalesActualmente' => $orgProgMunipalesActualmente,
+												'orgSocCivilActualmente' => $orgSocCivilActualmente,
+												//fin formulario F
+												//formulario F
+												'temaIntervencion' => $temaIntervencion,
+												'intervenciones' => $intervenciones,
+												'docInterna' => $docInterna,
+												'docExterna' => $docExterna,
+												'infoSocioambiental' => $infoSocioambiental,
+												'intervencionEstrategias' => $intervencionEstrategias,
+												'notRelacionadas' => $notRelacionadas,
+												'formularioG' => $formularioG
+												//fin formulario F
+												]);
+	}
+
+	public function updateG($id)
+	{
+		$userId = auth()->user()->id;
+
+		// request()->validate(
+		// 	[
+		// 		'docInterna.0' => 'required|max:10000',
+		// 		'docExterna.0' => 'required|max:10000',
+		// 		'notRelacionadas.0' => 'required|max:10000',
+		// 		'intervencionEstrategias.0' => 'required|max:10000',
+		// 		'infoSocioambiental.0' => 'required|max:10000',
+
+		// 	],
+		// 	[
+		// 		'docInterna.*.required' => 'Subi un archivo, dale!',
+		// 		'docExterna.*.required' => 'Subi un archivo, dale!',
+		// 		'notRelacionadas.*.required' => 'Subi un archivo, dale!',
+		// 		'intervencionEstrategias.*.required' => 'Subi un archivo, dale!',
+		// 		'infoSocioambiental.*.required' => 'Subi un archivo, dale!',
+		// 		'docInterna.*.max' => 'El tamaño del archivo supera el límite permitido',
+		// 		'docExterna.*.max' => 'El tamaño del archivo supera el límite permitido',
+		// 		'notRelacionadas.*.max' => 'El tamaño del archivo supera el límite permitido',
+		// 		'intervencionEstrategias.*.max' => 'El tamaño del archivo supera el límite permitido',
+		// 		'infoSocioambiental.*.max' => 'El tamaño del archivo supera el límite permitido',
+		// 	]);
+
+		$data = request()->all();
+
+		$data['user_id'] = $userId;
+
+		$actualizoGFormulario = \App\FormG\Gformulario::find($id)->update($data);
+
+		// $idGFormularioGuardado = $gFormularioGuardado->id;
+
+		// dd(request()->file('docInterna')[0]);
+
+		if (isset($data['docInterna'])) {
+			//j sirve para agregarle un indice al archivo y que no arranca en 0
+			$j = 1; 
+			for ($i=0; $i < count($data['docInterna']); $i++) { 
+				$docInterna = 'Documentación Interna Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+	            $docInterna = $docInterna.'.'.request()->file('docInterna')[$i]->extension();
+
+	            $pathDocInterna = request()->file('docInterna')[$i]->storeAs('public/archivos/docInterna', $docInterna);
+
+	            $pathDocInterna = str_replace('public', 'storage', $pathDocInterna);
+
+	            $datos = ['nombreArchivo' => $docInterna, 'path' => $pathDocInterna, 'gformulario_id' => $id];
+
+	            $guardoDocInterna = \App\FormG\Docinterna::create($datos);
+
+	            $j++;
+			}
+        }
+
+        if (isset($data['docExterna'])) {
+			//j sirve para agregarle un indice al archivo y que no arranca en 0
+			$j = 1; 
+			for ($i=0; $i < count($data['docExterna']); $i++) { 
+				$docExterna = 'Documentación Externa Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+	            $docExterna = $docExterna.'.'.request()->file('docExterna')[$i]->extension();
+
+	            $pathDocExterna = request()->file('docExterna')[$i]->storeAs('public/archivos/docExterna', $docExterna);
+
+	            $pathDocExterna = str_replace('public', 'storage', $pathDocExterna);
+
+	            $datos = ['nombreArchivo' => $docExterna, 'path' => $pathDocExterna, 'gformulario_id' => $id];
+
+	            $guardodDocExterna = \App\FormG\Docexterna::create($datos);
+
+	            $j++;
+			}
+        }
+
+        if (isset($data['notRelacionadas'])) {
+			//j sirve para agregarle un indice al archivo y que no arranca en 0
+			$j = 1; 
+			for ($i=0; $i < count($data['notRelacionadas']); $i++) { 
+				$notRelacionadas = 'Noticias realacionadas Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+	            $notRelacionadas = $notRelacionadas.'.'.request()->file('notRelacionadas')[$i]->extension();
+
+	            $pathNotRelacionadas = request()->file('notRelacionadas')[$i]->storeAs('public/archivos/notRelacionadas', $notRelacionadas);
+
+	            $pathNotRelacionadas = str_replace('public', 'storage', $pathNotRelacionadas);
+
+	            $datos = ['nombreArchivo' => $notRelacionadas, 'path' => $pathNotRelacionadas, 'gformulario_id' => $id];
+
+	            $guardoNotRelacionadas = \App\FormG\Notrelacionada::create($datos);
+
+	            $j++;
+			}
+        }
+
+        if (isset($data['intervencionEstrategias'])) {
+			//j sirve para agregarle un indice al archivo y que no arranca en 0
+			$j = 1; 
+			for ($i=0; $i < count($data['intervencionEstrategias']); $i++) { 
+				$intervencionEstrategias = 'Plan de Intervención - Estrategias de abordaje Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+	            $intervencionEstrategias = $intervencionEstrategias.'.'.request()->file('intervencionEstrategias')[$i]->extension();
+
+	            $pathIntervencionEstrategias = request()->file('intervencionEstrategias')[$i]->storeAs('public/archivos/intervencionEstrategias', $intervencionEstrategias);
+
+	            $pathIntervencionEstrategias = str_replace('public', 'storage', $pathIntervencionEstrategias);
+
+	            $datos = ['nombreArchivo' => $intervencionEstrategias, 'path' => $pathIntervencionEstrategias, 'gformulario_id' => $id];
+
+	            $guardoIntervencionEstrategias = \App\FormG\Intervencionestrategia::create($datos);
+
+	            $j++;
+			}
+        }
+
+        if (isset($data['infoSocioambiental'])) {
+			//j sirve para agregarle un indice al archivo y que no arranca en 0
+			$j = 1; 
+			for ($i=0; $i < count($data['infoSocioambiental']); $i++) { 
+				$infoSocioambiental = 'Informe Socioambiental Núm '.$j.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+
+	            $infoSocioambiental = $infoSocioambiental.'.'.request()->file('infoSocioambiental')[$i]->extension();
+
+	            $pathInfoSocioambiental = request()->file('infoSocioambiental')[$i]->storeAs('public/archivos/infoSocioambiental', $infoSocioambiental);
+
+	            $pathInfoSocioambiental = str_replace('public', 'storage', $pathInfoSocioambiental);
+
+	            $datos = ['nombreArchivo' => $infoSocioambiental, 'path' => $pathInfoSocioambiental, 'gformulario_id' => $id];
+
+	            $guardoInfoSocioambiental = \App\FormG\Infosocioambiental::create($datos);
+
+	            $j++;
+			}
+        }
+
+        if (isset($data['fechaIntervencion'])) {
+			$cant = (count(request()->input('fechaIntervencion')));
+
+			for ($i=0; $i < $cant; $i++) {
+
+				$intervencion['fechaIntervencion'] = $data['fechaIntervencion'][$i];
+				$intervencion['temaIntervencion_id'] = $data['temaIntervencion_id'][$i];
+				$intervencion['temaOtro'] = $data['temaOtro'][$i];
+				$intervencion['nombreContacto'] = $data['nombreContacto'][$i]; 
+				$intervencion['telefonoContacto'] = $data['telefonoContacto'][$i]; 
+				$intervencion['descripcionIntervencion'] = $data['descripcionIntervencion'][$i];
+				$intervencion['user_id'] = $data['user_id'];
+
+				$guardoIntervencion = \App\FormG\Intervencion::create($intervencion);
+
+				$intervencionId[] = $guardoIntervencion->id;
+			}
+
+			$gFormulario = \App\FormG\Gformulario::find($id);
+
+			$guardoRelacion = $gFormulario->intervencions()->sync($intervencionId);
+
+		}
+
+		return redirect('/formularios');	
+	}
+
+	public function destroyG($id)
+	{
+		$Gformulario = \App\FormG\Gformulario::find($id);
+
+		$Gformulario->delete();
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
