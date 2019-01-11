@@ -9,7 +9,7 @@ class Gformulario extends Model
 {
 	use SoftDeletes;
     
-    protected $fillable = ['introduccion', 'user_id'];
+    protected $fillable = ['numeroCarpeta', 'introduccion', 'user_id'];
 
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
 

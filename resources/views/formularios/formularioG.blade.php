@@ -490,10 +490,10 @@
             btnAgregarIntervencion.addEventListener('click', function(){
                 click++
                 // divIntervencion.style.display = ''
-                console.log(click);
+                // console.log(click);
                 // var divClick = '<div id="orgProgNacionalCual'+click+'" class="form-group orgProgNacionalCual'+click+'">';
 
-                var divClickIntervencion = '<div id="intervencion'+click+'" class="form-group intervencion'+click+'""><div class="form-group"><label for="" class="">Fecha</label><input type="date" class="form-control fechaInput'+click+'" name="fechaIntervencion[]"></div><div class="form-group"><label for="" class="">Tema</label><select class="form-control temaSelect'+click+'" name="temaIntervencion_id[]"><option value="">Seleccioná un tema</option>@foreach ($temaIntervencion as $tema)<option value="{{ $tema->id }}">{{ $tema->nombre }}</option>@endforeach</select><div id="temaCual'+click+'" style="display: none;"><label for="">Cual?</label><input type="text" class="form-control  temaCualInput'+click+'" name="temaOtro[]"><br></div></div><div class="form-group datosIntervencion'+click+'" style="display: none;"><div class="form-group"><label for="">Nombre de contacto:</label><input type="text" class="form-control" name="nombreContacto[]"></div><div class="form-group"><label for="">Teléfono de contacto:</label><input type="text" class="form-control" name="telefonoContacto[]"></div><div class="form-group"><label for="">Descripción de la intervención:</label><input type="text" class="form-control" name="descripcionIntervencion[]"></div></div></div>'
+                var divClickIntervencion = '<div id="intervencion'+click+'" class="form-group intervencion'+click+'""><div class="form-group"><label for="" class="">Fecha</label><input type="date" class="form-control fechaInput'+click+'" name="fechaIntervencion[]"></div><div class="form-group"><label for="" class="">Tema</label><select class="form-control temaSelect'+click+'" name="temaIntervencion_id[]"><option value="">Seleccioná un tema</option>@foreach ($temaIntervencion as $tema)<option value="{{ $tema->id }}">{{ $tema->nombre }}</option>@endforeach</select><div class="temaCual'+click+'" style="display: none;"><label for="">Cual?</label><input type="text" class="form-control  temaCualInput'+click+'" name="temaOtro[]"><br></div></div><div class="form-group datosIntervencion'+click+'" style="display: none;"><div class="form-group"><label for="">Nombre de contacto:</label><input type="text" class="form-control" name="nombreContacto[]"></div><div class="form-group"><label for="">Teléfono de contacto:</label><input type="text" class="form-control" name="telefonoContacto[]"></div><div class="form-group"><label for="">Descripción de la intervención:</label><input type="text" class="form-control" name="descripcionIntervencion[]"></div></div></div>'
 
                 var divIntervenciones = document.getElementById('intervenciones');
                 divIntervenciones.insertAdjacentHTML('beforeend', divClickIntervencion);
@@ -501,8 +501,10 @@
                 //le agrego las funcionalidades para cada caso
                     var fechaInput = document.querySelector('.fechaInput'+click);
                     var temaSelect = document.querySelector('.temaSelect'+click);
+                    var temaCual = document.querySelector('.temaCual'+click);
+                    var temaCualInput = document.querySelector('.temaCualInput'+click);
                     var datosIntervencion = document.querySelector('.datosIntervencion'+click);
-                    console.log(fechaInput, temaSelect, datosIntervencion);
+                    // console.log(fechaInput, temaSelect, datosIntervencion);
 
                     fechaInput.addEventListener('change', function(){
                         if (temaSelect.value !== '') {
@@ -532,6 +534,13 @@
                                 datosIntervencion.style.display = 'none';
                             }
                         });
+                        console.log(temaCual);
+                        if (temaSelect.value === '9') {
+                            temaCual.style.display = '';
+                        }else{
+                            temaCual.style.display = 'none';
+                            temaCualInput.value = '';
+                        }
                     });
                 //fin funcionalidades
             });

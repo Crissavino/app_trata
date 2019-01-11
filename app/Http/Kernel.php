@@ -63,6 +63,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'noHayUser' => \App\Http\Middleware\NoHayUsuario::class,
         'noHayCarpeta' => \App\Http\Middleware\NoHayCarpeta::class,
+        'noHayFormF' => \App\Http\Middleware\NoHayFormF::class,
 
     ];
 }

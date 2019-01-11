@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Closure;
 
-class NoHayCarpeta
+class NoHayFormF
 {
     /**
      * Handle an incoming request.
@@ -17,11 +17,11 @@ class NoHayCarpeta
      */
     public function handle($request, Closure $next)
     {   
-        $hayFormA = DB::table('aformularios')->WHERE('user_id', '=', Auth::id())
-                                             ->ORDERBY('updated_at')
-                                             ->get();
-        if ($hayFormA->count() === 0) {
-            return redirect('formularios/A')->with('alert', 'Primero tenes que completar el Eje A!');
+        $hayFormF = DB::table('fformularios')->WHERE('user_id', '=', Auth::id())
+        									 ->ORDERBY('updated_at')
+											 ->get();
+        if ($hayFormF->count() === 0) {
+            return redirect('formularios/F')->with('alert', 'Primero tenes que completar el Eje F!');
             // dd('Hola');
         }
 

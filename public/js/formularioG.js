@@ -84,8 +84,9 @@ window.onload =function (){
 	 //     		document.body.innerHTML = contendioOriginal;
 		// 	}
 		// });
-
 	//fin
+
+	
 
 }
 
