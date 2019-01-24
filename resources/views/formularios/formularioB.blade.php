@@ -691,14 +691,15 @@
     <script src="/js/formularioB.js" type="text/javascript" charset="utf-8" async defer></script>
     <script src="/js/paises.js" type="text/javascript" charset="utf-8" async defer></script>
 
-    {{-- Mensaje completar el formulario anterior --}}
-    {{-- <script>
-        @foreach($carpetas as $carpeta)
-            @if ($carpeta->)
-
-            @endif
-        @endforeach
-    </script> --}}
+    {{-- ALERTA PARA LLENAR PRIMERO EL FORMULARIO A --}}
+    <script>
+        var msg = '{{Session::get('alert')}}';
+        var exist = '{{Session::has('alert')}}';
+        if(exist){
+          swal(msg);
+        }
+    </script>
+    {{-- FIN SCRIPT --}}
 {{-- @else
     <script>window.location = "/login";</script>
 @endauth --}}

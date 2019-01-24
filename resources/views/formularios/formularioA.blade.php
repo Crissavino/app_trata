@@ -273,7 +273,7 @@
                   swal(msg);
                 }
             </script>
-        {{-- FIN SCRIPT --}}
+            {{-- FIN SCRIPT --}}
 {{-- @else
     <script>window.location = "/login";</script>
 @endauth --}}

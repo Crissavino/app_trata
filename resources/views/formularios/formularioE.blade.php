@@ -120,5 +120,15 @@
     <script src="/js/formularioE.js" type="text/javascript" charset="utf-8" async defer></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+	{{-- ALERTA PARA LLENAR PRIMERO EL FORMULARIO A --}}
+    <script>
+        var msg = '{{Session::get('alert')}}';
+        var exist = '{{Session::has('alert')}}';
+        if(exist){
+          swal(msg);
+        }
+    </script>
+    {{-- FIN SCRIPT --}}
+
 </body>
 </html>

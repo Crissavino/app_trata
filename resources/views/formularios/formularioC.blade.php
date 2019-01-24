@@ -123,6 +123,15 @@
                swal('Se borro un profesional');
             }
         </script>
+
+        <script>
+            var msg = '{{Session::get('alert')}}';
+            var exist = '{{Session::has('alert')}}';
+            if(exist){
+              swal(msg);
+            }
+        </script>
+        {{-- FIN SCRIPT --}}
 @else
     <script>window.location = "/login";</script>
 @endauth
