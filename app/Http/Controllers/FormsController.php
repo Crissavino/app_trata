@@ -243,9 +243,19 @@ class FormsController extends Controller
 		$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
 		$datosPresentacion = \App\FormA\Presentacionespontanea::all();
 		$datosOrganismo = \App\FormA\Otrosorganismo::all();
-		$ultimoNroCarpeta = DB::table('aformularios')->orderBy('datos_numero_carpeta', 'desc')
-		                                             ->first()
-		                                             ->datos_numero_carpeta;		
+		$ultimoNroCarpeta = \App\FormA\Aformulario::orderBy('datos_numero_carpeta', 'desc')
+		    ->first();
+		// $ultimoNroCarpeta = DB::table('aformularios')->orderBy('datos_numero_carpeta', 'desc')
+		//                                              ->first()
+		//                                              ->datos_numero_carpeta;
+
+		// dd($ultimoNroCarpeta === null);
+
+		if ($ultimoNroCarpeta !== null) {
+			$ultimoNroCarpeta = $ultimoNroCarpeta->datos_numero_carpeta;
+		}else{
+			$ultimoNroCarpeta = 'Todavía no se cargó ninguna carpeta';
+		}
 
 		return view('formularios.formularioA', ['datosModalidad' => $datosModalidad,
 												'datosEstadoCaso' => $datosEstadoCaso,
