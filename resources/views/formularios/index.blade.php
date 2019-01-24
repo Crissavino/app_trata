@@ -13,19 +13,25 @@
 			border-color: tomato
 		}
 
+		.menu-lista{
+			display: flex;
+			align-items: center;
+		}
+
 	</style>
 </head>
 <body>
-	<h1 class="text-center">Testing de formularios</h1>
+	<h1 class="text-center mt-5">Bienvenido {{ auth()->user()->name }}</h1>
 
-	<div class="list-group">
-		<a href="/formularios/A" class="list-group-item list-group-item-action text-center active btn-primary">Eje A: Datos Institucionales</a><br>
-		<a href="/formularios/B" class="list-group-item list-group-item-action text-center active btn-primary">Eje B: Caracterización de la víctima</a><br>
-		<a href="/formularios/C" class="list-group-item list-group-item-action text-center active btn-primary">Eje C: Grupo Conviviente</a><br>
-		<a href="/formularios/D" class="list-group-item list-group-item-action text-center active btn-primary">Eje D: Datos de delito</a><br>
+	<div class="list-group menu-lista">
+		<a href="/formularios/A" class="w-50 list-group-item list-group-item-action text-center active btn-success mt-5 mb-5">Cargar carpeta</a><br>
+		<a href="/formularios" class="w-50 list-group-item list-group-item-action text-center active btn-success mb-5">Continuar carga</a><br>
+		<a href="/formularios" class="w-50 list-group-item list-group-item-action text-center active btn-success mb-5">Carpetas cargadas</a><br>
+		<a href="/formularios/buscador" class="w-50 list-group-item list-group-item-action text-center active btn-success mb-5">Buscador</a><br>
+		{{-- <a href="/formularios/D" class="list-group-item list-group-item-action text-center active btn-primary">Eje D: Datos de delito</a><br>
 		<a href="/formularios/E" class="list-group-item list-group-item-action text-center active btn-primary">Eje E: Datos del imputado</a><br>
 		<a href="/formularios/F" class="list-group-item list-group-item-action text-center active btn-primary">Eje F: Atención del caso</a><br>
-		<a href="/formularios/G" class="list-group-item list-group-item-action text-center active btn-primary">Eje G: Documentación</a><br>
+		<a href="/formularios/G" class="list-group-item list-group-item-action text-center active btn-primary">Eje G: Documentación</a><br> --}}
 	</div>
 
 </body>

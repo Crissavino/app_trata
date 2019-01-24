@@ -10,11 +10,14 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
 
+
         <!-- Styles -->
+        <link rel="stylesheet" href="/css/app.css">
+
         <style>
             html, body {
-                background-color: #fff;
-                color: #636b6f;
+                background-color: #97c93f;
+                color: white;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
                 height: 100vh;
@@ -46,11 +49,15 @@
             }
 
             .title {
-                font-size: 84px;
+                font-size: 72px;
+            }
+
+            .boton{
+                font-size: 30px;
             }
 
             .links > a {
-                color: #636b6f;
+                color: white;
                 padding: 0 25px;
                 font-size: 12px;
                 font-weight: 600;
@@ -66,22 +73,35 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
+           {{--  @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
                     @else
-                        <a href="{{ route('login') }}">Logueate</a>
+                        <a href="{{ route('login') }}">Logueate</a> --}}
                         {{-- TODAVIA NO VOY A MOSTRAR EL REGISTRATE --}}
                         {{-- <a href="{{ route('register') }}">Registrate</a> --}}
-                    @endauth
+                    {{-- @endauth
                 </div>
-            @endif
+            @endif --}}
 
             <div class="content">
-                <div class="title m-b-md">
-                    Acceso a la Justicia - App Trata
+                <div class="title mb-5">
+                    Sistema web de Acceso a la Justicia
                 </div>
+                <img class="m-5" src="/img/prov.png" alt="">
+
+                @if (Route::has('login'))
+                    <div class="mt-5">
+                        @auth
+                            <a class="boton w-25 btn btn-secondary" href="{{ url('/home') }}">Home</a>
+                        @else
+                            <a class="boton w-25 btn btn-secondary" href="{{ route('login') }}">Logueate</a>
+                            {{-- TODAVIA NO VOY A MOSTRAR EL REGISTRATE --}}
+                            {{-- <a href="{{ route('register') }}">Registrate</a> --}}
+                        @endauth
+                    </div>
+                @endif
             </div>
         </div>
     </body>

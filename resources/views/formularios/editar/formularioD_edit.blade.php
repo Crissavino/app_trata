@@ -16,16 +16,17 @@
     </ul>
 </header>
 <body>
-	<h1 class="text-center" style="padding: 15px;">
-        Eje D: Datos de delito
-        {{-- <h5 style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5> --}}
-    </h1>
+	
 
     <section class="container">
     	<form action="" class="form-group formDedit" method="POST">
 	    	{{ csrf_field() }}
 	    	@method('PUT')
-            <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
+
+	    	<h1 class="text-center" style="padding: 15px;">
+                Eje D: Datos de delito
+                <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $dFormulario->numeroCarpeta }}</h5>
+            </h1>
 	    	
 	    	<div class="form-group">
 	    		<label for="">D 1. Calificación general: </label>

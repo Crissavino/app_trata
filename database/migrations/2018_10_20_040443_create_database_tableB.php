@@ -38,9 +38,9 @@ class CreateDatabaseTableB extends Migration
         Schema::create('bformularios', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('victima_nombre_y_apellido');
-            $table->string('victima_nombre_y_apellido_desconoce')->nullable();
+            // $table->string('victima_nombre_y_apellido_desconoce')->nullable();
             $table->string('victima_apodo');
-            $table->string('victima_apodo_desconoce')->nullable();
+            // $table->string('victima_apodo_desconoce')->nullable();
             $table->integer('genero_id')->unsigned();
             $table->string('victima_genero_otro')->nullable();
             $table->integer('tienedoc_id')->unsigned();
@@ -52,9 +52,9 @@ class CreateDatabaseTableB extends Migration
             $table->string('provinciaNacimiento')->nullable();
             $table->string('ciudadNacimiento')->nullable();
             $table->dateTime('victima_fecha_nacimiento');
-            $table->string('victima_fecha_nacimiento_desconoce')->nullable();
+            // $table->string('victima_fecha_nacimiento_desconoce')->nullable();
             $table->string('victima_edad');
-            $table->string('victima_edad_desconoce')->nullable();
+            // $table->string('victima_edad_desconoce')->nullable();
             $table->integer('franjaetaria_id')->unsigned();
             $table->integer('embarazorelevamiento_id')->unsigned();
             $table->integer('embarazoprevio_id')->unsigned();

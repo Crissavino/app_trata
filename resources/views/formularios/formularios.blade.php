@@ -5,7 +5,7 @@
 	@include('partials.head')
 	<style type="text/css">
 		body {
-			padding: 40px
+			/*padding: 5px*/
 		}
 		/*.page-item.active .page-link {
 			background-color: tomato;
@@ -14,6 +14,14 @@
 	</style>
 
 </head>
+<header>
+    <ul class="nav nav-tabs">
+        <li class="nav-item"> <a class="nav-link" href="/home">Inicio</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li>
+        <li class="nav-item active"> <a class="nav-link active" href="#">Formularios</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/buscador">Buscador</a> </li>
+    </ul>
+</header>
 <body>
 
 	<h1 class="text-center">Carpetas de {{ $userName }}</h1>
@@ -24,18 +32,33 @@
 		</div>
 	@endif
 
-	<div class="container">
+	<div class="container" style="overflow: hidden;">
 		<h2 class="text-center">Formularios individuales</h2>
-			@foreach ($aFormPorId as $aFormulario)
-				<div class="cardForm mt-0 mb-0" style="width: 18rem;">
-		  			<div class="cardForm-body">
-			    		<div class="mb-3">
-			    			<h4 class="cardForm-title"><strong>Carpeta Nº: {{ $aFormulario->datos_numero_carpeta }}</strong></h4>
-				    		<h5 class="cardForm-title">Eje A</h5>
-				    		{{-- <p class="cardForm-text">Some quick example text to build on the cardForm title and make up the bulk of the cardForm's content.</p> --}}
-				    		<a href="/formularios/edicion/A/{{$aFormulario->id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+
+			@foreach ($carpetas as $carpeta)
+			    <div class="cardForm d-flex flex-column float-left">
+			    	<h4 class="cardForm-title"><strong>Carpeta Nº: {{ $carpeta->numeroCarpeta }}</strong></h4>
+				    
+				    <div class="mb-3">
+				    	<h5 class="cardForm-title">Eje A</h5>
+			    		<a href="/formularios/edicion/A/{{$carpeta->aformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+			    		@if (auth()->user()->isAdmin === 1)
+			    			<form action="/formularios/edicion/A/{{$carpeta->aformulario_id}}" class="" method="post">
+								@method('DELETE')
+								@csrf
+								<button class="btn btn-danger">
+									<i class="far fa-trash-alt"></i> Borrar </span>
+								</button>
+							</form>
+			    		@endif
+				    </div>
+
+				    <div class="mb-3">
+				    	@if ($carpeta->bformulario_id)
+				    		<h5 class="cardForm-title">Eje B</h5>
+				    		<a href="/formularios/edicion/B/{{$carpeta->bformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
 				    		@if (auth()->user()->isAdmin === 1)
-				    			<form action="/formularios/edicion/A/{{$aFormulario->id}}" class="" method="post">
+				    			<form action="/formularios/edicion/B/{{$carpeta->bformulario_id}}" class="" method="post">
 									@method('DELETE')
 									@csrf
 									<button class="btn btn-danger">
@@ -43,117 +66,108 @@
 									</button>
 								</form>
 				    		@endif
-			    		</div>
-			    		
-						<div class="mb-3">
-							@foreach ($bFormPorId as $bFormulario)
-								@if ($aFormulario->datos_numero_carpeta == $bFormulario->numeroCarpeta)
-				    				<h5 class="cardForm-title">Eje B</h5>
-									<a href="/formularios/edicion/B/{{ $bFormulario->id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
-						    		@if (auth()->user()->isAdmin === 1)
-						    			<form action="/formularios/edicion/B/{{ $bFormulario->id }}" class="" method="post">
-											@method('DELETE')
-											@csrf
-											<button class="btn btn-danger">
-												<i class="far fa-trash-alt"></i> Borrar </span>
-											</button>
-										</form>
-						    		@endif
-								@endif
-							@endforeach
-						</div>
+				    	@else
+				    		<h5 class="cardForm-title">Eje B</h5>
+				    		<a href="/formularios/B" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Continuar carga </a><br><br>
+				    	@endif
+				    </div>
 
-						<div class="mb-3">
-							@foreach ($cFormPorId as $cFormulario)
-								@if ($aFormulario->datos_numero_carpeta == $cFormulario->numeroCarpeta)
-				    				<h5 class="cardForm-title">Eje C</h5>
-									<a href="/formularios/edicion/C/{{ $cFormulario->id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
-						    		@if (auth()->user()->isAdmin === 1)
-						    			<form action="/formularios/edicion/C/{{ $cFormulario->id }}" class="" method="post">
-											@method('DELETE')
-											@csrf
-											<button class="btn btn-danger">
-												<i class="far fa-trash-alt"></i> Borrar </span>
-											</button>
-										</form>
-						    		@endif
-								@endif
-							@endforeach
-						</div>
+				    <div class="mb-3">
+				    	@if ($carpeta->bformulario_id && $carpeta->cformulario_id)
+				    		<h5 class="cardForm-title">Eje C</h5>
+				    		<a href="/formularios/edicion/C/{{$carpeta->cformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+				    		@if (auth()->user()->isAdmin === 1)
+				    			<form action="/formularios/edicion/C/{{$carpeta->cformulario_id}}" class="" method="post">
+									@method('DELETE')
+									@csrf
+									<button class="btn btn-danger">
+										<i class="far fa-trash-alt"></i> Borrar </span>
+									</button>
+								</form>
+				    		@endif
+				    	@elseif($carpeta->bformulario_id && !($carpeta->cformulario_id))
+				    		<h5 class="cardForm-title">Eje C</h5>
+				    		<a href="/formularios/C" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Continuar carga </a><br><br>
+				    	@endif
+				    </div>
 
-						<div class="mb-3">
-							@foreach ($dFormPorId as $dFormulario)
-								@if ($aFormulario->datos_numero_carpeta == $dFormulario->numeroCarpeta)
-				    				<h5 class="cardForm-title">Eje D</h5>
-									<a href="/formularios/edicion/D/{{ $dFormulario->id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
-						    		@if (auth()->user()->isAdmin === 1)
-						    			<form action="/formularios/edicion/D/{{ $dFormulario->id }}" class="" method="post">
-											@method('DELETE')
-											@csrf
-											<button class="btn btn-danger">
-												<i class="far fa-trash-alt"></i> Borrar </span>
-											</button>
-										</form>
-						    		@endif
-								@endif
-							@endforeach
-						</div>
+				    <div class="mb-3">
+				    	@if ($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id)
+				    		<h5 class="cardForm-title">Eje D</h5>
+				    		<a href="/formularios/edicion/D/{{$carpeta->dformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+				    		@if (auth()->user()->isAdmin === 1)
+				    			<form action="/formularios/edicion/D/{{$carpeta->dformulario_id}}" class="" method="post">
+									@method('DELETE')
+									@csrf
+									<button class="btn btn-danger">
+										<i class="far fa-trash-alt"></i> Borrar </span>
+									</button>
+								</form>
+				    		@endif
+				    	@elseif($carpeta->bformulario_id && $carpeta->cformulario_id && !($carpeta->dformulario_id))
+				    		<h5 class="cardForm-title">Eje D</h5>
+				    		<a href="/formularios/D" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Continuar carga </a><br><br>
+				    	@endif
+				    </div>
 
-						<div class="mb-3">
-							@foreach ($eFormPorId as $eFormulario)
-								@if ($aFormulario->datos_numero_carpeta == $eFormulario->numeroCarpeta)
-				    				<h5 class="cardForm-title">Eje E</h5>
-									<a href="/formularios/edicion/E/{{ $eFormulario->id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
-						    		@if (auth()->user()->isAdmin === 1)
-						    			<form action="/formularios/edicion/E/{{ $eFormulario->id }}" class="" method="post">
-											@method('DELETE')
-											@csrf
-											<button class="btn btn-danger">
-												<i class="far fa-trash-alt"></i> Borrar </span>
-											</button>
-										</form>
-						    		@endif
-								@endif
-							@endforeach
-						</div>
+				    <div class="mb-3">
+				    	@if ($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->eformulario_id)
+				    		<h5 class="cardForm-title">Eje E</h5>
+				    		<a href="/formularios/edicion/E/{{$carpeta->eformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+				    		@if (auth()->user()->isAdmin === 1)
+				    			<form action="/formularios/edicion/E/{{$carpeta->eformulario_id}}" class="" method="post">
+									@method('DELETE')
+									@csrf
+									<button class="btn btn-danger">
+										<i class="far fa-trash-alt"></i> Borrar </span>
+									</button>
+								</form>
+				    		@endif
+				    	@elseif($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && !($carpeta->eformulario_id))
+				    		<h5 class="cardForm-title">Eje E</h5>
+				    		<a href="/formularios/E" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Continuar carga </a><br><br>
+				    	@endif
+				    </div>
 
-						<div class="mb-3">
-							@foreach ($fFormPorId as $fFormulario)
-								@if ($aFormulario->datos_numero_carpeta == $fFormulario->numeroCarpeta)
-				    				<h5 class="cardForm-title">Eje F</h5>
-									<a href="/formularios/edicion/F/{{ $fFormulario->id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
-						    		@if (auth()->user()->isAdmin === 1)
-						    			<form action="/formularios/edicion/F/{{ $fFormulario->id }}" class="" method="post">
-											@method('DELETE')
-											@csrf
-											<button class="btn btn-danger">
-												<i class="far fa-trash-alt"></i> Borrar </span>
-											</button>
-										</form>
-						    		@endif
-								@endif
-							@endforeach
-						</div>
+				    <div class="mb-3">
+				    	@if ($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->eformulario_id && $carpeta->fformulario_id)
+				    		<h5 class="cardForm-title">Eje F</h5>
+				    		<a href="/formularios/edicion/F/{{$carpeta->fformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+				    		@if (auth()->user()->isAdmin === 1)
+				    			<form action="/formularios/edicion/F/{{$carpeta->fformulario_id}}" class="" method="post">
+									@method('DELETE')
+									@csrf
+									<button class="btn btn-danger">
+										<i class="far fa-trash-alt"></i> Borrar </span>
+									</button>
+								</form>
+				    		@endif
+				    	@elseif($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->eformulario_id && !($carpeta->fformulario_id))
+				    		<h5 class="cardForm-title">Eje F</h5>
+				    		<a href="/formularios/F" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Continuar carga </a><br><br>
+				    	@endif
+				    </div>
 
-						<div class="mb-3">
-							@foreach ($gFormPorId as $gFormulario)
-								@if ($aFormulario->datos_numero_carpeta == $gFormulario->numeroCarpeta)
-				    				<h5 class="cardForm-title">Eje G</h5>
-									<a href="/formularios/edicion/G/{{ $gFormulario->id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
-						    		@if (auth()->user()->isAdmin === 1)
-						    			<form action="/formularios/edicion/G/{{ $gFormulario->id }}" class="" method="post">
-											@method('DELETE')
-											@csrf
-											<button class="btn btn-danger">
-												<i class="far fa-trash-alt"></i> Borrar </span>
-											</button>
-										</form>
-						    		@endif
-								@endif
-							@endforeach
-						</div>
-		  			</div>
-				</div>
+				    <div class="mb-3">
+				    	@if ($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->eformulario_id && $carpeta->fformulario_id && $carpeta->gformulario_id)
+				    		<h5 class="cardForm-title">Eje G</h5>
+				    		<a href="/formularios/edicion/G/{{$carpeta->gformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+				    		@if (auth()->user()->isAdmin === 1)
+				    			<form action="/formularios/edicion/G/{{$carpeta->gformulario_id}}" class="" method="post">
+									@method('DELETE')
+									@csrf
+									<button class="btn btn-danger">
+										<i class="far fa-trash-alt"></i> Borrar </span>
+									</button>
+								</form>
+				    		@endif
+				    	@elseif($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->eformulario_id && $carpeta->fformulario_id && !($carpeta->gformulario_id))
+				    		<h5 class="cardForm-title">Eje G</h5>
+				    		<a href="/formularios/G" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Continuar carga </a><br><br>
+				    	@endif
+				    </div>
+
+			    </div>
 			@endforeach
 	</div>
 </body>

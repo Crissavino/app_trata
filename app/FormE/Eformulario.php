@@ -13,8 +13,24 @@ class Eformulario extends Model
 
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
 
+    //Relaciones
+
     public function roldelitos()
     {
     	return $this->belongsToMany('\App\FormE\Roldelito');
+    }
+
+    public function numerocarpeta()
+    {
+        return $this->belongsTo('App\Carpetas\Numerocarpeta');
+    }
+
+    //Scope
+
+    public function scopeCarpeta($query, $numeroCarpeta)
+    {
+        if ($numeroCarpeta) {
+            return $query->WHERE('numeroCarpeta', $numeroCarpeta);
+        }
     }
 }

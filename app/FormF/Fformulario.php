@@ -13,6 +13,8 @@ class Fformulario extends Model
 
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
 
+    //Relaciones
+
     public function orgjudicials()
     {
     	return $this->belongsToMany('\App\FormF\Orgjudicial');
@@ -91,5 +93,19 @@ class Fformulario extends Model
     public function orgsoccivilactualmentes()
     {
         return $this->hasMany('App\FormF\Orgsoccivilactualmente');
+    }
+
+    public function numerocarpeta()
+    {
+        return $this->belongsTo('App\Carpetas\Numerocarpeta');
+    }
+
+    //Scope
+
+    public function scopeCarpeta($query, $numeroCarpeta)
+    {
+        if ($numeroCarpeta) {
+            return $query->WHERE('numeroCarpeta', $numeroCarpeta);
+        }
     }
 }

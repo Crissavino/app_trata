@@ -17,14 +17,20 @@
 </header>
 <body>
 @auth 
-	<h1 class="text-center" style="padding: 15px;">
-    	Eje C: Grupo Conviviente
-		<h5 style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5>
-	</h1>
-        <section class="container">
+    <section class="container">
         <form class="ejeC" action="" method="post">
         	{{ csrf_field() }}
-            <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
+
+            <h1 class="text-center" style="padding: 15px;">
+                Eje C: Grupo Conviviente
+                <h5 style="text-align: center;" >Seleccioná la carpeta sobre la que deseas trabajar
+                <select name="numeroCarpeta" class="select-sinborde">
+                    @foreach ($todoFormA as $formA)
+                        <option value="{{ $formA->datos_numero_carpeta }}">{{ $formA->datos_numero_carpeta }}</option>
+                    @endforeach
+                </select>
+                </h5>
+            </h1>
             
             <div class="form-group">
             	<label for="otraspersonas_id">C 1. ¿Se encontraba con otras personas en el lugar de explotación? </label>
@@ -94,7 +100,7 @@
 
         <button type="button" id="anadir" disabled="disabled" class="clickAnadir btn btn-outline-primary col-xl"> Agregar conviviente </button><br><br>
         <button id="borra" type="button" disabled="disabled" class="clickBorrar btn btn-outline-danger col-xl" onclick="borra()">Borrar conviviente</button>
-        </section>
+    </section>
 
         <script src="/js/formularioC.js" type="text/javascript" charset="utf-8" async defer></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

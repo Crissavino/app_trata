@@ -4,6 +4,7 @@ namespace App\FormA;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Aformulario extends Model
 {
@@ -32,9 +33,41 @@ class Aformulario extends Model
 		return $this->id;
 	}
 
+	//Relaciones
+	
 	public function profesionalintervinientes()
 	{
 		return $this->belongsToMany('\App\FormA\Profesionalinterviniente')
 		            ->withPivot('id', 'aformulario_id', 'profesionalinterviniente_id');
+	}
+
+	public function numerocarpeta()
+    {
+        return $this->belongsTo('App\Carpetas\Numerocarpeta');
+    }
+
+	//Scope
+
+	// public function scopeCarpeta($query, $numeroCarpeta)
+	// {
+	// 	if ($numeroCarpeta) {
+	// 		return $query->WHERE('datos_numero_carpeta', $numeroCarpeta);
+	// 			// ->JOIN('numerocarpetas', 'aformularios.datos_numero_carpeta', '=', 'numerocarpetas.numeroCarpeta');
+	// 	}
+	// }
+
+	public function scopeNombreRef($query, $nombreReferencia)
+	{
+		if ($nombreReferencia) {
+			return $query->WHERE('datos_nombre_referencia', 'LIKE', "%$nombreReferencia%");
+
+		}
+	}
+
+	public function scopeNumeroCausa($query, $numeroCausa)
+	{
+		if ($numeroCausa) {
+			return $query->WHERE('datos_nro_causa', 'LIKE', "%$numeroCausa%");
+		}
 	}
 }

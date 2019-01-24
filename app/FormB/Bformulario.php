@@ -13,7 +13,7 @@ class Bformulario extends Model
 
     protected $dates = ['victima_fecha_nacimiento', 'deleted_at', 'created_at', 'updated_at'];
 
-
+    //Relaciones
 
     public function discapacidads()
     {
@@ -24,6 +24,34 @@ class Bformulario extends Model
     public function limitacions()
     {
     	return $this->belongsToMany('\App\FormB\Limitacion');
+    }
+
+    public function numerocarpeta()
+    {
+        return $this->belongsTo('App\Carpetas\Numerocarpeta');
+    }
+
+    //Scope
+
+    // public function scopeCarpeta($query, $numeroCarpeta)
+    // {
+    //     if ($numeroCarpeta) {
+    //         return $query->WHERE('numeroCarpeta', $numeroCarpeta);
+    //     }
+    // }
+
+    public function scopeNombApe($query, $nombreApellido)
+    {
+        if ($nombreApellido) {
+            return $query->WHERE('victima_nombre_y_apellido', 'LIKE', "%$nombreApellido%");
+        }
+    }
+
+    public function scopeDNI($query, $dni)
+    {
+        if ($dni) {
+            return $query->WHERE('victima_documento', 'LIKE', "%$dni%");
+        }
     }
 
 

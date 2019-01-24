@@ -19,6 +19,10 @@ Route::get('/', function () {
 
 Route::get('index', 'FormsController@index')->middleware('auth');
 
+//RUTAS BUSCADOR
+Route::get('formularios/buscador', 'FormsController@search')->middleware('auth');
+Route::post('formularios/buscador', 'FormsController@search')->middleware('auth');
+
 //RUTAS FORMULARIO A
 Route::get('formularios/A', 'FormsController@createA')->middleware('auth');
 Route::post('formularios/A', 'FormsController@insertA');

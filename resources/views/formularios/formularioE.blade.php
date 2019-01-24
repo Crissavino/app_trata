@@ -16,15 +16,19 @@
     </ul>
 </header>
 <body>
-	<h1 class="text-center" style="padding: 15px;">
-        Eje E: Datos del imputado
-        <h5 style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5>
-    </h1>
-
     <section class="container">
     	<form action="" class="form-group" method="post">
 	    	{{ csrf_field() }}
-            <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
+            <h1 class="text-center" style="padding: 15px;">
+                Eje E: Datos del imputado
+                <h5 style="text-align: center;" >Seleccioná la carpeta sobre la que deseas trabajar
+                <select name="numeroCarpeta" class="select-sinborde">
+                    @foreach ($todoFormA as $formA)
+                        <option value="{{ $formA->datos_numero_carpeta }}">{{ $formA->datos_numero_carpeta }}</option>
+                    @endforeach
+                </select>
+                </h5>
+            </h1>
 
 	    	<div class="form-group">
 	    		<label for=""><span>E 1.</span> Nombre y Apellido:</label>

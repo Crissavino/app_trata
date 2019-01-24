@@ -13,20 +13,24 @@
 <header>
     <ul class="nav nav-tabs">
         <li class="nav-item"> <a class="nav-link active" href="A">Eje A: Datos institucionales</a> </li>
-       {{--  <li class="nav-item"> <a class="nav-link " href="B">Eje B: Caracterización de la victima</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="C">Eje C: Grupo Conviviente</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="D">Eje D: Datos de delito</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="E">Eje E: Datos del imputado</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="F">Eje F: Atención del caso</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="G">Eje G: Documentación</a> </li> --}}
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/B">Eje B: Caracterización de la victima</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/C">Eje C: Grupo Conviviente</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/D">Eje D: Datos de delito</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/E">Eje E: Datos del imputado</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/F">Eje F: Atención del caso</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/G">Eje G: Documentación</a> </li> --}}
     </ul>
 </header>
 <body>
-    <h1 class="text-center" style="padding: 15px;">Eje A: Datos institucionales</h1>
     <section class="container">
             <form class="" action="{{$aFormulario->id}}" method="post">
             {{ csrf_field() }}
             @method('PUT')
+
+            <h1 class="text-center" style="padding: 15px;">
+                Eje A: Datos institucionales
+                <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $aFormulario->datos_numero_carpeta }}</h5>
+            </h1>
 
             {{-- INICIO PRIMERA PREGUNTA --}}
                 <div class="form-group {{ $errors->has('datos_nombre_referencia') ? 'has-error' : ''}}" >

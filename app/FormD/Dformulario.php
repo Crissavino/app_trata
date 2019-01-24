@@ -23,6 +23,8 @@ class Dformulario extends Model
         return $this->id;
     }
 
+    //Relaciones
+
     public function privados()
     {
     	return $this->belongsToMany('\App\FormD\Privado');
@@ -51,5 +53,19 @@ class Dformulario extends Model
     public function haymedidas()
     {
     	return $this->belongsToMany('\App\FormD\Haymedida');
+    }
+
+    public function numerocarpeta()
+    {
+        return $this->belongsTo('App\Carpetas\Numerocarpeta');
+    }
+
+    //Scope
+
+    public function scopeCarpeta($query, $numeroCarpeta)
+    {
+        if ($numeroCarpeta) {
+            return $query->WHERE('numeroCarpeta', $numeroCarpeta);
+        }
     }
 }

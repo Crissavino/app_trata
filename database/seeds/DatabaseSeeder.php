@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
     	//SEEDERS FORMULARIO A
-        $this->call(AformulariosTableSeeder::class);
+        // $this->call(AformulariosTableSeeder::class);
         $this->call(CaratulacionjudicialsTableSeeder::class);
         $this->call(EstadocasosTableSeeder::class);
         $this->call(ModalidadsTableSeeder::class);

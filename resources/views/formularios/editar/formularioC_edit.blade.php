@@ -21,145 +21,144 @@
 	</ul>
 </header>
 <body>
-	<h1 class="text-center" style="padding: 15px;">
-    	Eje C: Grupo Conviviente
-		<h5 style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5>
-	</h1>
-        <section class="container" >
-        <form class="" action="{{$cFormulario->id}}" method="post">
-        	{{ csrf_field() }}
-        	@method('PUT')
-            <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
-            
-            <div class="form-group">
-            	<label for="otraspersonas_id">C 1. ¿Se encontraba con otras personas en el lugar de explotación? </label>
-	            <select class="form-control noPersonas" name="otraspersonas_id" {{ $errors->has('otraspersonas_id') ? 'has-error' : ''}}>
-	            	<option value="">Había otras personas?</option>
-	                @foreach ($datosOtraspersonas as $otrasPersonas)
-	                	@php
-                            $selected = ($otrasPersonas->id == $cFormulario->otraspersonas_id) ? 'selected' : '';
-                        @endphp
-	                	<option value="{{ $otrasPersonas->id }}" {{ $selected }}>{{ $otrasPersonas->nombre }}</option>
-	                @endforeach
-	            </select>
-            	{!! $errors->first('otraspersonas_id', '<p class="help-block" style="color:red";>:message</p>') !!}
-            </div>	
+        <section class="container">
+            <form class="" action="{{$cFormulario->id}}" method="post">
+            	{{ csrf_field() }}
+            	@method('PUT')
 
-        {{-- INICIO CONVIVIENTES CARGADOS ANTERIORMENTE --}}
-            <h3>Convivientes cargados anteriormente:</h3>
-            @foreach ($datosTodo as $todo)
-            	<div class="container">
-                    <div class="form-group">
-                        <label for="">C 2. Nombre y apellido</label>
-                        <input type="text" readonly="readonly" class=" form-control" value="{{ $todo->nombre_apellido }}">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="edad">C 3. Edad:</label>
-                        <input type="text" readonly="readonly" class=" form-control" id="edad" value="{{ $todo->edad }}">
-                    </div>
+                <h1 class="text-center" style="padding: 15px;">
+                    Eje C: Grupo Conviviente
+                    <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $cFormulario->numeroCarpeta }}</h5>
+                </h1>
+                
+                <div class="form-group">
+                	<label for="otraspersonas_id">C 1. ¿Se encontraba con otras personas en el lugar de explotación? </label>
+    	            <select class="form-control noPersonas" name="otraspersonas_id" {{ $errors->has('otraspersonas_id') ? 'has-error' : ''}}>
+    	            	<option value="">Había otras personas?</option>
+    	                @foreach ($datosOtraspersonas as $otrasPersonas)
+    	                	@php
+                                $selected = ($otrasPersonas->id == $cFormulario->otraspersonas_id) ? 'selected' : '';
+                            @endphp
+    	                	<option value="{{ $otrasPersonas->id }}" {{ $selected }}>{{ $otrasPersonas->nombre }}</option>
+    	                @endforeach
+    	            </select>
+                	{!! $errors->first('otraspersonas_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+                </div>	
 
-                    <div class="form-group">
-                        <label for="genero_id">C 4. Género</label>
-                        <select disabled="true" class=" form-control" id="genero_id">
-                            @foreach ($datosGeneros as $genero)
-                                @php
-                                    $selected = ($genero->id == $todo->genero_id) ? 'selected' : '';
-                                @endphp
-                                <option value="{{ $genero->id }}" {{ $selected }}>{{ $genero->nombre }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="vinculo_id">C 5. Vinculación con la víctima:</label>
-                        <select id="vinculo_id" disabled="true" class=" form-control">
-                            @foreach ($datosVinculos as $vinculo)
-                                @php
-                                    $selected = ($vinculo->id == $todo->vinculo_id) ? 'selected' : '';
-                                @endphp
-                                <option value="{{ $vinculo->id }}" {{ $selected }}>{{ $vinculo->nombre }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    
-                    <div class="form-group divVinculoOtro" style="display: none;">
-                        <label for="vinculo_otro">Cuál?</label>
-                        <input id="" type="text" name="vinculo_otro" value="{{ $todo->vinculo_otro }}" readonly="readonly" class=" form-control vinculo_otro">
-                    </div>
+                {{-- INICIO CONVIVIENTES CARGADOS ANTERIORMENTE --}}
+                    <h3>Convivientes cargados anteriormente:</h3>
+                    @foreach ($datosTodo as $todo)
+                    	<div class="container">
+                            <div class="form-group">
+                                <label for="">C 2. Nombre y apellido</label>
+                                <input type="text" readonly="readonly" class=" form-control" value="{{ $todo->nombre_apellido }}">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="edad">C 3. Edad:</label>
+                                <input type="text" readonly="readonly" class=" form-control" id="edad" value="{{ $todo->edad }}">
+                            </div>
 
-
-                    <script>
-                        var vinculo = document.querySelector('#vinculo_id');
-                        var divVinculoOtro = document.querySelector('.divVinculoOtro');
-
-                        if (vinculo.value == 6) {
-                            divVinculoOtro.style.display = '';
-                        }else {
-                            divVinculoOtro.style.display = 'none';
-                        }
-                    </script>
-                </div>  
-            @endforeach
-        {{-- FIN CONVIVIENTES CARGADOS ANTERIORMENTE --}}
-
-            <div class="padre" id="padre">
-                <div class="hijo" id="hijo" style="display: none;">
-                    <h3>Datos del Nuevo Conviviente a cargar:</h3>
-                    <div class="form-group" {{ $errors->has('nombre_apellido[]') ? 'has-error' : ''}}>
-                        <label for="">C 2. Nombre y apellido</label>
-                        <input type="text" class="form-control nombre_apellido" value="">
-                        {!! $errors->first('nombre_apellido.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-
-                        <label for="" >Se desconoce</label>
-                        <input type="checkbox" class="desconoceNA" name="" value="">
-                    </div>
-                    
-                    <div class="form-group" {{ $errors->has('edad[]') ? 'has-error' : ''}}>
-                        <label for="edad">C 3. Edad:</label>
-                        <input type="text" class="form-control edad" id="edad" value="">
-                        {!! $errors->first('edad.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-
-                        <label for="">Se desconoce</label>
-                        <input type="checkbox" class="desconoceE" name="" value="">
-                    </div>
+                            <div class="form-group">
+                                <label for="genero_id">C 4. Género</label>
+                                <select disabled="true" class=" form-control" id="genero_id">
+                                    @foreach ($datosGeneros as $genero)
+                                        @php
+                                            $selected = ($genero->id == $todo->genero_id) ? 'selected' : '';
+                                        @endphp
+                                        <option value="{{ $genero->id }}" {{ $selected }}>{{ $genero->nombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="vinculo_id">C 5. Vinculación con la víctima:</label>
+                                <select id="vinculo_id" disabled="true" class=" form-control">
+                                    @foreach ($datosVinculos as $vinculo)
+                                        @php
+                                            $selected = ($vinculo->id == $todo->vinculo_id) ? 'selected' : '';
+                                        @endphp
+                                        <option value="{{ $vinculo->id }}" {{ $selected }}>{{ $vinculo->nombre }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
+                            <div class="form-group divVinculoOtro" style="display: none;">
+                                <label for="vinculo_otro">Cuál?</label>
+                                <input id="" type="text" name="vinculo_otro" value="{{ $todo->vinculo_otro }}" readonly="readonly" class=" form-control vinculo_otro">
+                            </div>
 
 
-                    <div class="form-group" {{ $errors->has('genero_id[]') ? 'has-error' : ''}}>
-                        <label for="genero_id">C 4. Género</label>
-                        <select class="form-control genero" id="genero_id">
-                            <option value="">Género?</option>
-                            @foreach ($datosGeneros as $genero)
-                                <option value="{{ $genero->getIdGenero() }}" {{ old('genero_id') == $genero->getIdGenero() ? 'selected' : '' }}>{{ $genero->getNombreGenero() }}</option>
-                            @endforeach
-                        </select>
-                        {!! $errors->first('genero_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-                    </div>
-                    
-                    <div class="form-group" {{ $errors->has('vinculo_id[]') ? 'has-error' : ''}}>
-                        <label for="vinculo_id">C 5. Vinculación con la víctima:</label>
-                        <select id="vinculo_id" class="form-control vinculo">
-                            <option value="">Vínculo?</option>
-                            @foreach ($datosVinculos as $vinculo)
-                                <option value="{{ $vinculo->getId() }}" {{ old('vinculo_id') == $vinculo->getId() ? 'selected' : '' }}>{{ $vinculo->getNombre() }}</option>
-                            @endforeach
-                        </select>
-                        {!! $errors->first('vinculo_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-                    </div>
-                    
-                    <div class="form-group otro_vinculo" style="display: none">
-                        <label for="vinculo_otro">Cuál?</label>
-                        <input type="text" class="form-control vinculo_otro">
-                    </div>
-               </div>
-            </div>
+                            <script>
+                                var vinculo = document.querySelector('#vinculo_id');
+                                var divVinculoOtro = document.querySelector('.divVinculoOtro');
 
-            <button type="submit" class="btn btn-primary col-xl" name="button">Actualizar</button><br><br>
+                                if (vinculo.value == 6) {
+                                    divVinculoOtro.style.display = '';
+                                }else {
+                                    divVinculoOtro.style.display = 'none';
+                                }
+                            </script>
+                        </div>  
+                    @endforeach
+                {{-- FIN CONVIVIENTES CARGADOS ANTERIORMENTE --}}
 
-        </form>
+                <div class="padre" id="padre">
+                    <div class="hijo" id="hijo" style="display: none;">
+                        <h3>Datos del Nuevo Conviviente a cargar:</h3>
+                        <div class="form-group" {{ $errors->has('nombre_apellido[]') ? 'has-error' : ''}}>
+                            <label for="">C 2. Nombre y apellido</label>
+                            <input type="text" class="form-control nombre_apellido" value="">
+                            {!! $errors->first('nombre_apellido.*', '<p class="help-block" style="color:red";>:message</p>') !!}
 
-        <button type="button" id="anadir" class="clickAnadir btn btn-outline-primary col-xl"> Agregar conviviente </button><br><br>
-        <button id="borra" type="button" class="btn btn-outline-danger col-xl" onclick="borra()">Borrar conviviente</button>
+                            <label for="" >Se desconoce</label>
+                            <input type="checkbox" class="desconoceNA" name="" value="">
+                        </div>
+                        
+                        <div class="form-group" {{ $errors->has('edad[]') ? 'has-error' : ''}}>
+                            <label for="edad">C 3. Edad:</label>
+                            <input type="text" class="form-control edad" id="edad" value="">
+                            {!! $errors->first('edad.*', '<p class="help-block" style="color:red";>:message</p>') !!}
+
+                            <label for="">Se desconoce</label>
+                            <input type="checkbox" class="desconoceE" name="" value="">
+                        </div>
+
+
+                        <div class="form-group" {{ $errors->has('genero_id[]') ? 'has-error' : ''}}>
+                            <label for="genero_id">C 4. Género</label>
+                            <select class="form-control genero" id="genero_id">
+                                <option value="">Género?</option>
+                                @foreach ($datosGeneros as $genero)
+                                    <option value="{{ $genero->getIdGenero() }}" {{ old('genero_id') == $genero->getIdGenero() ? 'selected' : '' }}>{{ $genero->getNombreGenero() }}</option>
+                                @endforeach
+                            </select>
+                            {!! $errors->first('genero_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
+                        </div>
+                        
+                        <div class="form-group" {{ $errors->has('vinculo_id[]') ? 'has-error' : ''}}>
+                            <label for="vinculo_id">C 5. Vinculación con la víctima:</label>
+                            <select id="vinculo_id" class="form-control vinculo">
+                                <option value="">Vínculo?</option>
+                                @foreach ($datosVinculos as $vinculo)
+                                    <option value="{{ $vinculo->getId() }}" {{ old('vinculo_id') == $vinculo->getId() ? 'selected' : '' }}>{{ $vinculo->getNombre() }}</option>
+                                @endforeach
+                            </select>
+                            {!! $errors->first('vinculo_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
+                        </div>
+                        
+                        <div class="form-group otro_vinculo" style="display: none">
+                            <label for="vinculo_otro">Cuál?</label>
+                            <input type="text" class="form-control vinculo_otro">
+                        </div>
+                   </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary col-xl" name="button">Actualizar</button><br><br>
+            </form>
+
+            <button type="button" id="anadir" class="clickAnadir btn btn-outline-primary col-xl"> Agregar conviviente </button><br><br>
+            <button id="borra" type="button" class="btn btn-outline-danger col-xl" onclick="borra()">Borrar conviviente</button>
         </section>
 
         <!-- este script lo que hace es agregar otro formulario de profesionales en el caso que intervenga mas de un profesional en el caso -->

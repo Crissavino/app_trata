@@ -16,18 +16,27 @@
 	</ul>
 </header>
 <body>
-@auth 
-	<h1 class="text-center" style="padding: 15px;">
-        Eje B: Caracterización de la victima
-        <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5>
-    </h1>
+{{-- @auth  --}}
+
 
 	<section class="container">	
 
         <form class="" action="" method="post">
         	{{-- inicio esta proteccion contra datos maliciosso --}}
         	{{ csrf_field() }}
-            <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
+            {{-- <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}"> --}}
+
+            <h1 class="text-center" style="padding: 15px;">
+                Eje B: Caracterización de la victima
+                {{-- <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5> --}}
+                <h5 style="text-align: center;" >Seleccioná la carpeta sobre la que deseas trabajar
+                <select name="numeroCarpeta" class="select-sinborde">
+                    @foreach ($todoFormA as $formA)
+                        <option value="{{ $formA->datos_numero_carpeta }}">{{ $formA->datos_numero_carpeta }}</option>
+                    @endforeach
+                </select>
+                </h5>
+            </h1>
         	
             <!-- PRIMERA PREGUNTA -->
                 <div class="form-group {{ $errors->has('victima_nombre_y_apellido') ? 'has-error' : ''}}">
@@ -37,7 +46,7 @@
 
                     <!-- VER ESTA MANERA QUE ES MEJOR PARA BLOQUEAR UN CASILLERO CUANDO SE CLICKEA LA OPCION SE DESCONOCE -->
                     <label for="bloqueo1" class="form-check-label">Se desconoce</label>
-                    <input type="checkbox" id="bloqueo1" name="victima_nombre_y_apellido_desconoce" value="Se desconoce" onchange="check1(this)">
+                    <input type="checkbox" id="bloqueo1" value="Se desconoce" onchange="check1(this)">
                 </div>
 				{{-- funcion js para que cuando clickeo se desconoce vaya el valor Se Desconoce al input --}}
                 <script>
@@ -63,7 +72,7 @@
                   	{!! $errors->first('victima_apodo', '<p class="help-block" style="color:red";>:message</p>') !!}
 
                     <label for="bloqueo2" class="form-check-label">Se desconoce</label>
-                    <input type="checkbox" id="bloqueo2" name="victima_apodo_desconoce" value="Se desconoce" onchange="check2(this)">
+                    <input type="checkbox" id="bloqueo2" value="Se desconoce" onchange="check2(this)">
                 </div>
                 {{-- funcion js para que cuando clickeo se desconoce vaya el valor Se Desconoce al input --}}
                 <script>
@@ -208,7 +217,7 @@
                   	{!! $errors->first('victima_documento', '<p class="help-block" style="color:red";>:message</p>') !!}
 
                     <label for="bloqueo3" class="form-check-label">Se desconoce</label>
-                    <input type="checkbox" id="bloqueo3" name="victima_documento_se_desconoce" value="Se desconoce" onchange="check3(this)">
+                    <input type="checkbox" id="bloqueo3" value="Se desconoce" onchange="check3(this)">
                 </div>
                 <script>
                     function check3(checkbox)
@@ -265,7 +274,7 @@
                   	{!! $errors->first('victima_fecha_nacimiento', '<p class="help-block" style="color:red";>:message</p>') !!}
 
                     <label for="bloqueo4" class="form-check-label">Se desconoce</label>
-                    <input type="checkbox" id="bloqueo4" name="victima_fecha_nacimiento_desconoce" value="Se desconoce" onchange="check4(this)">
+                    <input type="checkbox" id="bloqueo4" value="Se desconoce" onchange="check4(this)">
                 </div>
 
                 <script>
@@ -291,7 +300,7 @@
                   	{!! $errors->first('victima_edad', '<p class="help-block" style="color:red";>:message</p>') !!}
 
                     <label class="form-check-label" for="victima_edad_desconoce">Se desconoce</label>
-                    <input name="victima_edad_desconoce" value="Se desconoce" id="victima_edad_desconoce" placeholder="" type="checkbox" onchange="check(this)">
+                    <input value="Se desconoce" id="victima_edad_desconoce" placeholder="" type="checkbox" onchange="check(this)">
                 </div>
 
 	       		 <!-- si clickeo el check de se desconoce automaticamente en la franja etaria ingresa el valor se desconoce y se bloquea el input text para asignar la edad -->
@@ -681,8 +690,17 @@
 	</section>
     <script src="/js/formularioB.js" type="text/javascript" charset="utf-8" async defer></script>
     <script src="/js/paises.js" type="text/javascript" charset="utf-8" async defer></script>
-@else
+
+    {{-- Mensaje completar el formulario anterior --}}
+    {{-- <script>
+        @foreach($carpetas as $carpeta)
+            @if ($carpeta->)
+
+            @endif
+        @endforeach
+    </script> --}}
+{{-- @else
     <script>window.location = "/login";</script>
-@endauth
+@endauth --}}
 </body>
 </html>
