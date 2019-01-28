@@ -17,10 +17,11 @@ class NoHayFormE
      */
     public function handle($request, Closure $next)
     {   
-        $hayFormE = DB::table('Eformularios')->WHERE('user_id', '=', Auth::id())
-        									 ->ORDERBY('numeroCarpeta')
-											 ->get();
-        // dd($hayFormE->numeroCarpeta);
+        // $hayFormE = DB::table('Eformularios')->WHERE('user_id', '=', Auth::id())
+        // 									 ->ORDERBY('numeroCarpeta')
+								// 			 ->get();
+        $hayFormE = \App\FormE\Eformulario::WHERE('user_id', '=', Auth::id())->orderBy('numeroCarpeta');
+        // dd($hayFormE->count());
 
         if ($hayFormE->count() === 0) {
             return redirect('formularios/E')->with('alert', 'Primero tenes que completar el Eje E!');

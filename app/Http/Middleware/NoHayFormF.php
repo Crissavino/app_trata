@@ -17,9 +17,10 @@ class NoHayFormF
      */
     public function handle($request, Closure $next)
     {   
-        $hayFormE = DB::table('fformularios')->WHERE('user_id', '=', Auth::id())
-        									 ->ORDERBY('numeroCarpeta')
-											 ->get();
+        // $hayFormE = DB::table('fformularios')->WHERE('user_id', '=', Auth::id())
+        // 									 ->ORDERBY('numeroCarpeta')
+								// 			 ->get();
+        $hayFormE = \App\FormF\Fformulario::WHERE('user_id', '=', Auth::id())->orderBy('numeroCarpeta');
         // dd($hayFormE->numeroCarpeta);
 
         if ($hayFormE->count() === 0) {
