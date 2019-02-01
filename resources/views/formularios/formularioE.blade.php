@@ -5,29 +5,67 @@
 	<title>Eje E: Datos del imputado</title>
 </head>
 <header>
+	<ul class="nav nav-tabs">
+        <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios">Formularios</a> </li> --}}
+        <li class="nav-item active"> <a class="nav-link " href="/formularios/buscador">Buscador</a> </li>
+    </ul>
     <ul class="nav nav-tabs">
-        <li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="B">Eje B: Caracterización de la victima</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="C">Eje C: Grupo Conviviente</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="D">Eje D: Datos de delito</a> </li>
+        {{-- <li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li> --}}
+        {{-- <li class="nav-item"> <a class="nav-link " href="B">Eje B: Caracterización de la víctima</a> </li> --}}
+        {{-- <li class="nav-item"> <a class="nav-link " href="C">Eje C: Grupo Conviviente</a> </li> --}}
+        {{-- <li class="nav-item"> <a class="nav-link " href="D">Eje D: Datos de delito</a> </li> --}}
+        @foreach ($carpetas as $carpeta)
+            @if ($numeroCarpeta == $carpeta->numeroCarpeta)
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/A/{{ $carpeta->aformulario_id }}">Eje A: Datos institucionales</a> </li>
+                @break
+            @endif
+        @endforeach
+        @foreach ($carpetas as $carpeta)
+            @if ($numeroCarpeta == $carpeta->numeroCarpeta)
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/B/{{ $carpeta->bformulario_id }}">Eje B: Caracterización de la víctima</a> </li>
+                @break
+            @endif
+        @endforeach
+        @foreach ($carpetas as $carpeta)
+            @if ($numeroCarpeta == $carpeta->numeroCarpeta)
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/C/{{ $carpeta->cformulario_id }}">Eje C: Grupo Conviviente</a> </li>
+                @break
+            @endif
+        @endforeach
+        @foreach ($carpetas as $carpeta)
+            @if ($numeroCarpeta == $carpeta->numeroCarpeta)
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/D/{{ $carpeta->dformulario_id }}">Eje D: Datos de delito</a> </li>
+                @break
+            @endif
+        @endforeach
         <li class="nav-item"> <a class="nav-link active" href="#">Eje E: Datos del imputado</a> </li>
         <li class="nav-item"> <a class="nav-link " href="F">Eje F: Atención del caso</a> </li>
         <li class="nav-item"> <a class="nav-link " href="G">Eje G: Documentación</a> </li>
     </ul>
 </header>
 <body>
+	@if(session()->has('message'))
+        <div class="alert alert-danger text-center">
+            {{ session()->get('message') }}
+        </div>
+    @endif
     <section class="container">
     	<form action="" class="form-group" method="post">
 	    	{{ csrf_field() }}
+            <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
+
             <h1 class="text-center" style="padding: 15px;">
                 Eje E: Datos del imputado
-                <h5 style="text-align: center;" >Seleccioná la carpeta sobre la que deseas trabajar
+                <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5>
+                {{-- <h5 style="text-align: center;" >Seleccioná la carpeta sobre la que deseas trabajar
                 <select name="numeroCarpeta" class="select-sinborde">
                     @foreach ($todoFormA as $formA)
                         <option value="{{ $formA->datos_numero_carpeta }}">{{ $formA->datos_numero_carpeta }}</option>
                     @endforeach
                 </select>
-                </h5>
+                </h5> --}}
             </h1>
 
 	    	<div class="form-group">
@@ -113,7 +151,7 @@
 	    		@endforeach
 	    	</div>
 
-	    	<button type="submit" class="btn btn-primary col-xl" name="button">Enviar</button><br><br>
+	    	<button type="submit" class="btn btn-primary col-xl" name="button">Guardar</button><br><br>
 	    </form>
     </section>
 			        

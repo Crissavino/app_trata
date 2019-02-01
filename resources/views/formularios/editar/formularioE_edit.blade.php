@@ -5,15 +5,54 @@
 	<title>Eje E: Datos del imputado</title>
 </head>
 <header>
-    <ul class="nav nav-tabs">
-        {{-- <li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="B">Eje B: Caracterización de la victima</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="C">Eje C: Grupo Conviviente</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="D">Eje D: Datos de delito</a> </li> --}}
-        <li class="nav-item"> <a class="nav-link active" href="#">Eje E: Datos del imputado</a> </li>
-        {{-- <li class="nav-item"> <a class="nav-link " href="F">Eje F: Atención del caso</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="G">Eje G: Documentación</a> </li> --}}
+	<ul class="nav nav-tabs">
+        <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios">Formularios</a> </li> --}}
+        <li class="nav-item active"> <a class="nav-link " href="/formularios/buscador">Buscador</a> </li>
     </ul>
+    <ul class="nav nav-tabs">
+        @if ($idFormA)
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/A/{{ $idFormA }}">Eje A: Datos institucionales</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link" href="/formularios/A">Eje A: Datos institucionales</a> </li>
+        @endif
+        @if ($idFormB)
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/B/{{ $idFormB }}">Eje B: Caracterización de la víctima</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link " href="/formularios/B">Eje B: Caracterización de la víctima</a> </li>
+        @endif
+        @if ($idFormC)
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/C/{{ $idFormC }}">Eje C: Grupo Conviviente</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link " href="/formularios/C">Eje C: Grupo Conviviente</a> </li>
+        @endif
+        @if ($idFormD)
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/D/{{ $idFormD }}">Eje D: Datos de delito</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link " href="/formularios/D">Eje D: Datos de delito</a> </li>
+        @endif
+        @if ($idFormE)
+            <li class="nav-item"> <a class="nav-link active" href="/formularios/edicion/E/{{ $idFormE }}">Eje E: Datos del imputado</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link active" href="/formularios/E">Eje E: Datos del imputado</a> </li>
+        @endif
+        @if ($idFormF)
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/F/{{ $idFormF }}">Eje F: Atención del caso</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link " href="/formularios/F">Eje F: Atención del caso</a> </li>
+        @endif
+        @if ($idFormG)
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/G/{{ $idFormG }}">Eje G: Documentación</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link " href="/formularios/G">Eje G: Documentación</a> </li>
+        @endif
+		 {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/C">Eje C: Grupo Conviviente</a> </li> --}}
+		{{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/D">Eje D: Datos de delito</a> </li> --}}
+		{{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/E">Eje E: Datos del imputado</a> </li> --}}
+		{{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/F">Eje F: Atención del caso</a> </li> --}}
+		{{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/G">Eje G: Documentación</a> </li> --}}
+	</ul>
 </header>
 <body>
     <section class="container">
@@ -113,7 +152,7 @@
 	    		@endforeach
 	    	</div>
 
-	    	<button type="submit" class="btn btn-primary col-xl" name="button">Enviar</button><br><br>
+	    	<button type="submit" class="btn btn-primary col-xl" name="button">Actualizar</button><br><br>
 	    </form>
     </section>
 			        

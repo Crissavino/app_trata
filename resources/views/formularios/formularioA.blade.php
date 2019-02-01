@@ -6,13 +6,20 @@
 </head>
 <header>
     <ul class="nav nav-tabs">
+        <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios">Formularios</a> </li> --}}
+        <li class="nav-item active"> <a class="nav-link " href="/formularios/buscador">Buscador</a> </li>
+    </ul>
+
+    <ul class="nav nav-tabs">
         <li class="nav-item active"> <a class="nav-link active" href="#">Eje A: Datos institucionales</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="B">Eje B: Caracterización de la victima</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="C">Eje C: Grupo Conviviente</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="D">Eje D: Datos de delito</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="E">Eje E: Datos del imputado</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="F">Eje F: Atención del caso</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="G">Eje G: Documentación</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="A">Eje B: Caracterización de la víctima</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="A">Eje C: Grupo Conviviente</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="A">Eje D: Datos de delito</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="A">Eje E: Datos del imputado</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="A">Eje F: Atención del caso</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="A">Eje G: Documentación</a> </li>
     </ul>
 </header>
 <body>
@@ -22,6 +29,11 @@
 {{-- con el @auth veo si un usuario esta logueado, y si no esta, lo mando para el login
 @auth  --}}     
     <section class="container">
+        @if(session()->has('message'))
+            <div class="alert alert-danger text-center">
+                {{ session()->get('message') }}
+            </div>
+        @endif
             <form class="" action="" method="post">
             {{ csrf_field() }}
             
@@ -202,7 +214,7 @@
                     <div class="hijo" style="display: none;">
                         <h3>A 9. Profesional Interviniente:</h3>
                         <div class="form-group" {{ $errors->has('profesional_id[]') ? 'has-error' : ''}}>
-                            <label for="profesional_id">Profesional que interviene</label>
+                            <label for="profesional_id">A 9.1 Nombre/Profesion/Equipo: </label>
                             <select class="form-control profesional_id">
                                 <option value="">Seleccioná profesional</option>
                                 @foreach ($datosProfesional as $profesional)
@@ -213,7 +225,7 @@
                         </div>
 
                         <div class="mostrarInicio form-group {{ $errors->has('datos_profesional_interviene_desde[]') ? 'has-error' : ''}}">
-                            <label for="datos_profesional_interviene_desde">A 9.4 Interviene desde:</label>
+                            <label for="datos_profesional_interviene_desde">A 9.2 Interviene desde:</label>
                             <input type="date" class="form-control desde" id="datos_profesional_interviene_desde" value="">
                             {!! $errors->first('datos_profesional_interviene_desde.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                         </div>
@@ -230,20 +242,20 @@
                         </div>
 
                         <div style="display: none;" class="mostrarFinal form-group {{ $errors->has('datos_profesional_interviene_hasta[]') ? 'has-error' : ''}}">
-                            <label for="datos_profesional_interviene_hasta">A 9.5 Interviene hasta:</label>
+                            <label for="datos_profesional_interviene_hasta">A 9.4 Interviene hasta:</label>
                             <input type="date" class="form-control hasta" id="datos_profesional_interviene_hasta" value="">
                             {!! $errors->first('datos_profesional_interviene_hasta.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                         </div>
                     </div>
                 </div>
+                <button id="anadir" class="btn btn-outline-primary col-xl anadirProfesional" type="button"> Agregar profesional </button><br><br>
+                <button id="borra" class="btn btn-outline-danger col-xl borrarProfesional" type="button">Borrar profesional</button><br><br>
+                {{-- <button id="borra" class="btn btn-outline-danger col-xl" type="button" onclick="borra()">Borrar profesional</button><br><br> --}}
             {{-- FIN AGREGAR PROFESIONAL PREGUNTA --}}
 
-                <button type="submit" class="btn btn-primary col-xl" name="button">Enviar</button><br><br>
+                <button type="submit" class="btn btn-primary col-xl" name="button">Guardar</button><br><br>
             
             </form>
-
-        <button id="anadir" class="btn btn-outline-primary col-xl anadirProfesional" type="button"> Agregar profesional </button><br><br>
-        <button id="borra" class="btn btn-outline-danger col-xl" type="button" onclick="borra()">Borrar profesional</button><br><br>
 
     </section>
         
@@ -259,10 +271,10 @@
                         $(".padre").append(nueva_entrada);
                     });
 
-                function borra() {
-                    $('.hijo').first().remove();
-                    swal('Se borro un profesional');
-                }
+                // function borra() {
+                //     $('.hijo').first().remove();
+                //     swal('Se borro un profesional');
+                // }
             </script>
 
             {{-- ALERTA PARA LLENAR PRIMERO EL FORMULARIO A --}}

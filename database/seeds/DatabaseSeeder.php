@@ -22,11 +22,11 @@ class DatabaseSeeder extends Seeder
         $this->call(ProfesionalsTableSeeder::class);
         
         //SEEDERS FORMULARIO B
-        $this->call(ArgciudadsTableSeeder::class);
-        $this->call(ArgprovinciasTableSeeder::class);
+        // $this->call(ArgciudadsTableSeeder::class);
+        // $this->call(ArgprovinciasTableSeeder::class);
         $this->call(BajoefectosTableSeeder::class);
-        $this->call(BrestadosTableSeeder::class);
-        $this->call(ChprovinciasTableSeeder::class);
+        // $this->call(BrestadosTableSeeder::class);
+        // $this->call(ChprovinciasTableSeeder::class);
         $this->call(DiscapacidadsTableSeeder::class);
         $this->call(EmbarazopreviosTableSeeder::class);
         $this->call(EmbarazorelevamientosTableSeeder::class);
@@ -38,12 +38,12 @@ class DatabaseSeeder extends Seeder
         $this->call(LimitacionsTableSeeder::class);
         $this->call(NiveleducativosTableSeeder::class);
         $this->call(OficiosTableSeeder::class);
-        $this->call(PaisesTableSeeder::class);
+        // $this->call(PaisesTableSeeder::class);
         $this->call(ResidenciaprecariasTableSeeder::class);
         $this->call(TienedocsTableSeeder::class);
         $this->call(TienelesionsTableSeeder::class);
         $this->call(TipodocumentosTableSeeder::class);
-        $this->call(UrprovinciasTableSeeder::class);
+        // $this->call(UrprovinciasTableSeeder::class);
 
         //SEEDERS FORMULARIO C
         $this->call(OtraspersonasTableSeeder::class);

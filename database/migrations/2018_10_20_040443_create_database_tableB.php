@@ -13,20 +13,20 @@ class CreateDatabaseTableB extends Migration
      */
     public function up()
     {
-        Schema::create('argciudads', function (Blueprint $table) {
-            $table->bigIncrements('id');    
-            $table->string('ciudad_nombre');
-            $table->integer('provincia_id')->unsigned();
-            $table->softDeletesTz();
-            $table->timestampsTz();
-        });
+        // Schema::create('argciudads', function (Blueprint $table) {
+        //     $table->bigIncrements('id');    
+        //     $table->string('ciudad_nombre');
+        //     $table->integer('provincia_id')->unsigned();
+        //     $table->softDeletesTz();
+        //     $table->timestampsTz();
+        // });
 
-        Schema::create('argprovincias', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('provincia_nombre');
-            $table->softDeletesTz();
-            $table->timestampsTz();
-        });
+        // Schema::create('argprovincias', function (Blueprint $table) {
+        //     $table->bigIncrements('id');
+        //     $table->string('provincia_nombre');
+        //     $table->softDeletesTz();
+        //     $table->timestampsTz();
+        // });
         
         Schema::create('bajoefectos', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -48,9 +48,9 @@ class CreateDatabaseTableB extends Migration
             $table->integer('residenciaprecaria_id')->unsigned()->nullable();
             $table->string('victima_tipo_documento_otro')->nullable();
             $table->string('victima_documento');
-            $table->string('paisNacimiento')->nullable();
-            $table->string('provinciaNacimiento')->nullable();
-            $table->string('ciudadNacimiento')->nullable();
+            // $table->string('paisNacimiento')->nullable();
+            // $table->string('provinciaNacimiento')->nullable();
+            // $table->string('ciudadNacimiento')->nullable();
             $table->dateTime('victima_fecha_nacimiento');
             // $table->string('victima_fecha_nacimiento_desconoce')->nullable();
             $table->string('victima_edad');
@@ -76,19 +76,19 @@ class CreateDatabaseTableB extends Migration
             $table->timestampsTz();
         });
         
-        Schema::create('brestados', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('nombre_estado');
-            $table->softDeletesTz();
-            $table->timestampsTz();
-        });
+        // Schema::create('brestados', function (Blueprint $table) {
+        //     $table->bigIncrements('id');
+        //     $table->string('nombre_estado');
+        //     $table->softDeletesTz();
+        //     $table->timestampsTz();
+        // });
         
-        Schema::create('chprovincias', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('provincia_nombre');
-            $table->softDeletesTz();
-            $table->timestampsTz();
-        });
+        // Schema::create('chprovincias', function (Blueprint $table) {
+        //     $table->bigIncrements('id');
+        //     $table->string('provincia_nombre');
+        //     $table->softDeletesTz();
+        //     $table->timestampsTz();
+        // });
 
         Schema::create('discapacidads', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -167,12 +167,12 @@ class CreateDatabaseTableB extends Migration
             $table->timestampsTz();
         });
          
-        Schema::create('paises', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('nombre');
-            $table->softDeletesTz();
-            $table->timestampsTz();
-        });
+        // Schema::create('paises', function (Blueprint $table) {
+        //     $table->bigIncrements('id');
+        //     $table->string('nombre');
+        //     $table->softDeletesTz();
+        //     $table->timestampsTz();
+        // });
 
         Schema::create('residenciaprecarias', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -202,12 +202,12 @@ class CreateDatabaseTableB extends Migration
             $table->timestampsTz();
         });
 
-        Schema::create('urprovincias', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('provincia_nombre');
-            $table->softDeletesTz();
-            $table->timestampsTz();
-        });
+        // Schema::create('urprovincias', function (Blueprint $table) {
+        //     $table->bigIncrements('id');
+        //     $table->string('provincia_nombre');
+        //     $table->softDeletesTz();
+        //     $table->timestampsTz();
+        // });
         
         Schema::create('bformulario_discapacidad', function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -221,6 +221,15 @@ class CreateDatabaseTableB extends Migration
             $table->bigIncrements('id');
             $table->integer('bformulario_id')->unsigned();
             $table->integer('limitacion_id')->unsigned();
+            $table->softDeletesTz();
+            $table->timestampsTz();
+
+        });
+
+        Schema::create('mapas', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->float('lat');
+            $table->float('long');
             $table->softDeletesTz();
             $table->timestampsTz();
 
@@ -260,5 +269,6 @@ class CreateDatabaseTableB extends Migration
         Schema::dropIfExists('urprovincias');
         Schema::dropIfExists('bformulario_discapacidad');
         Schema::dropIfExists('bformulario_limitacion');
+        Schema::dropIfExists('mapas');
     }
 }

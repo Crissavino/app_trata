@@ -5,9 +5,19 @@
 	<title>Eje B: Caracterización de la victima</title>
 </head>
 <header>
+    <ul class="nav nav-tabs">
+        <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios">Formularios</a> </li> --}}
+        <li class="nav-item active"> <a class="nav-link " href="/formularios/buscador">Buscador</a> </li>
+    </ul>
 	<ul class="nav nav-tabs">
-        <li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li>
-        <li class="nav-item"> <a class="nav-link active" href="B">Eje B: Caracterización de la victima</a> </li>
+        @foreach ($carpetas as $carpeta)
+            @if ($numeroCarpeta == $carpeta->numeroCarpeta)
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/A/{{ $carpeta->aformulario_id }}">Eje A: Datos institucionales</a> </li>
+            @endif
+        @endforeach
+        <li class="nav-item"> <a class="nav-link active" href="B">Eje B: Caracterización de la víctima</a> </li>
         <li class="nav-item"> <a class="nav-link " href="C">Eje C: Grupo Conviviente</a> </li>
         <li class="nav-item"> <a class="nav-link " href="D">Eje D: Datos de delito</a> </li>
         <li class="nav-item"> <a class="nav-link " href="E">Eje E: Datos del imputado</a> </li>
@@ -17,24 +27,29 @@
 </header>
 <body>
 {{-- @auth  --}}
+    @if(session()->has('message'))
+        <div class="alert alert-danger text-center">
+            {{ session()->get('message') }}
+        </div>
+    @endif
 
 
 	<section class="container">	
 
-        <form class="" action="" method="post">
+        <form class="formulario" action="" method="post">
         	{{-- inicio esta proteccion contra datos maliciosso --}}
         	{{ csrf_field() }}
-            {{-- <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}"> --}}
+            <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
 
             <h1 class="text-center" style="padding: 15px;">
                 Eje B: Caracterización de la victima
-                {{-- <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5> --}}
-                <h5 style="text-align: center;" >Seleccioná la carpeta sobre la que deseas trabajar
+                <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5>
+                {{-- <h5 style="text-align: center;" >Seleccioná la carpeta sobre la que deseas trabajar
                 <select name="numeroCarpeta" class="select-sinborde">
                     @foreach ($todoFormA as $formA)
                         <option value="{{ $formA->datos_numero_carpeta }}">{{ $formA->datos_numero_carpeta }}</option>
                     @endforeach
-                </select>
+                </select> --}}
                 </h5>
             </h1>
         	
@@ -240,7 +255,7 @@
                 {{-- ver como hacer para los casos en que se desconozca --}}
                     <label for="countryId">B 7. País de Nacimiento: </label>
                     <select name="paisNacimiento" class="countries order-alpha form-control" id="countryId">
-                        <option value="">Seleccioná pais de captación</option>
+                        <option value="">Seleccioná pais de nacimiento</option>
                     </select>
 
                     <label for="desconocePaisNacimiento">Se desconoce</label>
@@ -248,7 +263,7 @@
 
                     <label for="stateId">B 8. Provincia de nacimiento: </label>
                     <select name="provinciaNacimiento" class="states order-alpha form-control" id="stateId">
-                        <option value="">Seleccioná provincia de captación</option>
+                        <option value="">Seleccioná provincia de nacimiento</option>
                     </select>
 
                     <label for="desconoceProvinciaNacimiento">Se desconoce</label>
@@ -256,7 +271,7 @@
 
                     <label for="cityId">B 9. Localidad de nacimiento: </label>
                     <select name="ciudadNacimiento" class="cities order-alpha form-control" id="cityId">
-                        <option value="">Seleccioná ciudad de captación</option>
+                        <option value="">Seleccioná ciudad de nacimiento</option>
                     </select>
 
                     <label for="desconoceCiudadNacimiento">Se desconoce</label>
@@ -505,8 +520,25 @@
                                 <div id="victima_lesion_organismo" style="display: none">
                                     <label class="">B 18III. ¿A qué organismo pertenece el profesional de la salud?:</label>
                                     <div class="">
-                                        <input name="victima_lesion_organismo" placeholder="" class="form-control" type="text">
+                                        <input name="victima_lesion_organismo" placeholder="" class="form-control desconoce18-input" type="text">
                                     </div>
+                                    <label for="desconoce">Se deconoce</label>
+                                    <input type="checkbox" class="form-check-inline desconoce18" id="desconoce" name="">
+
+                                    <script>
+                                        var desconoce = document.querySelector('.desconoce18');
+                                        var desconoceInput = document.querySelector('.desconoce18-input');
+
+                                        desconoce.addEventListener('click', function(){
+                                            if (desconoce.checked) {
+                                                desconoceInput.value = 'Se deconoce';
+                                                desconoceInput.setAttribute('readonly', 'readonly');
+                                            }else{
+                                                desconoceInput.value = '';
+                                                desconoceInput.removeAttribute('readonly');
+                                            }
+                                        });
+                                    </script>
                                 </div>
                             </div>
                         </div>
@@ -683,13 +715,13 @@
 		        </script>
             <!-- FIN VIGESIMASEGUNDA PREGUNTA -->
 
-			<button type="submit" class="btn btn-primary col-xl" name="button">Enviar</button>
+			<button type="submit" class="btn btn-primary col-xl btnEnviar" name="button">Guardar</button>
 
 		</form>
 
 	</section>
     <script src="/js/formularioB.js" type="text/javascript" charset="utf-8" async defer></script>
-    <script src="/js/paises.js" type="text/javascript" charset="utf-8" async defer></script>
+    <script src="/js/paises3.js" type="text/javascript" charset="utf-8" async defer></script>
 
     {{-- ALERTA PARA LLENAR PRIMERO EL FORMULARIO A --}}
     <script>

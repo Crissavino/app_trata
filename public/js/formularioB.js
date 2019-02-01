@@ -57,5 +57,275 @@ window.onload =function (){
 		});
 	// fin pregunta 9
 
+	//guardar lat y long
+		// fetch("/mapas/datos")
+			// .then(function (response) {
+			// return response.json();
+			// })
+			// .then(function (data) {
+			// 	// console.log(data);
+			// 	var tabla = data;
+			// 	var datosGet = [];
+			// 	tabla.forEach(function(element){
+			// 		//DE ESTA FORMA UNO LOS STRINGS CON UN + O LO QUE SEA NECESARIO
+			// 			// var paises = element.paisNacimiento;
+			// 			// console.log(paises);
+			// 			// if (paises.split(" ").length > 1) {
+			// 			// 	var paisesSeparados = paises.split(" ");
+			// 			// 	var paisesUnidos = provinciasSeparados.join("+");
+			// 			// }else{
+			// 			// 	var paisesUnidos = paises;
+			// 			// }
+						
+			// 			// var provincias = element.provinciaNacimiento;
+			// 			// console.log(provincias);
+			// 			// if (provincias.split(" ").length > 1) {
+			// 			// 	var provinciasSeparados = element.provinciaNacimiento.split(" ");
+			// 			// 	var provinciasUnidos = provinciasSeparados.join("+");
+			// 			// }else{
+			// 			// 	var provinciasUnidos = provincias;
+			// 			// }
 
+			// 			// var ciudades = element.ciudadNacimiento;
+			// 			// console.log(ciudades);
+			// 			// if (ciudades.split(" ").length > 1) {
+			// 			// 	var ciudadesSeparados = element.ciudadNacimiento.split(" ");
+			// 			// 	var ciudadesUnidos = ciudadesSeparados.join("+");
+			// 			// }else{
+			// 			// 	var ciudadesUnidos = ciudades;
+			// 			// }
+			// 		//FIN
+			// 		// console.log(element.bformulario_id);
+			// 		if (element.paisNacimiento !== 'Se desconoce' && element.paisNacimiento !== null || element.provinciaNacimiento !== 'Se desconoce' && element.provinciaNacimiento !== null || element.ciudadNacimiento !== 'Se desconoce' && element.ciudadNacimiento !== null) {
+			// 			// alert('Tiro el alert porque el dato es: '+element.paisNacimiento)
+			// 			// console.log(element.ciudadNacimiento+', '+element.provinciaNacimiento+', '+element.paisNacimiento,);
+			// 			$.ajax({
+			// 				url: 'https://geocoder.api.here.com/6.2/geocode.json',
+			// 				type: 'GET',
+			// 				dataType: 'jsonp',
+			// 				jsonp: 'jsoncallback',
+			// 				data: {
+			// 					searchtext: element.ciudadNacimiento+', '+element.provinciaNacimiento+', '+element.paisNacimiento,
+			// 					app_id: 'HkqpXchCOv6VUYhLEIEz',
+			// 					app_code: 'zl9UxG6jltjRVgHk4SqEaA',
+			// 					gen: '1'
+			// 				},
+			// 				// success: function (data) {
+			// 				// 	// console.log(JSON.stringify(data));
+			// 				// 	datosGet.push(element.bformulario_id, data.Response.View[0].Result[0].Location.DisplayPosition.Latitude, data.Response.View[0].Result[0].Location.DisplayPosition.Longitude)
+			// 				// 	// individuales.idB = formId;
+			// 				// 	// individuales.lat = data.Response.View[0].Result[0].Location.DisplayPosition.Latitude;
+			// 				// 	// individuales.long = data.Response.View[0].Result[0].Location.DisplayPosition.Longitude;
+
+			// 				// 	// console.log(individuales);
+
+			// 				// 	// markers.push(individuales)
+								
+
+			// 				// 	alert(datosGet)
+			// 				// 	// console.log(markers.length);	
+			// 				// }
+			// 				success: function(data) {
+			// 			      var prueba = $(".prueba");
+			// 			      console.log(data);
+			// 			      prueba.append('<div>'
+			// 			          +     '<p> Id del formulario B' + element.bformulario_id + ' Latitud' + data.Response.View[0].Result[0].Location.DisplayPosition.Latitude + ' Longitud '+data.Response.View[0].Result[0].Location.DisplayPosition.Longitude+'</p>'
+			// 			          + '</div>'
+			// 			        );
+			// 			      console.log(element.bformulario_id);
+			// 			      // $.each(respuesta.data, function(index, element) {
+			// 			      //   listaUsuarios.append(
+			// 			      //       '<div>'
+			// 			      //     +     '<p>' + elemento.first_name + ' ' + elemento.last_name + '</p>'
+			// 			      //     +     '<img src=' + elemento.avatar + '></img>'
+			// 			      //     + '</div>'
+			// 			      //   );    
+			// 			      // });
+
+
+			// 			      	var formulario = document.querySelector('.formulario');
+
+			// 					arrayForm = formulario.elements;
+
+
+			// 					var campos ={
+			// 						bformulario_id: arrayForm.bformulario_id.value = element.bformulario_id,
+			// 						lat: arrayForm.lat.value = data.Response.View[0].Result[0].Location.DisplayPosition.Latitude,
+			// 						long: arrayForm.long.value = data.Response.View[0].Result[0].Location.DisplayPosition.Longitude,
+			// 					}
+
+			// 					var datosDelFormulario = new FormData();
+
+			// 					datosDelFormulario.append('datos', JSON.stringify(campos));
+			// 					console.log(datosDelFormulario);
+
+			// 					fetch("/mapas", {
+			// 						method: 'POST',
+			// 						body: datosDelFormulario
+			// 					})
+
+			// 					.then(function (response) {
+			// 						return response.text();
+			// 					})
+			// 					.then(function (data) {
+			// 						// do stuff with data;
+			// 					})
+
+
+
+
+			// 			    },
+			// 			    error: function() {
+			// 			      console.log("No se ha podido obtener la información");
+			// 			    }
+			// 			});
+			// 		}
+			// 	});
+
+			// 	// console.log(datosGet);
+
+
+			// 	// console.log(tabla);
+
+			// })
+			// .catch(function (error) {
+			// 	console.log("The error was: " + error);
+			// })
+
+		
+			// // $.ajax({
+			// // 			url: 'https://geocoder.api.here.com/6.2/geocode.json',
+			// // 			type: 'GET',
+			// // 			dataType: 'jsonp',
+			// // 			jsonp: 'jsoncallback',
+			// // 			data: {
+			// // 				searchtext: ciudades+', '+provincias+', '+paises,
+			// // 				app_id: 'HkqpXchCOv6VUYhLEIEz',
+			// // 				app_code: 'zl9UxG6jltjRVgHk4SqEaA',
+			// // 				gen: '1'
+			// // 			},
+			// // 			success: function (data) {
+			// // 				// console.log(JSON.stringify(data));
+							
+			// // 				individuales.idB = formId;
+			// // 				individuales.lat = data.Response.View[0].Result[0].Location.DisplayPosition.Latitude;
+			// // 				individuales.long = data.Response.View[0].Result[0].Location.DisplayPosition.Longitude;
+
+			// // 				console.log(individuales);
+
+			// // 				markers.push(individuales)
+							
+
+
+			// // 				console.log(markers.length);
+							
+			// // 			}
+			// // 		});
+	//fin guardar lat y long
+
+	//guardar lat y long funcionando
+		var btnEnviar = document.querySelector('.btnEnviar');
+		var formulario = document.querySelector('.formulario');
+
+		console.log(formulario);
+
+		// btnEnviar.addEventListener('submit', function(){
+		formulario.addEventListener('submit', function(){
+			// event.preventDefault()
+			// var formulario = document.querySelector('.formulario');
+
+			arrayForm = formulario.elements;
+
+			// console.log(arrayForm.ciudadNacimiento.value);
+
+			// var campos ={
+			// 	bformulario_id: arrayForm.bformulario_id.value = element.bformulario_id,
+			// 	lat: arrayForm.lat.value = data.Response.View[0].Result[0].Location.DisplayPosition.Latitude,
+			// 	long: arrayForm.long.value = data.Response.View[0].Result[0].Location.DisplayPosition.Longitude,
+			// }
+			// console.log(arrayForm.paisNacimiento.value !== 'Se desconoce');
+
+			if ((arrayForm.paisNacimiento.value !== 'Se desconoce' && arrayForm.paisNacimiento.value !== null) || (arrayForm.provinciaNacimiento.value !== 'Se desconoce' && arrayForm.provinciaNacimiento.value !== null) || (arrayForm.ciudadNacimiento.value !== 'Se desconoce' && arrayForm.ciudadNacimiento.value !== null)) {
+				var paisNacimiento = arrayForm.paisNacimiento.value;
+				var provinciaNacimiento = arrayForm.provinciaNacimiento.value;
+				var ciudadNacimiento = arrayForm.ciudadNacimiento.value;
+				event.preventDefault()
+
+				console.log(ciudadNacimiento+', '+provinciaNacimiento+', '+paisNacimiento);
+				$.ajax({
+					url: 'https://geocoder.api.here.com/6.2/geocode.json',
+					type: 'GET',
+					dataType: 'jsonp',
+					// headers: 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+					jsonp: 'jsoncallback',
+					data: {
+						searchtext: ciudadNacimiento+', '+provinciaNacimiento+', '+paisNacimiento,
+						app_id: 'HkqpXchCOv6VUYhLEIEz',
+						app_code: 'zl9UxG6jltjRVgHk4SqEaA',
+						gen: '1'
+					},
+					success: function (data) {
+						// console.log(JSON.stringify(data));
+						
+						// individuales.lat = data.Response.View[0].Result[0].Location.DisplayPosition.Latitude;
+						// individuales.long = data.Response.View[0].Result[0].Location.DisplayPosition.Longitude;
+
+
+						var campos ={
+							lat: data.Response.View[0].Result[0].Location.DisplayPosition.Latitude,
+							long: data.Response.View[0].Result[0].Location.DisplayPosition.Longitude,
+							count: 1
+						}
+
+						console.log(JSON.stringify(campos));
+						var camposJSON = JSON.stringify(campos)
+
+						// var datosDelFormulario = new FormData();
+
+						// datosDelFormulario.append('datos', JSON.stringify(campos));
+						// console.log(datosDelFormulario);
+
+						fetch("/mapas", {
+							method: 'POST',
+							body: camposJSON,
+							// body: camposJSON,
+							headers:{
+								'Content-Type': 'application/json',
+								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+							}
+						})
+
+						.then(function (response) {
+							return response.text();
+						})
+						.then(function (data) {
+							// var prueba = $(".prueba");
+							console.log(data);
+
+							// formulario.append('<div>'
+							// 	+ '<p>Latitud' + data.Response.View[0].Result[0].Location.DisplayPosition.Latitude + ' Longitud '+data.Response.View[0].Result[0].Location.DisplayPosition.Longitude+'</p>'
+							// 	+ '</div>'
+							// );
+						})
+						.catch(function (error) {
+							console.log("The error was: " + error);
+						})
+
+						// markers.push(individuales)
+						
+
+
+						// console.log(markers.length);
+						
+					}
+				});
+			}
+
+			window.setTimeout(function(){formulario.submit()}, 2000)
+		});
+
+		// btnEnviar.addEventListener('click', function(){
+			
+		// });
+	//fin
 }

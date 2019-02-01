@@ -5,9 +5,38 @@
 	<title>Eje C: Grupo Conviviente</title>
 </head>
 <header>
+    <ul class="nav nav-tabs">
+        <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios">Formularios</a> </li> --}}
+        <li class="nav-item active"> <a class="nav-link " href="/formularios/buscador">Buscador</a> </li>
+    </ul>
 	<ul class="nav nav-tabs">
-        <li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li>
-        <li class="nav-item"> <a class="nav-link" href="B">Eje B: Caracterización de la victima</a> </li>
+        {{-- <li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li> --}}
+        @foreach ($carpetas as $carpeta)
+            @if ($numeroCarpeta == $carpeta->numeroCarpeta)
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/A/{{ $carpeta->aformulario_id }}">Eje A: Datos institucionales</a> </li>
+                @break
+                {{-- @continue --}}
+            @endif
+
+            {{-- @if($numeroCarpeta !== $carpeta->numeroCarpeta)
+                <li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li>
+                @break
+            @endif --}}
+        @endforeach
+        @foreach ($carpetas as $carpeta)
+            @if ($numeroCarpeta == $carpeta->numeroCarpeta)
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/B/{{ $carpeta->bformulario_id }}">Eje B: Caracterización de la víctima</a> </li>
+                @break
+                {{-- @continue --}}
+            @endif
+
+            {{-- @if($numeroCarpeta !== $carpeta->numeroCarpeta)
+                <li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li>
+                @break
+            @endif --}}
+        @endforeach
         <li class="nav-item"> <a class="nav-link active" href="C">Eje C: Grupo Conviviente</a> </li>
         <li class="nav-item"> <a class="nav-link" href="D">Eje D: Datos de delito</a> </li>
         <li class="nav-item"> <a class="nav-link" href="E">Eje E: Datos del imputado</a> </li>
@@ -17,19 +46,28 @@
 </header>
 <body>
 @auth 
+
+    @if(session()->has('message'))
+        <div class="alert alert-danger text-center">
+            {{ session()->get('message') }}
+        </div>
+    @endif
+    
     <section class="container">
         <form class="ejeC" action="" method="post">
         	{{ csrf_field() }}
+            <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
 
             <h1 class="text-center" style="padding: 15px;">
                 Eje C: Grupo Conviviente
-                <h5 style="text-align: center;" >Seleccioná la carpeta sobre la que deseas trabajar
+                <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5>
+                {{-- <h5 style="text-align: center;" >Seleccioná la carpeta sobre la que deseas trabajar
                 <select name="numeroCarpeta" class="select-sinborde">
                     @foreach ($todoFormA as $formA)
                         <option value="{{ $formA->datos_numero_carpeta }}">{{ $formA->datos_numero_carpeta }}</option>
                     @endforeach
                 </select>
-                </h5>
+                </h5> --}}
             </h1>
             
             <div class="form-group">
@@ -94,12 +132,15 @@
                </div>
             </div>
 
-            <button type="submit" class="btn btn-primary col-xl enviar" name="button">Enviar</button><br><br>
+            <button type="button" id="anadir" disabled="disabled" class="clickAnadir btn btn-outline-primary col-xl"> Agregar conviviente </button><br><br>
+            <button id="borra" type="button" disabled="disabled" class="clickBorrar btn btn-outline-danger col-xl">Borrar conviviente</button><br><br>
+
+            <button type="submit" class="btn btn-primary col-xl enviar" name="button">Guardar</button><br><br>
 
         </form>
 
-        <button type="button" id="anadir" disabled="disabled" class="clickAnadir btn btn-outline-primary col-xl"> Agregar conviviente </button><br><br>
-        <button id="borra" type="button" disabled="disabled" class="clickBorrar btn btn-outline-danger col-xl" onclick="borra()">Borrar conviviente</button>
+        {{-- <button type="button" id="anadir" disabled="disabled" class="clickAnadir btn btn-outline-primary col-xl"> Agregar conviviente </button><br><br>
+        <button id="borra" type="button" disabled="disabled" class="clickBorrar btn btn-outline-danger col-xl" onclick="borra()">Borrar conviviente</button> --}}
     </section>
 
         <script src="/js/formularioC.js" type="text/javascript" charset="utf-8" async defer></script>
@@ -116,12 +157,12 @@
                     $("#padre").append(nueva_entrada);
                 });
             });
-            function borra() {
-               var padre = document.getElementById("padre");
-               var hijo = document.getElementById("hijo")
-               padre.removeChild(hijo);
-               swal('Se borro un profesional');
-            }
+            // function borra() {
+            //    var padre = document.getElementById("padre");
+            //    var hijo = document.getElementById("hijo")
+            //    padre.removeChild(hijo);
+            //    swal('Se borro un profesional');
+            // }
         </script>
 
         <script>

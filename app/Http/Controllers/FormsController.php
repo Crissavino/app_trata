@@ -365,6 +365,7 @@ class FormsController extends Controller
 		$datosPresentacion = \App\FormA\Presentacionespontanea::all();
 		$datosOrganismo = \App\FormA\Otrosorganismo::all();
 		$aFormulario = \App\FormA\Aformulario::find($id);
+		$userId = auth()->user()->id;
 		$todo = DB::table('aformularios')
 		                            ->WHERE('aformulario_id', '=', $id)
 									->JOIN('aformulario_profesionalinterviniente', 'aformularios.id', '=', 'aformulario_profesionalinterviniente.aformulario_id')
@@ -372,6 +373,30 @@ class FormsController extends Controller
 									->JOIN('profesionals', 'profesionalintervinientes.profesional_id', '=', 'profesionals.id')
 									->JOIN('profesionalactualmentes', 'profesionalintervinientes.profesionalactualmente_id', '=', 'profesionalactualmentes.id')
 		                            ->get();
+
+		//id de los formularios de una misma carpeta
+			$idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+							->where('aformulario_id', '=', $id)
+							->value('aformulario_id');
+			$idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('aformulario_id', '=', $id)
+								->value('bformulario_id');
+			$idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('aformulario_id', '=', $id)
+								->value('cformulario_id');
+			$idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('aformulario_id', '=', $id)
+								->value('dformulario_id');
+			$idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('aformulario_id', '=', $id)
+								->value('eformulario_id');
+			$idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('aformulario_id', '=', $id)
+								->value('fformulario_id');
+			$idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('aformulario_id', '=', $id)
+								->value('gformulario_id');
+		//fin ids
 
 
 		return view('formularios.editar.formularioA_edit', ['aFormulario' => $aFormulario,
@@ -382,7 +407,14 @@ class FormsController extends Controller
 															'datosIntervieneActualmente' => $datosIntervieneActualmente,
 															'datosPresentacion' => $datosPresentacion,
 															'datosOrganismo' => $datosOrganismo,
-															'todo' => $todo
+															'todo' => $todo,
+															'idFormA' => $idFormA,
+															'idFormB' => $idFormB,
+															'idFormC' => $idFormC,
+															'idFormD' => $idFormD,
+															'idFormE' => $idFormE,
+															'idFormF' => $idFormF,
+															'idFormG' => $idFormG
 															]);
 	}
 
@@ -477,12 +509,12 @@ class FormsController extends Controller
 		$datosGenero = \App\FormB\Genero::all();
 		$datosDocumento = \App\FormB\Tienedoc::all();
 		$datosTipoDocumento = \App\FormB\Tipodocumento::all();
-		$datosPaises = \App\FormB\Paises::all();
-		$datosArgProvincias = \App\FormB\Argprovincia::all();
-		$datosArgCiudades = \App\FormB\Argciudad::all();
-		$datosUrProvincias = \App\FormB\Urprovincia::all();
-		$datosChProvincias = \App\FormB\Chprovincia::all();
-		$datosBrEstados = \App\FormB\Brestado::all();
+		// $datosPaises = \App\FormB\Paises::all();
+		// $datosArgProvincias = \App\FormB\Argprovincia::all();
+		// $datosArgCiudades = \App\FormB\Argciudad::all();
+		// $datosUrProvincias = \App\FormB\Urprovincia::all();
+		// $datosChProvincias = \App\FormB\Chprovincia::all();
+		// $datosBrEstados = \App\FormB\Brestado::all();
 		$datosFranjaEtaria = \App\FormB\Franjaetaria::all();
 		$datosEmbarazadaRelevamiento = \App\FormB\Embarazorelevamiento::all();
 		$datosEmbarazoPrevio = \App\FormB\Embarazoprevio::all();
@@ -497,28 +529,34 @@ class FormsController extends Controller
 		$datosOficio = \App\FormB\Oficio::all();
 		$datosResidencia = \App\FormB\Residenciaprecaria::all();
 		$userId = auth()->user()->id;
-		// $numeroCarpeta = DB::table('aformularios')
-		// 									->WHERE('user_id', '=', $userId)
-		// 									->ORDERBY('updated_at', 'desc')
-		// 									->first()
-		// 									->datos_numero_carpeta;
-		$todoFormA = DB::table('aformularios')
+		$numeroCarpeta = DB::table('aformularios')
 											->WHERE('user_id', '=', $userId)
 											->ORDERBY('updated_at', 'desc')
-											->get();
+											->first()
+											->datos_numero_carpeta;
+		// $todoFormA = DB::table('aformularios')
+		// 									->WHERE('user_id', '=', $userId)
+		// 									->ORDERBY('updated_at', 'desc')
+		// 									->get();
 
 		$carpetas = \App\Carpetas\Numerocarpeta::all();
+
+		// dd($carpetas->id);
+
+		// foreach ($carpetas as $carpeta) {
+		// 	dump($carpeta->aformulario_id);
+		// }
 
 		return view('formularios/formularioB', 
 			['datosGenero' => $datosGenero,
 				'datosDocumento' => $datosDocumento,
 				'datosTipoDocumento' => $datosTipoDocumento,
-				'datosPaises' => $datosPaises,
-				'datosArgProvincias' => $datosArgProvincias,
-				'datosArgCiudades' => $datosArgCiudades,
-				'datosUrProvincias' => $datosUrProvincias,
-				'datosChProvincias' => $datosChProvincias,
-				'datosBrEstados' => $datosBrEstados,
+				// 'datosPaises' => $datosPaises,
+				// 'datosArgProvincias' => $datosArgProvincias,
+				// 'datosArgCiudades' => $datosArgCiudades,
+				// 'datosUrProvincias' => $datosUrProvincias,
+				// 'datosChProvincias' => $datosChProvincias,
+				// 'datosBrEstados' => $datosBrEstados,
 				'datosFranjaEtaria' => $datosFranjaEtaria,
 				'datosEmbarazadaRelevamiento' => $datosEmbarazadaRelevamiento,
 				'datosEmbarazoPrevio' => $datosEmbarazoPrevio,
@@ -532,7 +570,8 @@ class FormsController extends Controller
 				'datosLimitacion' => $datosLimitacion,
 				'datosOficio' => $datosOficio,
 				'datosResidencia' => $datosResidencia,
-				'todoFormA' => $todoFormA,
+				// 'todoFormA' => $todoFormA,
+				'numeroCarpeta' => $numeroCarpeta,
 				'carpetas' => $carpetas,
 			]);
 	}
@@ -612,7 +651,7 @@ class FormsController extends Controller
 
 		$data = request()->all();
 
-		// dd($data['numeroCarpeta']);
+		// dd($data);
 
 		$data['user_id'] = $userId;
 
@@ -646,6 +685,8 @@ class FormsController extends Controller
 
 		$guardoLimitaciones = $bformulario->limitacions()->sync($arrayLimitaciones);
 
+		$guardoLugarNacimiento = \App\FormB\Lugarnacimiento::create(['bformulario_id' => $ultimoId, 'paisNacimiento' => $data['paisNacimiento'], 'provinciaNacimiento' => $data['provinciaNacimiento'], 'ciudadNacimiento' => $data['ciudadNacimiento']]);
+
 	    return redirect('formularios/C');
 	}
 
@@ -654,12 +695,12 @@ class FormsController extends Controller
 		$datosGenero = \App\FormB\Genero::all();
 		$datosDocumento = \App\FormB\Tienedoc::all();
 		$datosTipoDocumento = \App\FormB\Tipodocumento::all();
-		$datosPaises = \App\FormB\Paises::all();
-		$datosArgProvincias = \App\FormB\Argprovincia::all();
-		$datosArgCiudades = \App\FormB\Argciudad::all();
-		$datosUrProvincias = \App\FormB\Urprovincia::all();
-		$datosChProvincias = \App\FormB\Chprovincia::all();
-		$datosBrEstados = \App\FormB\Brestado::all();
+		// $datosPaises = \App\FormB\Paises::all();
+		// $datosArgProvincias = \App\FormB\Argprovincia::all();
+		// $datosArgCiudades = \App\FormB\Argciudad::all();
+		// $datosUrProvincias = \App\FormB\Urprovincia::all();
+		// $datosChProvincias = \App\FormB\Chprovincia::all();
+		// $datosBrEstados = \App\FormB\Brestado::all();
 		$datosFranjaEtaria = \App\FormB\Franjaetaria::all();
 		$datosEmbarazadaRelevamiento = \App\FormB\Embarazorelevamiento::all();
 		$datosEmbarazoPrevio = \App\FormB\Embarazoprevio::all();
@@ -676,16 +717,40 @@ class FormsController extends Controller
 		$Bformulario = \App\FormB\Bformulario::find($id);
 		$userId = auth()->user()->id;
 
+		//id de los formularios de una misma carpeta
+			$idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+							->where('bformulario_id', '=', $id)
+							->value('aformulario_id');
+			$idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('bformulario_id', '=', $id)
+								->value('bformulario_id');
+			$idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('bformulario_id', '=', $id)
+								->value('cformulario_id');
+			$idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('bformulario_id', '=', $id)
+								->value('dformulario_id');
+			$idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('bformulario_id', '=', $id)
+								->value('eformulario_id');
+			$idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('bformulario_id', '=', $id)
+								->value('fformulario_id');
+			$idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('bformulario_id', '=', $id)
+								->value('gformulario_id');
+		//fin ids
+
 		return view('formularios.editar.formularioB_edit', ['Bformulario' => $Bformulario,
 															'datosGenero' => $datosGenero,
 															'datosDocumento' => $datosDocumento,
 															'datosTipoDocumento' => $datosTipoDocumento,
-															'datosPaises' => $datosPaises,
-															'datosArgProvincias' => $datosArgProvincias,
-															'datosArgCiudades' => $datosArgCiudades,
-															'datosUrProvincias' => $datosUrProvincias,
-															'datosChProvincias' => $datosChProvincias,
-															'datosBrEstados' => $datosBrEstados,
+															// 'datosPaises' => $datosPaises,
+															// 'datosArgProvincias' => $datosArgProvincias,
+															// 'datosArgCiudades' => $datosArgCiudades,
+															// 'datosUrProvincias' => $datosUrProvincias,
+															// 'datosChProvincias' => $datosChProvincias,
+															// 'datosBrEstados' => $datosBrEstados,
 															'datosFranjaEtaria' => $datosFranjaEtaria,
 															'datosEmbarazadaRelevamiento' => $datosEmbarazadaRelevamiento,
 															'datosEmbarazoPrevio' => $datosEmbarazoPrevio,
@@ -699,6 +764,13 @@ class FormsController extends Controller
 															'datosLimitacion' => $datosLimitacion,
 															'datosOficio' => $datosOficio,
 															'datosResidencia' => $datosResidencia,
+															'idFormA' => $idFormA,
+															'idFormB' => $idFormB,
+															'idFormC' => $idFormC,
+															'idFormD' => $idFormD,
+															'idFormE' => $idFormE,
+															'idFormF' => $idFormF,
+															'idFormG' => $idFormG
 															]);
 	}
 
@@ -743,20 +815,23 @@ class FormsController extends Controller
 		$datosVinculos = \App\FormC\Vinculo::all();
 		$userId = auth()->user()->id;
 
-		// $numeroCarpeta = DB::table('aformularios')
-		// 									->WHERE('user_id', '=', $userId)
-		// 									->ORDERBY('updated_at', 'desc')
-		// 									->first()
-		// 									->datos_numero_carpeta;
-		$todoFormA = DB::table('aformularios')
+		$numeroCarpeta = DB::table('aformularios')
 											->WHERE('user_id', '=', $userId)
 											->ORDERBY('updated_at', 'desc')
-											->get();
+											->first()
+											->datos_numero_carpeta;
+		// $todoFormA = DB::table('aformularios')
+		// 									->WHERE('user_id', '=', $userId)
+		// 									->ORDERBY('updated_at', 'desc')
+		// 									->get();
+		$carpetas = \App\Carpetas\Numerocarpeta::all();
 
 		return view('formularios.formularioC', ['datosOtraspersonas' => $datosOtraspersonas,
 												'datosGeneros' => $datosGeneros,
 												'datosVinculos' => $datosVinculos,
-												'todoFormA' => $todoFormA,
+												'numeroCarpeta' => $numeroCarpeta,
+												'carpetas' => $carpetas,
+												// 'todoFormA' => $todoFormA,
 												]);
 	}
 
@@ -844,6 +919,29 @@ class FormsController extends Controller
 									->JOIN('convivientes', 'cformulario_conviviente.conviviente_id', '=', 'convivientes.id')
 		                            ->get();
 
+		//id de los formularios de una misma carpeta
+			$idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+							->where('cformulario_id', '=', $id)
+							->value('aformulario_id');
+			$idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('cformulario_id', '=', $id)
+								->value('bformulario_id');
+			$idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('cformulario_id', '=', $id)
+								->value('cformulario_id');
+			$idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('cformulario_id', '=', $id)
+								->value('dformulario_id');
+			$idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('cformulario_id', '=', $id)
+								->value('eformulario_id');
+			$idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('cformulario_id', '=', $id)
+								->value('fformulario_id');
+			$idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('cformulario_id', '=', $id)
+								->value('gformulario_id');
+		//fin ids
 
 		return view('formularios.editar.formularioC_edit', [
 															'datosOtraspersonas' => $datosOtraspersonas,
@@ -852,6 +950,13 @@ class FormsController extends Controller
 															'userId' => $userId,
 															'cFormulario' => $cFormulario,
 															'datosTodo' => $datosTodo,
+															'idFormA' => $idFormA,
+															'idFormB' => $idFormB,
+															'idFormC' => $idFormC,
+															'idFormD' => $idFormD,
+															'idFormE' => $idFormE,
+															'idFormF' => $idFormF,
+															'idFormG' => $idFormG
 														]);
 	}
 
@@ -918,15 +1023,15 @@ class FormsController extends Controller
 	public function createD()
 	{
 		$userId = auth()->user()->id;
-		// $numeroCarpeta = DB::table('aformularios')
-		// 									->WHERE('user_id', '=', $userId)
-		// 									->ORDERBY('updated_at', 'desc')
-		// 									->first()
-		// 									->datos_numero_carpeta;
-		$todoFormA = DB::table('aformularios')
+		$numeroCarpeta = DB::table('aformularios')
 											->WHERE('user_id', '=', $userId)
 											->ORDERBY('updated_at', 'desc')
-											->get();
+											->first()
+											->datos_numero_carpeta;
+		// $todoFormA = DB::table('aformularios')
+		// 									->WHERE('user_id', '=', $userId)
+		// 									->ORDERBY('updated_at', 'desc')
+		// 									->get();
 
 		$datosAcompanado = \App\FormD\Acompanado::all();
 		$datosAcompanadoRed = \App\FormD\Acompanadored::all();
@@ -962,8 +1067,12 @@ class FormsController extends Controller
 		$datosTipoVictima = \App\FormD\Tipovictima::all();
 		$datosViajo = \App\FormD\Viajo::all();
 
-		return view('formularios.formularioD', ['todoFormA' => $todoFormA,
-												// 'numeroCarpeta' => $numeroCarpeta,
+		$carpetas = \App\Carpetas\Numerocarpeta::all();
+
+
+		return view('formularios.formularioD', ['carpetas' => $carpetas,
+												// 'todoFormA' => $todoFormA,
+												'numeroCarpeta' => $numeroCarpeta,
 												'datosAcompanado' => $datosAcompanado,
 												'datosAcompanadoRed' => $datosAcompanadoRed,
 												'datosActividad' => $datosActividad,
@@ -1198,11 +1307,30 @@ class FormsController extends Controller
 		$datosTipoVictima = \App\FormD\Tipovictima::all();
 		$datosViajo = \App\FormD\Viajo::all();
 		$dFormulario = \App\FormD\Dformulario::find($id);
-		// $dFormulario = DB::table('dformularios')
-		// 								->WHERE('user_id', '=', $userId)
-		// 								->WHERE('id', '=', $id)
-		// 								// ->ORDERBY('updated_at')
-		// 								->get();
+		
+		//id de los formularios de una misma carpeta
+			$idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+							->where('dformulario_id', '=', $id)
+							->value('aformulario_id');
+			$idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('dformulario_id', '=', $id)
+								->value('bformulario_id');
+			$idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('dformulario_id', '=', $id)
+								->value('cformulario_id');
+			$idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('dformulario_id', '=', $id)
+								->value('dformulario_id');
+			$idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('dformulario_id', '=', $id)
+								->value('eformulario_id');
+			$idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('dformulario_id', '=', $id)
+								->value('fformulario_id');
+			$idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('dformulario_id', '=', $id)
+								->value('gformulario_id');
+		//fin ids
 
 		return view('formularios.editar.formularioD_edit', ['numeroCarpeta' => $numeroCarpeta,
 												'datosAcompanado' => $datosAcompanado,
@@ -1238,7 +1366,14 @@ class FormsController extends Controller
 												'datosTextil' => $datosTextil,
 												'datosTipoVictima' => $datosTipoVictima,
 												'datosViajo' => $datosViajo,
-												'dFormulario' => $dFormulario
+												'dFormulario' => $dFormulario,
+												'idFormA' => $idFormA,
+												'idFormB' => $idFormB,
+												'idFormC' => $idFormC,
+												'idFormD' => $idFormD,
+												'idFormE' => $idFormE,
+												'idFormF' => $idFormF,
+												'idFormG' => $idFormG
 											]);
 	}
 
@@ -1436,31 +1571,29 @@ class FormsController extends Controller
 	public function createE()
 	{
 		$userId = auth()->user()->id;
-		// $numeroCarpeta = DB::table('aformularios')
-		// 									->WHERE('user_id', '=', $userId)
-		// 									->ORDERBY('updated_at', 'desc')
-		// 									->first()
-		// 									->datos_numero_carpeta;
-		$todoFormA = DB::table('aformularios')
+		$numeroCarpeta = DB::table('aformularios')
 											->WHERE('user_id', '=', $userId)
 											->ORDERBY('updated_at', 'desc')
-											->get();
+											->first()
+											->datos_numero_carpeta;
+		// $todoFormA = DB::table('aformularios')
+		// 									->WHERE('user_id', '=', $userId)
+		// 									->ORDERBY('updated_at', 'desc')
+		// 									->get();
 		$documentos = \App\FormE\Edocumento::all();
 		$generos = \App\FormB\Genero::all();
 		$vinculaciones = \App\FormE\Vinculacion::all();
 		$roles = \App\FormE\Roldelito::all();
 
-		return view('formularios.formularioE', 
-												['todoFormA' => $todoFormA,
+		$carpetas = \App\Carpetas\Numerocarpeta::all();
 
-												// 'numeroCarpeta' => $numeroCarpeta,
-												   
+		return view('formularios.formularioE', 
+												['carpetas' => $carpetas,
+												// 'todoFormA' => $todoFormA,
+												'numeroCarpeta' => $numeroCarpeta,
 											    'documentos' => $documentos,
-											   
 											    'generos' => $generos,
-											   
 											    'vinculaciones' => $vinculaciones,
-											   
 											    'roles' => $roles]);
 	}
 
@@ -1521,19 +1654,45 @@ class FormsController extends Controller
 		$roles = \App\FormE\Roldelito::all();
 		$eFormulario = \App\FormE\Eformulario::find($id);
 
+		//id de los formularios de una misma carpeta
+			$idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+							->where('eformulario_id', '=', $id)
+							->value('aformulario_id');
+			$idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('eformulario_id', '=', $id)
+								->value('bformulario_id');
+			$idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('eformulario_id', '=', $id)
+								->value('cformulario_id');
+			$idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('eformulario_id', '=', $id)
+								->value('dformulario_id');
+			$idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('eformulario_id', '=', $id)
+								->value('eformulario_id');
+			$idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('eformulario_id', '=', $id)
+								->value('fformulario_id');
+			$idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('eformulario_id', '=', $id)
+								->value('gformulario_id');
+		//fin ids
+
 		return view('formularios.editar.formularioE_edit', 
 															[
-															   
 														    'documentos' => $documentos,
-														   
 														    'generos' => $generos,
-														   
 														    'vinculaciones' => $vinculaciones,
-														   
 														    'roles' => $roles,
-
-															'eFormulario' => $eFormulario]
-														);
+															'eFormulario' => $eFormulario,
+															'idFormA' => $idFormA,
+															'idFormB' => $idFormB,
+															'idFormC' => $idFormC,
+															'idFormD' => $idFormD,
+															'idFormE' => $idFormE,
+															'idFormF' => $idFormF,
+															'idFormG' => $idFormG
+														]);
 	}
 
 	public function updateE($id)
@@ -1599,11 +1758,11 @@ class FormsController extends Controller
 		// 									->ORDERBY('updated_at', 'desc')
 		// 									->first()
 		// 									->datos_numero_carpeta;
-		$numeroCarpeta = DB::table('eformularios')
+		$numeroCarpeta = DB::table('aformularios')
 											->WHERE('user_id', '=', $userId)
 											->ORDERBY('updated_at', 'desc')
 											->first()
-											->numeroCarpeta;
+											->datos_numero_carpeta;
 		$todoFormA = DB::table('aformularios')
 											->WHERE('user_id', '=', $userId)
 											->ORDERBY('updated_at', 'desc')
@@ -1619,7 +1778,11 @@ class FormsController extends Controller
 		$datosProgNacionalesActualmente = \App\FormF\Orgprognacionalactualmente::all();
 		$datosPoliciaActualmente = \App\FormF\Policiaactualmente::all();
 
+		$carpetas = \App\Carpetas\Numerocarpeta::all();
+
+
 		return view('formularios.formularioF', ['todoFormA' => $todoFormA,
+												'carpetas' => $carpetas,
 												'numeroCarpeta' => $numeroCarpeta,
 												'aFormularios' => $aFormularios,
 												'datosOrgJudiciales' => $datosOrgJudiciales,
@@ -1791,6 +1954,30 @@ class FormsController extends Controller
 		$orgProgMunipalesActualmente = \App\FormF\Orgprogmunicipalesactualmente::all();
 		$orgSocCivilActualmente = \App\FormF\Orgsoccivilactualmente::all();
 
+		//id de los formularios de una misma carpeta
+			$idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+							->where('fformulario_id', '=', $id)
+							->value('aformulario_id');
+			$idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('fformulario_id', '=', $id)
+								->value('bformulario_id');
+			$idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('fformulario_id', '=', $id)
+								->value('cformulario_id');
+			$idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('fformulario_id', '=', $id)
+								->value('dformulario_id');
+			$idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('fformulario_id', '=', $id)
+								->value('eformulario_id');
+			$idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('fformulario_id', '=', $id)
+								->value('fformulario_id');
+			$idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('fformulario_id', '=', $id)
+								->value('gformulario_id');
+		//fin ids
+
 
 		return view('formularios.editar.formularioF_edit', [
 												'aFormularios' => $aFormularios,
@@ -1811,7 +1998,14 @@ class FormsController extends Controller
 												'orgProgNacionalActualmenteOtro' => $orgProgNacionalActualmenteOtro,
 												'orgProgProvincialesAlactualmente' => $orgProgProvincialesAlactualmente,
 												'orgProgMunipalesActualmente' => $orgProgMunipalesActualmente,
-												'orgSocCivilActualmente' => $orgSocCivilActualmente
+												'orgSocCivilActualmente' => $orgSocCivilActualmente,
+												'idFormA' => $idFormA,
+												'idFormB' => $idFormB,
+												'idFormC' => $idFormC,
+												'idFormD' => $idFormD,
+												'idFormE' => $idFormE,
+												'idFormF' => $idFormF,
+												'idFormG' => $idFormG
 											]);
 	}
 
@@ -2152,11 +2346,11 @@ class FormsController extends Controller
 	public function createG()
 	{
 		$userId = auth()->user()->id;
-		$numeroCarpeta = DB::table('fformularios')
+		$numeroCarpeta = DB::table('aformularios')
 											->WHERE('user_id', '=', $userId)
 											->ORDERBY('updated_at', 'desc')
 											->first()
-											->numeroCarpeta;
+											->datos_numero_carpeta;
 											// dd($numeroCarpeta);
 		//datos del formulario A
 			$datosModalidad = \App\FormA\Modalidad::all();;
@@ -2211,8 +2405,12 @@ class FormsController extends Controller
 			$temaIntervencion = \App\FormG\Temaintervencion::all();
 		//Fin datos del G
 
+			$carpetas = \App\Carpetas\Numerocarpeta::all();
+
+
 		return view('formularios.formularioG', [
 												'numeroCarpeta' => $numeroCarpeta,
+												'carpetas' => $carpetas,
 												'aFormularios' => $aFormularios,
 												//formulario A
 												'datosModalidad' => $datosModalidad,
@@ -2250,7 +2448,8 @@ class FormsController extends Controller
 		$userId = auth()->user()->id;
 
 		request()->validate(
-			[	'introduccion' => 'required',
+			[	
+			'introduccion' => 'required',
 		// 		'docInterna.0' => 'required|max:10000',
 		// 		'docExterna.0' => 'required|max:10000',
 		// 		'notRelacionadas.0' => 'required|max:10000',
@@ -2258,7 +2457,8 @@ class FormsController extends Controller
 		// 		'infoSocioambiental.0' => 'required|max:10000',
 
 			],
-			[	'introduccion.required' => 'Debes completar la introduccion',
+			[
+				'introduccion.required' => 'Debes completar la introduccion',
 		// 		'docInterna.*.required' => 'Subi un archivo, dale!',
 		// 		'docExterna.*.required' => 'Subi un archivo, dale!',
 		// 		'notRelacionadas.*.required' => 'Subi un archivo, dale!',
@@ -2287,7 +2487,8 @@ class FormsController extends Controller
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
 			for ($i=0; $i < count($data['docInterna']); $i++) { 
 
-				$nombreArchivoCliente = request()->file('docInterna')[$i]->getClientOriginalName();
+				// $nombreArchivoCliente = request()->file('docInterna')[$i]->getClientOriginalName();
+				$nombreArchivoCliente = pathinfo(request()->file('docInterna')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
 				$docInterna = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
@@ -2308,7 +2509,7 @@ class FormsController extends Controller
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
 			for ($i=0; $i < count($data['docExterna']); $i++) { 
 
-				$nombreArchivoCliente = request()->file('docExterna')[$i]->getClientOriginalName();
+				$nombreArchivoCliente = pathinfo(request()->file('docExterna')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
 				$docExterna = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
@@ -2329,7 +2530,7 @@ class FormsController extends Controller
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
 			for ($i=0; $i < count($data['notRelacionadas']); $i++) { 
 
-				$nombreArchivoCliente = request()->file('notRelacionadas')[$i]->getClientOriginalName();
+				$nombreArchivoCliente = pathinfo(request()->file('notRelacionadas')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
 				$notRelacionadas = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
@@ -2350,7 +2551,7 @@ class FormsController extends Controller
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
 			for ($i=0; $i < count($data['intervencionEstrategias']); $i++) { 
 
-				$nombreArchivoCliente = request()->file('intervencionEstrategias')[$i]->getClientOriginalName();
+				$nombreArchivoCliente = pathinfo(request()->file('intervencionEstrategias')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
 				$intervencionEstrategias = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
@@ -2371,7 +2572,7 @@ class FormsController extends Controller
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
 			for ($i=0; $i < count($data['infoSocioambiental']); $i++) { 
 
-				$nombreArchivoCliente = request()->file('infoSocioambiental')[$i]->getClientOriginalName();
+				$nombreArchivoCliente = pathinfo(request()->file('infoSocioambiental')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
 				$infoSocioambiental = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
@@ -2482,6 +2683,30 @@ class FormsController extends Controller
 			// dd($docInterna);
 		//Fin datos del G
 
+			//id de los formularios de una misma carpeta
+			$idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+							->where('gformulario_id', '=', $id)
+							->value('aformulario_id');
+			$idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('gformulario_id', '=', $id)
+								->value('bformulario_id');
+			$idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('gformulario_id', '=', $id)
+								->value('cformulario_id');
+			$idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('gformulario_id', '=', $id)
+								->value('dformulario_id');
+			$idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('gformulario_id', '=', $id)
+								->value('eformulario_id');
+			$idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('gformulario_id', '=', $id)
+								->value('fformulario_id');
+			$idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+								->where('gformulario_id', '=', $id)
+								->value('gformulario_id');
+		//fin ids
+
 		return view('formularios.editar.formularioG_edit', [
 												'numeroCarpeta' => $numeroCarpeta,
 												'aFormularios' => $aFormularios,
@@ -2520,8 +2745,15 @@ class FormsController extends Controller
 												'infoSocioambiental' => $infoSocioambiental,
 												'intervencionEstrategias' => $intervencionEstrategias,
 												'notRelacionadas' => $notRelacionadas,
-												'formularioG' => $formularioG
+												'formularioG' => $formularioG,
 												//fin formulario F
+												'idFormA' => $idFormA,
+												'idFormB' => $idFormB,
+												'idFormC' => $idFormC,
+												'idFormD' => $idFormD,
+												'idFormE' => $idFormE,
+												'idFormF' => $idFormF,
+												'idFormG' => $idFormG
 												]);
 	}
 
@@ -2565,7 +2797,7 @@ class FormsController extends Controller
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
 			for ($i=0; $i < count($data['docInterna']); $i++) { 
 
-				$nombreArchivoCliente = request()->file('docInterna')[$i]->getClientOriginalName();
+				$nombreArchivoCliente = pathinfo(request()->file('docInterna')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
 				$docInterna = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
@@ -2586,7 +2818,7 @@ class FormsController extends Controller
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
 			for ($i=0; $i < count($data['docExterna']); $i++) { 
 				
-				$nombreArchivoCliente = request()->file('docExterna')[$i]->getClientOriginalName();
+				$nombreArchivoCliente = pathinfo(request()->file('docExterna')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
 				$docExterna = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
@@ -2607,7 +2839,7 @@ class FormsController extends Controller
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
 			for ($i=0; $i < count($data['notRelacionadas']); $i++) { 
 
-				$nombreArchivoCliente = request()->file('notRelacionadas')[$i]->getClientOriginalName();
+				$nombreArchivoCliente = pathinfo(request()->file('notRelacionadas')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
 				$notRelacionadas = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
@@ -2628,7 +2860,7 @@ class FormsController extends Controller
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
 			for ($i=0; $i < count($data['intervencionEstrategias']); $i++) { 
 
-				$nombreArchivoCliente = request()->file('intervencionEstrategias')[$i]->getClientOriginalName();
+				$nombreArchivoCliente = pathinfo(request()->file('intervencionEstrategias')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
 				$intervencionEstrategias = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 
@@ -2649,7 +2881,7 @@ class FormsController extends Controller
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
 			for ($i=0; $i < count($data['infoSocioambiental']); $i++) { 
 
-				$nombreArchivoCliente = request()->file('infoSocioambiental')[$i]->getClientOriginalName();
+				$nombreArchivoCliente = pathinfo(request()->file('infoSocioambiental')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
 				$infoSocioambiental = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
 

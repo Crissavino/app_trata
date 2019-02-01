@@ -38,6 +38,19 @@
 		caratulacionJudicialCual.style.display = 'none';
 	}
 
+//borrar profesionales
+	var borrarProfesional = document.querySelector('.borrarProfesional');
+	var hijoBorrado = document.querySelector('.hijo');
+
+	borrarProfesional.addEventListener('click', function(){
+		$('.hijo').first().remove();
+        swal('Se borro un profesional');
+	});
+	// function borra() {
+ //        $('.hijo').first().remove();
+ //        swal('Se borro un profesional');
+ //    }
+
 window.onload =function (){
 //---------FORMULARIO A--------------
 	var agregar = document.querySelector('.anadirProfesional');

@@ -6,17 +6,63 @@
 </head>
 <header>
     <ul class="nav nav-tabs">
-        <li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="B">Eje B: Caracterización de la victima</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios">Formularios</a> </li> --}}
+        <li class="nav-item active"> <a class="nav-link " href="/formularios/buscador">Buscador</a> </li>
+    </ul>
+    <ul class="nav nav-tabs">
+        {{-- <li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="B">Eje B: Caracterización de la víctima</a> </li>
         <li class="nav-item"> <a class="nav-link " href="C">Eje C: Grupo Conviviente</a> </li>
         <li class="nav-item"> <a class="nav-link " href="D">Eje D: Datos de delito</a> </li>
         <li class="nav-item"> <a class="nav-link " href="E">Eje E: Datos del imputado</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="F">Eje F: Atención del caso</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="F">Eje F: Atención del caso</a> </li> --}}
+        @foreach ($carpetas as $carpeta)
+            @if ($numeroCarpeta == $carpeta->numeroCarpeta)
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/A/{{ $carpeta->aformulario_id }}">Eje A: Datos institucionales</a> </li>
+                @break
+            @endif
+        @endforeach
+        @foreach ($carpetas as $carpeta)
+            @if ($numeroCarpeta == $carpeta->numeroCarpeta)
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/B/{{ $carpeta->bformulario_id }}">Eje B: Caracterización de la víctima</a> </li>
+                @break
+            @endif
+        @endforeach
+        @foreach ($carpetas as $carpeta)
+            @if ($numeroCarpeta == $carpeta->numeroCarpeta)
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/C/{{ $carpeta->cformulario_id }}">Eje C: Grupo Conviviente</a> </li>
+                @break
+            @endif
+        @endforeach
+        @foreach ($carpetas as $carpeta)
+            @if ($numeroCarpeta == $carpeta->numeroCarpeta)
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/D/{{ $carpeta->dformulario_id }}">Eje D: Datos de delito</a> </li>
+                @break
+            @endif
+        @endforeach
+        @foreach ($carpetas as $carpeta)
+            @if ($numeroCarpeta == $carpeta->numeroCarpeta)
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/E/{{ $carpeta->eformulario_id }}">Eje E: Datos del imputado</a> </li>
+                @break
+            @endif
+        @endforeach
+        @foreach ($carpetas as $carpeta)
+            @if ($numeroCarpeta == $carpeta->numeroCarpeta)
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/F/{{ $carpeta->fformulario_id }}">Eje F: Atención del caso</a> </li>
+                @break
+            @endif
+        @endforeach
         <li class="nav-item"> <a class="nav-link active" href="#">Eje G: Detalle de intervención</a> </li>
     </ul>
 </header>
 <body>
-
+    @if(session()->has('message'))
+        <div class="alert alert-danger text-center">
+            {{ session()->get('message') }}
+        </div>
+    @endif
     <section class="container">
         <div id="imprimible">
             <h1 class="text-center" style="padding: 15px;">
@@ -461,7 +507,7 @@
         </div>
 
 
-                <button type="submit" class="btn btn-primary col-xl btnEnviarForm">Enviar</button>
+                <button type="submit" class="btn btn-primary col-xl btnEnviarForm">Guardar</button>
             </form>
     </section>
 

@@ -22,7 +22,7 @@ class TienedocsTableSeeder extends Seeder
 
         	['nombre' => 'Retenido'],
 
-        	['nombre' => 'En tramite'],
+        	['nombre' => 'En trámite'],
 
         	['nombre' => 'Se desconoce']
 

@@ -6,13 +6,52 @@
 </head>
 <header>
     <ul class="nav nav-tabs">
-        {{-- <li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="B">Eje B: Caracterización de la victima</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="C">Eje C: Grupo Conviviente</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="D">Eje D: Datos de delito</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="E">Eje E: Datos del imputado</a> </li> --}}
-        <li class="nav-item"> <a class="nav-link active" href="#">Eje F: Atención del caso</a> </li>
-        {{-- <li class="nav-item"> <a class="nav-link " href="G">Eje G: Documentación</a> </li> --}}
+        <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios">Formularios</a> </li> --}}
+        <li class="nav-item active"> <a class="nav-link " href="/formularios/buscador">Buscador</a> </li>
+    </ul>
+    <ul class="nav nav-tabs">
+        @if ($idFormA)
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/A/{{ $idFormA }}">Eje A: Datos institucionales</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link" href="/formularios/A">Eje A: Datos institucionales</a> </li>
+        @endif
+        @if ($idFormB)
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/B/{{ $idFormB }}">Eje B: Caracterización de la víctima</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link " href="/formularios/B">Eje B: Caracterización de la víctima</a> </li>
+        @endif
+        @if ($idFormC)
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/C/{{ $idFormC }}">Eje C: Grupo Conviviente</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link " href="/formularios/C">Eje C: Grupo Conviviente</a> </li>
+        @endif
+        @if ($idFormD)
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/D/{{ $idFormD }}">Eje D: Datos de delito</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link " href="/formularios/D">Eje D: Datos de delito</a> </li>
+        @endif
+        @if ($idFormE)
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/E/{{ $idFormE }}">Eje E: Datos del imputado</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link " href="/formularios/E">Eje E: Datos del imputado</a> </li>
+        @endif
+        @if ($idFormF)
+            <li class="nav-item"> <a class="nav-link active" href="/formularios/edicion/F/{{ $idFormF }}">Eje F: Atención del caso</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link active" href="/formularios/F">Eje F: Atención del caso</a> </li>
+        @endif
+        @if ($idFormG)
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/G/{{ $idFormG }}">Eje G: Documentación</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link " href="/formularios/G">Eje G: Documentación</a> </li>
+        @endif
+         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/C">Eje C: Grupo Conviviente</a> </li> --}}
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/D">Eje D: Datos de delito</a> </li> --}}
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/E">Eje E: Datos del imputado</a> </li> --}}
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/F">Eje F: Atención del caso</a> </li> --}}
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/G">Eje G: Documentación</a> </li> --}}
     </ul>
 </header>
 <body>
@@ -43,8 +82,7 @@
                                 value="{{ $aFormulario->derivacion_otro_organismo_cual }}">
                         @endif
                         @if($aFormulario->derivacion_otro_organismo_id === null)
-                            <input type="text" name="" class="form-control ml-3" readonly="readonly" 
-                                value="No intervino ningún organismo previamente">
+                            {{-- <input type="text" name="" class="form-control ml-3" readonly="readonly" value="No intervino ningún organismo previamente"> --}}
                         @endif
                     @endif
                 @endforeach
@@ -332,8 +370,8 @@
 
 	    	<br><br>
             <div class="text-center">
-                <button type="submit" class="btn btn-primary mr-5 col-5" name="button">Enviar</button>
-                <a href="/formularios" class="btn btn-primary col-5" title="">Volver</a>
+                <button type="submit" class="btn btn-primary mr-5 col-5" name="button">Actualizar</button>
+                {{-- <a href="/formularios" class="btn btn-primary col-5" title="">Volver</a> --}}
             </div>
 	    </form>
 

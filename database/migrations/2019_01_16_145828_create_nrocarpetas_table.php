@@ -36,6 +36,6 @@ class CreateNrocarpetasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gformularios');
+        Schema::dropIfExists('numerocarpetas');
     }
 }

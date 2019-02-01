@@ -74,7 +74,7 @@ function locationInfo() {
         var data = {};
         jQuery('.cities').find("option:eq(0)").html("Por favor espere..");
         call.send(data, url, method, function(data) {
-            jQuery('.cities').find("option:eq(0)").html("Seleccione ciudad de captación");
+            jQuery('.cities').find("option:eq(0)").html("Seleccione ciudad de nacimiento");
             if(data.tp == 1){
                 if(data.hits > 500)
                 {
@@ -133,7 +133,7 @@ function locationInfo() {
         var data = {};
         jQuery('.states').find("option:eq(0)").html("Por favor espere..");
         call.send(data, url, method, function(data) {
-            jQuery('.states').find("option:eq(0)").html("Seleccione provincia de captación");
+            jQuery('.states').find("option:eq(0)").html("Seleccione provincia de nacimiento");
             if(data.tp == 1){
                 if(data.hits > 500)
                 {
@@ -190,7 +190,7 @@ function locationInfo() {
         var data = {};
         jQuery('.countries').find("option:eq(0)").html("Por favor espere..");
         call.send(data, url, method, function(data) {
-            jQuery('.countries').find("option:eq(0)").html("Seleccione país de captación");
+            jQuery('.countries').find("option:eq(0)").html("Seleccione país de nacimiento");
 
             if(data.tp == 1){
                 if(data.hits > 500)

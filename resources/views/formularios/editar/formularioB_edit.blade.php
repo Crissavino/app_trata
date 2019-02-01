@@ -6,29 +6,68 @@
 	<link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
 	<link rel="stylesheet" href="/css/app.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<title>Formulario B</title>
+	<title>Eje B: Caracterización de la víctima</title>
 </head>
 <header>
+    <ul class="nav nav-tabs">
+        <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
+        {{-- <li class="nav-item"> <a class="nav-link " href="/formularios">Formularios</a> </li> --}}
+        <li class="nav-item active"> <a class="nav-link " href="/formularios/buscador">Buscador</a> </li>
+    </ul>
 	<ul class="nav nav-tabs">
-		{{-- <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/A">Eje A: Datos institucionales</a> </li> --}}
-		<li class="nav-item"> <a class="nav-link active" href="B">Eje B: Caracterización de la victima</a> </li>
-		{{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/C">Eje C: Grupo Conviviente</a> </li>
-		<li class="nav-item"> <a class="nav-link " href="/formularios/edicion/D">Eje D: Datos de delito</a> </li>
-		<li class="nav-item"> <a class="nav-link " href="/formularios/edicion/E">Eje E: Datos del imputado</a> </li>
-		<li class="nav-item"> <a class="nav-link " href="/formularios/edicion/F">Eje F: Atención del caso</a> </li>
-		<li class="nav-item"> <a class="nav-link " href="/formularios/edicion/G">Eje G: Documentación</a> </li> --}}
+        @if ($idFormA)
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/A/{{ $idFormA }}">Eje A: Datos institucionales</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link" href="/formularios/A">Eje A: Datos institucionales</a> </li>
+        @endif
+        @if ($idFormB)
+            <li class="nav-item"> <a class="nav-link active" href="/formularios/edicion/B/{{ $idFormB }}">Eje B: Caracterización de la víctima</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link active" href="/formularios/B">Eje B: Caracterización de la víctima</a> </li>
+        @endif
+        @if ($idFormC)
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/C/{{ $idFormC }}">Eje C: Grupo Conviviente</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link " href="/formularios/C">Eje C: Grupo Conviviente</a> </li>
+        @endif
+        @if ($idFormD)
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/D/{{ $idFormD }}">Eje D: Datos de delito</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link " href="/formularios/D">Eje D: Datos de delito</a> </li>
+        @endif
+        @if ($idFormE)
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/E/{{ $idFormE }}">Eje E: Datos del imputado</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link " href="/formularios/E">Eje E: Datos del imputado</a> </li>
+        @endif
+        @if ($idFormF)
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/F/{{ $idFormF }}">Eje F: Atención del caso</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link " href="/formularios/F">Eje F: Atención del caso</a> </li>
+        @endif
+        @if ($idFormG)
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/G/{{ $idFormG }}">Eje G: Documentación</a> </li>
+        @else
+            <li class="nav-item"> <a class="nav-link " href="/formularios/G">Eje G: Documentación</a> </li>
+        @endif
+		 {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/C">Eje C: Grupo Conviviente</a> </li> --}}
+		{{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/D">Eje D: Datos de delito</a> </li> --}}
+		{{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/E">Eje E: Datos del imputado</a> </li> --}}
+		{{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/F">Eje F: Atención del caso</a> </li> --}}
+		{{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/G">Eje G: Documentación</a> </li> --}}
 	</ul>
 </header>
 <body>
 	<section class="container">
 		
-        <form class="" action="{{$Bformulario->id}}" method="post">
+        <form class="formulario" action="{{$Bformulario->id}}" method="post">
         	{{-- inicio esta proteccion contra datos maliciosso --}}
         	{{ csrf_field() }}
         	@method('PUT')
 
         	<h1 class="text-center" style="padding: 15px;">
-                Eje B: Caracterización de la victima
+                Eje B: Caracterización de la víctima
                 <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $Bformulario->numeroCarpeta }}</h5>
             </h1>
 
@@ -524,6 +563,24 @@
                                     <div class="">
                                         <input name="victima_lesion_organismo" placeholder="" class="form-control" type="text">
                                     </div>
+
+                                    <label for="desconoce">Se deconoce</label>
+                                    <input type="checkbox" class="form-check-inline desconoce18" id="desconoce" name="">
+
+                                    <script>
+                                        var desconoce = document.querySelector('.desconoce18');
+                                        var desconoceInput = document.querySelector('.desconoce18-input');
+
+                                        desconoce.addEventListener('click', function(){
+                                            if (desconoce.checked) {
+                                                desconoceInput.value = 'Se deconoce';
+                                                desconoceInput.setAttribute('readonly', 'readonly');
+                                            }else{
+                                                desconoceInput.value = '';
+                                                desconoceInput.removeAttribute('readonly');
+                                            }
+                                        });
+                                    </script>
                                 </div>
                             </div>
 
@@ -715,7 +772,7 @@
 	</section>
 
 	<script src="/js/formularioB.js" type="text/javascript" charset="utf-8" async defer></script>
-    <script src="/js/paises.js" type="text/javascript" charset="utf-8" async defer></script>
+    <script src="/js/paises3.js" type="text/javascript" charset="utf-8" async defer></script>
 	
 </body>
 </html>
