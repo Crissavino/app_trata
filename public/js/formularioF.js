@@ -1,5 +1,22 @@
 //JS para el EDIT
 
+	//pregunta de F 1
+		var intervinieronOrganismos = document.querySelector('.intervinieronOrganismos');
+		var organismoDerivo = document.querySelector('.organismoDerivo');
+		var intervinieron = document.querySelector('.intervinieron');
+
+		if (intervinieronOrganismos.value === 'Intervinieron más organismos') {
+			organismoDerivo.style.display = '';
+			intervinieron.style.display = '';
+		}else if (intervinieronOrganismos.value === 'Intervino solo el organismo que derivó') {
+			organismoDerivo.style.display = '';
+			intervinieron.style.display = 'none';
+		}else if(intervinieronOrganismos.value === 'No'){
+			organismoDerivo.style.display = 'none';
+			intervinieron.style.display = 'none';
+		}
+	//fin
+
 	// pregunta 1.2
 		var orgProgNacionalOtro = document.querySelector('.orgProgNacionalOtro');
 		var orgProgNacionalCual = document.querySelector('.orgProgNacionalCual');
@@ -46,6 +63,17 @@
 		}
 	// fin pregunta 2.2
 
+	//pregunta de F 3
+		var intervinieronOrganismosActualmente = document.querySelector('.intervinieronOrganismosActualmente');
+		console.log(intervinieronOrganismosActualmente);
+		var intervinieronActualmente = document.querySelector('.intervinieronActualmente');
+		if (intervinieronOrganismosActualmente.value === 'Si') {
+			intervinieronActualmente.style.display = '';
+		}else{
+			intervinieronActualmente.style.display = 'none';
+		}
+	//fin
+
 	// pregunta 3.2
 		var orgProgNacionalActualmenteOtro = document.querySelector('.orgProgNacionalActualmenteOtro');
 		var orgprognacionalActualmenteCual = document.querySelector('.orgprognacionalActualmenteCual');
@@ -60,6 +88,26 @@
 
 
 window.onload =function (){
+
+	//pregunta de F 1
+		var intervinieronOrganismos = document.querySelector('.intervinieronOrganismos');
+		var intervinieron = document.querySelector('.intervinieron');
+		var organismoDerivo = document.querySelector('.organismoDerivo');
+
+		intervinieronOrganismos.addEventListener('change', function(){
+			console.log(intervinieronOrganismos.value);
+			if (intervinieronOrganismos.value === 'Intervinieron más organismos') {
+				organismoDerivo.style.display = '';
+				intervinieron.style.display = '';
+			}else if (intervinieronOrganismos.value === 'Intervino solo el organismo que derivó') {
+				organismoDerivo.style.display = '';
+				intervinieron.style.display = 'none';
+			}else if(intervinieronOrganismos.value === 'No'){
+				organismoDerivo.style.display = 'none';
+				intervinieron.style.display = 'none';
+			}
+		});
+	//fin
 
 	// pregunta 1.2
 		var orgProgNacionalOtro = document.querySelector('.orgProgNacionalOtro');
@@ -170,6 +218,19 @@ window.onload =function (){
 			}
 		});
 	// fin pregunta 2
+
+	//pregunta de F 3
+		var intervinieronOrganismosActualmente = document.querySelector('.intervinieronOrganismosActualmente');
+		var intervinieronActualmente = document.querySelector('.intervinieronActualmente');
+
+		intervinieronOrganismosActualmente.addEventListener('change', function(){
+			if (intervinieronOrganismosActualmente.value === 'Si') {
+				intervinieronActualmente.style.display = '';
+			}else{
+				intervinieronActualmente.style.display = 'none';
+			}
+		});
+	//fin
 
 	//pregunta 3.2
 		var orgProgNacionalActualmenteOtro = document.querySelector('.orgProgNacionalActualmenteOtro');

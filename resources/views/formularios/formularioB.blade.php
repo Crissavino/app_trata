@@ -20,9 +20,10 @@
         <li class="nav-item"> <a class="nav-link active" href="B">Eje B: Caracterización de la víctima</a> </li>
         <li class="nav-item"> <a class="nav-link " href="C">Eje C: Grupo Conviviente</a> </li>
         <li class="nav-item"> <a class="nav-link " href="D">Eje D: Datos de delito</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="E">Eje E: Datos del imputado</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="F">Eje F: Atención del caso</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="G">Eje G: Documentación</a> </li>
+        {{-- <li class="nav-item"> <a class="nav-link " href="E">Eje E: Datos del imputado</a> </li> --}}
+        {{-- el eje F paso a ser el eje E y el eje G paso a ser el eje F --}}
+        <li class="nav-item"> <a class="nav-link " href="F">Eje E: Atención del caso</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="G">Eje F: Documentación</a> </li>
 	</ul>
 </header>
 <body>
@@ -456,10 +457,15 @@
                         if (checkbox.checked) 
                             {
                                 document.getElementById("Físico/Motriz").disabled = true;
+                                document.getElementById("Físico/Motriz").checked = false;
                                 document.getElementById("Intelectual/Adaptativo").disabled = true;
+                                document.getElementById("Intelectual/Adaptativo").checked = false;
                                 document.getElementById("Psíquica").disabled = true;
+                                document.getElementById("Psíquica").checked = false;
                                 document.getElementById("Sensorial").disabled = true;
+                                document.getElementById("Sensorial").checked = false;
                                 document.getElementById("Se desconoce").disabled = true;
+                                document.getElementById("Se desconoce").checked = false;
                             }
                                 else{
                                     document.getElementById('Físico/Motriz').disabled=false;
@@ -475,10 +481,15 @@
                         if (checkbox.checked) 
                             {
                                 document.getElementById("Físico/Motriz").disabled = true;
+                                document.getElementById("Físico/Motriz").checked = false;
                                 document.getElementById("Intelectual/Adaptativo").disabled = true;
+                                document.getElementById("Intelectual/Adaptativo").checked = false;
                                 document.getElementById("Psíquica").disabled = true;
+                                document.getElementById("Psíquica").checked = false;
                                 document.getElementById("Sensorial").disabled = true;
+                                document.getElementById("Sensorial").checked = false;
                                 document.getElementById("No").disabled = true;
+                                document.getElementById("No").checked = false;
                             }
                                 else{
                                     document.getElementById('Físico/Motriz').disabled=false;
@@ -653,9 +664,13 @@
                         if (checkbox.checked) 
                             {
                                 document.getElementById("Analfabetismo").disabled = true;
+                                document.getElementById("Analfabetismo").checked = false;
                                 document.getElementById("Discapacidad").disabled = true;                                
+                                document.getElementById("Discapacidad").checked = false;                                
                                 document.getElementById("Idioma").disabled = true;
+                                document.getElementById("Idioma").checked = false;
                                 document.getElementById("checkeado").disabled = true;
+                                document.getElementById("checkeado").checked = false;
                             }
                             else{
                                     document.getElementById("Analfabetismo").disabled = false;

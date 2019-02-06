@@ -32,11 +32,11 @@
                 @break
             @endif
         @endforeach
-        {{-- <li class="nav-item"> <a class="nav-link " href="C">Eje C: Grupo Conviviente</a> </li> --}}
         <li class="nav-item"> <a class="nav-link active" href="D">Eje D: Datos de delito</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="E">Eje E: Datos del imputado</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="F">Eje F: Atención del caso</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="G">Eje G: Documentación</a> </li>
+        {{-- <li class="nav-item"> <a class="nav-link " href="E">Eje E: Datos del imputado</a> </li> --}}
+        {{-- el eje F paso a ser el eje E y el eje G paso a ser el eje F --}}
+        <li class="nav-item"> <a class="nav-link " href="F">Eje E: Atención del caso</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="G">Eje F: Documentación</a> </li>
     </ul>
 </header>
 <body>
@@ -75,7 +75,7 @@
 	    		{!! $errors->first('calificaciongeneral_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 	
 	    	 	<div style="display: none;" class="calificacionGeneralCual" {{ $errors->has('calificaciongeneral_otra') ? 'has-error' : ''}}>
-	    	 		<label for="">Cual?</label>
+	    	 		<label for="">Cuál?</label>
 	    	 		<input type="text" class="form-control calificacionGeneralOtraInput" name="calificaciongeneral_otra" value="{{ old('calificaciongeneral_otra') }}">
 	    	 	</div>
 	    		{!! $errors->first('calificaciongeneral_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -103,7 +103,7 @@
 	    		{!! $errors->first('finalidad_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 	
 	    	 	<div style="display: none;" class="finalidadCual" {{ $errors->has('finalidad_otra') ? 'has-error' : ''}}>
-	    	 		<label for="">Cual?</label>
+	    	 		<label for="">Cuál?</label>
 	    	 		<input type="text" class="form-control" name="finalidad_otra" value="{{ old('finalidad_otra') }}">
 	    	 	</div>
 	    		{!! $errors->first('finalidad_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -120,14 +120,14 @@
 	    		{!! $errors->first('actividad_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 
 	    		<div style="display: none;" class="actividadCual" {{ $errors->has('actividad_otra') ? 'has-error' : ''}}>
-	    	 		<label for="">Cual?</label>
+	    	 		<label for="">Cuál?</label>
 	    	 		<input type="text" class="form-control actividadOtraInput" name="actividad_otra" value="{{ old('actividad_otra') }}">
 	    	 	</div>
 	    		{!! $errors->first('actividad_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 	
 	    	 	{{-- ver como persistir los checkbox --}}
 	    	 	<div style="display: none;" class="privado">
-	    	 		<label for="">D 5 I. Lugar de ofrecimiento:</label>
+	    	 		<label for="">D 5 II. Lugar de ofrecimiento:</label>
 	    	 		{{-- ver como ponerlo como subtitulo --}}
 	    	 		<label for="">(En caso de requerir, tildar todas las opciones que considere correspondientes)</label>
 	    	 		<div>
@@ -148,7 +148,7 @@
 	    	 			</div>
 
 	    	 			<div style="display: none;" class="privadoCual" {{ $errors->has('privado_otra') ? 'has-error' : ''}}>
-			    	 		<label for="">Cual?</label>
+			    	 		<label for="">Cuál?</label>
 			    	 		<input type="text" class="form-control privadoOtraInput" name="privado_otra" value="{{ old('privado_otra') }}">
 			    	 	</div>
 	    				{!! $errors->first('privado_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -156,7 +156,7 @@
 	    	 	</div>
 
 	    	 	<div style="display: none;" class="textil">
-	    	 		<label for="">D 5 II.</label>
+	    	 		<label for="">D 5 III.</label>
 	    	 		<div {{ $errors->has('marcaTextil') ? 'has-error' : ''}}>
 	    	 			<label for="">a) Nombre de marca, sello, nombre registral o franquicia:</label>
 	    	 			<input type="text" class="form-control marcaTextil" name="marcaTextil" value="{{ old('marcaTextil') }}">
@@ -187,14 +187,14 @@
 	    	 		</div>
 
 	    	 		<div style="display: none;" class="textilCual" {{ $errors->has('textil_otra') ? 'has-error' : ''}}>
-		    	 		<label for="">Cual?</label>
+		    	 		<label for="">Cuál?</label>
 		    	 		<input type="text" class="form-control textilOtraInput" name="textil_otra" value="{{ old('textil_otra') }}">
 		    	 	</div>
 	    			{!! $errors->first('textil_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 	</div>
 
 	    	 	<div style="display: none;" class="rural">
-	    	 		<label for="">D 5 III.</label>
+	    	 		<label for="">D 5 I.</label>
 	    	 		<label for="">a) Tipo de negocio de venta: </label>
 	    	 		{{-- ver como ponerlo como subtitulo --}}
 	    	 		<label for="">(En caso de requerir, tildar todas las opciones que considere correspondientes)</label>
@@ -214,7 +214,7 @@
 	    				{!! $errors->first('rural_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 
 	    	 			<div style="display: none;" class="ruralCual" {{ $errors->has('rural_otra') ? 'has-error' : ''}}>
-			    	 		<label for="">Cual?</label>
+			    	 		<label for="">Cuál?</label>
 			    	 		<input type="text" class="form-control ruralOtraInput" name="rural_otra" value="{{ old('rural_otra') }}">
 			    	 	</div>
 	    	 		</div>
@@ -272,7 +272,7 @@
 	    		{!! $errors->first('contactoexplotacion_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	 	
 	    	 	<div style="display: none;" class="contactoExplotacionCual" {{ $errors->has('contactoexplotacion_otro') ? 'has-error' : ''}}>
-	    	 		<label for="">Cual?</label>
+	    	 		<label for="">Cuál?</label>
 	    	 		<input type="text" class="form-control" name="contactoexplotacion_otro" value="{{ old('contactoexplotacion_otro') }}">
 	    	 	</div>
 	    		{!! $errors->first('contactoexplotacion_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -457,7 +457,7 @@
 	    			{!! $errors->first('especiaconcepto_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 
 		 			<div style="display: none;" class="especiasCual" {{ $errors->has('especiaconceptos_otro') ? 'has-error' : ''}}>
-		    	 		<label for="">Cual?</label>
+		    	 		<label for="">Cuál?</label>
 		    	 		<input type="text" class="form-control" name="especiaconceptos_otro" value="{{ old('especiaconceptos_otro') }}">
 		    	 	</div>
 	    			{!! $errors->first('especiaconceptos_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -506,7 +506,7 @@
 	    				</div>
 
 			 			<div style="display: none;" class="deudaCual" {{ $errors->has('motivodeuda_otro') ? 'has-error' : ''}}>
-			    	 		<label for="">Cual?</label>
+			    	 		<label for="">Cuál?</label>
 			    	 		<input type="text" class="form-control" name="motivodeuda_otro" value="{{ old('motivodeuda_otro') }}">
 			    	 	</div>
 	    				{!! $errors->first('motivodeuda_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -607,7 +607,7 @@
 	    		{!! $errors->first('haymedida_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 
 	 			<div style="display: none;" class="hayMedidaCual" {{ $errors->has('haymedidas_otro') ? 'has-error' : ''}}>
-	    	 		<label for="">Cual?</label>
+	    	 		<label for="">Cuál?</label>
 	    	 		<input type="text" class="form-control haymedidas_otro" name="haymedidas_otro" value="{{ old('haymedidas_otro') }}">
 	    	 	</div>
 	    		{!! $errors->first('haymedidas_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -670,7 +670,7 @@
 	    		</div>
 	    	 	
 	    	 	<div style="display: none;" class="materialCual" {{ $errors->has('material_otro') ? 'has-error' : ''}}>
-	    	 		<label for="">Cual?</label>
+	    	 		<label for="">Cuál?</label>
 	    	 		<input type="text" class="form-control" name="material_otro" value="{{ old('material_otro') }}">
 	    	 	</div>
 	    		{!! $errors->first('material_otro', '<p class="help-block" style="color:red";>:message</p>') !!}

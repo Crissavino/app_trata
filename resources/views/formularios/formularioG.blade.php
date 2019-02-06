@@ -2,7 +2,7 @@
 <html>
 <head>
 	@include('partials.head')
-	<title>Eje G: Documentación</title>
+	<title>Eje F: Documentación</title>
 </head>
 <header>
     <ul class="nav nav-tabs">
@@ -42,19 +42,20 @@
                 @break
             @endif
         @endforeach
-        @foreach ($carpetas as $carpeta)
+        {{-- @foreach ($carpetas as $carpeta)
             @if ($numeroCarpeta == $carpeta->numeroCarpeta)
                 <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/E/{{ $carpeta->eformulario_id }}">Eje E: Datos del imputado</a> </li>
                 @break
             @endif
-        @endforeach
+        @endforeach --}}
+        {{-- el eje F paso a ser el eje E y el eje G paso a ser el eje F --}}
         @foreach ($carpetas as $carpeta)
             @if ($numeroCarpeta == $carpeta->numeroCarpeta)
-                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/F/{{ $carpeta->fformulario_id }}">Eje F: Atención del caso</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/F/{{ $carpeta->fformulario_id }}">Eje E: Atención del caso</a> </li>
                 @break
             @endif
         @endforeach
-        <li class="nav-item"> <a class="nav-link active" href="#">Eje G: Detalle de intervención</a> </li>
+        <li class="nav-item"> <a class="nav-link active" href="#">Eje F: Detalle de intervención</a> </li>
     </ul>
 </header>
 <body>
@@ -66,7 +67,7 @@
     <section class="container">
         <div id="imprimible">
             <h1 class="text-center" style="padding: 15px;">
-                Eje G: Detalle de intervención
+                Eje F: Detalle de intervención
                 <h5 class=" mb-5" style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5>
             </h1>
             <form action="" method="POST" accept-charset="utf-8" enctype='multipart/form-data'>
@@ -89,7 +90,7 @@
                     {!! $errors->first('docExterna.*', '<p class="help-block" style="color:red;padding-top:10px";>:message</p>') !!}
                 </div>
 
-                <label for="" class="">Noticias realacionadas</label>
+                <label for="" class="">Fondo rotativo</label>
                 <div class="form-group custom-file mb-3" {{ $errors->has('notRelacionadas[]') ? 'has-error' : ''}}>
                     {{-- ver formularioG.js para ver como deben funcionar la subida de archivos con bootstrap --}}
                     <label for="" class="custom-file-label notRelacionadas">Click para agregar documentación</label>
@@ -459,7 +460,7 @@
 
                 {{-- AGREGAR INTERVENCIÓN --}}
                     <input type="button" class="btn btn-outline-success agregarIntervencion col-xl" value="Agregar Intervención" name=""><br><br>
-                    {{-- <input type="button" class=" btn btn-outline-danger borrarIntervencion" value="Borrar Intervención" name=""><br><br> --}}
+                    <input type="button" class=" btn btn-outline-danger borrarIntervencion col-xl" value="Borrar Intervención" name=""><br><br>
 
                     <div id="intervenciones" class="form-group">
                     {{-- todo esto no va --}}
@@ -527,7 +528,7 @@
                 // console.log(click);
                 // var divClick = '<div id="orgProgNacionalCual'+click+'" class="form-group orgProgNacionalCual'+click+'">';
 
-                var divClickIntervencion = '<div id="intervencion'+click+'" class="form-group intervencion'+click+'""><div class="form-group"><label for="" class="">Fecha</label><input type="date" class="form-control fechaInput'+click+'" name="fechaIntervencion[]"></div><div class="form-group"><label for="" class="">Tema</label><select class="form-control temaSelect'+click+'" name="temaIntervencion_id[]"><option value="">Seleccioná un tema</option>@foreach ($temaIntervencion as $tema)<option value="{{ $tema->id }}">{{ $tema->nombre }}</option>@endforeach</select><br><div class="temaCual'+click+'" style="display: none;"><label for="">Cual?</label><input type="text" class="form-control  temaCualInput'+click+'" name="temaOtro[]"><br></div></div><div class="form-group datosIntervencion'+click+'" style="display: none;"><div class="form-group"><label for="">Nombre de contacto:</label><input type="text" class="form-control" name="nombreContacto[]"></div><div class="form-group"><label for="">Teléfono de contacto:</label><input type="text" class="form-control" name="telefonoContacto[]"></div><div class="form-group"><label for="">Descripción de la intervención:</label><input type="text" class="form-control" name="descripcionIntervencion[]"></div></div></div>'
+                var divClickIntervencion = '<div id="intervencion'+click+'" class="form-group intervencion'+click+'""><div class="form-group"><label for="" class="">Fecha</label><input type="date" class="form-control fechaInput'+click+'" name="fechaIntervencion[]"></div><div class="form-group"><label for="" class="">Tema</label><select class="form-control temaSelect'+click+'" name="temaIntervencion_id[]"><option value="">Seleccioná un tema</option>@foreach ($temaIntervencion as $tema)<option value="{{ $tema->id }}">{{ $tema->nombre }}</option>@endforeach</select><br><div class="temaCual'+click+'" style="display: none;"><label for="">Cual?</label><input type="text" class="form-control  temaCualInput'+click+'" name="temaOtro[]"><br></div></div><div class="form-group datosIntervencion'+click+'" style="display: none;"><div class="form-group"><label for="">Nombre de contacto:</label><input type="text" class="form-control" name="nombreContacto[]"></div><div class="form-group"><label for="">Teléfono de contacto:</label><input type="text" class="form-control" name="telefonoContacto[]"></div><div class="form-group"><label for="">Descripción de la intervención:</label><textarea class="form-control" name="descripcionIntervencion[]"></textarea></div></div></div>'
 
                 var divIntervenciones = document.getElementById('intervenciones');
                 divIntervenciones.insertAdjacentHTML('beforeend', divClickIntervencion);
@@ -577,6 +578,14 @@
                     });
                 //fin funcionalidades
             });
+
+            var btnBorrarIntervencion = document.querySelector('.borrarIntervencion');
+
+            btnBorrarIntervencion.addEventListener('click', function(){
+                var divIntervenciones = document.getElementById('intervenciones');
+                divIntervenciones.removeChild(divIntervenciones.lastChild)
+            });
+            
         //fin agregar intervencion
     </script>
 			        

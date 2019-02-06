@@ -487,9 +487,9 @@ class FormsController extends Controller
 			//guardo en la tabla pivot
 			$guardoRelacion = $aFormulario->profesionalintervinientes()->sync($profId);
 
-			return redirect('formularios');
+			return redirect('formularios/buscador');
 		}else{
-			return redirect('formularios');
+			return redirect('formularios/buscador');
 		}
 	}
 	
@@ -794,7 +794,7 @@ class FormsController extends Controller
 		$Bformulario->update(request()->all());
 
 		//cuando edito el formulario y le doy enviar, entra en juego la funcion update, y una vez actualizado todo te redirige nuevamente al formulario B, despues se tendria que ver a donde verdaderamente deberia redirigir [recordar que el redirect te lleva a la URL]
-		return redirect('formularios');
+		return redirect('formularios/buscador');
 	}
 
 	public function destroyB($id)
@@ -1006,7 +1006,7 @@ class FormsController extends Controller
 		// $guardoRelacion = $cFormulario->convivientes()->sync($convivienteId, false);
 		$guardoRelacion = $cFormulario->convivientes()->sync($convivienteId);
 
-		return redirect('formularios/D');	
+		return redirect('formularios/buscador');	
 	}
 
 	public function destroyC($id)
@@ -1554,7 +1554,7 @@ class FormsController extends Controller
 			$formularioD->haymedidas()->sync($data['haymedida_id']);
 		}
 
-		return redirect('formularios/D');
+		return redirect('formularios/buscador');
 	}
 
 	public function destroyD($id)
@@ -1568,186 +1568,190 @@ class FormsController extends Controller
     	return redirect('formularios');	
 	}
 
-	public function createE()
-	{
-		$userId = auth()->user()->id;
-		$numeroCarpeta = DB::table('aformularios')
-											->WHERE('user_id', '=', $userId)
-											->ORDERBY('updated_at', 'desc')
-											->first()
-											->datos_numero_carpeta;
-		// $todoFormA = DB::table('aformularios')
-		// 									->WHERE('user_id', '=', $userId)
-		// 									->ORDERBY('updated_at', 'desc')
-		// 									->get();
-		$documentos = \App\FormE\Edocumento::all();
-		$generos = \App\FormB\Genero::all();
-		$vinculaciones = \App\FormE\Vinculacion::all();
-		$roles = \App\FormE\Roldelito::all();
+	//QUEDA SUSPENDIDO EL EJE E Y EL EJE F PARA A SER EL NUEVO EJE E
 
-		$carpetas = \App\Carpetas\Numerocarpeta::all();
+	// public function createE()
+	// {
+	// 	$userId = auth()->user()->id;
+	// 	$numeroCarpeta = DB::table('aformularios')
+	// 										->WHERE('user_id', '=', $userId)
+	// 										->ORDERBY('updated_at', 'desc')
+	// 										->first()
+	// 										->datos_numero_carpeta;
+	// 	// $todoFormA = DB::table('aformularios')
+	// 	// 									->WHERE('user_id', '=', $userId)
+	// 	// 									->ORDERBY('updated_at', 'desc')
+	// 	// 									->get();
+	// 	$documentos = \App\FormE\Edocumento::all();
+	// 	$generos = \App\FormB\Genero::all();
+	// 	$vinculaciones = \App\FormE\Vinculacion::all();
+	// 	$roles = \App\FormE\Roldelito::all();
 
-		return view('formularios.formularioE', 
-												['carpetas' => $carpetas,
-												// 'todoFormA' => $todoFormA,
-												'numeroCarpeta' => $numeroCarpeta,
-											    'documentos' => $documentos,
-											    'generos' => $generos,
-											    'vinculaciones' => $vinculaciones,
-											    'roles' => $roles]);
-	}
+	// 	$carpetas = \App\Carpetas\Numerocarpeta::all();
 
-	public function insertE()
-	{
-		$userId = auth()->user()->id;
+	// 	return view('formularios.formularioE', 
+	// 											['carpetas' => $carpetas,
+	// 											// 'todoFormA' => $todoFormA,
+	// 											'numeroCarpeta' => $numeroCarpeta,
+	// 										    'documentos' => $documentos,
+	// 										    'generos' => $generos,
+	// 										    'vinculaciones' => $vinculaciones,
+	// 										    'roles' => $roles]);
+	// }
+
+	// public function insertE()
+	// {
+	// 	$userId = auth()->user()->id;
 		
-		request()->validate(
-			[
-				'nombreApellido' => 'required',
-				'edocumentos_id' => 'required',
-				'documentoCual' => 'required_if:edocumentos_id,==,7',
-				'numeroDocumento' => 'required',
-				'edad' => 'required',
-				'genero_id' => 'required',
-				'generoCual' => 'required_if:genero_id,==,5',
-				'vinculacion_id' => 'required',
-				'vinculacionCual' => 'required_if:vinculacion_id,==,6',
-				'rolDelito_id' => 'required'
-			],
-			[
-				'nombreApellido.required' => 'Este campo es obligatorio',
-				'edocumentos_id.required' => 'Este campo es obligatorio',
-				'documentoCual.required_if' => 'Este campo es obligatorio',
-				'numeroDocumento.required' => 'Este campo es obligatorio',
-				'edad.required' => 'Este campo es obligatorio',
-				'genero_id.required' => 'Este campo es obligatorio',
-				'generoCual.required_if' => 'Este campo es obligatorio',
-				'vinculacion_id.required' => 'Este campo es obligatorio',
-				'vinculacionCual.required_if' => 'Este campo es obligatorio',
-				'rolDelito_id.required' => 'Este campo es obligatorio'
-			]);
+	// 	request()->validate(
+	// 		[
+	// 			'nombreApellido' => 'required',
+	// 			'edocumentos_id' => 'required',
+	// 			'documentoCual' => 'required_if:edocumentos_id,==,7',
+	// 			'numeroDocumento' => 'required',
+	// 			'edad' => 'required',
+	// 			'genero_id' => 'required',
+	// 			'generoCual' => 'required_if:genero_id,==,5',
+	// 			'vinculacion_id' => 'required',
+	// 			'vinculacionCual' => 'required_if:vinculacion_id,==,6',
+	// 			'rolDelito_id' => 'required'
+	// 		],
+	// 		[
+	// 			'nombreApellido.required' => 'Este campo es obligatorio',
+	// 			'edocumentos_id.required' => 'Este campo es obligatorio',
+	// 			'documentoCual.required_if' => 'Este campo es obligatorio',
+	// 			'numeroDocumento.required' => 'Este campo es obligatorio',
+	// 			'edad.required' => 'Este campo es obligatorio',
+	// 			'genero_id.required' => 'Este campo es obligatorio',
+	// 			'generoCual.required_if' => 'Este campo es obligatorio',
+	// 			'vinculacion_id.required' => 'Este campo es obligatorio',
+	// 			'vinculacionCual.required_if' => 'Este campo es obligatorio',
+	// 			'rolDelito_id.required' => 'Este campo es obligatorio'
+	// 		]);
 
-		$data = request()->all();
+	// 	$data = request()->all();
 
-		$data['user_id'] = $userId;
+	// 	$data['user_id'] = $userId;
 
-		// dd($data);
+	// 	// dd($data);
 
-		$guardoEformulario = \App\FormE\Eformulario::create($data);
+	// 	$guardoEformulario = \App\FormE\Eformulario::create($data);
 
-		$ultimoId = $guardoEformulario->id;
-		$guardoNumeroCarpeta = \App\Carpetas\Numerocarpeta::where('numeroCarpeta', '=', $data['numeroCarpeta'])->update(['eformulario_id' => $ultimoId]);
+	// 	$ultimoId = $guardoEformulario->id;
+	// 	$guardoNumeroCarpeta = \App\Carpetas\Numerocarpeta::where('numeroCarpeta', '=', $data['numeroCarpeta'])->update(['eformulario_id' => $ultimoId]);
 
-		$eFormulario = \App\FormE\Eformulario::find($ultimoId);
+	// 	$eFormulario = \App\FormE\Eformulario::find($ultimoId);
 
-		$eFormulario->roldelitos()->sync($data['rolDelito_id']);
+	// 	$eFormulario->roldelitos()->sync($data['rolDelito_id']);
 
-		return redirect('formularios/F');
-	}
+	// 	return redirect('formularios/F');
+	// }
 
-	public function editE($id)
-	{
-		$userId = auth()->user()->id;
-		$documentos = \App\FormE\Edocumento::all();
-		$generos = \App\FormB\Genero::all();
-		$vinculaciones = \App\FormE\Vinculacion::all();
-		$roles = \App\FormE\Roldelito::all();
-		$eFormulario = \App\FormE\Eformulario::find($id);
+	// public function editE($id)
+	// {
+	// 	$userId = auth()->user()->id;
+	// 	$documentos = \App\FormE\Edocumento::all();
+	// 	$generos = \App\FormB\Genero::all();
+	// 	$vinculaciones = \App\FormE\Vinculacion::all();
+	// 	$roles = \App\FormE\Roldelito::all();
+	// 	$eFormulario = \App\FormE\Eformulario::find($id);
 
-		//id de los formularios de una misma carpeta
-			$idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-							->where('eformulario_id', '=', $id)
-							->value('aformulario_id');
-			$idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('eformulario_id', '=', $id)
-								->value('bformulario_id');
-			$idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('eformulario_id', '=', $id)
-								->value('cformulario_id');
-			$idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('eformulario_id', '=', $id)
-								->value('dformulario_id');
-			$idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('eformulario_id', '=', $id)
-								->value('eformulario_id');
-			$idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('eformulario_id', '=', $id)
-								->value('fformulario_id');
-			$idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('eformulario_id', '=', $id)
-								->value('gformulario_id');
-		//fin ids
+	// 	//id de los formularios de una misma carpeta
+	// 		$idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+	// 						->where('eformulario_id', '=', $id)
+	// 						->value('aformulario_id');
+	// 		$idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+	// 							->where('eformulario_id', '=', $id)
+	// 							->value('bformulario_id');
+	// 		$idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+	// 							->where('eformulario_id', '=', $id)
+	// 							->value('cformulario_id');
+	// 		$idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+	// 							->where('eformulario_id', '=', $id)
+	// 							->value('dformulario_id');
+	// 		$idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+	// 							->where('eformulario_id', '=', $id)
+	// 							->value('eformulario_id');
+	// 		$idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+	// 							->where('eformulario_id', '=', $id)
+	// 							->value('fformulario_id');
+	// 		$idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+	// 							->where('eformulario_id', '=', $id)
+	// 							->value('gformulario_id');
+	// 	//fin ids
 
-		return view('formularios.editar.formularioE_edit', 
-															[
-														    'documentos' => $documentos,
-														    'generos' => $generos,
-														    'vinculaciones' => $vinculaciones,
-														    'roles' => $roles,
-															'eFormulario' => $eFormulario,
-															'idFormA' => $idFormA,
-															'idFormB' => $idFormB,
-															'idFormC' => $idFormC,
-															'idFormD' => $idFormD,
-															'idFormE' => $idFormE,
-															'idFormF' => $idFormF,
-															'idFormG' => $idFormG
-														]);
-	}
+	// 	return view('formularios.editar.formularioE_edit', 
+	// 														[
+	// 													    'documentos' => $documentos,
+	// 													    'generos' => $generos,
+	// 													    'vinculaciones' => $vinculaciones,
+	// 													    'roles' => $roles,
+	// 														'eFormulario' => $eFormulario,
+	// 														'idFormA' => $idFormA,
+	// 														'idFormB' => $idFormB,
+	// 														'idFormC' => $idFormC,
+	// 														'idFormD' => $idFormD,
+	// 														'idFormE' => $idFormE,
+	// 														'idFormF' => $idFormF,
+	// 														'idFormG' => $idFormG
+	// 													]);
+	// }
 
-	public function updateE($id)
-	{
-		$userId = auth()->user()->id;
+	// public function updateE($id)
+	// {
+	// 	$userId = auth()->user()->id;
 		
-		request()->validate(
-			[
-				'nombreApellido' => 'required',
-				'edocumentos_id' => 'required',
-				'documentoCual' => 'required_if:edocumentos_id,==,7',
-				'numeroDocumento' => 'required',
-				'edad' => 'required',
-				'genero_id' => 'required',
-				'generoCual' => 'required_if:genero_id,==,5',
-				'vinculacion_id' => 'required',
-				'vinculacionCual' => 'required_if:vinculacion_id,==,6',
-				'rolDelito_id' => 'required'
-			],
-			[
-				'nombreApellido.required' => 'Este campo es obligatorio',
-				'edocumentos_id.required' => 'Este campo es obligatorio',
-				'documentoCual.required_if' => 'Este campo es obligatorio',
-				'numeroDocumento.required' => 'Este campo es obligatorio',
-				'edad.required' => 'Este campo es obligatorio',
-				'genero_id.required' => 'Este campo es obligatorio',
-				'generoCual.required_if' => 'Este campo es obligatorio',
-				'vinculacion_id.required' => 'Este campo es obligatorio',
-				'vinculacionCual.required_if' => 'Este campo es obligatorio',
-				'rolDelito_id.required' => 'Este campo es obligatorio'
-			]);
+	// 	request()->validate(
+	// 		[
+	// 			'nombreApellido' => 'required',
+	// 			'edocumentos_id' => 'required',
+	// 			'documentoCual' => 'required_if:edocumentos_id,==,7',
+	// 			'numeroDocumento' => 'required',
+	// 			'edad' => 'required',
+	// 			'genero_id' => 'required',
+	// 			'generoCual' => 'required_if:genero_id,==,5',
+	// 			'vinculacion_id' => 'required',
+	// 			'vinculacionCual' => 'required_if:vinculacion_id,==,6',
+	// 			'rolDelito_id' => 'required'
+	// 		],
+	// 		[
+	// 			'nombreApellido.required' => 'Este campo es obligatorio',
+	// 			'edocumentos_id.required' => 'Este campo es obligatorio',
+	// 			'documentoCual.required_if' => 'Este campo es obligatorio',
+	// 			'numeroDocumento.required' => 'Este campo es obligatorio',
+	// 			'edad.required' => 'Este campo es obligatorio',
+	// 			'genero_id.required' => 'Este campo es obligatorio',
+	// 			'generoCual.required_if' => 'Este campo es obligatorio',
+	// 			'vinculacion_id.required' => 'Este campo es obligatorio',
+	// 			'vinculacionCual.required_if' => 'Este campo es obligatorio',
+	// 			'rolDelito_id.required' => 'Este campo es obligatorio'
+	// 		]);
 
-		$data = request()->all();
+	// 	$data = request()->all();
 
-		$data['user_id'] = $userId;
+	// 	$data['user_id'] = $userId;
 
-		$formularioE = \App\FormE\Eformulario::find($id);
+	// 	$formularioE = \App\FormE\Eformulario::find($id);
 
-		$formularioE->update($data);
+	// 	$formularioE->update($data);
 
-		$formularioE->roldelitos()->sync($data['rolDelito_id']);
+	// 	$formularioE->roldelitos()->sync($data['rolDelito_id']);
 
-		return redirect('formularios/E');
-	}
+	// 	return redirect('formularios/buscador');
+	// }
 
-	public function destroyE($id)
-	{
-		$Eformulario = \App\FormE\Eformulario::find($id);
+	// public function destroyE($id)
+	// {
+	// 	$Eformulario = \App\FormE\Eformulario::find($id);
 
-		$Eformulario->delete();
+	// 	$Eformulario->delete();
 
-    	session()->flash('message', 'El formulario se eliminó con éxito.');
+ //    	session()->flash('message', 'El formulario se eliminó con éxito.');
 
-    	return redirect('formularios');	
-	}
+ //    	return redirect('formularios');	
+	// }
+
+	//NUEVO EJE E
 
 	public function createF()
 	{
@@ -1798,7 +1802,16 @@ class FormsController extends Controller
 
 	public function insertF()
 	{
-		// request()->validate([],[]);
+		request()->validate(
+			[
+				'intervinieronOrganismos' => 'required',
+				'intervinieronOrganismosActualmente' => 'required',
+			],
+			[
+				'intervinieronOrganismos.required' => 'Este campo es obligatorio',
+				'intervinieronOrganismosActualmente.required' => 'Este campo es obligatorio',
+			]);
+
 		$userId = auth()->user()->id;
 
 		$data = request()->all();
@@ -2011,7 +2024,16 @@ class FormsController extends Controller
 
 	public function updateF($id)
 	{
-		// request()->validate([],[]);
+		request()->validate(
+			[
+				'intervinieronOrganismos' => 'required',
+				'intervinieronOrganismosActualmente' => 'required',
+			],
+			[
+				'intervinieronOrganismos.required' => 'Este campo es obligatorio',
+				'intervinieronOrganismosActualmente.required' => 'Este campo es obligatorio',
+			]);
+
 		$userId = auth()->user()->id;
 
 		$data = request()->all();
@@ -2329,7 +2351,7 @@ class FormsController extends Controller
 			}
 		}
 
-		return redirect('formularios/G');
+		return redirect('formularios/buscador');
 	}
 
 	public function destroyF($id)
@@ -2596,7 +2618,10 @@ class FormsController extends Controller
 
 				$intervencion['fechaIntervencion'] = $data['fechaIntervencion'][$i];
 				$intervencion['temaIntervencion_id'] = $data['temaIntervencion_id'][$i];
-				$intervencion['temaOtro'] = $data['temaOtro'][$i];
+				if (isset($data['temaOtro'][$i])) {
+					$intervencion['temaOtro'] = $data['temaOtro'][$i];
+				}
+				// $intervencion['temaOtro'] = $data['temaOtro'][$i];
 				$intervencion['nombreContacto'] = $data['nombreContacto'][$i]; 
 				$intervencion['telefonoContacto'] = $data['telefonoContacto'][$i]; 
 				$intervencion['descripcionIntervencion'] = $data['descripcionIntervencion'][$i];
@@ -2785,6 +2810,8 @@ class FormsController extends Controller
 
 		$data = request()->all();
 
+		// dd($data);
+
 		$data['user_id'] = $userId;
 
 		$actualizoGFormulario = \App\FormG\Gformulario::find($id)->update($data);
@@ -2905,7 +2932,10 @@ class FormsController extends Controller
 
 				$intervencion['fechaIntervencion'] = $data['fechaIntervencion'][$i];
 				$intervencion['temaIntervencion_id'] = $data['temaIntervencion_id'][$i];
-				$intervencion['temaOtro'] = $data['temaOtro'][$i];
+				if (isset($data['temaOtro'][$i])) {
+					$intervencion['temaOtro'] = $data['temaOtro'][$i];
+				}
+				// $intervencion['temaOtro'] = $data['temaOtro'][$i];
 				$intervencion['nombreContacto'] = $data['nombreContacto'][$i]; 
 				$intervencion['telefonoContacto'] = $data['telefonoContacto'][$i]; 
 				$intervencion['descripcionIntervencion'] = $data['descripcionIntervencion'][$i];
@@ -2919,10 +2949,9 @@ class FormsController extends Controller
 			$gFormulario = \App\FormG\Gformulario::find($id);
 
 			$guardoRelacion = $gFormulario->intervencions()->sync($intervencionId);
-
 		}
 
-		return redirect('/formularios');	
+		return redirect('formularios/buscador');	
 	}
 
 	public function destroyG($id)

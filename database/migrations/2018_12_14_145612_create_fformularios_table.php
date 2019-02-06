@@ -16,6 +16,8 @@ class CreateFformulariosTable extends Migration
         Schema::create('fformularios', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('numeroCarpeta');
+            $table->string('intervinieronOrganismos');
+            $table->string('intervinieronOrganismosActualmente');
             // $table->integer('orgJudiciales_id')->unsigned();
             // $table->integer('orgProgNacionales_id')->unsigned();
             // $table->string('orgprognacionalOtro')->nullable();

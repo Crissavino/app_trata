@@ -96,7 +96,7 @@
                         @auth
                             <a class="boton w-25 btn btn-secondary" href="{{ url('/home') }}">Home</a>
                         @else
-                            <a class="boton w-25 btn btn-secondary" href="{{ route('login') }}">Logueate</a>
+                            <a class="boton w-25 btn btn-secondary" href="{{ route('login') }}">Iniciá sesión</a>
                             {{-- TODAVIA NO VOY A MOSTRAR EL REGISTRATE --}}
                             {{-- <a href="{{ route('register') }}">Registrate</a> --}}
                         @endauth

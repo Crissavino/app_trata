@@ -32,11 +32,11 @@
         @else
             <li class="nav-item"> <a class="nav-link " href="/formularios/D">Eje D: Datos de delito</a> </li>
         @endif
-        @if ($idFormE)
+        {{-- @if ($idFormE)
             <li class="nav-item"> <a class="nav-link active" href="/formularios/edicion/E/{{ $idFormE }}">Eje E: Datos del imputado</a> </li>
         @else
             <li class="nav-item"> <a class="nav-link active" href="/formularios/E">Eje E: Datos del imputado</a> </li>
-        @endif
+        @endif --}}
         @if ($idFormF)
             <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/F/{{ $idFormF }}">Eje F: Atención del caso</a> </li>
         @else
@@ -56,104 +56,197 @@
 </header>
 <body>
     <section class="container">
-    	<form action="" class="form-group" method="post">
-	    	{{ csrf_field() }}
-	    	@method('PUT')
+    	@if (auth()->user()->isAdmin !== 2)
+    		<form action="" class="form-group" method="post">
+		    	{{ csrf_field() }}
+		    	@method('PUT')
+                <input type="text" name="numeroCarpeta" value="{{ $eFormulario->numeroCarpeta }}" style="display: none;">
 
-		    <h1 class="text-center" style="padding: 15px;">
-		        Eje E: Datos del imputado
-                <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $eFormulario->numeroCarpeta }}</h5>
-            </h1>
+			    <h1 class="text-center" style="padding: 15px;">
+			        Eje E: Datos del imputado
+	                <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $eFormulario->numeroCarpeta }}</h5>
+	            </h1>
 
-	    	<div class="form-group">
-	    		<label for=""><span>E 1.</span> Nombre y Apellido:</label>
-	    		<input type="text" class="form-control" name="nombreApellido" value="{{ $eFormulario->nombreApellido }}">
+		    	<div class="form-group">
+		    		<label for=""><span>E 1.</span> Nombre y Apellido:</label>
+		    		<input type="text" class="form-control" name="nombreApellido" value="{{ $eFormulario->nombreApellido }}">
 
-	    		<label for="nomDesconoce">Se desconoce</label>
-	    		<input type="checkbox" id="nomDesconoce" class="nomSeDesconoce">
-	    	</div>
-
-	    	<div class="form-group">
-	    		<label for=""><span>E 2.</span> Tipo de documento:</label>
-		    	<select class="form-control documentos" name="edocumentos_id">
-		    		<option value="">Seleccioná el tipo de documento</option>
-		    		@foreach ($documentos as $documento)
-		    			<option value="{{ $documento->getId() }}" {{ $documento->id == $eFormulario->edocumentos_id ? 'selected' : '' }}>{{ $documento->getNombre() }}</option>
-		    		@endforeach
-		    	</select>
-
-		    	<div class="documentoOtro" style="display: none;">
-		    		<label for="">Cual?</label>
-		    		<input type="text" class="form-control documentoCual" name="documentoCual" value="{{ $eFormulario->documentoCual }}">
+		    		<label for="nomDesconoce">Se desconoce</label>
+		    		<input type="checkbox" id="nomDesconoce" class="nomSeDesconoce">
 		    	</div>
-	    	</div>
 
-	    	<div class="form-group">
-	    		<label for=""><span>E 3.</span> Número de documento:</label>
-	    		<input type="text" class="form-control numeroDocumento" name="numeroDocumento" value="{{ $eFormulario->numeroDocumento }}">
+		    	<div class="form-group">
+		    		<label for=""><span>E 2.</span> Tipo de documento:</label>
+			    	<select class="form-control documentos" name="edocumentos_id">
+			    		<option value="">Seleccioná el tipo de documento</option>
+			    		@foreach ($documentos as $documento)
+			    			<option value="{{ $documento->getId() }}" {{ $documento->id == $eFormulario->edocumentos_id ? 'selected' : '' }}>{{ $documento->getNombre() }}</option>
+			    		@endforeach
+			    	</select>
 
-	    		<label for="docDesconoce">Se desconoce</label>
-	    		<input type="checkbox" id="docDesconoce" class="docSeDesconoce">
-	    	</div>
-
-	    	<div class="form-group">
-	    		<label for=""><span>E 4.</span> Edad:</label>
-	    		<input type="text" class="form-control edad" name="edad" value="{{ $eFormulario->edad }}">
-
-	    		<label for="edadDesconoce">Se desconoce</label>
-	    		<input type="checkbox" id="edadDesconoce" class="edadSeDesconoce">
-	    	</div>
-
-	    	<div class="form-group">
-	    		<label for=""><span>E 5.</span> Género:</label>
-		    	<select class="form-control genero" name="genero_id">
-		    		<option value="">Seleccioná género</option>
-		    		@foreach ($generos as $genero)
-		    			<option value="{{ $genero->getIdGenero() }}" {{ $genero->id == $eFormulario->genero_id ? 'selected' : '' }}>{{ $genero->getNombreGenero() }}</option>
-		    		@endforeach
-		    	</select>
-
-		    	<div class="generoOtro" style="display: none;">
-		    		<label for="">Cual?</label>
-		    		<input type="text" class="form-control generoCual" name="generoCual" value="{{ $eFormulario->generoCual }}">
+			    	<div class="documentoOtro" style="display: none;">
+			    		<label for="">Cual?</label>
+			    		<input type="text" class="form-control documentoCual" name="documentoCual" value="{{ $eFormulario->documentoCual }}">
+			    	</div>
 		    	</div>
-	    	</div>
 
-	    	<div class="form-group">
-	    		<label for=""><span>E 6.</span> Vinculación con la víctima:</label>
-		    	<select class="form-control vinculacion" name="vinculacion_id">
-		    		<option value="">Seleccioná vinculación</option>
-		    		@foreach ($vinculaciones as $vinculacion)
-		    			<option value="{{ $vinculacion->getId() }}" {{ $vinculacion->id == $eFormulario->vinculacion_id ? 'selected' : '' }}>{{ $vinculacion->getNombre() }}</option>
-		    		@endforeach
-		    	</select>
+		    	<div class="form-group">
+		    		<label for=""><span>E 3.</span> Número de documento:</label>
+		    		<input type="text" class="form-control numeroDocumento" name="numeroDocumento" value="{{ $eFormulario->numeroDocumento }}">
 
-		    	<div class="vinculacionOtro" style="display: none;">
-		    		<label for="">Cual?</label>
-		    		<input type="text" class="form-control vinculacionCual" name="vinculacionCual" value="{{ $eFormulario->vinculacionCual }}">
+		    		<label for="docDesconoce">Se desconoce</label>
+		    		<input type="checkbox" id="docDesconoce" class="docSeDesconoce">
 		    	</div>
-	    	</div>
 
-	    	<div class="form-group">
-	    		<label for=""><span>E 7.</span> Rol en el delito:</label>
-	    		<label for="">(En caso de requerir, tildar todas las opciones que considere correspondientes)</label><br>
-	    		@foreach ($roles as $rol)
-	    			@php
-						$rolIds = $eFormulario->roldelitos->pluck('id')->toArray();
-						$checked = (in_array($rol->id, $rolIds)) ? 'checked' : ''
-					@endphp
-	    			@if ($rol->getNombre() == 'Se desconoce')
-	    				<label for="" style="margin-left: 15px;">{{ $rol->getNombre() }}</label>
-	    				<input {{ $checked }} type="checkbox" name="rolDelito_id[]" id="{{ $rol->getNombre() }}" class="rolDesconoce" value="{{ $rol->getId() }}">
-	    			@else
-	    				<label for="" style="margin-left: 15px;">{{ $rol->getNombre() }}</label>
-	    				<input {{ $checked }} type="checkbox" name="rolDelito_id[]" id="{{ $rol->getNombre() }}" value="{{ $rol->getId() }}">
-	    			@endif
-	    		@endforeach
-	    	</div>
+		    	<div class="form-group">
+		    		<label for=""><span>E 4.</span> Edad:</label>
+		    		<input type="text" class="form-control edad" name="edad" value="{{ $eFormulario->edad }}">
 
-	    	<button type="submit" class="btn btn-primary col-xl" name="button">Actualizar</button><br><br>
-	    </form>
+		    		<label for="edadDesconoce">Se desconoce</label>
+		    		<input type="checkbox" id="edadDesconoce" class="edadSeDesconoce">
+		    	</div>
+
+		    	<div class="form-group">
+		    		<label for=""><span>E 5.</span> Género:</label>
+			    	<select class="form-control genero" name="genero_id">
+			    		<option value="">Seleccioná género</option>
+			    		@foreach ($generos as $genero)
+			    			<option value="{{ $genero->getIdGenero() }}" {{ $genero->id == $eFormulario->genero_id ? 'selected' : '' }}>{{ $genero->getNombreGenero() }}</option>
+			    		@endforeach
+			    	</select>
+
+			    	<div class="generoOtro" style="display: none;">
+			    		<label for="">Cual?</label>
+			    		<input type="text" class="form-control generoCual" name="generoCual" value="{{ $eFormulario->generoCual }}">
+			    	</div>
+		    	</div>
+
+		    	<div class="form-group">
+		    		<label for=""><span>E 6.</span> Vinculación con la víctima:</label>
+			    	<select class="form-control vinculacion" name="vinculacion_id">
+			    		<option value="">Seleccioná vinculación</option>
+			    		@foreach ($vinculaciones as $vinculacion)
+			    			<option value="{{ $vinculacion->getId() }}" {{ $vinculacion->id == $eFormulario->vinculacion_id ? 'selected' : '' }}>{{ $vinculacion->getNombre() }}</option>
+			    		@endforeach
+			    	</select>
+
+			    	<div class="vinculacionOtro" style="display: none;">
+			    		<label for="">Cual?</label>
+			    		<input type="text" class="form-control vinculacionCual" name="vinculacionCual" value="{{ $eFormulario->vinculacionCual }}">
+			    	</div>
+		    	</div>
+
+		    	<div class="form-group">
+		    		<label for=""><span>E 7.</span> Rol en el delito:</label>
+		    		<label for="">(En caso de requerir, tildar todas las opciones que considere correspondientes)</label><br>
+		    		@foreach ($roles as $rol)
+		    			@php
+							$rolIds = $eFormulario->roldelitos->pluck('id')->toArray();
+							$checked = (in_array($rol->id, $rolIds)) ? 'checked' : ''
+						@endphp
+		    			@if ($rol->getNombre() == 'Se desconoce')
+		    				<label for="" style="margin-left: 15px;">{{ $rol->getNombre() }}</label>
+		    				<input {{ $checked }} type="checkbox" name="rolDelito_id[]" id="{{ $rol->getNombre() }}" class="rolDesconoce" value="{{ $rol->getId() }}">
+		    			@else
+		    				<label for="" style="margin-left: 15px;">{{ $rol->getNombre() }}</label>
+		    				<input {{ $checked }} type="checkbox" name="rolDelito_id[]" id="{{ $rol->getNombre() }}" value="{{ $rol->getId() }}">
+		    			@endif
+		    		@endforeach
+		    	</div>
+
+		    	<button type="submit" class="btn btn-primary col-xl" name="button">Actualizar</button><br><br>
+		    </form>
+    	@else
+    		<form action="" class="form-group" method="post">
+		    	{{ csrf_field() }}
+		    	@method('PUT')
+
+			    <h1 class="text-center" style="padding: 15px;">
+			        Eje E: Datos del imputado
+	                <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $eFormulario->numeroCarpeta }}</h5>
+	            </h1>
+
+		    	<div class="form-group">
+		    		<label for=""><span>E 1.</span> Nombre y Apellido:</label>
+		    		<input readonly type="text" class="form-control" name="nombreApellido" value="{{ $eFormulario->nombreApellido }}">
+		    	</div>
+
+		    	<div class="form-group">
+		    		<label for=""><span>E 2.</span> Tipo de documento:</label>
+			    	<select disabled class="form-control documentos" name="edocumentos_id">
+			    		<option value="">Seleccioná el tipo de documento</option>
+			    		@foreach ($documentos as $documento)
+			    			<option value="{{ $documento->getId() }}" {{ $documento->id == $eFormulario->edocumentos_id ? 'selected' : '' }}>{{ $documento->getNombre() }}</option>
+			    		@endforeach
+			    	</select>
+
+			    	<div class="documentoOtro" style="display: none;">
+			    		<label for="">Cual?</label>
+			    		<input readonly type="text" class="form-control documentoCual" name="documentoCual" value="{{ $eFormulario->documentoCual }}">
+			    	</div>
+		    	</div>
+
+		    	<div class="form-group">
+		    		<label for=""><span>E 3.</span> Número de documento:</label>
+		    		<input readonly type="text" class="form-control numeroDocumento" name="numeroDocumento" value="{{ $eFormulario->numeroDocumento }}">
+		    	</div>
+
+		    	<div class="form-group">
+		    		<label for=""><span>E 4.</span> Edad:</label>
+		    		<input readonly type="text" class="form-control edad" name="edad" value="{{ $eFormulario->edad }}">
+		    	</div>
+
+		    	<div class="form-group">
+		    		<label for=""><span>E 5.</span> Género:</label>
+			    	<select disabled class="form-control genero" name="genero_id">
+			    		<option value="">Seleccioná género</option>
+			    		@foreach ($generos as $genero)
+			    			<option value="{{ $genero->getIdGenero() }}" {{ $genero->id == $eFormulario->genero_id ? 'selected' : '' }}>{{ $genero->getNombreGenero() }}</option>
+			    		@endforeach
+			    	</select>
+
+			    	<div class="generoOtro" style="display: none;">
+			    		<label for="">Cual?</label>
+			    		<input readonly type="text" class="form-control generoCual" name="generoCual" value="{{ $eFormulario->generoCual }}">
+			    	</div>
+		    	</div>
+
+		    	<div class="form-group">
+		    		<label for=""><span>E 6.</span> Vinculación con la víctima:</label>
+			    	<select disabled class="form-control vinculacion" name="vinculacion_id">
+			    		<option value="">Seleccioná vinculación</option>
+			    		@foreach ($vinculaciones as $vinculacion)
+			    			<option value="{{ $vinculacion->getId() }}" {{ $vinculacion->id == $eFormulario->vinculacion_id ? 'selected' : '' }}>{{ $vinculacion->getNombre() }}</option>
+			    		@endforeach
+			    	</select>
+
+			    	<div class="vinculacionOtro" style="display: none;">
+			    		<label for="">Cual?</label>
+			    		<input readonly type="text" class="form-control vinculacionCual" name="vinculacionCual" value="{{ $eFormulario->vinculacionCual }}">
+			    	</div>
+		    	</div>
+
+		    	<div class="form-group">
+		    		<label for=""><span>E 7.</span> Rol en el delito:</label>
+		    		<label for="">(En caso de requerir, tildar todas las opciones que considere correspondientes)</label><br>
+		    		@foreach ($roles as $rol)
+		    			@php
+							$rolIds = $eFormulario->roldelitos->pluck('id')->toArray();
+							$checked = (in_array($rol->id, $rolIds)) ? 'checked' : ''
+						@endphp
+		    			@if ($rol->getNombre() == 'Se desconoce')
+		    				<label for="" style="margin-left: 15px;">{{ $rol->getNombre() }}</label>
+		    				<input disabled {{ $checked }} type="checkbox" name="rolDelito_id[]" id="{{ $rol->getNombre() }}" class="rolDesconoce" value="{{ $rol->getId() }}">
+		    			@else
+		    				<label for="" style="margin-left: 15px;">{{ $rol->getNombre() }}</label>
+		    				<input disabled {{ $checked }} type="checkbox" name="rolDelito_id[]" id="{{ $rol->getNombre() }}" value="{{ $rol->getId() }}">
+		    			@endif
+		    		@endforeach
+		    	</div>
+
+		    	{{-- <button type="submit" class="btn btn-primary col-xl" name="button">Actualizar</button><br><br> --}}
+		    </form>
+    	@endif
     </section>
 			        
     <script src="/js/formularioE.js" type="text/javascript" charset="utf-8" async defer></script>

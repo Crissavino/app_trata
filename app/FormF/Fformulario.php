@@ -9,7 +9,7 @@ class Fformulario extends Model
 {
     use SoftDeletes;
     
-    protected $fillable = ['numeroCarpeta', 'socioeconomicaCual', 'user_id'];
+    protected $fillable = ['numeroCarpeta', 'intervinieronOrganismos', 'intervinieronOrganismosActualmente', 'socioeconomicaCual', 'user_id'];
 
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
 

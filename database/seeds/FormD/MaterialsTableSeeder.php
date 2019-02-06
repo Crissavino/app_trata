@@ -14,7 +14,7 @@ class MaterialsTableSeeder extends Seeder
     {
         DB::table('materials')->insert([
 
-            ['nombre' => 'Ladrillo / Piedra / Bloque de hormigón / Porcelanato'],
+            ['nombre' => 'Ladrillo / Piedra / Bloque de hormigón'],
 
             ['nombre' => 'Adobe'],
 
@@ -22,7 +22,7 @@ class MaterialsTableSeeder extends Seeder
 
             ['nombre' => 'Chapa de metal o Fibrocemento'],
 
-            ['nombre' => 'Chorizo / Cartón / Palma / Paja sola / Material de deshecho'],
+            ['nombre' => 'Cartón / Palma / Paja sola / Material de deshecho'],
 
             ['nombre' => 'Se desconoce'],
 

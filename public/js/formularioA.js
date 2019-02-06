@@ -39,107 +39,114 @@
 	}
 
 //borrar profesionales
-	var borrarProfesional = document.querySelector('.borrarProfesional');
-	var hijoBorrado = document.querySelector('.hijo');
+	// var borrarProfesional = document.querySelector('.borrarProfesional');
+	// var hijoBorrado = document.querySelector('.hijo');
 
-	borrarProfesional.addEventListener('click', function(){
-		$('.hijo').first().remove();
-        swal('Se borro un profesional');
-	});
-	// function borra() {
- //        $('.hijo').first().remove();
+	// borrarProfesional.addEventListener('click', function(){
+	// 	$('.hijo').first().remove();
  //        swal('Se borro un profesional');
- //    }
+	// });
+
+	var btnBorrarProfesional = document.querySelector('.borrarProfesional');
+
+	btnBorrarProfesional.addEventListener('click', function(){
+        var divProfesionales = document.querySelector('.padre');
+        console.log(divProfesionales.lastChild);
+        divProfesionales.removeChild(divProfesionales.lastChild)
+        swal('Se borro un profesional');
+    });
 
 window.onload =function (){
 //---------FORMULARIO A--------------
-	var agregar = document.querySelector('.anadirProfesional');
+	// var agregar = document.querySelector('.anadirProfesional');
 
- 	agregar.addEventListener('click', funcionalidadCheck);
+ // 	agregar.addEventListener('click', funcionalidadCheck);
 
- 	var clicks = 0;
+ // 	var clicks = 0;
 
- 	function funcionalidadCheck() {
+ // 	function funcionalidadCheck() {
 		
-		//agarro a la clase hijo que esta oculta y la muestro
-		var hijo = document.querySelectorAll('.hijo');
-		console.log(hijo);
-		console.log(clicks);
+	// 	//agarro a la clase hijo que esta oculta y la muestro
+	// 	var hijo = document.querySelectorAll('.hijo');
+	// 	console.log(hijo);
+	// 	console.log(clicks);
 
- 		hijo[clicks].style.display = "";
+ // 		hijo[clicks].style.display = "";
 
- 		clicks += 1;
+ // 		clicks += 1;
 
- 		//esto es para poder guardar y que validen los datos
- 		var profesionalId = document.querySelector('.profesional_id');
+ // 		//esto es para poder guardar y que validen los datos
+ // 		var profesionalId = document.querySelector('.profesional_id');
 
- 		profesionalId.classList.remove('profesional_id');
+ // 		profesionalId.classList.remove('profesional_id');
 
-		profesionalId.classList.add('profesional_id'+clicks)
+	// 	profesionalId.classList.add('profesional_id'+clicks)
 
-		var profesionalIdN = document.querySelector('.profesional_id'+clicks);
+	// 	var profesionalIdN = document.querySelector('.profesional_id'+clicks);
 		
-		profesionalIdN.setAttribute('name', 'profesional_id[]')
+	// 	profesionalIdN.setAttribute('name', 'profesional_id[]')
 
- 		var desde = document.querySelector('.desde');
+ // 		var desde = document.querySelector('.desde');
 
-		desde.classList.remove('desde');
+	// 	desde.classList.remove('desde');
 
-		desde.classList.add('desde'+clicks)
+	// 	desde.classList.add('desde'+clicks)
 
-		var desdeN = document.querySelector('.desde'+clicks);
+	// 	var desdeN = document.querySelector('.desde'+clicks);
 		
-		desdeN.setAttribute('name', 'datos_profesional_interviene_desde[]')
+	// 	desdeN.setAttribute('name', 'datos_profesional_interviene_desde[]')
 
- 		var hasta = document.querySelector('.hasta');
+ // 		var hasta = document.querySelector('.hasta');
 
- 		hasta.classList.remove('hasta');
+ // 		hasta.classList.remove('hasta');
 
-		hasta.classList.add('hasta'+clicks)
+	// 	hasta.classList.add('hasta'+clicks)
 
-		var hastaN = document.querySelector('.hasta'+clicks);
+	// 	var hastaN = document.querySelector('.hasta'+clicks);
 		
-		hastaN.setAttribute('name', 'datos_profesional_interviene_hasta[]')
-		//hasta aca mas lo de actualmente
+	// 	hastaN.setAttribute('name', 'datos_profesional_interviene_hasta[]')
+	// 	//hasta aca mas lo de actualmente
 
 
- 		var actualmente = document.querySelector('.actualmente');
+ // 		var actualmente = document.querySelector('.actualmente');
 
- 		actualmente.classList.remove('actualmente');
+ // 		actualmente.classList.remove('actualmente');
 
-		actualmente.classList.add('actualmente'+clicks)
+	// 	actualmente.classList.add('actualmente'+clicks)
 
-		var actualmenteN = document.querySelector('.actualmente'+clicks);
+	// 	var actualmenteN = document.querySelector('.actualmente'+clicks);
 		
-		actualmenteN.setAttribute('name', 'profesionalactualmente_id[]')
+	// 	actualmenteN.setAttribute('name', 'profesionalactualmente_id[]')
 
-		var inicio = document.querySelector('.mostrarInicio');
+	// 	var inicio = document.querySelector('.mostrarInicio');
 
- 		inicio.classList.remove('mostrarInicio');
+ // 		inicio.classList.remove('mostrarInicio');
 
-		inicio.classList.add('mostrarInicio'+clicks)
+	// 	inicio.classList.add('mostrarInicio'+clicks)
 
-		var inicioN = document.querySelector('.mostrarInicio'+clicks);
+	// 	var inicioN = document.querySelector('.mostrarInicio'+clicks);
 
-		var final = document.querySelector('.mostrarFinal');
+	// 	var final = document.querySelector('.mostrarFinal');
 
- 		final.classList.remove('mostrarFinal');
+ // 		final.classList.remove('mostrarFinal');
 
-		final.classList.add('mostrarFinal'+clicks)
+	// 	final.classList.add('mostrarFinal'+clicks)
 
-		var finalN = document.querySelector('.mostrarFinal'+clicks);
+	// 	var finalN = document.querySelector('.mostrarFinal'+clicks);
 
 
-		actualmente.addEventListener('change', function(){
-			if (actualmenteN.value == "1") {
-				finalN.style.display = 'none';
-			}else if(actualmenteN.value == "2"){
-				finalN.style.display = '';
-			}else{
-				finalN.style.display = 'none';
-			}
-		})
- 	}
+	// 	actualmente.addEventListener('change', function(){
+	// 		if (actualmenteN.value == "1") {
+	// 			finalN.style.display = 'none';
+	// 		}else if(actualmenteN.value == "2"){
+	// 			finalN.style.display = '';
+	// 		}else{
+	// 			finalN.style.display = 'none';
+	// 		}
+	// 	})
+ // 	}
+
+ 	 
 
 //---------FIN FORMULARIO A--------------
 

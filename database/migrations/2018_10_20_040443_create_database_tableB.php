@@ -48,9 +48,9 @@ class CreateDatabaseTableB extends Migration
             $table->integer('residenciaprecaria_id')->unsigned()->nullable();
             $table->string('victima_tipo_documento_otro')->nullable();
             $table->string('victima_documento');
-            // $table->string('paisNacimiento')->nullable();
-            // $table->string('provinciaNacimiento')->nullable();
-            // $table->string('ciudadNacimiento')->nullable();
+            $table->string('paisNacimiento')->nullable();
+            $table->string('provinciaNacimiento')->nullable();
+            $table->string('ciudadNacimiento')->nullable();
             $table->dateTime('victima_fecha_nacimiento');
             // $table->string('victima_fecha_nacimiento_desconoce')->nullable();
             $table->string('victima_edad');

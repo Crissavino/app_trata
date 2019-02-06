@@ -16,9 +16,11 @@ class ModalidadsTableSeeder extends Seeder
 
             ['nombre' => 'Allanamiento'],
 
-            ['nombre' => 'De oficio'],
+            ['nombre' => 'Denuncia'],
 
             ['nombre' => 'Presentación espontánea'],
+
+            ['nombre' => 'Fiscalización laboral'],
 
             ['nombre' => 'Derivación de otro organismo']
 

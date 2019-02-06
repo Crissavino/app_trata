@@ -39,9 +39,9 @@
         @endforeach
         <li class="nav-item"> <a class="nav-link active" href="C">Eje C: Grupo Conviviente</a> </li>
         <li class="nav-item"> <a class="nav-link" href="D">Eje D: Datos de delito</a> </li>
-        <li class="nav-item"> <a class="nav-link" href="E">Eje E: Datos del imputado</a> </li>
-        <li class="nav-item"> <a class="nav-link" href="F">Eje F: Atención del caso</a> </li>
-        <li class="nav-item"> <a class="nav-link" href="G">Eje G: Documentación</a> </li>
+        {{-- el eje F paso a ser el eje E y el eje G paso a ser el eje F --}}
+        <li class="nav-item"> <a class="nav-link" href="F">Eje E: Atención del caso</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="G">Eje F: Documentación</a> </li>
 	</ul>
 </header>
 <body>
@@ -81,56 +81,55 @@
             	{!! $errors->first('otraspersonas_id', '<p class="help-block" style="color:red";>:message</p>') !!}
             </div>
 
-            <div class="padre" id="padre">
-                <div class="hijo" id="hijo" style="display: none;">
+            <div class="padre" id="padre"></div>
+            {{-- <div class="hijo" id="hijo" style="display: none;">
                     <h3>Datos del Conviviente:</h3>
-                	<div class="form-group" {{ $errors->has('nombre_apellido[]') ? 'has-error' : ''}}>
-                		<label for="">C 2. Nombre y apellido</label>
-                    	<input type="text" class="form-control nombre_apellido" value="">
-                    	{!! $errors->first('nombre_apellido.*', '<p class="help-block" style="color:red";>:message</p>') !!}
+                    <div class="form-group" {{ $errors->has('nombre_apellido[]') ? 'has-error' : ''}}>
+                        <label for="">C 2. Nombre y apellido</label>
+                        <input type="text" class="form-control nombre_apellido" value="">
+                        {!! $errors->first('nombre_apellido.*', '<p class="help-block" style="color:red";>:message</p>') !!}
 
-	                    <label for="" >Se desconoce</label>
-	                    <input type="checkbox" class="desconoceNA" name="" value="">
-                	</div>
+                        <label for="" >Se desconoce</label>
+                        <input type="checkbox" class="desconoceNA" name="" value="">
+                    </div>
                     
                     <div class="form-group" {{ $errors->has('edad[]') ? 'has-error' : ''}}>
-                    	<label for="edad">C 3. Edad:</label>
-	                    <input type="text" class="form-control edad" id="edad" value="">
-	                    {!! $errors->first('edad.*', '<p class="help-block" style="color:red";>:message</p>') !!}
+                        <label for="edad">C 3. Edad:</label>
+                        <input type="text" class="form-control edad" id="edad" value="">
+                        {!! $errors->first('edad.*', '<p class="help-block" style="color:red";>:message</p>') !!}
 
-	                    <label for="">Se desconoce</label>
-	                    <input type="checkbox" class="desconoceE" name="" value="">
+                        <label for="">Se desconoce</label>
+                        <input type="checkbox" class="desconoceE" name="" value="">
                     </div>
 
 
                     <div class="form-group" {{ $errors->has('genero_id[]') ? 'has-error' : ''}}>
-                    	<label for="genero_id">C 4. Género</label>
-	                    <select class="form-control genero" id="genero_id">
-	                        <option value="">Género?</option>
-			                @foreach ($datosGeneros as $genero)
-			                	<option value="{{ $genero->getIdGenero() }}" {{ old('genero_id') == $genero->getIdGenero() ? 'selected' : '' }}>{{ $genero->getNombreGenero() }}</option>
-			                @endforeach
-	                    </select>
-                  		{!! $errors->first('genero_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
+                        <label for="genero_id">C 4. Género</label>
+                        <select class="form-control genero" id="genero_id">
+                            <option value="">Género?</option>
+                            @foreach ($datosGeneros as $genero)
+                                <option value="{{ $genero->getIdGenero() }}" {{ old('genero_id') == $genero->getIdGenero() ? 'selected' : '' }}>{{ $genero->getNombreGenero() }}</option>
+                            @endforeach
+                        </select>
+                        {!! $errors->first('genero_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                     </div>
                     
                     <div class="form-group" {{ $errors->has('vinculo_id[]') ? 'has-error' : ''}}>
-                    	<label for="vinculo_id">C 5. Vinculación con la víctima:</label>
-	                    <select id="vinculo_id" class="form-control vinculo">
-	                        <option value="">Vínculo?</option>
-			                @foreach ($datosVinculos as $vinculo)
-			                	<option value="{{ $vinculo->getId() }}" {{ old('vinculo_id') == $vinculo->getId() ? 'selected' : '' }}>{{ $vinculo->getNombre() }}</option>
-			                @endforeach
-	                    </select>
-	                    {!! $errors->first('vinculo_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
+                        <label for="vinculo_id">C 5. Vinculación con la víctima:</label>
+                        <select id="vinculo_id" class="form-control vinculo">
+                            <option value="">Vínculo?</option>
+                            @foreach ($datosVinculos as $vinculo)
+                                <option value="{{ $vinculo->getId() }}" {{ old('vinculo_id') == $vinculo->getId() ? 'selected' : '' }}>{{ $vinculo->getNombre() }}</option>
+                            @endforeach
+                        </select>
+                        {!! $errors->first('vinculo_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                     </div>
                     
                     <div class="form-group otro_vinculo" style="display: none">
                         <label for="vinculo_otro">Cuál?</label>
                         <input type="text" class="form-control vinculo_otro">
                     </div>
-               </div>
-            </div>
+            </div> --}}
 
             <button type="button" id="anadir" disabled="disabled" class="clickAnadir btn btn-outline-primary col-xl"> Agregar conviviente </button><br><br>
             <button id="borra" type="button" disabled="disabled" class="clickBorrar btn btn-outline-danger col-xl">Borrar conviviente</button><br><br>
@@ -163,6 +162,63 @@
             //    padre.removeChild(hijo);
             //    swal('Se borro un profesional');
             // }
+        </script>
+
+        <script>
+            var btnAgregarConviviente = document.querySelector('.clickAnadir');
+
+            var clicks = 0;
+
+            btnAgregarConviviente.addEventListener('click', function(){
+                clicks++
+                
+                var divClickConviviente = '<div class="hijo" id="hijo"><h3>Datos del Conviviente:</h3><div class="form-group" {{ $errors->has('nombre_apellido[]') ? 'has-error' : ''}}><label for="">C 2. Nombre y apellido</label><input type="text" class="form-control nombre_apellido'+clicks+'" name="nombre_apellido[]" value="">{!! $errors->first('nombre_apellido.*', '<p class="help-block" style="color:red";>:message</p>') !!}<label for="" >Se desconoce</label><input type="checkbox" class="desconoceNA'+clicks+' ml-2" value=""></div><div class="form-group" {{ $errors->has('edad[]') ? 'has-error' : ''}}><label for="edad">C 3. Edad:</label><input type="text" class="form-control edad'+clicks+'" id="edad" name="edad[]" value="">{!! $errors->first('edad.*', '<p class="help-block" style="color:red";>:message</p>') !!}<label for="">Se desconoce</label><input type="checkbox" class="desconoceE'+clicks+' ml-2" value=""></div><div class="form-group" {{ $errors->has('genero_id[]') ? 'has-error' : ''}}><label for="genero_id">C 4. Género</label><select class="form-control genero'+clicks+'" id="genero_id" name="genero_id[]"><option value="">Género?</option>@foreach ($datosGeneros as $genero)<option value="{{ $genero->getIdGenero() }}" {{ old('genero_id') == $genero->getIdGenero() ? 'selected' : '' }}>{{ $genero->getNombreGenero() }}</option>@endforeach</select>{!! $errors->first('genero_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group" {{ $errors->has('vinculo_id[]') ? 'has-error' : ''}}><label for="vinculo_id">C 5. Vinculación con la víctima:</label><select id="vinculo_id" class="form-control vinculo'+clicks+'" name="vinculo_id[]"><option value="">Vínculo?</option>@foreach ($datosVinculos as $vinculo)<option value="{{ $vinculo->getId() }}" {{ old('vinculo_id') == $vinculo->getId() ? 'selected' : '' }}>{{ $vinculo->getNombre() }}</option>@endforeach</select>{!! $errors->first('vinculo_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group otro_vinculo'+clicks+'" style="display: none"><label for="vinculo_otro">Cuál?</label><input type="text" class="form-control vinculo_otro" name="vinculo_otro[]"></div></div>';
+
+                var divConvivientes = document.querySelector('.padre');
+                divConvivientes.insertAdjacentHTML('beforeend', divClickConviviente);
+
+                //le agrego las funcionalidades para cada caso
+                    var inputNomApTextN = document.querySelector('.nombre_apellido'+clicks);
+                    var inputNomApCheckN = document.querySelector('.desconoceNA'+clicks);
+                    // console.log(inputNomApTextN, inputNomApCheckN);
+
+                    inputNomApCheckN.addEventListener('click', function () {
+                        if (inputNomApCheckN.checked) {
+                            // console.log('hola');
+                            inputNomApTextN.value = 'Se desconoce'
+                            inputNomApTextN.setAttribute("readonly", "readonly")
+                        }else{
+                            inputNomApTextN.value = ''
+                            inputNomApTextN.removeAttribute('readonly')
+                        }
+                    });
+
+
+                    var inputEdadCheckN = document.querySelector('.desconoceE'+clicks);
+                    var inputEdadTextN = document.querySelector('.edad'+clicks);
+
+                    inputEdadCheckN.addEventListener('click', function () {
+                        if (inputEdadCheckN.checked) {
+                            inputEdadTextN.value = 'Se desconoce'
+                            inputEdadTextN.setAttribute("readonly", "readonly")
+                        }else{
+                            inputEdadTextN.value = ''
+                            inputEdadTextN.removeAttribute('readonly')
+                        }
+                    });
+
+                    var selectVinculoN = document.querySelector('.vinculo'+clicks)
+                    var inputOtroVinculoN = document.querySelector('.otro_vinculo'+clicks)
+
+                    selectVinculoN.addEventListener('change', function () {
+                        if (selectVinculoN.value == '6') {
+                            inputOtroVinculoN.style.display = ""
+                        }else{
+                            inputOtroVinculoN.style.display = "none"
+                        }
+                    })
+                //fin funcionalidades
+            });
         </script>
 
         <script>

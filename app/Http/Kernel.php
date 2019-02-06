@@ -19,6 +19,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
+        \Barryvdh\Cors\HandleCors::class,
 
     ];
 
@@ -41,6 +42,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+            \Barryvdh\Cors\HandleCors::class,
         ],
     ];
 
@@ -66,6 +68,7 @@ class Kernel extends HttpKernel
         'noHayFormE' => \App\Http\Middleware\NoHayFormE::class,
         'noHayFormF' => \App\Http\Middleware\NoHayFormF::class,
         'faltaCompletarCarpeta' => \App\Http\Middleware\FaltaCompletarCarpeta::class,
+        'cors' => \Barryvdh\Cors\HandleCors::class,
         'noHayEjeA' => \App\Http\Middleware\NoHayEjeA::class,
         'noHayEjeB' => \App\Http\Middleware\NoHayEjeB::class,
         'noHayEjeC' => \App\Http\Middleware\NoHayEjeC::class,

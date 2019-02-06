@@ -18,13 +18,13 @@ class ActividadsTableSeeder extends Seeder
 
             ['nombre' => 'Manufacturación de materias primas'],
 
-            ['nombre' => 'Privado'],
+            // ['nombre' => 'Privado'],
 
-            ['nombre' => 'Prostíbulo'],
+            ['nombre' => 'Prostitución'],
 
             ['nombre' => 'Prostitución de menores'],
 
-            ['nombre' => 'Taller textil'],
+            ['nombre' => 'Producción textil'],
 
             ['nombre' => 'Local/Bar/Expendio de bebidas'],
 

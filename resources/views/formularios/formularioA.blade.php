@@ -17,9 +17,9 @@
         <li class="nav-item"> <a class="nav-link " href="A">Eje B: Caracterización de la víctima</a> </li>
         <li class="nav-item"> <a class="nav-link " href="A">Eje C: Grupo Conviviente</a> </li>
         <li class="nav-item"> <a class="nav-link " href="A">Eje D: Datos de delito</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="A">Eje E: Datos del imputado</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="A">Eje F: Atención del caso</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="A">Eje G: Documentación</a> </li>
+        {{-- <li class="nav-item"> <a class="nav-link " href="A">Eje E: Datos del imputado</a> </li> --}}
+        <li class="nav-item"> <a class="nav-link " href="A">Eje E: Atención del caso</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="A">Eje F: Documentación</a> </li>
     </ul>
 </header>
 <body>
@@ -146,7 +146,7 @@
 
             {{-- INICIO QUINTA PREGUNTA --}}
                 <div class="form-group {{ $errors->has('estadocaso_id') ? 'has-error' : ''}}">
-                    <label for="estadocaso_id">A 5. Estado Actual del Caso:</label>
+                    <label for="estadocaso_id">A 5. Estado Actual:</label>
                     <select class="form-control" name="estadocaso_id">
                     <option value="">Estado Actual</option>
                     @foreach ($datosEstadoCaso as $estadocaso)
@@ -210,8 +210,8 @@
             {{-- FIN OCTAVA PREGUNTA --}}
 
             {{-- INICIO AGREGAR PROFESIONAL PREGUNTA --}}
-                <div class="padre">
-                    <div class="hijo" style="display: none;">
+                <div class="padre"></div>
+                {{-- <div class="hijo" style="display: none;">
                         <h3>A 9. Profesional Interviniente:</h3>
                         <div class="form-group" {{ $errors->has('profesional_id[]') ? 'has-error' : ''}}>
                             <label for="profesional_id">A 9.1 Nombre/Profesion/Equipo: </label>
@@ -246,8 +246,7 @@
                             <input type="date" class="form-control hasta" id="datos_profesional_interviene_hasta" value="">
                             {!! $errors->first('datos_profesional_interviene_hasta.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                         </div>
-                    </div>
-                </div>
+                </div> --}}
                 <button id="anadir" class="btn btn-outline-primary col-xl anadirProfesional" type="button"> Agregar profesional </button><br><br>
                 <button id="borra" class="btn btn-outline-danger col-xl borrarProfesional" type="button">Borrar profesional</button><br><br>
                 {{-- <button id="borra" class="btn btn-outline-danger col-xl" type="button" onclick="borra()">Borrar profesional</button><br><br> --}}
@@ -264,6 +263,37 @@
             <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
             {{-- SCRIPT PARA AGREGAR Y BORRAR PROFESIONALES --}}
+
+            <script>
+                var btnAgregarProfesional = document.querySelector('.anadirProfesional');
+
+                var clicks = 0;
+
+                btnAgregarProfesional.addEventListener('click', function(){
+                    clicks++
+
+                    var divClickProfesional = '<div class="hijo"><h3>A 9. Profesional Interviniente:</h3><div class="form-group" {{ $errors->has("profesional_id[]") ? "has-error" : ""}}><label for="profesional_id">A 9.1 Nombre/Profesion/Equipo: </label><select class="form-control profesional_id'+clicks+'" name="profesional_id[]"><option value="">Seleccioná profesional</option>@foreach ($datosProfesional as $profesional)<option value="{{ $profesional->getId() }}">{{ $profesional->getNombreCompletoyProfesion() }}</option>@endforeach</select>{!! $errors->first("profesional_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="mostrarInicio form-group" {{ $errors->has("datos_profesional_interviene_desde[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_desde">A 9.2 Interviene desde:</label><input type="date" class="form-control desde'+clicks+'" name="datos_profesional_interviene_desde[]" id="datos_profesional_interviene_desde" value="">{!! $errors->first("datos_profesional_interviene_desde.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group" {{ $errors->has("profesionalactualmente_id[]") ? "has-error" : ""}}><label for="profesionalactualmente_id">A 9.3 Actualmente Interviene:</label><select class="form-control actualmente'+clicks+'" name="profesionalactualmente_id[]"><option value="">Actualmente interviene?</option>@foreach ($datosIntervieneActualmente as $profesionalInterviene)<option value="{{ $profesionalInterviene->getId() }}">{{ $profesionalInterviene->getNombre() }}</option>@endforeach</select>{!! $errors->first("profesionalactualmente_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div style="display: none;" class="mostrarFinal'+clicks+' form-group" {{ $errors->has("datos_profesional_interviene_hasta[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_hasta">A 9.4 Interviene hasta:</label><input type="date" class="form-control hasta'+clicks+'" name="datos_profesional_interviene_hasta[]" id="datos_profesional_interviene_hasta" value="">{!! $errors->first("datos_profesional_interviene_hasta.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div></div>';
+
+                    var divProfesionales = document.querySelector('.padre');
+                    divProfesionales.insertAdjacentHTML('beforeend', divClickProfesional);
+
+                    //le agrego las funcionalidades para cada caso
+                        var actualmenteN = document.querySelector('.actualmente'+clicks);
+                        var finalN = document.querySelector('.mostrarFinal'+clicks);
+
+                        actualmenteN.addEventListener('change', function(){
+                            if (this.value == "1") {
+                                finalN.style.display = 'none';
+                            }else if(this.value == "2"){
+                                finalN.style.display = '';
+                            }else{
+                                finalN.style.display = 'none';
+                            }
+                        })
+                    //fin funcionalidades
+                });
+            </script>
+
             <script>
                     var nueva_entrada = $('.padre').html();
 

@@ -21,9 +21,9 @@ class FinalidadsTableSeeder extends Seeder
             ['nombre' => 'Mixto'],
             
             ['nombre' => 'No determinada'],
-            
+
             ['nombre' => 'Otro']
-            
+                    
         ]);
     }
 }

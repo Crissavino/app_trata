@@ -56,21 +56,23 @@ Route::put('formularios/edicion/D/{id}', 'FormsController@updateD');
 Route::delete('formularios/edicion/D/{id}', 'FormsController@destroyD');
 
 //RUTAS FORMULARIO E
-Route::get('formularios/E', 'FormsController@createE')->middleware('auth', 'noHayCarpeta', 'noHayEjeA', 'noHayEjeB', 'noHayEjeC', 'noHayEjeD');
-Route::post('formularios/E', 'FormsController@insertE');
-Route::get('formularios/edicion/E/{id}', 'FormsController@editE')->middleware('auth');
-Route::put('formularios/edicion/E/{id}', 'FormsController@updateE');
-Route::delete('formularios/edicion/E/{id}', 'FormsController@destroyE');
+// Route::get('formularios/E', 'FormsController@createE')->middleware('auth', 'noHayCarpeta', 'noHayEjeA', 'noHayEjeB', 'noHayEjeC', 'noHayEjeD');
+// Route::post('formularios/E', 'FormsController@insertE');
+// Route::get('formularios/edicion/E/{id}', 'FormsController@editE')->middleware('auth');
+// Route::put('formularios/edicion/E/{id}', 'FormsController@updateE');
+// Route::delete('formularios/edicion/E/{id}', 'FormsController@destroyE');
 
 //RUTAS FORMULARIO F
-Route::get('formularios/F', 'FormsController@createF')->middleware('auth', 'noHayCarpeta', 'noHayEjeA', 'noHayEjeB', 'noHayEjeC', 'noHayEjeD', 'noHayEjeE', 'noHayFormE');
+//SUSPENDIDO EL EJE E, EL EJE F PASA A SER EL NUEVO EJE E
+// Route::get('formularios/F', 'FormsController@createF')->middleware('auth', 'noHayCarpeta', 'noHayEjeA', 'noHayEjeB', 'noHayEjeC', 'noHayEjeD', 'noHayEjeE', 'noHayFormE');
+Route::get('formularios/F', 'FormsController@createF')->middleware('auth', 'noHayCarpeta', 'noHayEjeA', 'noHayEjeB', 'noHayEjeC', 'noHayEjeD');
 Route::post('formularios/F', 'FormsController@insertF');
 Route::get('formularios/edicion/F/{id}', 'FormsController@editF')->middleware('auth');
 Route::put('formularios/edicion/F/{id}', 'FormsController@updateF');
 Route::delete('formularios/edicion/F/{id}', 'FormsController@destroyF');
 
 //RUTAS FORMULARIO G
-Route::get('formularios/G', 'FormsController@createG')->middleware('auth', 'noHayCarpeta', 'noHayEjeA', 'noHayEjeB', 'noHayEjeC', 'noHayEjeD', 'noHayEjeE', 'noHayEjeF', 'noHayFormF');
+Route::get('formularios/G', 'FormsController@createG')->middleware('auth', 'noHayCarpeta', 'noHayEjeA', 'noHayEjeB', 'noHayEjeC', 'noHayEjeD', 'noHayEjeF', 'noHayFormF');
 Route::post('formularios/G', 'FormsController@insertG');
 Route::get('formularios/edicion/G/{id}', 'FormsController@editG')->middleware('auth');
 Route::put('formularios/edicion/G/{id}', 'FormsController@updateG');

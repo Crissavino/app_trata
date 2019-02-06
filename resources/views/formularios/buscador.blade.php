@@ -19,7 +19,7 @@
         }
 
         .item-busqueda-carpeta{
-            width: 12.5%;
+            width: 14%;
             /*border: solid black 1px;*/
         }
     </style>
@@ -39,7 +39,7 @@
         </h1>
 
         {{-- Formularios mostrados como la url /formularios --}}
-        {{-- <div class="" style="overflow: hidden;">
+            {{-- <div class="" style="overflow: hidden;">
             <h2>Resultado busqueda por carpeta</h2>
             @foreach ($carpetas as $carpeta)
                 <div class="cardForm d-flex flex-column float-left">
@@ -202,13 +202,13 @@
                             <th class="item-busqueda-carpeta">Eje B</th>
                             <th class="item-busqueda-carpeta">Eje C</th>
                             <th class="item-busqueda-carpeta">Eje D</th>
+                            {{-- <th class="item-busqueda-carpeta">Eje E</th> --}}
                             <th class="item-busqueda-carpeta">Eje E</th>
                             <th class="item-busqueda-carpeta">Eje F</th>
-                            <th class="item-busqueda-carpeta">Eje G</th>
                         </tr>
                     @foreach ($carpetas as $carpeta)
                         <tr>
-                            <td><a name="{{ $carpeta->numeroCarpeta }}" title="">{{ $carpeta->numeroCarpeta }}</a></td>
+                            <td class="text-center align-middle"><h4><a name="{{ $carpeta->numeroCarpeta }}" title="">{{ $carpeta->numeroCarpeta }}</a></h4></td>
                             <td>
                                 <a href="/formularios/edicion/A/{{$carpeta->aformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
                                 @if (auth()->user()->isAdmin === 1)
@@ -269,7 +269,7 @@
                                     <a href="/formularios/D" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Continuar carga </a><br><br>
                                 @endif
                             </td>
-                            <td>
+                            {{-- <td>
                                 @if ($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->eformulario_id)
                                     <a href="/formularios/edicion/E/{{$carpeta->eformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
                                     @if (auth()->user()->isAdmin === 1)
@@ -284,7 +284,7 @@
                                 @elseif($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && !($carpeta->eformulario_id))
                                     <a href="/formularios/E" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Continuar carga </a><br><br>
                                 @endif
-                            </td>
+                            </td> --}}
                             <td>
                                 @if ($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->eformulario_id && $carpeta->fformulario_id)
                                     <a href="/formularios/edicion/F/{{$carpeta->fformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>

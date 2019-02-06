@@ -61,7 +61,7 @@ window.onload =function (){
 			var cfg = {
 				// radius should be small ONLY if scaleRadius is true (or small radius is intended)
 				// if scaleRadius is false it will be the constant radius used in pixels
-				"radius": 2,
+				"radius": 1,
 				"maxOpacity": .8, 
 				// scales the radius based on map zoom
 				"scaleRadius": true, 
@@ -69,10 +69,12 @@ window.onload =function (){
 				// if activated: uses the data maximum within the current map boundaries 
 				//   (there will always be a red spot with useLocalExtremas true)
 				"useLocalExtrema": true,
+				// max: 1.0,
+                // blur: 15,
 				gradient: {
 				    // enter n keys between 0 and 1 here
 				    // for gradient color customization
-				    '.5': 'white',
+				    '.5': 'green',
 				    '.8': 'yellow',
 				    '.95': 'red'
 				},
