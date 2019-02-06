@@ -196,16 +196,16 @@
                     <h2>Resultado busqueda por número de carpeta</h2>
                 </thead>
                 <tbody>
-                        <tr class="encabezado-busqueda-carpeta">
-                            <th class="item-busqueda-carpeta">Carpeta</th>
-                            <th class="item-busqueda-carpeta">Eje A</th>
-                            <th class="item-busqueda-carpeta">Eje B</th>
-                            <th class="item-busqueda-carpeta">Eje C</th>
-                            <th class="item-busqueda-carpeta">Eje D</th>
-                            {{-- <th class="item-busqueda-carpeta">Eje E</th> --}}
-                            <th class="item-busqueda-carpeta">Eje E</th>
-                            <th class="item-busqueda-carpeta">Eje F</th>
-                        </tr>
+                    <tr class="encabezado-busqueda-carpeta">
+                        <th class="item-busqueda-carpeta">Carpeta</th>
+                        <th class="item-busqueda-carpeta">Eje A</th>
+                        <th class="item-busqueda-carpeta">Eje B</th>
+                        <th class="item-busqueda-carpeta">Eje C</th>
+                        <th class="item-busqueda-carpeta">Eje D</th>
+                        {{-- <th class="item-busqueda-carpeta">Eje E</th> --}}
+                        <th class="item-busqueda-carpeta">Eje E</th>
+                        <th class="item-busqueda-carpeta">Eje F</th>
+                    </tr>
                     @foreach ($carpetas as $carpeta)
                         <tr>
                             <td class="text-center align-middle"><h4><a name="{{ $carpeta->numeroCarpeta }}" title="">{{ $carpeta->numeroCarpeta }}</a></h4></td>
@@ -353,12 +353,12 @@
                     <h2>Resultado busqueda por nombre de referencia y/o causa judicial</h2>
                 </thead>
                 <tbody>
-                        <tr class="encabezado">
-                            <th class="w-25">Número de carpeta</th>
-                            <th class="w-25">Nombre de referencia</th>
-                            <th class="w-25">Número de causa judicial</th>
-                            <th class="w-25"></th>
-                        </tr>
+                    <tr class="encabezado">
+                        <th class="w-25">Número de carpeta</th>
+                        <th class="w-25">Nombre de referencia</th>
+                        <th class="w-25">Número de causa judicial</th>
+                        <th class="w-25"></th>
+                    </tr>
                     @foreach ($formsA as $formA)
                         <tr>
                             <td><a href="#{{ $formA->datos_numero_carpeta }}" title="">{{ $formA->datos_numero_carpeta }}</a></td>
@@ -401,12 +401,12 @@
                    <h2>Resultado busqueda por nombre y apellido y/o DNI</h2>
                 </thead>
                 <tbody>
-                        <tr class="encabezado">
-                            <th class="w-25">Número de carpeta</th>
-                            <th class="w-25">Nombre y apellido</th>
-                            <th class="w-25">DNI</th>
-                            <th class="w-25"></th>
-                        </tr>
+                    <tr class="encabezado">
+                        <th class="w-25">Número de carpeta</th>
+                        <th class="w-25">Nombre y apellido</th>
+                        <th class="w-25">DNI</th>
+                        <th class="w-25"></th>
+                    </tr>
                     @foreach ($formsB as $formB)
                         <tr>
                             <td><a href="#{{ $formB->numeroCarpeta }}" title="">{{ $formB->numeroCarpeta }}</a></td>
