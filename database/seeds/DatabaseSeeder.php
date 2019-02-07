@@ -89,9 +89,9 @@ class DatabaseSeeder extends Seeder
         $this->call(ElementoseguridadsTableSeeder::class);
 
         //SEEDERS FORMULARIO E
-        $this->call(RoldelitosTableSeeder::class);
-        $this->call(EdocumentosTableSeeder::class);
-        $this->call(VinculacionsTableSeeder::class);
+        // $this->call(RoldelitosTableSeeder::class);
+        // $this->call(EdocumentosTableSeeder::class);
+        // $this->call(VinculacionsTableSeeder::class);
 
         //SEEDERS FORMULARIO F
         $this->call(OrgjudicialsTableSeeder::class);
