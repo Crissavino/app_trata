@@ -17,6 +17,8 @@ class CaratulacionjudicialsTableSeeder extends Seeder
             ['nombre' => 'Trata de personas'],
             
             ['nombre' => 'Delito conexo'],
+
+            ['nombre' => 'Búsqueda de paradero'],
             
             ['nombre' => 'No es delito'],
             

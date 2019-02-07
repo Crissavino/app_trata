@@ -17,6 +17,8 @@ class FaltaCompletarEje
     {
         $carpetas = \App\Carpetas\Numerocarpeta::all();
 
+        // dd($carpetas);
+
         foreach ($carpetas as $carpeta) {
             if ($carpeta->numeroCarpeta) {
 
@@ -36,16 +38,16 @@ class FaltaCompletarEje
                     return redirect('/formularios/D')->with('message', 'Primero tenes que completar el Eje D!');
                 }
 
-                if (!($carpeta->eformulario_id)) {
-                    return redirect('/formularios/E')->with('message', 'Primero tenes que completar el Eje E!');
-                }
+                // if (!($carpeta->eformulario_id)) {
+                //     return redirect('/formularios/E')->with('message', 'Primero tenes que completar el Eje E!');
+                // }
 
                 if (!($carpeta->fformulario_id)) {
-                    return redirect('/formularios/F')->with('message', 'Primero tenes que completar el Eje F!');
+                    return redirect('/formularios/F')->with('message', 'Primero tenes que completar el Eje E!');
                 }
 
                 if (!($carpeta->gformulario_id)) {
-                    return redirect('/formularios/G')->with('message', 'Primero tenes que completar el Eje G!');
+                    return redirect('/formularios/G')->with('message', 'Primero tenes que completar el Eje F!');
                 }
             }
         }

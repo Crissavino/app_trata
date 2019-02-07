@@ -24,7 +24,10 @@ class CreateDatabaseTableA extends Migration
             $table->integer('derivacion_otro_organismo_id')->unsigned()->nullable();
             $table->string('derivacion_otro_organismo_cual')->nullable();
             $table->integer('estadocaso_id')->unsigned();
-            $table->string('datos_ente_judicial');
+            $table->integer('motivocierre_id')->unsigned()->nullable();
+            $table->integer('ambito_id')->unsigned();
+            $table->integer('departamento_id')->unsigned()->nullable();
+            $table->integer('otrasprov_id')->unsigned()->nullable();
             $table->integer('caratulacionjudicial_id')->unsigned();
             $table->string('caratulacionjudicial_otro')->nullable();
             $table->string('datos_nro_causa');
@@ -103,6 +106,34 @@ class CreateDatabaseTableA extends Migration
             $table->timestampsTz();
         });
 
+        Schema::create('motivocierres', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->softDeletesTz();
+            $table->timestampsTz();
+        });
+
+        Schema::create('ambitos', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->softDeletesTz();
+            $table->timestampsTz();
+        });
+
+        Schema::create('departamentos', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->softDeletesTz();
+            $table->timestampsTz();
+        });
+
+        Schema::create('otrasprovs', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->softDeletesTz();
+            $table->timestampsTz();
+        });
+
     }
 
     /**
@@ -122,5 +153,9 @@ class CreateDatabaseTableA extends Migration
         Schema::dropIfExists('profesionalintervinientes');
         Schema::dropIfExists('profesionals');
         Schema::dropIfExists('aformulario_profesionalinterviniente');
+        Schema::dropIfExists('motivocierres');
+        Schema::dropIfExists('ambitos');
+        Schema::dropIfExists('departamentos');
+        Schema::dropIfExists('otrasprovs');
     }
 }

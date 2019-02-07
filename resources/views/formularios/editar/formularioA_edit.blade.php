@@ -195,7 +195,6 @@
                         @else
                             <input readonly class="form-control derivacion_otro_organismo_cual_input" value="{{ $aFormulario->derivacion_otro_organismo_cual }}" name="derivacion_otro_organismo_cual" type="text">
                         @endif
-                        <input class="form-control derivacion_otro_organismo_cual_input" value="{{ $aFormulario->derivacion_otro_organismo_cual }}" name="derivacion_otro_organismo_cual" type="text">
                     </div>
                     {!! $errors->first('derivacion_otro_organismo_cual', '<p class="help-block" style="color:red";>:message</p>') !!}
                 </div>
@@ -224,7 +223,7 @@
                             divC.style.display="none";
                         }
 
-                        if (sel.value=="4") {
+                        if (sel.value=="5") {
                             divC = document.getElementById("derivacion_otro_organismo_id");
                             divC.style.display = "";
                         }else{
@@ -240,7 +239,7 @@
                 <div class="form-group" {{ $errors->has('estadocaso_id') ? 'has-error' : ''}}>
                     <label for="estadocaso_id">A 5. Estado Actual:</label>
                     @if (auth()->user()->isAdmin !== 2)
-                        <select class="form-control" name="estadocaso_id">
+                        <select class="form-control selectEstadoCaso" name="estadocaso_id">
                             <option value="">Estado Actual</option>
                             @foreach ($datosEstadoCaso as $estadocaso)
                                 @php
@@ -250,7 +249,7 @@
                             @endforeach
                         </select>
                     @else
-                        <select disabled class="form-control" name="estadocaso_id">
+                        <select disabled class="form-control selectEstadoCaso" name="estadocaso_id">
                             <option value="">Estado Actual</option>
                             @foreach ($datosEstadoCaso as $estadocaso)
                                 @php
@@ -262,18 +261,116 @@
                     @endif
                     {!! $errors->first('estadocaso_id', '<p class="help-block" style="color:red";>:message</p>') !!}
                 </div>
+
+                @if (auth()->user()->isAdmin !== 2)
+                    <div class="form-group divMotivoCierre" style="display: none;">
+                        <label for="">A 5 I. Motivo de cierre</label>
+                        <select class="form-control selectMotivoCierre" name="motivocierre_id">
+                            @foreach ($datosMotivoCierre as $motivoCierre)
+                                @php
+                                    $selected = ($motivoCierre->id == $aFormulario->motivocierre_id) ? 'selected' : '';
+                                @endphp
+                                <option value="{{ $motivoCierre->id }}" {{ $selected }}>{{$motivoCierre->nombre}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                @else
+                    <div class="form-group divMotivoCierre" style="display: none;">
+                        <label for="">A 5 I. Motivo de cierre</label>
+                        <select disabled class="form-control selectMotivoCierre" name="motivocierre_id">
+                            @foreach ($datosMotivoCierre as $motivoCierre)
+                                @php
+                                    $selected = ($motivoCierre->id == $aFormulario->motivocierre_id) ? 'selected' : '';
+                                @endphp
+                                <option value="{{ $motivoCierre->id }}" {{ $selected }}>{{$motivoCierre->nombre}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
             {{-- FIN QUINTA PREGUNTA --}}
 
             {{-- INICIO SEXTA PREGUNTA --}}
-                <div class="form-group" {{ $errors->has('datos_ente_judicial') ? 'has-error' : ''}}>
-                    <label for="datos_ente_judicial">A 6. Fiscalía/Juzgado Interviniente:</label>
-                    @if (auth()->user()->isAdmin !== 2)
-                        <input type="text" class="form-control" name="datos_ente_judicial" id="datos_ente_judicial" value="{{ $aFormulario->datos_ente_judicial }}">
-                    @else
-                        <input readonly type="text" class="form-control" name="datos_ente_judicial" id="datos_ente_judicial" value="{{ $aFormulario->datos_ente_judicial }}">
-                    @endif
-                    {!! $errors->first('datos_ente_judicial', '<p class="help-block" style="color:red";>:message</p>') !!}
-                </div>
+                @if (auth()->user()->isAdmin !== 2)
+                    <div class="form-group" {{ $errors->has('ambito_id') ? 'has-error' : ''}}>
+                        <label for="">A 6. Ámbito de competencia</label>
+                        <select name="ambito_id" class="form-control selectAmbito">
+                            <option value="">Seleccioná el ámbito de competencia</option>
+                            @foreach ($datosAmbito as $ambito)
+                                @php
+                                    $selected = ($ambito->id == $aFormulario->ambito_id) ? 'selected' : '';
+                                @endphp
+                                <option value="{{ $ambito->id }}" {{ $selected }}>{{$ambito->nombre}}</option>
+                            @endforeach
+                        </select>
+                        {!! $errors->first('ambito_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+                    </div>
+
+                    <div class="form-group divDepartamento" {{ $errors->has('departamento_id') ? 'has-error' : ''}} style="display: none;">
+                        <select name="departamento_id" class="form-control selectDepartamento">
+                            <option value="">Seleccioná el departamento</option>
+                            @foreach ($datosDepartamento as $departamento)
+                                @php
+                                    $selected = ($departamento->id == $aFormulario->departamento_id) ? 'selected' : '';
+                                @endphp
+                                <option value="{{ $departamento->id }}" {{ $selected }}>{{$departamento->nombre}}</option>
+                            @endforeach
+                        </select>                    
+                        {!! $errors->first('departamento_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+                    </div>
+
+                     <div class="form-group divOtrasProv" {{ $errors->has('otrasprov_id') ? 'has-error' : ''}} style="display: none;">
+                        <select name="otrasprov_id" class="form-control selectOtrasProv">
+                            <option value="">Seleccioná la provincia</option>
+                            @foreach ($datosOtrasProv as $otrasProv)
+                                @php
+                                    $selected = ($otrasProv->id == $aFormulario->otrasprov_id) ? 'selected' : '';
+                                @endphp
+                                <option value="{{ $otrasProv->id }}" {{ $selected }}>{{$otrasProv->nombre}}</option>
+                            @endforeach
+                        </select>                    
+                        {!! $errors->first('otrasprov_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+                    </div>
+                @else
+                    <div class="form-group" {{ $errors->has('ambito_id') ? 'has-error' : ''}}>
+                        <label for="">A 6. Ámbito de competencia</label>
+                        <select disabled name="ambito_id" class="form-control selectAmbito">
+                            <option value="">Seleccioná el ámbito de competencia</option>
+                            @foreach ($datosAmbito as $ambito)
+                                @php
+                                    $selected = ($ambito->id == $aFormulario->ambito_id) ? 'selected' : '';
+                                @endphp
+                                <option value="{{ $ambito->id }}" {{ $selected }}>{{$ambito->nombre}}</option>
+                            @endforeach
+                        </select>
+                        {!! $errors->first('ambito_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+                    </div>
+
+                    <div class="form-group divDepartamento" {{ $errors->has('departamento_id') ? 'has-error' : ''}} style="display: none;">
+                        <select disabled name="departamento_id" class="form-control selectDepartamento">
+                            <option value="">Seleccioná el departamento</option>
+                            @foreach ($datosDepartamento as $departamento)
+                                @php
+                                    $selected = ($departamento->id == $aFormulario->departamento_id) ? 'selected' : '';
+                                @endphp
+                                <option value="{{ $departamento->id }}" {{ $selected }}>{{$departamento->nombre}}</option>
+                            @endforeach
+                        </select>                    
+                        {!! $errors->first('departamento_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+                    </div>
+
+                     <div class="form-group divOtrasProv" {{ $errors->has('otrasprov_id') ? 'has-error' : ''}} style="display: none;">
+                        <select disabled name="otrasprov_id" class="form-control selectOtrasProv">
+                            <option value="">Seleccioná la provincia</option>
+                            @foreach ($datosOtrasProv as $otrasProv)
+                                @php
+                                    $selected = ($otrasProv->id == $aFormulario->otrasprov_id) ? 'selected' : '';
+                                @endphp
+                                <option value="{{ $otrasProv->id }}" {{ $selected }}>{{$otrasProv->nombre}}</option>
+                            @endforeach
+                        </select>                    
+                        {!! $errors->first('otrasprov_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+                    </div>
+                @endif
             {{-- FIN SEXTA PREGUNTA --}}
 
             {{-- INICIO SEPTIMA PREGUNTA --}}
@@ -314,7 +411,7 @@
 
                  <script>
                      function selectOnChange(sel) {
-                       if (sel.value=="25"){
+                       if (sel.value=="6"){
                             divC = document.getElementById("cual");
                             divC.style.display = "";
                        }else{
@@ -355,10 +452,12 @@
                         <input type="date" class="form-control" value="{{ Carbon\Carbon::parse($todosLosDatos->datos_profesional_interviene_desde)->format('Y-m-d')}}" readonly>
                     </div>
 
-                    <div class="form-group">
-                        <label for="datos_profesional_interviene_hasta">A 9.4 Interviene hasta:</label>
-                        <input type="date" class="form-control" value="{{ Carbon\Carbon::parse($todosLosDatos->datos_profesional_interviene_hasta)->format('Y-m-d') }}" readonly>
-                    </div>
+                    @if ($todosLosDatos->datos_profesional_interviene_hasta)
+                        <div class="form-group">
+                            <label for="datos_profesional_interviene_hasta">A 9.4 Interviene hasta:</label>
+                            <input type="date" class="form-control" value="{{ Carbon\Carbon::parse($todosLosDatos->datos_profesional_interviene_hasta)->format('Y-m-d') }}" readonly>
+                        </div>
+                    @endif
 
                     <div class="form-group">
                         <label for="profesionalactualmente_id">A 9.5 Actualmente Interviene:</label>
@@ -407,14 +506,13 @@
                             {!! $errors->first('datos_profesional_interviene_hasta.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                         </div>
                 </div> --}}
-                <button id="anadir" class="btn btn-outline-primary col-xl anadirProfesional" type="button"> Agregar profesional </button><br><br>
-                <button id="borra" class="btn btn-outline-danger col-xl borrarProfesional" type="button">Borrar profesional</button><br><br>
-            {{-- FIN AGREGAR PROFESIONAL PREGUNTA --}}
+                @if (auth()->user()->isAdmin !== 2)
+                        <button id="anadir" class="btn btn-outline-primary col-xl anadirProfesional" type="button"> Agregar profesional </button><br><br>
+                        <button id="borra" class="btn btn-outline-danger col-xl borrarProfesional" type="button">Borrar profesional</button><br><br>
+                    {{-- FIN AGREGAR PROFESIONAL PREGUNTA --}}
 
-            <button type="submit" class="btn btn-primary col-xl" name="button">Actualizar</button><br><br>
-            
-
-
+                    <button type="submit" class="btn btn-primary col-xl" name="button">Actualizar</button><br><br>
+                @endif
         </form>
 
         {{-- <button id="anadir" class="btn btn-outline-primary col-xl anadirProfesional" type="button"> Agregar profesional </button><br><br>

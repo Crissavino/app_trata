@@ -24,12 +24,48 @@
 		derivacionOtroOrganismoCual.style.display = 'none';
 	}
 
+//pregunta 5
+
+	var selectEstadoCaso = document.querySelector('.selectEstadoCaso');
+    var divMotivoCierre = document.querySelector('.divMotivoCierre');
+
+    if (selectEstadoCaso.value == 3) {
+        divMotivoCierre.style.display = '';
+    }else{
+        divMotivoCierre.style.display = 'none';
+    }
+
+//fin pregunta 5
+
+// pregunta 6
+	var selectAmbito = document.querySelector('.selectAmbito');
+	var divDepartamento = document.querySelector('.divDepartamento');
+	var selectDepartamento = document.querySelector('.selectDepartamento');
+	var divOtrasProv = document.querySelector('.divOtrasProv');
+	var selectOtrasProv = document.querySelector('.selectOtrasProv');
+
+	if (selectAmbito.value == 2) {
+		divDepartamento.style.display = '';
+		divOtrasProv.style.display = 'none';
+		selectOtrasProv.value = '';
+	}else if (selectAmbito.value == 3) {
+		divDepartamento.style.display = 'none';
+		selectDepartamento.value = '';
+		divOtrasProv.style.display = '';
+	}else{
+		divDepartamento.style.display = 'none';
+		selectDepartamento.value = '';
+		divOtrasProv.style.display = 'none';
+		selectOtrasProv.value = '';
+	}
+// fin pregunta 6
+
 //pregunta 7
 	var selectCaratulacion = document.querySelector('.caratulacionjudicial');
 	var caratulacionJudicialCual = document.querySelector('.caratulacionjudicial_cual');
 	var caratulacionJudicialCualInput = document.querySelector('.caratulacionjudicial_otro');
 
-	if (selectCaratulacion.value === '25') {
+	if (selectCaratulacion.value === '6') {
 		caratulacionJudicialCual.style.display = '';
 		selectCaratulacion.addEventListener('change', function(){
 			caratulacionJudicialCualInput.value = '';
@@ -57,6 +93,50 @@
     });
 
 window.onload =function (){
+
+	//pregunta 5
+		var selectEstadoCaso = document.querySelector('.selectEstadoCaso');
+        var divMotivoCierre = document.querySelector('.divMotivoCierre');
+        var selectMotivoCierre = document.querySelector('.selectMotivoCierre');
+
+        selectEstadoCaso.addEventListener('change', function(){
+            if (selectEstadoCaso.value == 3) {
+                divMotivoCierre.style.display = '';
+            }else{
+                divMotivoCierre.style.display = 'none';
+                selectMotivoCierre.value = ''
+            }
+        });
+	//fin pregunta 5
+
+	//pregunta 6
+
+		var selectAmbito = document.querySelector('.selectAmbito')
+		var divDepartamento = document.querySelector('.divDepartamento')
+		var selectDepartamento = document.querySelector('.selectDepartamento')
+		var divOtrasProv = document.querySelector('.divOtrasProv')
+		var selectOtrasProv = document.querySelector('.selectOtrasProv')
+
+
+		selectAmbito.addEventListener('change', function(){
+			if (selectAmbito.value == 2) {
+				divDepartamento.style.display = '';
+				divOtrasProv.style.display = 'none';
+				selectOtrasProv.value = '';
+			}else if (selectAmbito.value == 3) {
+				divDepartamento.style.display = 'none';
+				selectDepartamento.value = '';
+				divOtrasProv.style.display = '';
+			}else{
+				divDepartamento.style.display = 'none';
+				selectDepartamento.value = '';
+				divOtrasProv.style.display = 'none';
+				selectOtrasProv.value = '';
+			}
+		});
+
+	//fin pregunta 6
+
 //---------FORMULARIO A--------------
 	// var agregar = document.querySelector('.anadirProfesional');
 

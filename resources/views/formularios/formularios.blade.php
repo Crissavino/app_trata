@@ -110,7 +110,7 @@
 				    	@endif
 				    </div>
 
-				    <div class="mb-3">
+				    {{-- <div class="mb-3">
 				    	@if ($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->eformulario_id)
 				    		<h5 class="cardForm-title">Eje E</h5>
 				    		<a href="/formularios/edicion/E/{{$carpeta->eformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
@@ -127,10 +127,10 @@
 				    		<h5 class="cardForm-title">Eje E</h5>
 				    		<a href="/formularios/E" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Continuar carga </a><br><br>
 				    	@endif
-				    </div>
+				    </div> --}}
 
 				    <div class="mb-3">
-				    	@if ($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->eformulario_id && $carpeta->fformulario_id)
+				    	@if ($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->fformulario_id)
 				    		<h5 class="cardForm-title">Eje F</h5>
 				    		<a href="/formularios/edicion/F/{{$carpeta->fformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
 				    		@if (auth()->user()->isAdmin === 1)
@@ -142,14 +142,14 @@
 									</button>
 								</form>
 				    		@endif
-				    	@elseif($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->eformulario_id && !($carpeta->fformulario_id))
+				    	@elseif($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && !($carpeta->fformulario_id))
 				    		<h5 class="cardForm-title">Eje F</h5>
 				    		<a href="/formularios/F" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Continuar carga </a><br><br>
 				    	@endif
 				    </div>
 
 				    <div class="mb-3">
-				    	@if ($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->eformulario_id && $carpeta->fformulario_id && $carpeta->gformulario_id)
+				    	@if ($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->fformulario_id && $carpeta->gformulario_id)
 				    		<h5 class="cardForm-title">Eje G</h5>
 				    		<a href="/formularios/edicion/G/{{$carpeta->gformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
 				    		@if (auth()->user()->isAdmin === 1)
@@ -161,7 +161,7 @@
 									</button>
 								</form>
 				    		@endif
-				    	@elseif($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->eformulario_id && $carpeta->fformulario_id && !($carpeta->gformulario_id))
+				    	@elseif($carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->fformulario_id && !($carpeta->gformulario_id))
 				    		<h5 class="cardForm-title">Eje G</h5>
 				    		<a href="/formularios/G" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Continuar carga </a><br><br>
 				    	@endif

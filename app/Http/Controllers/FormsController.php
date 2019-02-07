@@ -238,11 +238,15 @@ class FormsController extends Controller
 		//aca voy a tener que llamar a todos los modelos de los que saque datos
 		$datosModalidad = \App\FormA\Modalidad::all();
 		$datosEstadoCaso = \App\FormA\Estadocaso::all();
+		$datosMotivoCierre = \App\FormA\Motivocierre::all();
 		$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
 		$datosProfesional = \App\FormA\Profesional::all();
 		$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
 		$datosPresentacion = \App\FormA\Presentacionespontanea::all();
 		$datosOrganismo = \App\FormA\Otrosorganismo::all();
+		$datosAmbito = \App\FormA\Ambito::all();
+		$datosDepartamento = \App\FormA\Departamento::all();
+		$datosOtrasProv = \App\FormA\Otrasprov::all();
 		$ultimoNroCarpeta = \App\FormA\Aformulario::orderBy('datos_numero_carpeta', 'desc')
 		    ->first();
 		// $ultimoNroCarpeta = DB::table('aformularios')->orderBy('datos_numero_carpeta', 'desc')
@@ -259,11 +263,15 @@ class FormsController extends Controller
 
 		return view('formularios.formularioA', ['datosModalidad' => $datosModalidad,
 												'datosEstadoCaso' => $datosEstadoCaso,
+												'datosMotivoCierre' => $datosMotivoCierre,
 												'datosCaratulacion' => $datosCaratulacion,
 												'datosProfesional' => $datosProfesional,
 												'datosIntervieneActualmente' => $datosIntervieneActualmente,
 												'datosPresentacion' => $datosPresentacion,
 												'datosOrganismo' => $datosOrganismo,
+												'datosAmbito' => $datosAmbito,
+												'datosDepartamento' => $datosDepartamento,
+												'datosOtrasProv' => $datosOtrasProv,
 												'ultimoNroCarpeta' => $ultimoNroCarpeta,
 												]);
 	}
@@ -285,9 +293,12 @@ class FormsController extends Controller
 							'derivacion_otro_organismo_cual' => 'required_if:derivacion_otro_organismo_id,==,16',
 							// 'nombre_apellido.0' => 'required_if:otraspersonas_id,==,1',
 							'estadocaso_id' => 'required',
-							'datos_ente_judicial' => 'required',
+							'motivocierre_id' => 'required_if:estadocaso_id,==,3',
+							'ambito_id' => 'required',
+							'departamento_id' => 'required_if:ambito_id,==,2',
+							'otrasprov_id' => 'required_if:ambito_id,==,3',
 							'caratulacionjudicial_id' => 'required',
-							'caratulacionjudicial_otro' => 'required_if:caratulacionjudicial_id,==,25',
+							'caratulacionjudicial_otro' => 'required_if:caratulacionjudicial_id,==,5',
 							'datos_nro_causa' => 'required',
 							'profesional_id.*' => 'nullable',
 							'profesional_id.0' => 'required',
@@ -306,7 +317,10 @@ class FormsController extends Controller
 							'datos_fecha_ingreso.before_or_equal' => 'La fecha ingresada es posterior al dia de hoy',
 							'modalidad_id.required' => 'Este campo es obligatorio',
 							'estadocaso_id.required' => 'Este campo es obligatorio',
-							'datos_ente_judicial.required' => 'Este campo es obligatorio',
+							'motivocierre_id.required' => 'Este campo es obligatorio',
+							'ambito_id.required' => 'Este campo es obligatorio',
+							'departamento_id.required_if' => 'Este campo es obligatorio',
+							'otrasprov_id.required_if' => 'Este campo es obligatorio',
 							'caratulacionjudicial_id.required' => 'Este campo es obligatorio',
 							'datos_nro_causa.required' => 'Este campo es obligatorio',
 							'profesional_id.*.required' => 'Este campo es obligatorio',
@@ -359,11 +373,15 @@ class FormsController extends Controller
 	{
 		$datosModalidad = \App\FormA\Modalidad::all();;
 		$datosEstadoCaso = \App\FormA\Estadocaso::all();
+		$datosMotivoCierre = \App\FormA\Motivocierre::all();
 		$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
 		$datosProfesional = \App\FormA\Profesional::all();
 		$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
 		$datosPresentacion = \App\FormA\Presentacionespontanea::all();
 		$datosOrganismo = \App\FormA\Otrosorganismo::all();
+		$datosAmbito = \App\FormA\Ambito::all();
+		$datosDepartamento = \App\FormA\Departamento::all();
+		$datosOtrasProv = \App\FormA\Otrasprov::all();
 		$aFormulario = \App\FormA\Aformulario::find($id);
 		$userId = auth()->user()->id;
 		$todo = DB::table('aformularios')
@@ -402,11 +420,15 @@ class FormsController extends Controller
 		return view('formularios.editar.formularioA_edit', ['aFormulario' => $aFormulario,
 															'datosModalidad' => $datosModalidad,
 															'datosEstadoCaso' => $datosEstadoCaso,
+															'datosMotivoCierre' => $datosMotivoCierre,
 															'datosCaratulacion' => $datosCaratulacion,
 															'datosProfesional' => $datosProfesional,
 															'datosIntervieneActualmente' => $datosIntervieneActualmente,
 															'datosPresentacion' => $datosPresentacion,
 															'datosOrganismo' => $datosOrganismo,
+															'datosAmbito' => $datosAmbito,
+															'datosDepartamento' => $datosDepartamento,
+															'datosOtrasProv' => $datosOtrasProv,
 															'todo' => $todo,
 															'idFormA' => $idFormA,
 															'idFormB' => $idFormB,
@@ -434,13 +456,18 @@ class FormsController extends Controller
 							'derivacion_otro_organismo_id' => 'required_if:modalidad_id,==,4',
 							'derivacion_otro_organismo_cual' => 'required_if:derivacion_otro_organismo_id,==,16',
 							'estadocaso_id' => 'required',
-							'datos_ente_judicial' => 'required',
+							'motivocierre_id' => 'required_if:estadocaso_id,==,3',
+							'ambito_id' => 'required',						
+							'departamento_id' => 'required_if:ambito_id,==,2',						
+							'otrasprov_id' => 'required_if:ambito_id,==,3',						
 							'caratulacionjudicial_id' => 'required',
-							'caratulacionjudicial_otro' => 'required_if:caratulacionjudicial_id,==,25',
+							'caratulacionjudicial_otro' => 'required_if:caratulacionjudicial_id,==,5',
 							'datos_nro_causa' => 'required',
 							'profesional_id.*' => 'nullable',
 							'datos_profesional_interviene_desde.*' => 'nullable|date|before_or_equal:datos_profesional_interviene_hasta.*',
+							'datos_profesional_interviene_desde.0' => 'required|date|after_or_equal:datos_fecha_ingreso',
 							'datos_profesional_interviene_hasta.*' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.*',
+							'datos_profesional_interviene_hasta.0' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.0',
 							'profesionalactualmente_id.*' => 'nullable',
 						],
 						[		
@@ -450,7 +477,10 @@ class FormsController extends Controller
 							'datos_fecha_ingreso.before_or_equal' => 'La fecha ingresada es posterior al dia de hoy',
 							'modalidad_id.required' => 'Este campo es obligatorio',
 							'estadocaso_id.required' => 'Este campo es obligatorio',
-							'datos_ente_judicial.required' => 'Este campo es obligatorio',
+							'motivocierre_id.required' => 'Este campo es obligatorio',
+							'ambito_id.required' => 'Este campo es obligatorio',
+							'departamento_id.required' => 'Este campo es obligatorio',
+							'otrasprov_id.required' => 'Este campo es obligatorio',
 							'caratulacionjudicial_id.required' => 'Este campo es obligatorio',
 							'datos_nro_causa.required' => 'Este campo es obligatorio',
 							'presentacion_espontanea_id.required_if' => 'Este campo es obligatorio', 
@@ -496,6 +526,10 @@ class FormsController extends Controller
 	public function destroyA($id)
 	{
 		$aFormulario = \App\FormA\Aformulario::find($id);
+
+		$carpetaFormA = \App\Carpetas\Numerocarpeta::where('aformulario_id', '=', $id);
+
+		$carpetaFormA->update(['aformulario_id' => null]);
 
 		$aFormulario->delete();
 
@@ -801,6 +835,10 @@ class FormsController extends Controller
 	{
 		$Bformulario = \App\FormB\Bformulario::find($id);
 
+		$carpetaFormB = \App\Carpetas\Numerocarpeta::where('bformulario_id', '=', $id);
+
+		$carpetaFormB->update(['bformulario_id' => null]);
+
 		$Bformulario->delete();
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
@@ -1012,6 +1050,10 @@ class FormsController extends Controller
 	public function destroyC($id)
 	{
 		$Cformulario = \App\FormC\Cformulario::find($id);
+
+		$carpetaFormC = \App\Carpetas\Numerocarpeta::where('cformulario_id', '=', $id);
+
+		$carpetaFormC->update(['cformulario_id' => null]);
 
 		$Cformulario->delete();
 
@@ -1262,7 +1304,7 @@ class FormsController extends Controller
 			$dFormulario->haymedidas()->sync($data['haymedida_id']);
 		}
 
-		return redirect('formularios/E');
+		return redirect('formularios/F');
 	}
 
 	public function editD($id)
@@ -1560,6 +1602,10 @@ class FormsController extends Controller
 	public function destroyD($id)
 	{
 		$Dformulario = \App\FormD\Dformulario::find($id);
+
+		$carpetaFormD = \App\Carpetas\Numerocarpeta::where('dformulario_id', '=', $id);
+
+		$carpetaFormD->update(['dformulario_id' => null]);
 
 		$Dformulario->delete();
 
@@ -2358,6 +2404,10 @@ class FormsController extends Controller
 	{
 		$Fformulario = \App\FormF\Fformulario::find($id);
 
+		$carpetaFormF = \App\Carpetas\Numerocarpeta::where('fformulario_id', '=', $id);
+
+		$carpetaFormF->update(['fformulario_id' => null]);
+
 		$Fformulario->delete();
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
@@ -2957,6 +3007,10 @@ class FormsController extends Controller
 	public function destroyG($id)
 	{
 		$Gformulario = \App\FormG\Gformulario::find($id);
+
+		$carpetaFormG = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $id);
+
+		$carpetaFormG->update(['gformulario_id' => null]);
 
 		$Gformulario->delete();
 

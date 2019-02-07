@@ -132,7 +132,7 @@
                             divC.style.display="none";
                         }
 
-                        if (sel.value=="4") {
+                        if (sel.value=="5") {
                             divC = document.getElementById("derivacion_otro_organismo_id");
                             divC.style.display = "";
                         }else{
@@ -147,7 +147,7 @@
             {{-- INICIO QUINTA PREGUNTA --}}
                 <div class="form-group {{ $errors->has('estadocaso_id') ? 'has-error' : ''}}">
                     <label for="estadocaso_id">A 5. Estado Actual:</label>
-                    <select class="form-control" name="estadocaso_id">
+                    <select class="form-control selectEstadoCaso" name="estadocaso_id">
                     <option value="">Estado Actual</option>
                     @foreach ($datosEstadoCaso as $estadocaso)
                         @php
@@ -158,13 +158,62 @@
                     </select>
                     {!! $errors->first('estadocaso_id', '<p class="help-block" style="color:red";>:message</p>') !!}
                 </div>
+
+                <div class="form-group divMotivoCierre" style="display: none;">
+                    <label for="">A 5 I. Motivo de cierre</label>
+                    <select class="form-control selectMotivoCierre" name="motivocierre_id">
+                        <option value="">Seleccioná un motivo</option>
+                        @foreach ($datosMotivoCierre as $motivoCierre)
+                            <option value="{{ $motivoCierre->id }}">{{ $motivoCierre->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <script>
+                    // var selectEstadoCaso = document.querySelector('.selectEstadoCaso');
+                    // var divMotivoCierre = document.querySelector('.divMotivoCierre');
+
+
+                    // selectEstadoCaso.addEventListener('change', function(){
+                    //     if (selectEstadoCaso.value == 3) {
+                    //         divMotivoCierre.style.display = '';
+                    //     }else{
+                    //         divMotivoCierre.style.display = 'none';
+                    //     }
+                    // });
+                </script>
             {{-- FIN QUINTA PREGUNTA --}}
 
             {{-- INICIO SEXTA PREGUNTA --}}
-                <div class="form-group {{ $errors->has('datos_ente_judicial') ? 'has-error' : ''}}">
-                    <label for="datos_ente_judicial">A 6. Fiscalía/Juzgado Interviniente:</label>
-                    <input type="text" class="form-control" name="datos_ente_judicial" id="datos_ente_judicial" value="{{old('datos_ente_judicial')}}">
-                    {!! $errors->first('datos_ente_judicial', '<p class="help-block" style="color:red";>:message</p>') !!}
+                <div class="form-group" {{ $errors->has('ambito_id') ? 'has-error' : ''}}>
+                    <label for="">A 6. Ámbito de competencia</label>
+                    <select name="ambito_id" class="form-control selectAmbito">
+                        <option value="">Seleccioná el ámbito de competencia</option>
+                        @foreach ($datosAmbito as $ambito)
+                            <option value="{{ $ambito->id }}">{{ $ambito->nombre }}</option>
+                        @endforeach
+                    </select>
+                    {!! $errors->first('ambito_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+                </div>
+
+                <div class="form-group divDepartamento" {{ $errors->has('departamento_id') ? 'has-error' : ''}} style="display: none;">
+                    <select name="departamento_id" class="form-control selectDepartamento">
+                        <option value="">Seleccioná el departamento</option>
+                        @foreach ($datosDepartamento as $departamento)
+                            <option value="{{ $departamento->id }}">{{ $departamento->nombre }}</option>
+                        @endforeach
+                    </select>                    
+                    {!! $errors->first('departamento_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+                </div>
+
+                 <div class="form-group divOtrasProv" {{ $errors->has('otrasprov_id') ? 'has-error' : ''}} style="display: none;">
+                    <select name="otrasprov_id" class="form-control selectOtrasProv">
+                        <option value="">Seleccioná la provincia</option>
+                        @foreach ($datosOtrasProv as $otrasProv)
+                            <option value="{{ $otrasProv->id }}">{{ $otrasProv->nombre }}</option>
+                        @endforeach
+                    </select>                    
+                    {!! $errors->first('otrasprov_id', '<p class="help-block" style="color:red";>:message</p>') !!}
                 </div>
             {{-- FIN SEXTA PREGUNTA --}}
 
@@ -189,7 +238,7 @@
 
                 <script>
                     function selectOnChange(sel) {
-                        if (sel.value=="25"){
+                        if (sel.value=="6"){
                             divC = document.getElementById("cual");
                             divC.style.display = "";
                         }else{

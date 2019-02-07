@@ -19,7 +19,7 @@ class NoHayEjeF
         foreach ($carpetas as $carpeta) {
             if ($carpeta->numeroCarpeta) {
                 if (!($carpeta->fformulario_id)) {
-                    return redirect('/formularios/F')->with('message', 'Primero tenes que completar el Eje F!');
+                    return redirect('/formularios/F')->with('message', 'Primero tenes que completar el Eje E!');
                 }
             }
         }

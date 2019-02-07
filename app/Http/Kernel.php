@@ -72,7 +72,7 @@ class Kernel extends HttpKernel
         'noHayEjeD' => \App\Http\Middleware\NoHayEjeD::class,
         'noHayEjeE' => \App\Http\Middleware\NoHayEjeE::class,
         'noHayEjeF' => \App\Http\Middleware\NoHayEjeF::class,
-        'faltaCompletarEje' => \App\Http\Middleware\NoHayEjeF::class,
+        'faltaCompletarEje' => \App\Http\Middleware\FaltaCompletarEje::class,
 
     ];
 }
