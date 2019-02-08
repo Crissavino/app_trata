@@ -93,6 +93,7 @@ class CreateDatabaseTableA extends Migration
         Schema::create('profesionals', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre_apellido_equipo');
+            $table->string('profesion');
             $table->string('email');
             $table->softDeletesTz();
             $table->timestampsTz();

@@ -2,14 +2,22 @@
 <html lang="es">
 <head>
 	@include('partials.head')
-	<title>Eje C: Grupo Conviviente</title>
+	<title>Eje C: Referentes afectivos</title>
+    <style>
+        .cerrarSesion{
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    </style>
 </head>
 <header>
     <ul class="nav nav-tabs">
         <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios">Formularios</a> </li> --}}
-        <li class="nav-item active"> <a class="nav-link " href="/formularios/buscador">Buscador</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/buscador">Buscador</a> </li>
+        <li class="nav-item cerrarSesion"> <a class="nav-link " href="/logout">Cerrar sesión</a> </li>
     </ul>
 	<ul class="nav nav-tabs">
         {{-- <li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li> --}}
@@ -37,11 +45,11 @@
                 @break
             @endif --}}
         @endforeach
-        <li class="nav-item"> <a class="nav-link active" href="C">Eje C: Grupo Conviviente</a> </li>
+        <li class="nav-item"> <a class="nav-link active" href="C">Eje C: Referentes afectivos</a> </li>
         <li class="nav-item"> <a class="nav-link" href="D">Eje D: Datos de delito</a> </li>
         {{-- el eje F paso a ser el eje E y el eje G paso a ser el eje F --}}
         <li class="nav-item"> <a class="nav-link" href="F">Eje E: Atención del caso</a> </li>
-        <li class="nav-item"> <a class="nav-link" href="G">Eje F: Documentación</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="G">Eje F: Detalle de intervención</a> </li>
 	</ul>
 </header>
 <body>
@@ -71,7 +79,7 @@
             </h1>
             
             <div class="form-group">
-            	<label for="otraspersonas_id">C 1. ¿Se encontraba con otras personas en el lugar de explotación? </label>
+            	<label for="otraspersonas_id">C 1. ¿Cuenta con alguna persona de referencia afectiva? </label>
 	            <select class="form-control noPersonas" name="otraspersonas_id" {{ $errors->has('otraspersonas_id') ? 'has-error' : ''}}>
 	            	<option value="">Otras personas en el lugar de explotación</option>
 	                @foreach ($datosOtraspersonas as $otrasPersonas)
@@ -172,7 +180,7 @@
             btnAgregarConviviente.addEventListener('click', function(){
                 clicks++
                 
-                var divClickConviviente = '<div class="hijo" id="hijo"><h3>Datos del Conviviente:</h3><div class="form-group" {{ $errors->has('nombre_apellido[]') ? 'has-error' : ''}}><label for="">C 2. Nombre y apellido</label><input type="text" class="form-control nombre_apellido'+clicks+'" name="nombre_apellido[]" value="">{!! $errors->first('nombre_apellido.*', '<p class="help-block" style="color:red";>:message</p>') !!}<label for="" >Se desconoce</label><input type="checkbox" class="desconoceNA'+clicks+' ml-2" value=""></div><div class="form-group" {{ $errors->has('edad[]') ? 'has-error' : ''}}><label for="edad">C 3. Edad:</label><input type="text" class="form-control edad'+clicks+'" id="edad" name="edad[]" value="">{!! $errors->first('edad.*', '<p class="help-block" style="color:red";>:message</p>') !!}<label for="">Se desconoce</label><input type="checkbox" class="desconoceE'+clicks+' ml-2" value=""></div><div class="form-group" {{ $errors->has('genero_id[]') ? 'has-error' : ''}}><label for="genero_id">C 4. Género</label><select class="form-control genero'+clicks+'" id="genero_id" name="genero_id[]"><option value="">Género?</option>@foreach ($datosGeneros as $genero)<option value="{{ $genero->getIdGenero() }}" {{ old('genero_id') == $genero->getIdGenero() ? 'selected' : '' }}>{{ $genero->getNombreGenero() }}</option>@endforeach</select>{!! $errors->first('genero_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group" {{ $errors->has('vinculo_id[]') ? 'has-error' : ''}}><label for="vinculo_id">C 5. Vinculación con la víctima:</label><select id="vinculo_id" class="form-control vinculo'+clicks+'" name="vinculo_id[]"><option value="">Vínculo?</option>@foreach ($datosVinculos as $vinculo)<option value="{{ $vinculo->getId() }}" {{ old('vinculo_id') == $vinculo->getId() ? 'selected' : '' }}>{{ $vinculo->getNombre() }}</option>@endforeach</select>{!! $errors->first('vinculo_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group otro_vinculo'+clicks+'" style="display: none"><label for="vinculo_otro">Cuál?</label><input type="text" class="form-control vinculo_otro" name="vinculo_otro[]"></div></div>';
+                var divClickConviviente = '<div class="hijo" id="hijo"><h3>Datos del Conviviente:</h3><div class="form-group" {{ $errors->has('nombre_apellido[]') ? 'has-error' : ''}}><label for="">C 2. Referente - Nombre y apellido</label><input type="text" class="form-control nombre_apellido'+clicks+'" name="nombre_apellido[]" value="">{!! $errors->first('nombre_apellido.*', '<p class="help-block" style="color:red";>:message</p>') !!}<label for="" >Se desconoce</label><input type="checkbox" class="desconoceNA'+clicks+' ml-2" value=""></div><div class="form-group" {{ $errors->has('edad[]') ? 'has-error' : ''}}><label for="edad">C 3. Referente - Edad:</label><input type="text" class="form-control edad'+clicks+'" id="edad" name="edad[]" value="">{!! $errors->first('edad.*', '<p class="help-block" style="color:red";>:message</p>') !!}<label for="">Se desconoce</label><input type="checkbox" class="desconoceE'+clicks+' ml-2" value=""></div><div class="form-group" {{ $errors->has('vinculo_id[]') ? 'has-error' : ''}}><label for="vinculo_id">C 4. Referente - Tipo de vínculo con la víctima</label><select id="vinculo_id" class="form-control vinculo'+clicks+'" name="vinculo_id[]"><option value="">Vínculo?</option>@foreach ($datosVinculos as $vinculo)<option value="{{ $vinculo->getId() }}" {{ old('vinculo_id') == $vinculo->getId() ? 'selected' : '' }}>{{ $vinculo->getNombre() }}</option>@endforeach</select>{!! $errors->first('vinculo_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group otro_vinculo'+clicks+'" style="display: none"><label for="vinculo_otro">Cuál?</label><input type="text" class="form-control vinculo_otro" name="vinculo_otro[]"></div></div><div class="form-group" {{ $errors->has('referenteContacto[]') ? 'has-error' : ''}}><label for="">C 5. Contacto de referente</label><input type="text" name="referenteContacto[]" class="form-control">{!! $errors->first('referenteContacto.*', '<p class="help-block" style="color:red";>:message</p>') !!}</div>';
 
                 var divConvivientes = document.querySelector('.padre');
                 divConvivientes.insertAdjacentHTML('beforeend', divClickConviviente);

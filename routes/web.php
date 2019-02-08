@@ -89,6 +89,9 @@ Route::post('/mapas', 'MapsController@gurdarDatos')->middleware('auth');
 
 
 
-//RUTAS DE LOGUIN Y REGISTRO QUE CREA LARAVEL
+//RUTAS DE LOGUIN, LOGOUT Y REGISTRO QUE CREA LARAVEL
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/logout', 'Auth\LoginController@logout');
+

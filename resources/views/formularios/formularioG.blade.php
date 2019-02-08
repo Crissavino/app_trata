@@ -2,14 +2,23 @@
 <html>
 <head>
 	@include('partials.head')
-	<title>Eje F: Documentación</title>
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script> 
+	<title>Eje F: Detalle de intervención</title>
+    <style>
+        .cerrarSesion{
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    </style>
 </head>
 <header>
     <ul class="nav nav-tabs">
         <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios">Formularios</a> </li> --}}
-        <li class="nav-item active"> <a class="nav-link " href="/formularios/buscador">Buscador</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/buscador">Buscador</a> </li>
+        <li class="nav-item cerrarSesion"> <a class="nav-link " href="/logout">Cerrar sesión</a> </li>
     </ul>
     <ul class="nav nav-tabs">
         {{-- <li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li>
@@ -32,7 +41,7 @@
         @endforeach
         @foreach ($carpetas as $carpeta)
             @if ($numeroCarpeta == $carpeta->numeroCarpeta)
-                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/C/{{ $carpeta->cformulario_id }}">Eje C: Grupo Conviviente</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/C/{{ $carpeta->cformulario_id }}">Eje C: Referentes afectivos</a> </li>
                 @break
             @endif
         @endforeach
@@ -98,7 +107,7 @@
                     {!! $errors->first('notRelacionadas.*', '<p class="help-block" style="color:red;padding-top:10px";>:message</p>') !!}
                 </div>
 
-                <label for="" class="">Plan de Intervención/Estrategias de abordaje</label>
+                <label for="" class="">Plan de Intervención - Estrategias de abordaje</label>
                 <div class="form-group custom-file mb-3" {{ $errors->has('intervencionEstrategias[]') ? 'has-error' : ''}}>
                     {{-- ver formularioG.js para ver como deben funcionar la subida de archivos con bootstrap --}}
                     <label for="" class="custom-file-label intervencionEstrategias">Click para agregar documentación</label>
@@ -506,13 +515,16 @@
                 {{-- Fin AGREGAR INTERVENCIÓN --}}
 
         </div>
+        <div id="editor"></div>
 
 
                 <button type="submit" class="btn btn-primary col-xl btnEnviarForm">Guardar</button>
             </form>
     </section>
 
-    <input type="button" name="imprimir" class="btn btn-dark imprimir m-4 fixed-bottom" value="Imprimir">
+
+    {{-- <input type="button" name="imprimir" class="btn btn-dark imprimir m-4 fixed-bottom" value="Imprimir"> --}}
+    {{-- <input type="button" name="descargar" id="descargar" class="btn btn-dark descargar m-4 fixed-bottom" value="Descargar"> --}}
 
     <script>
         //para poder usar blade lo tuve que agregar en esta pagina
@@ -589,6 +601,47 @@
         //fin agregar intervencion
     </script>
 			        
+
+    <script>
+        //descargar pdf
+
+            // var doc = new jsPDF();
+            var contenidoImprimible = document.getElementById('imprimible').innerHTML;
+            var descargarPDF = document.querySelector('.descargar');
+            // var specialElementHandlers = {
+            //     '#editor': function (element, renderer) {
+            //         return true;
+            //     }
+            // };
+
+            descargarPDF.addEventListener('click', function(){
+                var contendioOriginal = document.body.innerHTML;
+                document.body.innerHTML = contenidoImprimible;
+
+                var doc = new jsPDF();
+                doc.text(document.body.innerHTML, 10, 10)
+                doc.save('a4.pdf')
+                // window.print()
+
+                document.body.innerHTML = contendioOriginal; 
+            })
+
+            // $('#descargar').click(function () {
+            //     doc.fromHTML($('#imprimible').html(), 15, 15, {
+            //         // 'width': 170,
+            //             'elementHandlers': specialElementHandlers
+            //     });
+            //     doc.save('Formulario E - Carpeta Núm '+{{ $numeroCarpeta }}+'.pdf');
+            // });
+
+            // var link = document.createElement('a');
+            // link.href = 'www.google.com';
+            // link.download = 'file.pdf';
+            // link.dispatchEvent(new MouseEvent('click'));
+
+        //fin descargar pdf
+    </script>
+
     <script src="/js/formularioG.js" type="text/javascript" charset="utf-8" async defer></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 

@@ -11,6 +11,28 @@
         swal('Se borro un profesional')
 	});
 
+	var noPersonas = document.querySelector('.noPersonas');
+	
+	if (noPersonas.value == '2' || noPersonas.value == '3') {
+		var convivientes = document.querySelector('.padre');
+		convivientes.style.display = "none";
+		var btnAnadir = document.querySelector('.clickAnadir');
+		var btnBorrar = document.querySelector('.clickBorrar');
+	}else if(noPersonas.value == '1'){
+		var convivientes = document.querySelector('.padre');
+		convivientes.style.display = "";
+		var btnAnadir = document.querySelector('.clickAnadir');
+		var btnBorrar = document.querySelector('.clickBorrar');
+		btnAnadir.removeAttribute('disabled', 'disabled');
+		btnBorrar.removeAttribute('disabled', 'disabled');
+		// swal("Agregá al menos un conviviente");
+	}else{
+		var convivientes = document.querySelector('.padre');
+		convivientes.style.display = "";
+		var btnAnadir = document.querySelector('.clickAnadir');
+		var btnBorrar = document.querySelector('.clickBorrar');
+	}
+
 window.onload =function (){
 
 //---------FORMULARIO C--------------

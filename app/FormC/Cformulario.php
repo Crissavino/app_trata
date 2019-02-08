@@ -15,9 +15,9 @@ class Cformulario extends Model
 
     //Relaciones
 
-    public function convivientes()
+    public function referentes()
     {
-    	return $this->belongsToMany('\App\FormC\Conviviente');
+    	return $this->belongsToMany('\App\FormC\Referente');
     }
 
     public function numerocarpeta()

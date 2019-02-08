@@ -2,7 +2,32 @@
 <html>
 <head>
 	@include('partials.head')
-	<title>Eje F: Documentación</title>
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>        
+	<title>Eje F: Detalle de intervención</title>
+    <style>
+        .cerrarSesion{
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .botones{
+            display: inline-block;
+            width: 100%;
+            position: fixed;
+            bottom: 40px;
+        }
+
+        .imprimir{
+            display: block;
+            /*width: 100%;*/
+        }
+
+        .descargar{
+            display: block;
+            /*width: 100%;*/
+        }
+    </style>
 </head>
 <header>
     <ul class="nav nav-tabs">
@@ -10,6 +35,7 @@
         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios">Formularios</a> </li> --}}
         <li class="nav-item active"> <a class="nav-link " href="/formularios/buscador">Buscador</a> </li>
+        <li class="nav-item cerrarSesion"> <a class="nav-link " href="/logout">Cerrar sesión</a> </li>
     </ul>
     <ul class="nav nav-tabs">
         @if ($idFormA)
@@ -23,9 +49,9 @@
             <li class="nav-item"> <a class="nav-link " href="/formularios/B">Eje B: Caracterización de la víctima</a> </li>
         @endif
         @if ($idFormC)
-            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/C/{{ $idFormC }}">Eje C: Grupo Conviviente</a> </li>
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/C/{{ $idFormC }}">Eje C: Referentes afectivos</a> </li>
         @else
-            <li class="nav-item"> <a class="nav-link " href="/formularios/C">Eje C: Grupo Conviviente</a> </li>
+            <li class="nav-item"> <a class="nav-link " href="/formularios/C">Eje C: Referentes afectivos</a> </li>
         @endif
         @if ($idFormD)
             <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/D/{{ $idFormD }}">Eje D: Datos de delito</a> </li>
@@ -44,11 +70,11 @@
             <li class="nav-item"> <a class="nav-link " href="/formularios/F">Eje E: Atención del caso</a> </li>
         @endif
         @if ($idFormG)
-            <li class="nav-item"> <a class="nav-link active" href="/formularios/edicion/G/{{ $idFormG }}">Eje F: Documentación</a> </li>
+            <li class="nav-item"> <a class="nav-link active" href="/formularios/edicion/G/{{ $idFormG }}">Eje F: Detalle de intervención</a> </li>
         @else
-            <li class="nav-item"> <a class="nav-link active" href="/formularios/G">Eje F: Documentación</a> </li>
+            <li class="nav-item"> <a class="nav-link active" href="/formularios/G">Eje F: Detalle de intervención</a> </li>
         @endif
-         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/C">Eje C: Grupo Conviviente</a> </li> --}}
+         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/C">Eje C: Referentes afectivos</a> </li> --}}
         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/D">Eje D: Datos de delito</a> </li> --}}
         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/E">Eje E: Datos del imputado</a> </li> --}}
         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/F">Eje F: Atención del caso</a> </li> --}}
@@ -61,7 +87,7 @@
         @if (auth()->user()->isAdmin !== 2)
             <div id="imprimible">
                 <h1 class="text-center" style="padding: 15px;">
-                    Eje G: Detalle de intervención
+                    Eje F: Detalle de intervención
                     <h5 class=" mb-5" style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $formularioG->numeroCarpeta }}</h5>
                 </h1>
                 <form action="" method="POST" accept-charset="utf-8" enctype='multipart/form-data'>
@@ -126,7 +152,7 @@
                         {!! $errors->first('notRelacionadas.*', '<p class="help-block" style="color:red;padding-top:10px";>:message</p>') !!}
                     </div>
 
-                    <label for="" class="">Plan de Intervención/Estrategias de abordaje  guardada anteriormente</label>
+                    <label for="" class="">Plan de Intervención - Estrategias de abordaje  guardada anteriormente</label>
                         <ul class="container mt-0 mb-3">
                             @if ($intervencionEstrategias->count() !== 0)
                                 @foreach($intervencionEstrategias as $doc)
@@ -145,7 +171,7 @@
                         {!! $errors->first('intervencionEstrategias.*', '<p class="help-block" style="color:red;padding-top:10px";>:message</p>') !!}
                     </div>
 
-                    <label for="" class="">Informe Socioambiental  guardado anteriormente</label>
+                    <label for="" class="">Informe Socioambiental guardado anteriormente</label>
                         <ul class="container mt-0 mb-3">
                             @if ($infoSocioambiental->count() !== 0)
                                 @foreach($infoSocioambiental as $doc)
@@ -1039,7 +1065,114 @@
         
     </section>
 
-    <input type="button" name="imprimir" class="btn btn-dark imprimir m-4 fixed-bottom" value="Imprimir">
+    <div id="html-2-pdfwrapper"></div>
+
+    <div class="botones">
+        <input type="button" name="descargar" id="descargar" class="btn btn-dark descargar ml-4 mb-2" value="Descargar">
+        <input type="button" name="imprimir" class="btn btn-dark imprimir ml-4" value="Imprimir">
+    </div>
+
+    <script>
+        var descargarPDF = document.querySelector('.descargar');
+        // var base64Img = null;
+        // imgToBase64('octocat.jpg', function(base64) {
+        //     base64Img = base64; 
+        // });
+        margins = {
+            top: 70,
+            bottom: 40,
+            left: 30,
+            width: 550
+        };
+
+        descargarPDF.addEventListener('click', generate)
+
+        function generate()
+        {
+            var pdf = new jsPDF('p', 'pt', 'a4');
+            pdf.setFontSize(18);
+            pdf.fromHTML(document.getElementById('imprimible'), 
+                margins.left, // x coord
+                margins.top,
+                {
+                    // y coord
+                    width: margins.width// max width of content on PDF
+                },function(dispose) {
+                    headerFooterFormatting(pdf, pdf.internal.getNumberOfPages());
+                }, 
+                margins);
+                
+            // var iframe = document.createElement('iframe');
+            // iframe.setAttribute('style','position:absolute;right:0; top:0; bottom:0; height:100%; width:650px; padding:20px;');
+            // document.body.appendChild(iframe);
+            
+            // iframe.src = pdf.output('datauristring');
+            pdf.save('a4.pdf')
+        };
+
+        function headerFooterFormatting(doc, totalPages)
+        {
+            for(var i = totalPages; i >= 1; i--)
+            {
+                doc.setPage(i);                            
+                //header
+                header(doc);
+                
+                footer(doc, i, totalPages);
+                doc.page++;
+            }
+        };
+
+        function header(doc)
+        {
+            doc.setFontSize(20);
+            doc.setTextColor(40);
+            doc.setFontStyle('normal');
+            
+            // if (base64Img) {
+            //    doc.addImage(base64Img, 'JPEG', margins.left, 10, 40,40);        
+            // }
+                
+            doc.text("Eje F: Detalle de intervención - Carpeta "+{{ $numeroCarpeta }}, margins.left + 50, 40 );
+            doc.setLineCap(2);
+            doc.line(3, 70, margins.width + 43,70); // horizontal line
+        };
+
+        //no va
+            // You could either use a function similar to this or pre convert an image with for example http://dopiaza.org/tools/datauri
+            // http://stackoverflow.com/questions/6150289/how-to-convert-image-into-base64-string-using-javascript
+            // function imgToBase64(url, callback, imgVariable) 
+            // {
+            //     if (!window.FileReader) {
+            //         callback(null);
+            //         return;
+            //     }
+            //     var xhr = new XMLHttpRequest();
+            //     xhr.responseType = 'blob';
+            //     xhr.onload = function() {
+            //         var reader = new FileReader();
+            //         reader.onloadend = function() {
+            //             imgVariable = reader.result.replace('text/xml', 'image/jpeg');
+            //             callback(imgVariable);
+            //         };
+            //         reader.readAsDataURL(xhr.response);
+            //     };
+            //     xhr.open('GET', url);
+            //     xhr.send();
+            // };
+        //fin
+
+        function footer(doc, pageNumber, totalPages)
+        {
+            var str = "Page " + pageNumber + " of " + totalPages
+           
+            doc.setFontSize(10);
+            doc.text(str, margins.left, doc.internal.pageSize.height - 20);
+        };
+
+
+        
+    </script>
 
     <script>
         //para poder usar blade lo tuve que agregar en esta pagina
@@ -1107,7 +1240,7 @@
             });
         //fin agregar intervencion
     </script>
-			        
+			
     <script src="/js/formularioG.js" type="text/javascript" charset="utf-8" async defer></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 

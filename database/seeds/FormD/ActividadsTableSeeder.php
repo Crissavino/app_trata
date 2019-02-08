@@ -20,6 +20,8 @@ class ActividadsTableSeeder extends Seeder
 
             // ['nombre' => 'Privado'],
 
+            // ['nombre' => 'Prostíbulo'],
+
             ['nombre' => 'Prostitución'],
 
             ['nombre' => 'Prostitución de menores'],

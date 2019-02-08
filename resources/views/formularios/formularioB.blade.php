@@ -3,13 +3,21 @@
 <head>
 	@include('partials.head')
 	<title>Eje B: Caracterización de la victima</title>
+    <style>
+        .cerrarSesion{
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    </style>
 </head>
 <header>
     <ul class="nav nav-tabs">
         <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios">Formularios</a> </li> --}}
-        <li class="nav-item active"> <a class="nav-link " href="/formularios/buscador">Buscador</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/buscador">Buscador</a> </li>
+        <li class="nav-item cerrarSesion"> <a class="nav-link " href="/logout">Cerrar sesión</a> </li>
     </ul>
 	<ul class="nav nav-tabs">
         @foreach ($carpetas as $carpeta)
@@ -18,12 +26,12 @@
             @endif
         @endforeach
         <li class="nav-item"> <a class="nav-link active" href="B">Eje B: Caracterización de la víctima</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="C">Eje C: Grupo Conviviente</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="C">Eje C: Referentes afectivos</a> </li>
         <li class="nav-item"> <a class="nav-link " href="D">Eje D: Datos de delito</a> </li>
         {{-- <li class="nav-item"> <a class="nav-link " href="E">Eje E: Datos del imputado</a> </li> --}}
         {{-- el eje F paso a ser el eje E y el eje G paso a ser el eje F --}}
         <li class="nav-item"> <a class="nav-link " href="F">Eje E: Atención del caso</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="G">Eje F: Documentación</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="G">Eje F: Detalle de intervención</a> </li>
 	</ul>
 </header>
 <body>

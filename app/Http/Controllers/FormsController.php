@@ -59,11 +59,11 @@ class FormsController extends Controller
 											->ORDERBY('updated_at')
 											->get();
 											
-		$eFormPorId = DB::table('eformularios')
-											->WHERE('user_id', '=', $userId)
-											->WHERE('eformularios.deleted_at', '=', null)
-											->ORDERBY('updated_at')
-											->get();
+		// $eFormPorId = DB::table('eformularios')
+		// 									->WHERE('user_id', '=', $userId)
+		// 									->WHERE('eformularios.deleted_at', '=', null)
+		// 									->ORDERBY('updated_at')
+		// 									->get();
 		$fFormPorId = DB::table('fformularios')
 											->WHERE('user_id', '=', $userId)
 											->WHERE('fformularios.deleted_at', '=', null)
@@ -178,7 +178,7 @@ class FormsController extends Controller
 												'aFormPorId' => $aFormPorId,
 												'cFormPorId' => $cFormPorId,
 												'dFormPorId' => $dFormPorId,
-												'eFormPorId' => $eFormPorId,
+												// 'eFormPorId' => $eFormPorId,
 												'fFormPorId' => $fFormPorId,
 												'gFormPorId' => $gFormPorId,
 												'carpetas' => $carpetas
@@ -849,7 +849,7 @@ class FormsController extends Controller
 	public function createC()
 	{
 		$datosOtraspersonas = \App\FormC\Otraspersona::all();
-		$datosGeneros = \App\FormB\Genero::all();
+		// $datosGeneros = \App\FormB\Genero::all();
 		$datosVinculos = \App\FormC\Vinculo::all();
 		$userId = auth()->user()->id;
 
@@ -865,7 +865,7 @@ class FormsController extends Controller
 		$carpetas = \App\Carpetas\Numerocarpeta::all();
 
 		return view('formularios.formularioC', ['datosOtraspersonas' => $datosOtraspersonas,
-												'datosGeneros' => $datosGeneros,
+												// 'datosGeneros' => $datosGeneros,
 												'datosVinculos' => $datosVinculos,
 												'numeroCarpeta' => $numeroCarpeta,
 												'carpetas' => $carpetas,
@@ -885,20 +885,23 @@ class FormsController extends Controller
 			'nombre_apellido.0' => 'required_if:otraspersonas_id,==,1',
 			'edad.*' => 'nullable',
 			'edad.0' => 'required_if:otraspersonas_id,==,1',
-			'genero_id.*' => 'nullable',
-			'genero_id.0' => 'required_if:otraspersonas_id,==,1',
+			// 'genero_id.*' => 'nullable',
+			// 'genero_id.0' => 'required_if:otraspersonas_id,==,1',
 			'vinculo_id.*' => 'nullable',
 			'vinculo_id.0' => 'required_if:otraspersonas_id,==,1',
 			'vinculo_otro.*' => 'nullable',
 			'vinculo_otro.0' => 'required_if:vinculo_id,==,6',
+			'referenteContacto.*' => 'nullable',
+			'referenteContacto.0' => 'required_if:otraspersonas_id,==,1',
 		],
 		[
 			'otraspersonas_id.required' => 'Este campo es obligatorio',
 			'nombre_apellido.*.required_if' => 'Este campo es obligatorio',
 			'edad.*.required_if' => 'Este campo es obligatorio',
-			'genero_id.*.required_if' => 'Este campo es obligatorio',
+			// 'genero_id.*.required_if' => 'Este campo es obligatorio',
 			'vinculo_id.*.required_if' => 'Este campo es obligatorio',
-			'vinculo_otro.*.required_if' => 'Este campo es obligatorio'
+			'vinculo_otro.*.required_if' => 'Este campo es obligatorio',
+			'referenteContacto.*.required_if' => 'Este campo es obligatorio'
 
 		]);
 		// ver que hacer si la cantidad que se recibe es 0, osea lo mando de una
@@ -920,21 +923,21 @@ class FormsController extends Controller
 
 			for ($i=0; $i < $cant; $i++) {
 
-				$conviviente['nombre_apellido'] = $data['nombre_apellido'][$i];
-				$conviviente['edad'] = $data['edad'][$i];
-				$conviviente['genero_id'] = $data['genero_id'][$i];
-				$conviviente['vinculo_id'] = $data['vinculo_id'][$i]; 
-				$conviviente['vinculo_otro'] = $data['vinculo_otro'][$i]; 
-				$conviviente['user_id'] = $data['user_id'];
+				$referente['nombre_apellido'] = $data['nombre_apellido'][$i];
+				$referente['edad'] = $data['edad'][$i];
+				$referente['vinculo_id'] = $data['vinculo_id'][$i]; 
+				$referente['vinculo_otro'] = $data['vinculo_otro'][$i]; 
+				$referente['referenteContacto'] = $data['referenteContacto'][$i];
+				$referente['user_id'] = $data['user_id'];
 
-				$guardoCoviviente = \App\FormC\Conviviente::create($conviviente);
+				$guardoReferente = \App\FormC\Referente::create($referente);
 
-				$convivienteId[] = $guardoCoviviente->id;
+				$referenteId[] = $guardoReferente->id;
 			}
 
 			$cFormulario = \App\FormC\Cformulario::find($ultimoId);
 
-			$guardoRelacion = $cFormulario->convivientes()->sync($convivienteId);
+			$guardoRelacion = $cFormulario->referentes()->sync($referenteId);
 
 			return redirect('formularios/D');
 		}else{
@@ -945,16 +948,16 @@ class FormsController extends Controller
 	public function editC($id)
 	{
 		$datosOtraspersonas = \App\FormC\Otraspersona::all();
-		$datosGeneros = \App\FormB\Genero::all();
+		// $datosGeneros = \App\FormB\Genero::all();
 		$datosVinculos = \App\FormC\Vinculo::all();
 		$userId = auth()->user()->id;
-		$datosConvivientes = \App\FormC\Conviviente::all();
+		$datosReferentes = \App\FormC\Referente::all();
 		$cFormulario = \App\FormC\Cformulario::find($id);
 
 		$datosTodo = DB::table('cformularios')
 		                            ->WHERE('cformularios.id', '=', $id)
-									->JOIN('cformulario_conviviente', 'cformularios.id', '=', 'cformulario_conviviente.cformulario_id')
-									->JOIN('convivientes', 'cformulario_conviviente.conviviente_id', '=', 'convivientes.id')
+									->JOIN('cformulario_referente', 'cformularios.id', '=', 'cformulario_referente.cformulario_id')
+									->JOIN('referentes', 'cformulario_referente.referente_id', '=', 'referentes.id')
 		                            ->get();
 
 		//id de los formularios de una misma carpeta
@@ -983,7 +986,7 @@ class FormsController extends Controller
 
 		return view('formularios.editar.formularioC_edit', [
 															'datosOtraspersonas' => $datosOtraspersonas,
-															'datosGeneros' => $datosGeneros,
+															// 'datosGeneros' => $datosGeneros,
 															'datosVinculos' => $datosVinculos,
 															'userId' => $userId,
 															'cFormulario' => $cFormulario,
@@ -1007,16 +1010,19 @@ class FormsController extends Controller
 			'nombre_apellido.0' => 'required',
 			'edad.*' => 'nullable',
 			'edad.0' => 'required',
-			'genero_id.*' => 'nullable',
-			'genero_id.0' => 'required',
+			// 'genero_id.*' => 'nullable',
+			// 'genero_id.0' => 'required',
 			'vinculo_id.*' => 'nullable',
 			'vinculo_id.0' => 'required',
+			'referenteContacto.*' => 'nullable',
+			'referenteContacto.0' => 'required_if:otraspersonas_id,==,1',
 		],
 		[
 			'nombre_apellido.*.required' => 'Este campo es obligatorio',
 			'edad.*.required' => 'Este campo es obligatorio',
-			'genero_id.*.required' => 'Este campo es obligatorio',
-			'vinculo_id.*.required' => 'Este campo es obligatorio'
+			// 'genero_id.*.required' => 'Este campo es obligatorio',
+			'vinculo_id.*.required' => 'Este campo es obligatorio',
+			'referenteContacto.*.required_if' => 'Este campo es obligatorio'
 		]);
 		$data = request()->all();
 		$data['user_id'] = $userId;
@@ -1025,24 +1031,24 @@ class FormsController extends Controller
 		
 		for ($i=0; $i < $cant; $i++) {
 
-			$conviviente['nombre_apellido'] = $data['nombre_apellido'][$i];
-			$conviviente['edad'] = $data['edad'][$i];
-			$conviviente['genero_id'] = $data['genero_id'][$i];
-			$conviviente['vinculo_id'] = $data['vinculo_id'][$i]; 
-			$conviviente['user_id'] = $data['user_id'];
+			$referente['nombre_apellido'] = $data['nombre_apellido'][$i];
+			$referente['edad'] = $data['edad'][$i];
+			$referente['vinculo_id'] = $data['vinculo_id'][$i]; 
+			$referente['referenteContacto'] = $data['referenteContacto'][$i];
+			$referente['user_id'] = $data['user_id'];
 
-			$guardoCoviviente = \App\FormC\Conviviente::create($conviviente);
+			$guardoReferente = \App\FormC\Referente::create($referente);
 
-			$convivienteId[] = $guardoCoviviente->id;
+			$referenteId[] = $guardoReferente->id;
 		}
 			
 		$cFormulario = \App\FormC\Cformulario::find($id);
 
 		$cFormulario->update($data);
 
-		//de esta manera lo que hago es guardar los convivientes nuevos y mantener los viejos
+		//de esta manera lo que hago es guardar los referentes nuevos y mantener los viejos
 		// $guardoRelacion = $cFormulario->convivientes()->sync($convivienteId, false);
-		$guardoRelacion = $cFormulario->convivientes()->sync($convivienteId);
+		$guardoRelacion = $cFormulario->referentes()->sync($referenteId);
 
 		return redirect('formularios/buscador');	
 	}

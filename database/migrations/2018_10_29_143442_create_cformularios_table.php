@@ -36,22 +36,22 @@ class CreateCformulariosTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('convivientes', function (Blueprint $table) {
+        Schema::create('referentes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre_apellido');
             //a edad lo debo guardar como un string porque tengo que ver la posibilidad que se desconozca el valor y tomo el Se Desconoce
             $table->string('edad');
-            $table->integer('genero_id')->unsigned();
             $table->integer('vinculo_id')->unsigned();
             $table->string('vinculo_otro')->nullable();
+            $table->string('referenteContacto');
             $table->integer('user_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();
         });
 
-        Schema::create('cformulario_conviviente', function (Blueprint $table) {
+        Schema::create('cformulario_referente', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('conviviente_id')->unsigned();
+            $table->integer('referente_id')->unsigned();
             $table->integer('cformulario_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();
@@ -68,7 +68,7 @@ class CreateCformulariosTable extends Migration
         Schema::dropIfExists('cformularios');
         Schema::dropIfExists('otraspersonas');
         Schema::dropIfExists('vinculos');
-        Schema::dropIfExists('convivientes');
-        Schema::dropIfExists('cformulario_conviviente');
+        Schema::dropIfExists('referentes');
+        Schema::dropIfExists('cformulario_referente');
     }
 }

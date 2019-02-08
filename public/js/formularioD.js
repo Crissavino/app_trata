@@ -79,7 +79,7 @@ window.onload = function (){
 
 
 		selectActividad.addEventListener('change', function(){
-			if (this.value == '8') {
+			if (this.value == '7') {
 				actividadCual.style.display = '';
 				rural.style.display = 'none';
 				privado.style.display = 'none';
@@ -140,7 +140,7 @@ window.onload = function (){
 							document.getElementById('OtroRural').disabled = false;
 						}
 					});
-				}else if (this.value == '3' || this.value == '4' || this.value == '5') {
+				}else if (this.value == '3' || this.value == '4') {
 					privado.style.display = '';
 					textil.style.display = 'none';
 					actividadCual.style.display = 'none';
@@ -190,7 +190,7 @@ window.onload = function (){
 							document.getElementById('OtroPrivado').disabled = false;
 						}
 					});
-				}else if (this.value == '6') {
+				}else if (this.value == '5') {
 					textil.style.display = '';
 					rural.style.display = 'none';
 					actividadCual.style.display = 'none';
@@ -629,34 +629,210 @@ window.onload = function (){
 	// 	textil.style.display = ''
 	// }
 
-	if (selectActividad.value === '1' || selectActividad.value === '2') {
-		rural.style.display = '';
-		if (checkRural[5].checked) {
-			ruralCual.style.display = '';
-		}else{
-			ruralOtraInput.value = '';
-		}
-	}else if (selectActividad.value === '3' || selectActividad.value === '4' || selectActividad.value === '5') {
-		privado.style.display = '';
-		if (checkPrivado[7].checked) {
-			privadoCual.style.display = '';
-		}else{
-			privadoOtraInput.value = '';
-		}
-	}else if (selectActividad.value === '6') {
-		textil.style.display = '';
-		if (checkTextil[5].checked) {
-			textilCual.style.display = '';
-		}else{
-			textilOtraInput.value = '';
-		}
-	}else if (selectActividad.value === '8') {
+	if (selectActividad.value == '7') {
 		actividadCual.style.display = '';
-	}else {
 		rural.style.display = 'none';
 		privado.style.display = 'none';
 		textil.style.display = 'none';
+		marcaTextil.value = '';
+		textilOtraInput.value = '';
+		ruralOtraInput.value = '';
+		ruralCualDomicilioInput.value = '';
+		checkTextil.forEach(function(element, index){
+			checkTextil[index].checked = false;
+		});
+		checkPrivado.forEach(function(element, index){
+			checkPrivado[index].checked = false;
+		});
+		checkRural.forEach(function(element, index){
+			checkRural[index].checked = false;
+		});
+		}else if(selectActividad.value == '1' || selectActividad.value == '2'){
+			rural.style.display = '';
+			privado.style.display = 'none';
+			actividadCual.style.display = 'none';
+			textil.style.display = 'none';
+			actividadOtraInput.value = '';
+			privadoOtraInput.value = '';
+			marcaTextil.value = '';
+			textilOtraInput.value = '';
+			checkTextil.forEach(function(element, index){
+				checkTextil[index].checked = false;
+			});
+			checkPrivado.forEach(function(element, index){
+				checkPrivado[index].checked = false;
+			})
+			checkRuralOtro.addEventListener('click', function(){
+				if (this.checked) {
+					ruralCual.style.display = '';
+				}else{
+					ruralCual.style.display = 'none';
+					ruralOtraInput.value = '';
+				}
+			});
+			checkRuralDesconoce.addEventListener('click', function(){
+				if (this.checked) {
+					document.getElementById('FeriaRural').disabled = true;
+					document.getElementById('FeriaRural').checked = false;
+					document.getElementById('VerduleríaRural').disabled = true;
+					document.getElementById('VerduleríaRural').checked = false;
+					document.getElementById('SupermercadoRural').disabled = true;
+					document.getElementById('SupermercadoRural').checked = false;
+					document.getElementById('ParticularRural').disabled = true;
+					document.getElementById('ParticularRural').checked = false;
+					document.getElementById('OtroRural').disabled = true;
+					document.getElementById('OtroRural').checked = false;
+				}else{
+					document.getElementById('FeriaRural').disabled = false;
+					document.getElementById('VerduleríaRural').disabled = false;
+					document.getElementById('SupermercadoRural').disabled = false;
+					document.getElementById('ParticularRural').disabled = false;
+					document.getElementById('OtroRural').disabled = false;
+				}
+			});
+		}else if (selectActividad.value == '3' || selectActividad.value == '4') {
+			privado.style.display = '';
+			textil.style.display = 'none';
+			actividadCual.style.display = 'none';
+			rural.style.display = 'none';
+			actividadOtraInput.value = '';
+			marcaTextil.value = '';
+			textilOtraInput.value = '';
+			ruralOtraInput.value = '';
+			ruralCualDomicilioInput.value = '';
+			checkTextil.forEach(function(element, index){
+				checkTextil[index].checked = false;
+			});
+			checkRural.forEach(function(element, index){
+				checkRural[index].checked = false;
+			});
+			checkPrivadoOtro.addEventListener('click', function(){
+				if (checkPrivadoOtro.checked) {
+					privadoCual.style.display = '';
+				}else{
+					privadoCual.style.display = 'none';
+					privadoOtraInput.value = '';
+				}
+			});
+			checkPrivadoDesconoce.addEventListener('click', function(){
+				if (this.checked) {
+					document.getElementById('Local, bar o expendio de bebidas alcohólicasPrivado').disabled = true;
+					document.getElementById('Local, bar o expendio de bebidas alcohólicasPrivado').checked = false;
+					document.getElementById('Vía públicaPrivado').disabled = true;
+					document.getElementById('Vía públicaPrivado').checked = false;
+					document.getElementById('PrivadoPrivado').disabled = true;
+					document.getElementById('PrivadoPrivado').checked = false;
+					document.getElementById('Domicilio particularPrivado').disabled = true;
+					document.getElementById('Domicilio particularPrivado').checked = false;
+					document.getElementById('HotelPrivado').disabled = true;
+					document.getElementById('HotelPrivado').checked = false;
+					document.getElementById('ProstíbuloPrivado').disabled = true;
+					document.getElementById('ProstíbuloPrivado').checked = false;
+					document.getElementById('OtroPrivado').disabled = true;
+					document.getElementById('OtroPrivado').checked = false;
+				}else{
+					document.getElementById('Local, bar o expendio de bebidas alcohólicasPrivado').disabled = false;
+					document.getElementById('Vía públicaPrivado').disabled = false;
+					document.getElementById('PrivadoPrivado').disabled = false;
+					document.getElementById('Domicilio particularPrivado').disabled = false;
+					document.getElementById('HotelPrivado').disabled = false;
+					document.getElementById('ProstíbuloPrivado').disabled = false;
+					document.getElementById('OtroPrivado').disabled = false;
+				}
+			});
+		}else if (selectActividad.value == '5') {
+			textil.style.display = '';
+			rural.style.display = 'none';
+			actividadCual.style.display = 'none';
+			privado.style.display = 'none';
+			actividadOtraInput.value = '';
+			privadoOtraInput.value = '';
+			ruralOtraInput.value = '';
+			ruralCualDomicilioInput.value = '';
+			checkPrivado.forEach(function(element, index){
+				checkPrivado[index].checked = false;
+			})
+			checkTextilOtro.addEventListener('click', function(){
+				if (checkTextilOtro.checked) {
+					textilCual.style.display = '';
+				}else{
+					textilCual.style.display = 'none';
+					textilOtraInput.value = '';
+				}
+			});
+			checkRural.forEach(function(element, index){
+				checkRural[index].checked = false;
+			});
+			checkTextilDesconoce.addEventListener('click', function(){
+				if (this.checked) {
+					document.getElementById('FeriaTextil').disabled = true;
+					document.getElementById('FeriaTextil').checked = false;
+					document.getElementById('Local de ventaTextil').disabled = true;
+					document.getElementById('Local de ventaTextil').checked = false;
+					document.getElementById('ParticularTextil').disabled = true;
+					document.getElementById('ParticularTextil').checked = false;
+					document.getElementById('Vía públicaTextil').disabled = true;
+					document.getElementById('Vía públicaTextil').checked = false;
+					document.getElementById('OtroTextil').disabled = true;
+					document.getElementById('OtroTextil').checked = false;
+				}else{
+					document.getElementById('FeriaTextil').disabled = false;
+					document.getElementById('Local de ventaTextil').disabled = false;
+					document.getElementById('ParticularTextil').disabled = false;
+					document.getElementById('Vía públicaTextil').disabled = false;
+					document.getElementById('OtroTextil').disabled = false;
+				}
+			});
+	}else{
+		actividadCual.style.display = 'none';
+		rural.style.display = 'none';
+		privado.style.display = 'none';
+		textil.style.display = 'none';
+		actividadOtraInput.value = '';
+		privadoOtraInput.value = '';
+		marcaTextil.value = '';
+		textilOtraInput.value = '';
+		ruralOtraInput.value = '';
+		ruralCualDomicilioInput.value = '';
+		checkTextil.forEach(function(element, index){
+			checkTextil[index].checked = false;
+		});
+		checkPrivado.forEach(function(element, index){
+			checkPrivado[index].checked = false;
+		});
+		checkRural.forEach(function(element, index){
+			checkRural[index].checked = false;
+		});
 	}
+
+	// if (selectActividad.value === '1' || selectActividad.value === '2') {
+	// 	rural.style.display = '';
+	// 	if (checkRural[5].checked) {
+	// 		ruralCual.style.display = '';
+	// 	}else{
+	// 		ruralOtraInput.value = '';
+	// 	}
+	// }else if (selectActividad.value === '3' || selectActividad.value === '4') {
+	// 	privado.style.display = '';
+	// 	if (checkPrivado[7].checked) {
+	// 		privadoCual.style.display = '';
+	// 	}else{
+	// 		privadoOtraInput.value = '';
+	// 	}
+	// }else if (selectActividad.value === '5') {
+	// 	textil.style.display = '';
+	// 	if (checkTextil[5].checked) {
+	// 		textilCual.style.display = '';
+	// 	}else{
+	// 		textilOtraInput.value = '';
+	// 	}
+	// }else if (selectActividad.value === '7') {
+	// 	actividadCual.style.display = '';
+	// }else {
+	// 	rural.style.display = 'none';
+	// 	privado.style.display = 'none';
+	// 	textil.style.display = 'none';
+	// }
 
 //pregunta 9
 	var selectContactoExplotacion = document.querySelector('.contactoExplotacion');

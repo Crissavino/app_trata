@@ -30,7 +30,7 @@
         @endforeach
         @foreach ($carpetas as $carpeta)
             @if ($numeroCarpeta == $carpeta->numeroCarpeta)
-                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/C/{{ $carpeta->cformulario_id }}">Eje C: Grupo Conviviente</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/C/{{ $carpeta->cformulario_id }}">Eje C: Referentes afectivos</a> </li>
                 @break
             @endif
         @endforeach

@@ -3,13 +3,21 @@
 <head>
 	@include('partials.head')
 	<title>Eje E: Atención del caso</title>
+    <style>
+        .cerrarSesion{
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    </style>
 </head>
 <header>
     <ul class="nav nav-tabs">
         <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios">Formularios</a> </li> --}}
-        <li class="nav-item active"> <a class="nav-link " href="/formularios/buscador">Buscador</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/buscador">Buscador</a> </li>
+        <li class="nav-item cerrarSesion"> <a class="nav-link " href="/logout">Cerrar sesión</a> </li>
     </ul>
     <ul class="nav nav-tabs">
         {{-- <li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li> --}}
@@ -31,7 +39,7 @@
         @endforeach
         @foreach ($carpetas as $carpeta)
             @if ($numeroCarpeta == $carpeta->numeroCarpeta)
-                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/C/{{ $carpeta->cformulario_id }}">Eje C: Grupo Conviviente</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/C/{{ $carpeta->cformulario_id }}">Eje C: Referentes afectivos</a> </li>
                 @break
             @endif
         @endforeach
@@ -49,7 +57,7 @@
         @endforeach --}}
         {{-- el eje F paso a ser el eje E y el eje G paso a ser el eje F --}}
         <li class="nav-item"> <a class="nav-link active" href="#">Eje E: Atención del caso</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="G">Eje F: Documentación</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="G">Eje F: Detalle de intervención</a> </li>
     </ul>
 </header>
 <body>
