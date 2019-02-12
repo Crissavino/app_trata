@@ -29,10 +29,10 @@
 				<span class="mobile-btn"><img width="40px" height="40px" src="/img/profile-user.png" alt=""></span>
 				<ul class="menu-mobile">
 			  		<li><a href="/mapas" title="">Mapas de calor</a></li>
-					<li><a href="" title="">Formularios</a></li>
-					<li><a href="" title="">Formularios</a></li>
-					<li><a href="" title="">Formularios</a></li>
-					<li><a href="" title="">Formularios</a></li>
+					<li><a href="/descargarEstadisticas" title="">Estadísticas</a></li>
+					{{-- <li><a href="" title="">Formularios</a></li> --}}
+					{{-- <li><a href="" title="">Formularios</a></li> --}}
+					{{-- <li><a href="" title="">Formularios</a></li> --}}
 					{{-- <li><a href="" title="">Costos</a></li> --}}
 					{{-- <li><a href="" title="">Testimonios</a></li> --}}
 				</ul>

@@ -228,8 +228,11 @@ class CreateDatabaseTableB extends Migration
 
         Schema::create('mapas', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('bformulario_id')->unsigned();
             $table->float('lat');
             $table->float('long');
+            $table->integer('count');
+            $table->integer('user_id')->unsigned();
             $table->softDeletesTz();
             $table->timestampsTz();
 

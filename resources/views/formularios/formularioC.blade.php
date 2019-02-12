@@ -67,7 +67,7 @@
             <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
 
             <h1 class="text-center" style="padding: 15px;">
-                Eje C: Grupo Conviviente
+                Eje C: Referentes afectivos
                 <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5>
                 {{-- <h5 style="text-align: center;" >Seleccioná la carpeta sobre la que deseas trabajar
                 <select name="numeroCarpeta" class="select-sinborde">
@@ -81,7 +81,7 @@
             <div class="form-group">
             	<label for="otraspersonas_id">C 1. ¿Cuenta con alguna persona de referencia afectiva? </label>
 	            <select class="form-control noPersonas" name="otraspersonas_id" {{ $errors->has('otraspersonas_id') ? 'has-error' : ''}}>
-	            	<option value="">Otras personas en el lugar de explotación</option>
+	            	<option value="">Seleccioná una opción</option>
 	                @foreach ($datosOtraspersonas as $otrasPersonas)
 	                	<option value="{{ $otrasPersonas->getId() }}">{{ $otrasPersonas->getNombre() }}</option>
 	                @endforeach

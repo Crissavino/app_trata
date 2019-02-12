@@ -426,7 +426,7 @@
 
 		 	<div class="form-group" {{ $errors->has('frecuenciapago_id') ? 'has-error' : ''}}>
 	    		<label for="">D 21. Frecuencia de pago:</label>
-	    		<select class="form-control" name="frecuenciapago_id">
+	    		<select class="form-control selectFrecuenciaPago" name="frecuenciapago_id">
 	    			<option value="">Seleccioná frecuencia</option>
 	    			@foreach ($datosFrecuenciaPago as $frecuenciaPago)
 	    				<option value="{{ $frecuenciaPago->getId() }}" {{ old('frecuenciapago_id') == $frecuenciaPago->getId() ? 'selected' : '' }}>{{ $frecuenciaPago->getNombre() }}</option>

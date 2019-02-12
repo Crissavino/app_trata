@@ -1,4 +1,3 @@
-
 window.onload =function (){
 
 	// pregunta 7
@@ -56,109 +55,109 @@ window.onload =function (){
 		});
 	// fin pregunta 9
 
-	//guardar lat y long funcionando
-		var btnEnviar = document.querySelector('.btnEnviar');
-		var formulario = document.querySelector('.formulario');
+	// //guardar lat y long funcionando
+	// 	var btnEnviar = document.querySelector('.btnEnviar');
+	// 	var formulario = document.querySelector('.formulario');
 
-		console.log(formulario);
+	// 	console.log(formulario);
 
-		// btnEnviar.addEventListener('submit', function(){
-		formulario.addEventListener('submit', function(){
-			// event.preventDefault()
-			// var formulario = document.querySelector('.formulario');
+	// 	// btnEnviar.addEventListener('submit', function(){
+	// 	formulario.addEventListener('submit', function(){
+	// 		// event.preventDefault()
+	// 		// var formulario = document.querySelector('.formulario');
 
-			arrayForm = formulario.elements;
+	// 		arrayForm = formulario.elements;
 
-			// console.log(arrayForm.ciudadNacimiento.value);
+	// 		// console.log(arrayForm.ciudadNacimiento.value);
 
-			// var campos ={
-			// 	bformulario_id: arrayForm.bformulario_id.value = element.bformulario_id,
-			// 	lat: arrayForm.lat.value = data.Response.View[0].Result[0].Location.DisplayPosition.Latitude,
-			// 	long: arrayForm.long.value = data.Response.View[0].Result[0].Location.DisplayPosition.Longitude,
-			// }
-			// console.log(arrayForm.paisNacimiento.value !== 'Se desconoce');
+	// 		// var campos ={
+	// 		// 	bformulario_id: arrayForm.bformulario_id.value = element.bformulario_id,
+	// 		// 	lat: arrayForm.lat.value = data.Response.View[0].Result[0].Location.DisplayPosition.Latitude,
+	// 		// 	long: arrayForm.long.value = data.Response.View[0].Result[0].Location.DisplayPosition.Longitude,
+	// 		// }
+	// 		// console.log(arrayForm.paisNacimiento.value !== 'Se desconoce');
 
-			if ((arrayForm.paisNacimiento.value !== 'Se desconoce' && arrayForm.paisNacimiento.value !== null) || (arrayForm.provinciaNacimiento.value !== 'Se desconoce' && arrayForm.provinciaNacimiento.value !== null) || (arrayForm.ciudadNacimiento.value !== 'Se desconoce' && arrayForm.ciudadNacimiento.value !== null)) {
-				var paisNacimiento = arrayForm.paisNacimiento.value;
-				var provinciaNacimiento = arrayForm.provinciaNacimiento.value;
-				var ciudadNacimiento = arrayForm.ciudadNacimiento.value;
-				event.preventDefault()
+	// 		if ((arrayForm.paisNacimiento.value !== 'Se desconoce' && arrayForm.paisNacimiento.value !== null) || (arrayForm.provinciaNacimiento.value !== 'Se desconoce' && arrayForm.provinciaNacimiento.value !== null) || (arrayForm.ciudadNacimiento.value !== 'Se desconoce' && arrayForm.ciudadNacimiento.value !== null)) {
+	// 			var paisNacimiento = arrayForm.paisNacimiento.value;
+	// 			var provinciaNacimiento = arrayForm.provinciaNacimiento.value;
+	// 			var ciudadNacimiento = arrayForm.ciudadNacimiento.value;
+	// 			event.preventDefault()
 
-				console.log(ciudadNacimiento+', '+provinciaNacimiento+', '+paisNacimiento);
-				$.ajax({
-					url: 'https://geocoder.api.here.com/6.2/geocode.json',
-					type: 'GET',
-					dataType: 'jsonp',
-					// headers: 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-					jsonp: 'jsoncallback',
-					data: {
-						searchtext: ciudadNacimiento+', '+provinciaNacimiento+', '+paisNacimiento,
-						app_id: 'HkqpXchCOv6VUYhLEIEz',
-						app_code: 'zl9UxG6jltjRVgHk4SqEaA',
-						gen: '1'
-					},
-					success: function (data) {
-						// console.log(JSON.stringify(data));
+	// 			console.log(ciudadNacimiento+', '+provinciaNacimiento+', '+paisNacimiento);
+	// 			$.ajax({
+	// 				url: 'https://geocoder.api.here.com/6.2/geocode.json',
+	// 				type: 'GET',
+	// 				dataType: 'jsonp',
+	// 				// headers: 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+	// 				jsonp: 'jsoncallback',
+	// 				data: {
+	// 					searchtext: ciudadNacimiento+', '+provinciaNacimiento+', '+paisNacimiento,
+	// 					app_id: 'HkqpXchCOv6VUYhLEIEz',
+	// 					app_code: 'zl9UxG6jltjRVgHk4SqEaA',
+	// 					gen: '1'
+	// 				},
+	// 				success: function (data) {
+	// 					// console.log(JSON.stringify(data));
 						
-						// individuales.lat = data.Response.View[0].Result[0].Location.DisplayPosition.Latitude;
-						// individuales.long = data.Response.View[0].Result[0].Location.DisplayPosition.Longitude;
+	// 					// individuales.lat = data.Response.View[0].Result[0].Location.DisplayPosition.Latitude;
+	// 					// individuales.long = data.Response.View[0].Result[0].Location.DisplayPosition.Longitude;
 
 
-						var campos ={
-							lat: data.Response.View[0].Result[0].Location.DisplayPosition.Latitude,
-							long: data.Response.View[0].Result[0].Location.DisplayPosition.Longitude,
-							count: 1
-						}
+	// 					var campos ={
+	// 						lat: data.Response.View[0].Result[0].Location.DisplayPosition.Latitude,
+	// 						long: data.Response.View[0].Result[0].Location.DisplayPosition.Longitude,
+	// 						count: 1
+	// 					}
 
-						console.log(JSON.stringify(campos));
-						var camposJSON = JSON.stringify(campos)
+	// 					console.log(JSON.stringify(campos));
+	// 					var camposJSON = JSON.stringify(campos)
 
-						// var datosDelFormulario = new FormData();
+	// 					// var datosDelFormulario = new FormData();
 
-						// datosDelFormulario.append('datos', JSON.stringify(campos));
-						// console.log(datosDelFormulario);
+	// 					// datosDelFormulario.append('datos', JSON.stringify(campos));
+	// 					// console.log(datosDelFormulario);
 
-						fetch("/mapas", {
-							method: 'POST',
-							body: camposJSON,
-							// body: camposJSON,
-							headers:{
-								'Content-Type': 'application/json',
-								'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-							}
-						})
+	// 					fetch("/mapas", {
+	// 						method: 'POST',
+	// 						body: camposJSON,
+	// 						// body: camposJSON,
+	// 						headers:{
+	// 							'Content-Type': 'application/json',
+	// 							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	// 						}
+	// 					})
 
-						.then(function (response) {
-							return response.text();
-						})
-						.then(function (data) {
-							// var prueba = $(".prueba");
-							console.log(data);
+	// 					.then(function (response) {
+	// 						return response.text();
+	// 					})
+	// 					.then(function (data) {
+	// 						// var prueba = $(".prueba");
+	// 						console.log(data);
 
-							// formulario.append('<div>'
-							// 	+ '<p>Latitud' + data.Response.View[0].Result[0].Location.DisplayPosition.Latitude + ' Longitud '+data.Response.View[0].Result[0].Location.DisplayPosition.Longitude+'</p>'
-							// 	+ '</div>'
-							// );
-						})
-						.catch(function (error) {
-							console.log("The error was: " + error);
-						})
+	// 						// formulario.append('<div>'
+	// 						// 	+ '<p>Latitud' + data.Response.View[0].Result[0].Location.DisplayPosition.Latitude + ' Longitud '+data.Response.View[0].Result[0].Location.DisplayPosition.Longitude+'</p>'
+	// 						// 	+ '</div>'
+	// 						// );
+	// 					})
+	// 					.catch(function (error) {
+	// 						console.log("The error was: " + error);
+	// 					})
 
-						// markers.push(individuales)
+	// 					// markers.push(individuales)
 						
 
 
-						// console.log(markers.length);
+	// 					// console.log(markers.length);
 						
-					}
-				});
-			}
+	// 				}
+	// 			});
+	// 		}
 
-			window.setTimeout(function(){formulario.submit()}, 2000)
-		});
+	// 		window.setTimeout(function(){formulario.submit()}, 2000)
+	// 	});
 
-		// btnEnviar.addEventListener('click', function(){
+	// 	// btnEnviar.addEventListener('click', function(){
 			
-		// });
-	//fin
+	// 	// });
+	// //fin
 }

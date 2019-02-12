@@ -38,8 +38,8 @@
     <ul class="nav nav-tabs">
         <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
         <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="/formularios">Formularios</a> </li>
-        <li class="nav-item active"> <a class="nav-link active" href="/formularios/buscador">Buscador</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="/formularios/buscador">Buscador</a> </li>
+        <li class="nav-item active"> <a class="nav-link active" href="">Mapa de calor</a> </li>
     </ul>
 </header>
 

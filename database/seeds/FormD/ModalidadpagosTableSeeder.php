@@ -22,6 +22,8 @@ class ModalidadpagosTableSeeder extends Seeder
 
             ['nombre' => 'En especias'],
 
+            ['nombre' => 'Nula'],
+
             ['nombre' => 'Se desconoce']
         ]);
     }

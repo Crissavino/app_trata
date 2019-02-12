@@ -8,7 +8,7 @@
         var divConvivientes = document.querySelector('.padre');
         console.log(divProfesionales.lastChild);
         divConvivientes.removeChild(divConvivientes.lastChild)
-        swal('Se borro un profesional')
+        swal('Se borro un referente')
 	});
 
 	var noPersonas = document.querySelector('.noPersonas');
@@ -55,7 +55,7 @@ window.onload =function (){
 			var btnBorrar = document.querySelector('.clickBorrar');
 			btnAnadir.removeAttribute('disabled', 'disabled');
 			btnBorrar.removeAttribute('disabled', 'disabled');
-			swal("Agregá al menos un conviviente");
+			swal("Agregá al menos un referente");
  		}else{
  			var convivientes = document.querySelector('.padre');
  			convivientes.style.display = "";

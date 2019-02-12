@@ -1,3 +1,19 @@
+// //imprimir pantalla
+// 		var imprimir = document.querySelector('.imprimir');
+
+// 		imprimir.addEventListener('click', function(){
+//      		var contenidoImprimible = document.getElementById('imprimible').innerHTML;
+//      		var contendioOriginal = document.body.innerHTML;
+     		
+//      		document.body.innerHTML = contenidoImprimible;
+
+// 			window.print()
+
+//      		document.body.innerHTML = contendioOriginal;
+
+// 		});
+// 	//fin imprimir pantalla
+
 window.onload =function (){
 	//de la docInterna
 	$('.docInterna-input').on('change', function() {
@@ -66,6 +82,62 @@ window.onload =function (){
 
 		});
 	//fin imprimir pantalla
+
+	//descargar pdf
+		// var btnDescargar = document.querySelector('.descargar');
+
+		// btnDescargar.addEventListener('click', function(){
+		// 	var contenidoImprimible = document.getElementById('imprimible').innerHTML;
+  //    		var contendioOriginal = document.body.innerHTML;
+
+  //    		document.body.innerHTML = contenidoImprimible;
+
+  //    		// var data = JSON.stringify(document.body.innerHTML)
+
+  //    		var datos = document.getElementById('form');
+  //    		var datosDelFormulario = new FormData(datos)
+
+  //    		console.log(datosDelFormulario.get('fechaIntervencion[]'));
+
+  //    		var id ={
+		// 					fechaIntervencion: datosDelFormulario.get('fechaIntervencion[]'),
+		// 				}
+
+		// 	var camposJSON = JSON.stringify(campos)
+
+  //    		// console.log(datos);
+
+		// 	// var lala = datos.append('datos', data);
+
+  //           // var lala = datos.insertAdjacentHTML('beforeend', data);
+
+  //    		console.log(datosDelFormulario);
+
+   //   		fetch("/generarPDF", {
+			// 	method: 'POST',
+			// 	body: id,
+			// 	headers:{
+			// 		'Content-Type': 'application/json',
+			// 		'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			// 	}
+			// })
+
+			// .then(function (response) {
+			// 	return response.text();
+			// })
+			// .then(function (data) {
+			// 	console.log(data);
+			// })
+			// .catch(function (error) {
+			// 	console.log("The error was: " + error);
+			// })
+
+
+  //    		document.body.innerHTML = contendioOriginal;
+		// });
+
+
+	//fin
 
 	//preguntar si quiere imprimir antes de enviar
 		// var btnEnviarForm = document.querySelector('.btnEnviarForm');

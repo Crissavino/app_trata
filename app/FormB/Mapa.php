@@ -9,7 +9,7 @@ class Mapa extends Model
 {
     use SoftDeletes;
 
-    protected $fillable =  ['lat', 'long'];
+    protected $fillable =  ['bformulario_id','lat', 'long', 'count', 'user_id'];
 
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
 }

@@ -408,6 +408,21 @@ window.onload = function (){
 			}
 		});
 
+	//pregunta 21
+		var selectFrecuenciaPago = document.querySelector('.selectFrecuenciaPago');
+		var selectModalidadPagos = document.querySelector('.modalidadPagos');
+
+		console.log(selectModalidadPagos);
+
+		selectFrecuenciaPago.addEventListener('change', function(){
+			if (this.value == 4) {
+				selectModalidadPagos.value = 5;
+			}else{
+				selectModalidadPagos.value = '';
+			}
+		});
+	//fin
+
 	// pregunta 22
 		var selectModalidadPagos = document.querySelector('.modalidadPagos');
 		var especias = document.querySelector('.especias');
@@ -598,7 +613,7 @@ window.onload = function (){
 	});
 	var ruralCual = document.querySelector('.ruralCual');
 	var ruralOtraInput = document.querySelector('.ruralOtraInput');
-	var ruralCualDomicilio = document.querySelector('.ruralCualDomicilio');
+	var ruralCualDomicilioInput = document.querySelector('.ruralCualDomicilio');
 
 	var privado = document.querySelector('.privado');
 	var checkPrivado = document.getElementsByName('privado_id[]');
@@ -864,6 +879,10 @@ window.onload = function (){
 	}else{
 		viajoAcompanado.style.display = 'none'
 	}
+
+//pregunta 21
+	
+//fin
 
 //pregunta 22
 	var selectModalidadPagos = document.querySelector('.modalidadPagos');

@@ -11,6 +11,10 @@ use Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
+use PDF;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\EstadisticaExport;
+use App\Exports\FormGExport;
 
 class FormsController extends Controller
 {
@@ -231,6 +235,44 @@ class FormsController extends Controller
 											'formsB' => $formsB,
 											'carpetas' => $carpetas
 										]);
+	}
+
+	public function showEstadisticas()
+	{
+		$formsA = \App\FormA\Aformulario::all();
+		$datosModalidad = \App\FormA\Modalidad::all();
+		$datosEstadoCaso = \App\FormA\Estadocaso::all();
+		$datosMotivoCierre = \App\FormA\Motivocierre::all();
+		$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
+		$formsB = \App\FormB\Bformulario::all();
+		$datosGenero = \App\FormB\Genero::all();
+		$datosFranjaEtaria = \App\FormB\Franjaetaria::all();
+		$formsD = \App\FormD\Dformulario::all();
+		$datosFinalidad = \App\FormD\Finalidad::all();
+		$datosTipoVictima = \App\FormD\Tipovictima::all();
+		$carpetas = \App\Carpetas\Numerocarpeta::all();
+		return view('estadisticas', [
+										'formsA' => $formsA,
+										'datosModalidad' => $datosModalidad,
+										'datosEstadoCaso' => $datosEstadoCaso,
+										'datosMotivoCierre' => $datosMotivoCierre,
+										'datosCaratulacion' => $datosCaratulacion,
+										'formsB' => $formsB,
+										'datosGenero' => $datosGenero,
+										'datosFranjaEtaria' => $datosFranjaEtaria,
+										'formsD' => $formsD,
+										'datosFinalidad' => $datosFinalidad,
+										'datosTipoVictima' => $datosTipoVictima,
+										'carpetas' => $carpetas,
+									]);
+	}
+
+	//funciona perfecto y me descarga el excel
+	public function exportarExcel() 
+	{
+		$fecha_hoy = Carbon::now();
+
+        return Excel::download(new EstadisticaExport, 'Estadisticas al '.Carbon::parse($fecha_hoy)->format('d-m-Y').'.xlsx');
 	}
 
 	public function createA()
@@ -607,6 +649,7 @@ class FormsController extends Controller
 				// 'todoFormA' => $todoFormA,
 				'numeroCarpeta' => $numeroCarpeta,
 				'carpetas' => $carpetas,
+				'userId' => $userId,
 			]);
 	}
 
@@ -804,7 +847,8 @@ class FormsController extends Controller
 															'idFormD' => $idFormD,
 															'idFormE' => $idFormE,
 															'idFormF' => $idFormF,
-															'idFormG' => $idFormG
+															'idFormG' => $idFormG,
+															'userId' => $userId
 															]);
 	}
 
@@ -812,6 +856,8 @@ class FormsController extends Controller
 	{
 		//busco segun el id el formulario desdeado
 		$Bformulario = \App\FormB\Bformulario::find($id);
+
+		$data = request()->all();
 
 		//requiero el input discapacidad_id para actualizarlo
 		$arrayDiscapacidades = request()->input('discapacidad_id');
@@ -824,10 +870,11 @@ class FormsController extends Controller
 
 		$actualizoLimitaciones = $Bformulario->limitacions()->sync($arrayLimitaciones);
 
-		//actualizo todo
-		$Bformulario->update(request()->all());
+		\App\FormB\Lugarnacimiento::WHERE('bformulario_id', '=', $id)->update(['bformulario_id' => $id, 'paisNacimiento' => $data['paisNacimiento'], 'provinciaNacimiento' => $data['provinciaNacimiento'], 'ciudadNacimiento' => $data['ciudadNacimiento']]);
 
-		//cuando edito el formulario y le doy enviar, entra en juego la funcion update, y una vez actualizado todo te redirige nuevamente al formulario B, despues se tendria que ver a donde verdaderamente deberia redirigir [recordar que el redirect te lleva a la URL]
+		//actualizo todo
+		$Bformulario->update($data);
+
 		return redirect('formularios/buscador');
 	}
 
@@ -863,6 +910,13 @@ class FormsController extends Controller
 		// 									->ORDERBY('updated_at', 'desc')
 		// 									->get();
 		$carpetas = \App\Carpetas\Numerocarpeta::all();
+
+		//Lo que hago aca es asignarle el id al mapa 
+			$IdformB = \App\FormB\Bformulario::WHERE('user_id', '=', $userId)->orderBy('created_at', 'desc')->first()->id;
+
+			$mapa = \App\FormB\Mapa::WHERE('user_id', '=', $userId)->WHERE('bformulario_id', '=', 0)->update(['bformulario_id' => $IdformB]);
+		// fin
+
 
 		return view('formularios.formularioC', ['datosOtraspersonas' => $datosOtraspersonas,
 												// 'datosGeneros' => $datosGeneros,
@@ -3024,4 +3078,149 @@ class FormsController extends Controller
 
     	return redirect('formularios');	
 	}
+
+	// public function exportarPDFG($id)
+	// {
+	// 	$userId = auth()->user()->id;
+	// 	$numeroCarpeta = DB::table('aformularios')
+	// 										->WHERE('user_id', '=', $userId)
+	// 										->ORDERBY('updated_at', 'desc')
+	// 										->first()
+	// 										->datos_numero_carpeta;
+	// 	//datos del formulario A
+	// 		$datosModalidad = \App\FormA\Modalidad::all();;
+	// 		$datosEstadoCaso = \App\FormA\Estadocaso::all();
+	// 		$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
+	// 		$datosProfesional = \App\FormA\Profesional::all();
+	// 		$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
+	// 		$datosPresentacion = \App\FormA\Presentacionespontanea::all();
+	// 		$datosOrganismo = \App\FormA\Otrosorganismo::all();
+	// 		$aFormularios = \App\FormA\Aformulario::all();
+	// 		// $getIdA = DB::table('aformularios')
+	// 		//                             ->WHERE('datos_numero_carpeta', '=', $numeroCarpeta)
+	// 		// 							->ORDERBY('updated_at', 'desc')
+	// 		// 							->first()
+	// 		// 							->id;
+	// 		// $aFormulario = \App\FormA\Aformulario::find($getIdA);
+	// 		// $todo = DB::table('aformularios')
+	// 		//                             ->WHERE('aformulario_id', '=', $getIdA)
+	// 		// 							->JOIN('aformulario_profesionalinterviniente', 'aformularios.id', '=', 'aformulario_profesionalinterviniente.aformulario_id')
+	// 		// 							->JOIN('profesionalintervinientes', 'aformulario_profesionalinterviniente.profesionalinterviniente_id', '=', 'profesionalintervinientes.id')
+	// 		// 							->JOIN('profesionals', 'profesionalintervinientes.profesional_id', '=', 'profesionals.id')
+	// 		// 							->JOIN('profesionalactualmentes', 'profesionalintervinientes.profesionalactualmente_id', '=', 'profesionalactualmentes.id')
+	// 		//                             ->get();
+	// 	//fin datos del formulario A
+
+	// 	//datos del formulario F
+	// 		$datosOrgJudicialesActualmente = \App\FormF\Orgjudicialactualmente::all();
+	// 		$datosProgNacionalesActualmente = \App\FormF\Orgprognacionalactualmente::all();
+	// 		$datosPoliciaActualmente = \App\FormF\Policiaactualmente::all();
+	// 		// ---necesarios para el edit
+	// 		// $getIdF = DB::table('fformularios')
+	// 		//                             ->WHERE('numeroCarpeta', '=', $numeroCarpeta)
+	// 		// 							->ORDERBY('updated_at', 'desc')
+	// 		// 							->first()
+	// 		// 							->id;
+	// 		// 							// dd($getIdF);
+	// 		$formulariosF = \App\FormF\Fformulario::all();
+	// 		$orgProgNacionalOtro = \App\FormF\Orgprognacionalotro::all();
+	// 		$orgProgProvincial = \App\FormF\Orgprogprovincial::all();
+	// 		$orgProgMunipal = \App\FormF\Orgprogmunicipal::all();
+	// 		$orgSocCivil = \App\FormF\Orgsoccivil::all();
+	// 		$orgProgNacionalActualmenteOtro = \App\FormF\Orgprognacionalactualmenteotro::all();
+	// 		$orgProgProvincialesAlactualmente = \App\FormF\Orgprogprovincialesactualmente::all();
+	// 		$orgProgMunipalesActualmente = \App\FormF\Orgprogmunicipalesactualmente::all();
+	// 		$orgSocCivilActualmente = \App\FormF\Orgsoccivilactualmente::all();
+	// 	//fin datos del formulario F
+
+	// 	//datos del G
+	// 		$temaIntervencion = \App\FormG\Temaintervencion::all();
+	// 		$formularioG = \App\FormG\Gformulario::find($id);
+	// 		$intervenciones = $formularioG->intervencions;
+	// 		$docInterna = $formularioG->docinternas;
+	// 		$docExterna = $formularioG->docexternas;
+	// 		$infoSocioambiental = $formularioG->infosocioambientals;
+	// 		$intervencionEstrategias = $formularioG->intervencionestrategias;
+	// 		$notRelacionadas = $formularioG->notrelacionadas;
+	// 		// response()->file($docInterna);
+	// 		// dd($docInterna);
+	// 	//Fin datos del G
+
+	// 		//id de los formularios de una misma carpeta
+	// 		$idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+	// 						->where('gformulario_id', '=', $id)
+	// 						->value('aformulario_id');
+	// 		$idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+	// 							->where('gformulario_id', '=', $id)
+	// 							->value('bformulario_id');
+	// 		$idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+	// 							->where('gformulario_id', '=', $id)
+	// 							->value('cformulario_id');
+	// 		$idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+	// 							->where('gformulario_id', '=', $id)
+	// 							->value('dformulario_id');
+	// 		$idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+	// 							->where('gformulario_id', '=', $id)
+	// 							->value('eformulario_id');
+	// 		$idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+	// 							->where('gformulario_id', '=', $id)
+	// 							->value('fformulario_id');
+	// 		$idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+	// 							->where('gformulario_id', '=', $id)
+	// 							->value('gformulario_id');
+	// 	//fin ids
+
+	// 	$data = [
+	// 				'numeroCarpeta' => $numeroCarpeta,
+	// 				'aFormularios' => $aFormularios,
+	// 				//formulario A
+	// 				'datosModalidad' => $datosModalidad,
+	// 				'datosEstadoCaso' => $datosEstadoCaso,
+	// 				'datosCaratulacion' => $datosCaratulacion,
+	// 				'datosProfesional' => $datosProfesional,
+	// 				'datosIntervieneActualmente' => $datosIntervieneActualmente,
+	// 				'datosPresentacion' => $datosPresentacion,
+	// 				'datosOrganismo' => $datosOrganismo,
+	// 				// 'todo' => $todo,
+	// 				//fin formulario A
+	// 				//formulario F
+	// 				'datosOrgJudicialesActualmente' => $datosOrgJudicialesActualmente,
+	// 				'datosProgNacionalesActualmente' => $datosProgNacionalesActualmente,
+	// 				'datosPoliciaActualmente' => $datosPoliciaActualmente,
+	// 				// 'datosAsistencia' => $datosAsistencia,
+	// 				// 'datosSocioeconomica' => $datosSocioeconomica,
+	// 				// 'derivacionOrganismo' => $derivacionOrganismo,
+	// 				'formulariosF' => $formulariosF,
+	// 				'orgProgNacionalOtro' => $orgProgNacionalOtro,
+	// 				'orgProgProvincial' => $orgProgProvincial,
+	// 				'orgProgMunipal' => $orgProgMunipal,
+	// 				'orgSocCivil' => $orgSocCivil,
+	// 				'orgProgNacionalActualmenteOtro' => $orgProgNacionalActualmenteOtro,
+	// 				'orgProgProvincialesAlactualmente' => $orgProgProvincialesAlactualmente,
+	// 				'orgProgMunipalesActualmente' => $orgProgMunipalesActualmente,
+	// 				'orgSocCivilActualmente' => $orgSocCivilActualmente,
+	// 				//fin formulario F
+	// 				//formulario F
+	// 				'temaIntervencion' => $temaIntervencion,
+	// 				'intervenciones' => $intervenciones,
+	// 				'docInterna' => $docInterna,
+	// 				'docExterna' => $docExterna,
+	// 				'infoSocioambiental' => $infoSocioambiental,
+	// 				'intervencionEstrategias' => $intervencionEstrategias,
+	// 				'notRelacionadas' => $notRelacionadas,
+	// 				'formularioG' => $formularioG,
+	// 				//fin formulario F
+	// 				'idFormA' => $idFormA,
+	// 				'idFormB' => $idFormB,
+	// 				'idFormC' => $idFormC,
+	// 				'idFormD' => $idFormD,
+	// 				'idFormE' => $idFormE,
+	// 				'idFormF' => $idFormF,
+	// 				'idFormG' => $idFormG
+	// 			];
+
+ //        $pdf = PDF::loadView('pdfFormG', $data);
+  
+ //        return $pdf->download('Eje F: Detalle de intervención.pdf');
+	// }
 }

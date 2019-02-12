@@ -85,7 +85,15 @@ Route::get('formularios', 'FormsController@formularios')->middleware('auth');
 //ver tambien de poner si es administrador
 Route::get('/mapas', 'MapsController@show')->middleware('auth');
 Route::get('/mapas/datos', 'MapsController@getDatosMapas')->middleware('auth');
+//todavia resta ver como guardar el id
 Route::post('/mapas', 'MapsController@gurdarDatos')->middleware('auth');
+Route::put('/mapas', 'MapsController@actualizarDatos')->middleware('auth');
+
+// //GENERAR PDF
+// Route::get('/pdf/{id}', 'FormsController@exportarPDFG')->middleware('auth');
+
+Route::get('/estadisticas', 'FormsController@showEstadisticas')->middleware('auth');
+Route::get('/descargarEstadisticas', 'FormsController@exportarExcel')->middleware('auth');
 
 
 

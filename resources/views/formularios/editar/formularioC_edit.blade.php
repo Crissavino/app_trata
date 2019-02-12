@@ -84,7 +84,7 @@
                     <div class="form-group">
                         <label for="otraspersonas_id">C 1. ¿Cuenta con alguna persona de referencia afectiva? </label>
                         <select class="form-control noPersonas" name="otraspersonas_id" {{ $errors->has('otraspersonas_id') ? 'has-error' : ''}}>
-                            <option value="">Había otras personas?</option>
+                            <option value="">Seleccioná una opción</option>
                             @foreach ($datosOtraspersonas as $otrasPersonas)
                                 @php
                                     $selected = ($otrasPersonas->id == $cFormulario->otraspersonas_id) ? 'selected' : '';
@@ -166,8 +166,8 @@
 
                     <div class="padre" id="padre"></div>
                     
-                    <button type="button" id="anadir" class="clickAnadir btn btn-outline-primary col-xl"> Agregar conviviente </button><br><br>
-                    <button id="borra" type="button" class="mb-4 clickBorrar btn btn-outline-danger col-xl">Borrar conviviente</button>
+                    <button type="button" id="anadir" class="clickAnadir btn btn-outline-primary col-xl"> Agregar referente </button><br><br>
+                    <button id="borra" type="button" class="mb-4 clickBorrar btn btn-outline-danger col-xl">Borrar referente</button>
 
                     <button type="submit" class="btn btn-primary col-xl" name="button">Actualizar</button><br><br>
                 </form>
