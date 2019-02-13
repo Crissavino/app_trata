@@ -1061,7 +1061,7 @@
         @endif
     </section>
 
-    <div id="imprimible">
+    <div id="imprimible" style="display: none;">
         <h1 class="text-center" style="padding: 15px;">
             Eje G: Detalle de intervención
             <h5 class=" mb-5" style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $formularioG->numeroCarpeta }}</h5>

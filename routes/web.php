@@ -33,7 +33,6 @@ Route::delete('formularios/edicion/A/{id}', 'FormsController@destroyA');
 //RUTAS FORMULARIO B
 //funciona el middleware, de esa manera verifico q haya un usuario registrado
 Route::get('formularios/B', 'FormsController@createB')->middleware('auth', 'noHayCarpeta', 'noHayEjeA');
-// Route::get('formularios/B', 'FormsController@createB');
 Route::post('formularios/B', 'FormsController@insertB');
 Route::get('formularios/edicion/B/{id}', 'FormsController@editB')->middleware('auth');
 Route::put('formularios/edicion/B/{id}', 'FormsController@updateB');
@@ -42,7 +41,6 @@ Route::delete('formularios/edicion/B/{id}', 'FormsController@destroyB');
 //RUTAS FORMULARIO C
 //funciona el middleware, de esa manera verifico q haya un usuario registrado
 Route::get('formularios/C', 'FormsController@createC')->middleware('auth', 'noHayCarpeta', 'noHayEjeA', 'noHayEjeB');
-// Route::get('formularios/C', 'FormsController@createC');
 Route::post('formularios/C', 'FormsController@insertC');
 Route::get('formularios/edicion/C/{id}', 'FormsController@editC')->middleware('auth');
 Route::put('formularios/edicion/C/{id}', 'FormsController@updateC');
@@ -99,7 +97,11 @@ Route::get('/descargarEstadisticas', 'FormsController@exportarExcel')->middlewar
 
 //RUTAS DE LOGUIN, LOGOUT Y REGISTRO QUE CREA LARAVEL
 Auth::routes();
+Route::get('/register', function () {
+    return view('auth.register');
+})->middleware('isDeveloper')->name('register');
 Route::get('/home', 'HomeController@index')->name('home');
+
 
 Route::get('/logout', 'Auth\LoginController@logout');
 
