@@ -87,6 +87,7 @@
                 <div class="form-group {{ $errors->has('victima_nombre_y_apellido') ? 'has-error' : ''}}">
                     <label for="">B 1. Nombre y apellido:</label>
                     {!! $errors->first('victima_nombre_y_apellido', '<p class="help-block" style="color:red";>:message</p>') !!}
+                    {{-- @dd($usuarioCarpeta) --}}
                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                         <input type="text" class="form-control" name="victima_nombre_y_apellido" id="victima_nombre_y_apellido" value="{{ $Bformulario->victima_nombre_y_apellido }}">
                         <!-- VER ESTA MANERA QUE ES MEJOR PARA BLOQUEAR UN CASILLERO CUANDO SE CLICKEA LA OPCION SE DESCONOCE -->

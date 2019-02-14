@@ -235,7 +235,7 @@ window.onload =function (){
 	// pregunta 20
 		var checkNo = document.querySelector('.checkNo');
 		var checkOtro = document.querySelector('.checkOtro');
-		var victimaLimitacionCual = document.querySelector('.victimaLimitacionCual');
+		var victimaLimitacionCual = document.querySelector('#victimaLimitacionCual');
 		var victimaLimitacionCualInput = document.querySelector('.victimaLimitacionCualInput');
 
 		checkNo.addEventListener('click', function(){

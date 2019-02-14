@@ -31,17 +31,17 @@
     </ul>
 </header>
 <body>
+    @if(session()->has('message'))
+        <div class="alert alert-danger text-center">
+            {{ session()->get('message') }}
+        </div>
+    @endif
     <h1 class="text-center" style="padding: 15px;">
         Eje A: Datos institucionales
     </h1>
 {{-- con el @auth veo si un usuario esta logueado, y si no esta, lo mando para el login
 @auth  --}}     
     <section class="container">
-        @if(session()->has('message'))
-            <div class="alert alert-danger text-center">
-                {{ session()->get('message') }}
-            </div>
-        @endif
             <form class="" action="" method="post">
             {{ csrf_field() }}
             

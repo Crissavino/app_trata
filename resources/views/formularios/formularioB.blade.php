@@ -651,7 +651,7 @@
                         {{-- <input type="checkbox" class="form-check-label" id="checkeado"  onclick="muestroCual()" name="limitacion_id[]" value="Otro">
                         <label for="">Otro</label><br> --}}
                         <!-- mostrando lo que contiene el id cual -->
-                        <div class="victimaLimitacionCual" style="display:none">
+                        <div id="victimaLimitacionCual" style="display:none">
                             <label for="">Cual?</label>
                             <input type="text" class="form-control victimaLimitacionCualInput" name="victima_limitacion_otra" value="">
                         </div>
