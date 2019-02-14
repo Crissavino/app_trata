@@ -337,7 +337,7 @@ class FormsController extends Controller
 							'datos_fecha_ingreso' => 'required|date|before_or_equal:'.$fecha_hoy,
 							'modalidad_id' => 'required',
 							'presentacion_espontanea_id' => 'required_if:modalidad_id,==,3',
-							'derivacion_otro_organismo_id' => 'required_if:modalidad_id,==,4',
+							'derivacion_otro_organismo_id' => 'required_if:modalidad_id,==,5',
 							'derivacion_otro_organismo_cual' => 'required_if:derivacion_otro_organismo_id,==,16',
 							// 'nombre_apellido.0' => 'required_if:otraspersonas_id,==,1',
 							'estadocaso_id' => 'required',
@@ -382,12 +382,12 @@ class FormsController extends Controller
 							'derivacion_otro_organismo_cual.required_if' => 'Este campo es obligatorio', 
 							'caratulacionjudicial_otro.required_if' => 'Este campo es obligatorio', 
 						]);
-		// dd($_POST);
 		$data = request()->all();
 		$data['user_id'] = $userId;
 		// dd($data);
 		$guardoAformulario = \App\FormA\Aformulario::create($data);
 		// $guardoAformulario = \App\FormA\Aformulario::create(request()->only(['datos_nombre_referencia', 'datos_numero_carpeta', 'datos_fecha_ingreso', 'modalidad_id', 'estadocaso_id', 'datos_ente_judicial', 'caratulacionjudicial_id', 'datos_nro_causa']));
+		// dd('Hola');
 
 		$ultimoId = $guardoAformulario->id;
 		$guardoNumeroCarpeta = \App\Carpetas\Numerocarpeta::create([ 'numeroCarpeta' => $data['datos_numero_carpeta'], 'aformulario_id' => $ultimoId, 'user_id' => $data['user_id']]);
@@ -530,7 +530,7 @@ class FormsController extends Controller
 							'datos_fecha_ingreso' => 'required|date|before_or_equal:'.$fecha_hoy,
 							'modalidad_id' => 'required',
 							'presentacion_espontanea_id' => 'required_if:modalidad_id,==,3',
-							'derivacion_otro_organismo_id' => 'required_if:modalidad_id,==,4',
+							'derivacion_otro_organismo_id' => 'required_if:modalidad_id,==,5',
 							'derivacion_otro_organismo_cual' => 'required_if:derivacion_otro_organismo_id,==,16',
 							'estadocaso_id' => 'required',
 							'motivocierre_id' => 'required_if:estadocaso_id,==,3',
@@ -542,9 +542,9 @@ class FormsController extends Controller
 							'datos_nro_causa' => 'required',
 							'profesional_id.*' => 'nullable',
 							'datos_profesional_interviene_desde.*' => 'nullable|date|before_or_equal:datos_profesional_interviene_hasta.*',
-							'datos_profesional_interviene_desde.0' => 'required|date|after_or_equal:datos_fecha_ingreso',
+							// 'datos_profesional_interviene_desde.0' => 'required|date|after_or_equal:datos_fecha_ingreso',
 							'datos_profesional_interviene_hasta.*' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.*',
-							'datos_profesional_interviene_hasta.0' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.0',
+							// 'datos_profesional_interviene_hasta.0' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.0',
 							'profesionalactualmente_id.*' => 'nullable',
 						],
 						[		
