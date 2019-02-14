@@ -89,9 +89,9 @@
             	{!! $errors->first('otraspersonas_id', '<p class="help-block" style="color:red";>:message</p>') !!}
             </div>
 
-            <div class="padre" id="padre"></div>
+            <div class="referentes" id="referentes"></div>
             {{-- <div class="hijo" id="hijo" style="display: none;">
-                    <h3>Datos del Conviviente:</h3>
+                    <h3>Datos del Referente:</h3>
                     <div class="form-group" {{ $errors->has('nombre_apellido[]') ? 'has-error' : ''}}>
                         <label for="">C 2. Nombre y apellido</label>
                         <input type="text" class="form-control nombre_apellido" value="">
@@ -146,15 +146,15 @@
 
         </form>
 
-        {{-- <button type="button" id="anadir" disabled="disabled" class="clickAnadir btn btn-outline-primary col-xl"> Agregar conviviente </button><br><br>
-        <button id="borra" type="button" disabled="disabled" class="clickBorrar btn btn-outline-danger col-xl" onclick="borra()">Borrar conviviente</button> --}}
+        {{-- <button type="button" id="anadir" disabled="disabled" class="clickAnadir btn btn-outline-primary col-xl"> Agregar Referente </button><br><br>
+        <button id="borra" type="button" disabled="disabled" class="clickBorrar btn btn-outline-danger col-xl" onclick="borra()">Borrar Referente</button> --}}
     </section>
 
         <script src="/js/formularioC.js" type="text/javascript" charset="utf-8" async defer></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         
         <!-- este script lo que hace es agregar otro formulario de profesionales en el caso que intervenga mas de un profesional en el caso -->
-        <script>
+        {{-- <script>
             $(document).ready(function(){
                 var nueva_entrada ='';
                 $(document).ready(function() {
@@ -170,20 +170,20 @@
             //    padre.removeChild(hijo);
             //    swal('Se borro un profesional');
             // }
-        </script>
+        </script> --}}
 
         <script>
-            var btnAgregarConviviente = document.querySelector('.clickAnadir');
+            var btnAgregarReferente = document.querySelector('.clickAnadir');
 
             var clicks = 0;
 
-            btnAgregarConviviente.addEventListener('click', function(){
+            btnAgregarReferente.addEventListener('click', function(){
                 clicks++
                 
-                var divClickConviviente = '<div class="hijo" id="hijo"><h3>Datos del Conviviente:</h3><div class="form-group" {{ $errors->has('nombre_apellido[]') ? 'has-error' : ''}}><label for="">C 2. Referente - Nombre y apellido</label><input type="text" class="form-control nombre_apellido'+clicks+'" name="nombre_apellido[]" value="">{!! $errors->first('nombre_apellido.*', '<p class="help-block" style="color:red";>:message</p>') !!}<label for="" >Se desconoce</label><input type="checkbox" class="desconoceNA'+clicks+' ml-2" value=""></div><div class="form-group" {{ $errors->has('edad[]') ? 'has-error' : ''}}><label for="edad">C 3. Referente - Edad:</label><input type="text" class="form-control edad'+clicks+'" id="edad" name="edad[]" value="">{!! $errors->first('edad.*', '<p class="help-block" style="color:red";>:message</p>') !!}<label for="">Se desconoce</label><input type="checkbox" class="desconoceE'+clicks+' ml-2" value=""></div><div class="form-group" {{ $errors->has('vinculo_id[]') ? 'has-error' : ''}}><label for="vinculo_id">C 4. Referente - Tipo de vínculo con la víctima</label><select id="vinculo_id" class="form-control vinculo'+clicks+'" name="vinculo_id[]"><option value="">Vínculo?</option>@foreach ($datosVinculos as $vinculo)<option value="{{ $vinculo->getId() }}" {{ old('vinculo_id') == $vinculo->getId() ? 'selected' : '' }}>{{ $vinculo->getNombre() }}</option>@endforeach</select>{!! $errors->first('vinculo_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group otro_vinculo'+clicks+'" style="display: none"><label for="vinculo_otro">Cuál?</label><input type="text" class="form-control vinculo_otro" name="vinculo_otro[]"></div></div><div class="form-group" {{ $errors->has('referenteContacto[]') ? 'has-error' : ''}}><label for="">C 5. Contacto de referente</label><input type="text" name="referenteContacto[]" class="form-control">{!! $errors->first('referenteContacto.*', '<p class="help-block" style="color:red";>:message</p>') !!}</div>';
+                var divClickReferente = '<div class="referente" id="referente"><h3>Datos del Referente:</h3><div class="form-group" {{ $errors->has('nombre_apellido[]') ? 'has-error' : ''}}><label for="">C 2. Referente - Nombre y apellido</label><input type="text" class="form-control nombre_apellido'+clicks+'" name="nombre_apellido[]" value="">{!! $errors->first('nombre_apellido.*', '<p class="help-block" style="color:red";>:message</p>') !!}<label for="" >Se desconoce</label><input type="checkbox" class="desconoceNA'+clicks+' ml-2" value=""></div><div class="form-group" {{ $errors->has('edad[]') ? 'has-error' : ''}}><label for="edad">C 3. Referente - Edad:</label><input type="text" class="form-control edad'+clicks+'" id="edad" name="edad[]" value="">{!! $errors->first('edad.*', '<p class="help-block" style="color:red";>:message</p>') !!}<label for="">Se desconoce</label><input type="checkbox" class="desconoceE'+clicks+' ml-2" value=""></div><div class="form-group" {{ $errors->has('vinculo_id[]') ? 'has-error' : ''}}><label for="vinculo_id">C 4. Referente - Tipo de vínculo con la víctima</label><select id="vinculo_id" class="form-control vinculo'+clicks+'" name="vinculo_id[]"><option value="">Vínculo?</option>@foreach ($datosVinculos as $vinculo)<option value="{{ $vinculo->getId() }}" {{ old('vinculo_id') == $vinculo->getId() ? 'selected' : '' }}>{{ $vinculo->getNombre() }}</option>@endforeach</select>{!! $errors->first('vinculo_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group otro_vinculo'+clicks+'" style="display: none"><label for="vinculo_otro">Cuál?</label><input type="text" class="form-control vinculo_otro'+clicks+'" name="vinculo_otro[]"></div></div><div class="form-group" {{ $errors->has('referenteContacto[]') ? 'has-error' : ''}}><label for="">C 5. Contacto de referente</label><input type="text" name="referenteContacto[]" class="form-control">{!! $errors->first('referenteContacto.*', '<p class="help-block" style="color:red";>:message</p>') !!}</div>';
 
-                var divConvivientes = document.querySelector('.padre');
-                divConvivientes.insertAdjacentHTML('beforeend', divClickConviviente);
+                var divReferentes = document.querySelector('.referentes');
+                divReferentes.insertAdjacentHTML('beforeend', divClickReferente);
 
                 //le agrego las funcionalidades para cada caso
                     var inputNomApTextN = document.querySelector('.nombre_apellido'+clicks);
@@ -216,13 +216,15 @@
                     });
 
                     var selectVinculoN = document.querySelector('.vinculo'+clicks)
-                    var inputOtroVinculoN = document.querySelector('.otro_vinculo'+clicks)
+                    var divOtroVinculoN = document.querySelector('.otro_vinculo'+clicks)
+                    var inputOtroVinculoN = document.querySelector('.vinculo_otro'+clicks)
 
                     selectVinculoN.addEventListener('change', function () {
                         if (selectVinculoN.value == '6') {
-                            inputOtroVinculoN.style.display = ""
+                            divOtroVinculoN.style.display = ""
                         }else{
-                            inputOtroVinculoN.style.display = "none"
+                            divOtroVinculoN.style.display = "none"
+                            inputOtroVinculoN.value = '';
                         }
                     })
                 //fin funcionalidades

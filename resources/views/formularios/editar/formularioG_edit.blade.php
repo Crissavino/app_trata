@@ -19,6 +19,7 @@
 
         .imprimir{
             display: block;
+            z-index: 100 !important;
             /*width: 100%;*/
         }
 
@@ -81,9 +82,8 @@
     </ul>
 </header>
 <body>
-
     <section class="container">
-        @if (auth()->user()->isAdmin !== 2)
+        @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
             <h1 class="text-center" style="padding: 15px;">
                 Eje F: Detalle de intervención
                 <h5 class=" mb-5" style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $formularioG->numeroCarpeta }}</h5>

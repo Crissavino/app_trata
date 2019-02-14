@@ -74,7 +74,6 @@
         </div>
     @endif
     <section class="container">
-        <div id="imprimible">
             <h1 class="text-center" style="padding: 15px;">
                 Eje F: Detalle de intervención
                 <h5 class=" mb-5" style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5>
@@ -513,11 +512,6 @@
                     {{-- hasta aca --}}
                     </div>
                 {{-- Fin AGREGAR INTERVENCIÓN --}}
-
-        </div>
-        <div id="editor"></div>
-
-
                 <button type="submit" class="btn btn-primary col-xl btnEnviarForm">Guardar</button>
             </form>
     </section>
@@ -530,7 +524,7 @@
         //para poder usar blade lo tuve que agregar en esta pagina
         //agregar intervencion
             var btnAgregarIntervencion = document.querySelector('.agregarIntervencion');
-            var divIntervencion = document.querySelector('.intervencion');
+            // var divIntervencion = document.querySelector('.intervencion');
 
             var click = 0;
 
@@ -599,47 +593,6 @@
             });
             
         //fin agregar intervencion
-    </script>
-			        
-
-    <script>
-        //descargar pdf
-
-            // var doc = new jsPDF();
-            var contenidoImprimible = document.getElementById('imprimible').innerHTML;
-            var descargarPDF = document.querySelector('.descargar');
-            // var specialElementHandlers = {
-            //     '#editor': function (element, renderer) {
-            //         return true;
-            //     }
-            // };
-
-            descargarPDF.addEventListener('click', function(){
-                var contendioOriginal = document.body.innerHTML;
-                document.body.innerHTML = contenidoImprimible;
-
-                var doc = new jsPDF();
-                doc.text(document.body.innerHTML, 10, 10)
-                doc.save('a4.pdf')
-                // window.print()
-
-                document.body.innerHTML = contendioOriginal; 
-            })
-
-            // $('#descargar').click(function () {
-            //     doc.fromHTML($('#imprimible').html(), 15, 15, {
-            //         // 'width': 170,
-            //             'elementHandlers': specialElementHandlers
-            //     });
-            //     doc.save('Formulario E - Carpeta Núm '+{{ $numeroCarpeta }}+'.pdf');
-            // });
-
-            // var link = document.createElement('a');
-            // link.href = 'www.google.com';
-            // link.download = 'file.pdf';
-            // link.dispatchEvent(new MouseEvent('click'));
-
-        //fin descargar pdf
     </script>
 
     <script src="/js/formularioG.js" type="text/javascript" charset="utf-8" async defer></script>

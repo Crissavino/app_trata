@@ -1,4 +1,132 @@
+//pregunta 5
+	var selectTipoDocumento = document.querySelector('#tipodocumento_id');
+	var divResidenciaPrecaria = document.querySelector('.residenciaPrecaria');
+	var selectResidenciaPrecaria = document.querySelector('#residenciaprecaria_id');
+	var divTipoDocumentoOtro = document.querySelector('.tipoDocumentoOtro');
+	var tipoDocumentoOtroInput = document.querySelector('#victima_tipo_documento_otro');
+
+	if (selectTipoDocumento.value == 6) {
+		divResidenciaPrecaria.style.display = '';
+	}else if (selectTipoDocumento.value == 9) {
+		divTipoDocumentoOtro.style.display = '';
+	}else{
+		divResidenciaPrecaria.style.display = 'none';
+		divTipoDocumentoOtro.style.display = 'none';
+		selectResidenciaPrecaria.value = '';
+		tipoDocumentoOtroInput.value = '';
+	}
+//fin pregunta 5
+
+// pregunta 18
+	var selectTieneLesion = document.querySelector('.selectTieneLesion');
+	var divVictimaLesion = document.querySelector('#victima_lesion_si');
+	var victimaLesionInput = document.querySelector('.victimaLesionInput');
+	var selectLesionConstatada = document.querySelector('.selectLesionConstatada');
+	var divVictimaLesionOrganismo = document.querySelector('#victima_lesion_organismo');
+	var victimaLesionOrganismoInput = document.querySelector('.victimaLesionOrganismoInput');
+	var checkDesconoce = document.querySelector('.desconoce18');
+
+	if (selectTieneLesion.value == 1) {
+		divVictimaLesion.style.display = ''
+		if (selectLesionConstatada.value == 1) {
+			divVictimaLesionOrganismo.style.display = '';
+		}else{
+			divVictimaLesionOrganismo.style.display = 'none';
+			victimaLesionOrganismoInput.value = '';
+			checkDesconoce.checked = false;
+			victimaLesionOrganismoInput.removeAttribute('readonly');
+		}
+	}else{
+		divVictimaLesion.style.display = 'none'
+		divVictimaLesionOrganismo.style.display = 'none';
+		victimaLesionInput.value = '';
+		selectLesionConstatada.value = '';
+		victimaLesionOrganismoInput.value = '';
+		checkDesconoce.checked = false;
+		victimaLesionOrganismoInput.removeAttribute('readonly');
+	}
+// fin pregunta 18
+
+// pregunta 19
+	var selectEnfermedadCronica = document.querySelector('#enfermedadcronica_id');
+	var divVictimaTipoEnfermedadCronica = document.querySelector('#victima_tipo_enfermedad_cronica');
+	var victimaTipoEnfermedadCronicaInput = document.querySelector('.victima_tipo_enfermedad_cronica_input');
+
+	if (selectEnfermedadCronica.value == 1) {
+		divVictimaTipoEnfermedadCronica.style.display = '';
+	}else{
+		divVictimaTipoEnfermedadCronica.style.display = 'none';
+		victimaTipoEnfermedadCronicaInput.value = '';
+	}
+// fin pregunta 19
+
+// pregunta 20
+	var checkNo = document.querySelector('.checkNo');
+	var checkOtro = document.querySelector('.checkOtro');
+	var victimaLimitacionCual = document.querySelector('#victimaLimitacionCual');
+	var victimaLimitacionCualInput = document.querySelector('.victimaLimitacionCualInput');
+
+	if (checkNo.checked) {
+		document.getElementById("Analfabetismo").disabled = true;
+        document.getElementById("Analfabetismo").checked = false;
+        document.getElementById("Discapacidad").disabled = true;                                
+        document.getElementById("Discapacidad").checked = false;                                
+        document.getElementById("Idioma").disabled = true;
+        document.getElementById("Idioma").checked = false;
+		checkOtro.disabled = true;
+		checkOtro.checked = false;
+		victimaLimitacionCual.style.display = 'none';
+		victimaLimitacionCualInput.value = '';
+	}else{
+		document.getElementById("Analfabetismo").disabled = false;
+        document.getElementById("Discapacidad").disabled = false;
+        document.getElementById("Idioma").disabled = false;
+		checkOtro.disabled = false;
+	}
+
+	if (checkOtro.checked) {
+		victimaLimitacionCual.style.display = '';
+	}else{
+		victimaLimitacionCual.style.display = 'none';
+		victimaLimitacionCualInput.value = '';
+	}
+// fin pregunta 20
+
+// pregunta 22
+	var selectOficio = document.querySelector('.oficio');
+	var victimaOficioCual = document.querySelector('.victimaOficioCual');
+	var victimaOficioCualInput = document.querySelector('.victimaOficioCualInput');
+
+	if (selectOficio.value == 1) {
+		victimaOficioCual.style.display = '';
+	}else{
+		victimaOficioCual.style.display = 'none';
+		victimaOficioCualInput.value = '';
+	}
+// fin pregunta 22
+
 window.onload =function (){
+
+	//pregunta 5
+		var selectTipoDocumento = document.querySelector('#tipodocumento_id');
+		var divResidenciaPrecaria = document.querySelector('.residenciaPrecaria');
+		var selectResidenciaPrecaria = document.querySelector('#residenciaprecaria_id');
+		var divTipoDocumentoOtro = document.querySelector('.tipoDocumentoOtro');
+		var tipoDocumentoOtroInput = document.querySelector('#victima_tipo_documento_otro');
+
+		selectTipoDocumento.addEventListener('change', function(){
+			if (selectTipoDocumento.value == 6) {
+				divResidenciaPrecaria.style.display = '';
+			}else if (selectTipoDocumento.value == 9) {
+				divTipoDocumentoOtro.style.display = '';
+			}else{
+				divResidenciaPrecaria.style.display = 'none';
+				divTipoDocumentoOtro.style.display = 'none';
+				selectResidenciaPrecaria.value = '';
+				tipoDocumentoOtroInput.value = '';
+			}
+		});
+	//fin pregunta 5
 
 	// pregunta 7
 		var paisNacimiento = document.querySelector('.countries');
@@ -54,110 +182,106 @@ window.onload =function (){
 			}
 		});
 	// fin pregunta 9
+	
+	// pregunta 18
+		var selectTieneLesion = document.querySelector('.selectTieneLesion');
+		var divVictimaLesion = document.querySelector('#victima_lesion_si');
+		var victimaLesionInput = document.querySelector('.victimaLesionInput');
+		var selectLesionConstatada = document.querySelector('.selectLesionConstatada');
+		var divVictimaLesionOrganismo = document.querySelector('#victima_lesion_organismo');
+		var victimaLesionOrganismoInput = document.querySelector('.victimaLesionOrganismoInput');
+		var checkDesconoce = document.querySelector('.desconoce18');
 
-	// //guardar lat y long funcionando
-	// 	var btnEnviar = document.querySelector('.btnEnviar');
-	// 	var formulario = document.querySelector('.formulario');
+		selectTieneLesion.addEventListener('change', function(){
+			if (selectTieneLesion.value == 1) {
+				divVictimaLesion.style.display = ''
+				selectLesionConstatada.addEventListener('change', function(){
+					if (selectLesionConstatada.value == 1) {
+						divVictimaLesionOrganismo.style.display = '';
+					}else{
+						divVictimaLesionOrganismo.style.display = 'none';
+						victimaLesionOrganismoInput.value = '';
+						checkDesconoce.checked = false;
+						victimaLesionOrganismoInput.removeAttribute('readonly');
+					}
+				});
+			}else{
+				divVictimaLesion.style.display = 'none'
+				divVictimaLesionOrganismo.style.display = 'none';
+				victimaLesionInput.value = '';
+				selectLesionConstatada.value = '';
+				victimaLesionOrganismoInput.value = '';
+				checkDesconoce.checked = false;
+				victimaLesionOrganismoInput.removeAttribute('readonly');
+			}
+		});
+	// fin pregunta 18
 
-	// 	console.log(formulario);
+	// pregunta 19
+		var selectEnfermedadCronica = document.querySelector('#enfermedadcronica_id');
+		var divVictimaTipoEnfermedadCronica = document.querySelector('#victima_tipo_enfermedad_cronica');
+		var victimaTipoEnfermedadCronicaInput = document.querySelector('.victima_tipo_enfermedad_cronica_input');
 
-	// 	// btnEnviar.addEventListener('submit', function(){
-	// 	formulario.addEventListener('submit', function(){
-	// 		// event.preventDefault()
-	// 		// var formulario = document.querySelector('.formulario');
+		selectEnfermedadCronica.addEventListener('change', function(){
+			if (selectEnfermedadCronica.value == 1) {
+				divVictimaTipoEnfermedadCronica.style.display = '';
+			}else{
+				divVictimaTipoEnfermedadCronica.style.display = 'none';
+				victimaTipoEnfermedadCronicaInput.value = '';
+			}
+		});
+	// fin pregunta 19
 
-	// 		arrayForm = formulario.elements;
+	// pregunta 20
+		var checkNo = document.querySelector('.checkNo');
+		var checkOtro = document.querySelector('.checkOtro');
+		var victimaLimitacionCual = document.querySelector('.victimaLimitacionCual');
+		var victimaLimitacionCualInput = document.querySelector('.victimaLimitacionCualInput');
 
-	// 		// console.log(arrayForm.ciudadNacimiento.value);
+		checkNo.addEventListener('click', function(){
+			if (checkNo.checked) {
+				document.getElementById("Analfabetismo").disabled = true;
+                document.getElementById("Analfabetismo").checked = false;
+                document.getElementById("Discapacidad").disabled = true;                                
+                document.getElementById("Discapacidad").checked = false;                                
+                document.getElementById("Idioma").disabled = true;
+                document.getElementById("Idioma").checked = false;
+				checkOtro.disabled = true;
+				checkOtro.checked = false;
+				victimaLimitacionCual.style.display = 'none';
+				victimaLimitacionCualInput.value = '';
+			}else{
+				document.getElementById("Analfabetismo").disabled = false;
+                document.getElementById("Discapacidad").disabled = false;
+                document.getElementById("Idioma").disabled = false;
+				checkOtro.disabled = false;
+			}
+		});
 
-	// 		// var campos ={
-	// 		// 	bformulario_id: arrayForm.bformulario_id.value = element.bformulario_id,
-	// 		// 	lat: arrayForm.lat.value = data.Response.View[0].Result[0].Location.DisplayPosition.Latitude,
-	// 		// 	long: arrayForm.long.value = data.Response.View[0].Result[0].Location.DisplayPosition.Longitude,
-	// 		// }
-	// 		// console.log(arrayForm.paisNacimiento.value !== 'Se desconoce');
+		checkOtro.addEventListener('click', function(){
+			if (checkOtro.checked) {
+				victimaLimitacionCual.style.display = '';
+			}else{
+				victimaLimitacionCual.style.display = 'none';
+				victimaLimitacionCualInput.value = '';
+			}
+		});
+	// fin pregunta 20
 
-	// 		if ((arrayForm.paisNacimiento.value !== 'Se desconoce' && arrayForm.paisNacimiento.value !== null) || (arrayForm.provinciaNacimiento.value !== 'Se desconoce' && arrayForm.provinciaNacimiento.value !== null) || (arrayForm.ciudadNacimiento.value !== 'Se desconoce' && arrayForm.ciudadNacimiento.value !== null)) {
-	// 			var paisNacimiento = arrayForm.paisNacimiento.value;
-	// 			var provinciaNacimiento = arrayForm.provinciaNacimiento.value;
-	// 			var ciudadNacimiento = arrayForm.ciudadNacimiento.value;
-	// 			event.preventDefault()
+	// pregunta 22
+		var selectOficio = document.querySelector('.oficio');
+		var victimaOficioCual = document.querySelector('.victimaOficioCual');
+		var victimaOficioCualInput = document.querySelector('.victimaOficioCualInput');
 
-	// 			console.log(ciudadNacimiento+', '+provinciaNacimiento+', '+paisNacimiento);
-	// 			$.ajax({
-	// 				url: 'https://geocoder.api.here.com/6.2/geocode.json',
-	// 				type: 'GET',
-	// 				dataType: 'jsonp',
-	// 				// headers: 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-	// 				jsonp: 'jsoncallback',
-	// 				data: {
-	// 					searchtext: ciudadNacimiento+', '+provinciaNacimiento+', '+paisNacimiento,
-	// 					app_id: 'HkqpXchCOv6VUYhLEIEz',
-	// 					app_code: 'zl9UxG6jltjRVgHk4SqEaA',
-	// 					gen: '1'
-	// 				},
-	// 				success: function (data) {
-	// 					// console.log(JSON.stringify(data));
-						
-	// 					// individuales.lat = data.Response.View[0].Result[0].Location.DisplayPosition.Latitude;
-	// 					// individuales.long = data.Response.View[0].Result[0].Location.DisplayPosition.Longitude;
-
-
-	// 					var campos ={
-	// 						lat: data.Response.View[0].Result[0].Location.DisplayPosition.Latitude,
-	// 						long: data.Response.View[0].Result[0].Location.DisplayPosition.Longitude,
-	// 						count: 1
-	// 					}
-
-	// 					console.log(JSON.stringify(campos));
-	// 					var camposJSON = JSON.stringify(campos)
-
-	// 					// var datosDelFormulario = new FormData();
-
-	// 					// datosDelFormulario.append('datos', JSON.stringify(campos));
-	// 					// console.log(datosDelFormulario);
-
-	// 					fetch("/mapas", {
-	// 						method: 'POST',
-	// 						body: camposJSON,
-	// 						// body: camposJSON,
-	// 						headers:{
-	// 							'Content-Type': 'application/json',
-	// 							'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-	// 						}
-	// 					})
-
-	// 					.then(function (response) {
-	// 						return response.text();
-	// 					})
-	// 					.then(function (data) {
-	// 						// var prueba = $(".prueba");
-	// 						console.log(data);
-
-	// 						// formulario.append('<div>'
-	// 						// 	+ '<p>Latitud' + data.Response.View[0].Result[0].Location.DisplayPosition.Latitude + ' Longitud '+data.Response.View[0].Result[0].Location.DisplayPosition.Longitude+'</p>'
-	// 						// 	+ '</div>'
-	// 						// );
-	// 					})
-	// 					.catch(function (error) {
-	// 						console.log("The error was: " + error);
-	// 					})
-
-	// 					// markers.push(individuales)
-						
+		selectOficio.addEventListener('change', function(){
+			if (selectOficio.value == 1) {
+				victimaOficioCual.style.display = '';
+			}else{
+				victimaOficioCual.style.display = 'none';
+				victimaOficioCualInput.value = '';
+			}
+		});
+	// fin pregunta 22
 
 
-	// 					// console.log(markers.length);
-						
-	// 				}
-	// 			});
-	// 		}
-
-	// 		window.setTimeout(function(){formulario.submit()}, 2000)
-	// 	});
-
-	// 	// btnEnviar.addEventListener('click', function(){
-			
-	// 	// });
-	// //fin
 }

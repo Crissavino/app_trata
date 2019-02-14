@@ -5,8 +5,7 @@
 	console.log(borrarConviviente);
 
 	borrarConviviente.addEventListener('click', function(){
-        var divConvivientes = document.querySelector('.padre');
-        console.log(divProfesionales.lastChild);
+        var divConvivientes = document.querySelector('.referentes');
         divConvivientes.removeChild(divConvivientes.lastChild)
         swal('Se borro un referente')
 	});
@@ -14,12 +13,12 @@
 	var noPersonas = document.querySelector('.noPersonas');
 	
 	if (noPersonas.value == '2' || noPersonas.value == '3') {
-		var convivientes = document.querySelector('.padre');
+		var convivientes = document.querySelector('.referentes');
 		convivientes.style.display = "none";
 		var btnAnadir = document.querySelector('.clickAnadir');
 		var btnBorrar = document.querySelector('.clickBorrar');
 	}else if(noPersonas.value == '1'){
-		var convivientes = document.querySelector('.padre');
+		var convivientes = document.querySelector('.referentes');
 		convivientes.style.display = "";
 		var btnAnadir = document.querySelector('.clickAnadir');
 		var btnBorrar = document.querySelector('.clickBorrar');
@@ -27,7 +26,7 @@
 		btnBorrar.removeAttribute('disabled', 'disabled');
 		// swal("Agregá al menos un conviviente");
 	}else{
-		var convivientes = document.querySelector('.padre');
+		var convivientes = document.querySelector('.referentes');
 		convivientes.style.display = "";
 		var btnAnadir = document.querySelector('.clickAnadir');
 		var btnBorrar = document.querySelector('.clickBorrar');
@@ -213,6 +212,75 @@ window.onload =function (){
 	// 		}
 	// 	})
 	// })
+
+//funcionalidad de convivientes agregados, no se como seguir
+        //le agrego las funcionalidades para cada caso
+            // var i = <?=$i?>;
+            // // console.log(i);
+
+            // var inputNomApTextNAnt = document.querySelectorAll('.nombre_apellidoAnt');
+            // // var inputNomApTextNAnt+i = document.querySelector('.nombre_apellidoAnt'+i);
+            // var inputNomApCheckNAnt = document.querySelectorAll('.desconoceNAAnt');
+            // // var inputNomApCheckNAnt = document.querySelector('.desconoceNAAnt'+i);
+            // // console.log(inputNomApTextNAnt);
+            // inputNomApCheckNAnt.forEach(function(element, index){
+            //     // console.log(inputNomApTextNAnt[index]);
+            //     // console.log(inputNomApCheckNAnt[index]);
+            //     inputNomApCheckNAnt[index].addEventListener('click', function () {
+            //         if (inputNomApCheckNAnt[index].checked) {
+            //             inputNomApTextNAnt[index].value = 'Se desconoce'
+            //             inputNomApTextNAnt[index].setAttribute("readonly", "readonly")
+            //         }else{
+            //             inputNomApTextNAnt[index].value = ''
+            //             inputNomApTextNAnt[index].removeAttribute('readonly')
+            //         }
+            //     });
+            // });
+            // // for (var j = 1; i <= i.length; j++) {
+            // //     console.log('test');
+            // //     console.log(inputNomApTextNAnt[j]);
+            // // }
+            // // // console.log(inputNomApTextN, inputNomApCheckN);
+
+            // inputNomApCheckNAnt.addEventListener('click', function () {
+            //     if (inputNomApCheckNAnt.checked) {
+            //         inputNomApTextNAnt.value = 'Se desconoce'
+            //         inputNomApTextNAnt.setAttribute("readonly", "readonly")
+            //     }else{
+            //         inputNomApTextNAnt.value = ''
+            //         inputNomApTextNAnt.removeAttribute('readonly')
+            //     }
+            // });
+
+
+            // var inputEdadCheckNAnt = document.querySelector('.desconoceEAnt'+i);
+            // var inputEdadTextNAnt = document.querySelector('.edadAnt'+i);
+
+            // inputEdadCheckNAnt.addEventListener('click', function () {
+            //     if (inputEdadCheckNAnt.checked) {
+            //         inputEdadTextNAnt.value = 'Se desconoce'
+            //         inputEdadTextNAnt.setAttribute("readonly", "readonly")
+            //     }else{
+            //         inputEdadTextNAnt.value = ''
+            //         inputEdadTextNAnt.removeAttribute('readonly')
+            //     }
+            // });
+
+            // var selectVinculoNAnt = document.querySelector('.vinculoAnt'+i)
+            // var divOtroVinculoNAnt = document.querySelector('.otro_vinculoAnt'+i)
+            // var inputOtroVinculoNAnt = document.querySelector('.vinculo_otroAnt'+i)
+
+            // selectVinculoNAnt.addEventListener('change', function () {
+            //     if (selectVinculoNAnt.value == '6') {
+            //         divOtroVinculoNAnt.style.display = ""
+            //     }else{
+            //         divOtroVinculoNAnt.style.display = "none"
+            //         inputOtroVinculoNAnt.value = '';
+            //     }
+            // })
+        //fin funcionalidades
+//fin
+
 
 //---------FIN FORMULARIO C--------------
 

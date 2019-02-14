@@ -15,12 +15,14 @@ class NoHayEjeC
      */
     public function handle($request, Closure $next)
     {
-        $carpetas = \App\Carpetas\Numerocarpeta::all();
+        $userId = auth()->user()->id;
+
+        $carpetas = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)->get();
 
         foreach ($carpetas as $carpeta) {
             if ($carpeta->numeroCarpeta) {
                 if (!($carpeta->cformulario_id)) {
-                    return redirect('/formularios/C')->with('message', 'Primero tenes que completar el Eje C!');
+                    return redirect('/formularios/C')->with('message', 'Primero tenes que completar el Eje C de tu carpeta!');
                 }
             }
         }

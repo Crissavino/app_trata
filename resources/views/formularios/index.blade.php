@@ -22,14 +22,28 @@
 	</style>
 </head>
 <header>
-	{{-- @dd((auth()->user()->isAdmin == 1)) --}}
-	@if (auth()->user()->isAdmin === 1)
-			<div class="menu">
+	@if (auth()->user()->isAdmin == 2)
+		<div class="menu">
 			<nav>
 				<span class="mobile-btn"><img width="40px" height="40px" src="/img/profile-user.png" alt=""></span>
 				<ul class="menu-mobile">
 			  		<li><a href="/mapas" title="">Mapas de calor</a></li>
 					<li><a href="/descargarEstadisticas" title="">Estadísticas</a></li>
+			  		<li><a href="/logout" title="">Cerrar sesión</a></li>
+					{{-- <li><a href="" title="">Formularios</a></li> --}}
+					{{-- <li><a href="" title="">Formularios</a></li> --}}
+					{{-- <li><a href="" title="">Formularios</a></li> --}}
+					{{-- <li><a href="" title="">Costos</a></li> --}}
+					{{-- <li><a href="" title="">Testimonios</a></li> --}}
+				</ul>
+			</nav>
+		</div>
+	@else
+		<div class="menu">
+			<nav>
+				<span class="mobile-btn"><img width="40px" height="40px" src="/img/profile-user.png" alt=""></span>
+				<ul class="menu-mobile">
+			  		<li><a href="/logout" title="">Cerrar sesión</a></li>
 					{{-- <li><a href="" title="">Formularios</a></li> --}}
 					{{-- <li><a href="" title="">Formularios</a></li> --}}
 					{{-- <li><a href="" title="">Formularios</a></li> --}}
@@ -41,10 +55,12 @@
 	@endif
 </header>
 <body>
-	<h1 class="text-center" style="margin-top: 60px;">Bienvenido {{ auth()->user()->name }}</h1>
+	<h1 class="text-center mb-5" style="margin-top: 60px;">Bienvenido {{ auth()->user()->name }}</h1>
 
 	<div class="list-group menu-lista">
-		<a href="/formularios/A" class="w-50 list-group-item list-group-item-action text-center active btn-success mt-5 mb-5">Cargar carpeta</a><br>
+		@if (auth()->user()->isAdmin !== 2)
+			<a href="/formularios/A" class="w-50 list-group-item list-group-item-action text-center active btn-success mb-5">Cargar carpeta</a><br>
+		@endif
 		{{-- <a href="/formularios" class="w-50 list-group-item list-group-item-action text-center active btn-success mb-5">Continuar carga</a><br> --}}
 		{{-- <a href="/formularios" class="w-50 list-group-item list-group-item-action text-center active btn-success mb-5">Carpetas cargadas</a><br> --}}
 		<a href="/formularios/buscador" class="w-50 list-group-item list-group-item-action text-center active btn-success mb-5">Buscador</a><br>

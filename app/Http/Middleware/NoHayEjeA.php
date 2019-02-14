@@ -15,14 +15,18 @@ class NoHayEjeA
      */
     public function handle($request, Closure $next)
     {
-        $carpetas = \App\Carpetas\Numerocarpeta::all();
+        $userId = auth()->user()->id;
 
-        // dd($carpetas);
+        $carpetas = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)->get();
+
         foreach ($carpetas as $carpeta) {
             if ($carpeta->numeroCarpeta) {
                 if (!($carpeta->aformulario_id)) {
-                    return redirect('/formularios/A')->with('message', 'Primero tenes que completar el Eje A!');
+                    return redirect('/formularios/A')->with('message', 'Primero tenes que completar el Eje A de tu carpeta!');
                 }
+                // if (!($carpeta->aformulario_id) && !($carpetas->user_id)) {
+                //     return redirect('/formularios/A')->with('message', 'Primero tenes que completar el Eje D!');
+                // }
             }
         }
         return $next($request);

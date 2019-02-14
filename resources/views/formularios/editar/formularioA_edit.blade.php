@@ -84,7 +84,7 @@
             {{-- INICIO PRIMERA PREGUNTA --}}
                 <div class="form-group {{ $errors->has('datos_nombre_referencia') ? 'has-error' : ''}}" >
                     <label for="datos_nombre_referencia">A 1. Nombre de referencia:</label>
-                    @if (auth()->user()->isAdmin !== 2)
+                    @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                         <input type="text" class="form-control" name="datos_nombre_referencia" id="datos_nombre_referencia" value="{{ $aFormulario->datos_nombre_referencia }}">
                     @else
                         <input type="text" class="form-control" readonly name="datos_nombre_referencia" id="datos_nombre_referencia" value="{{ $aFormulario->datos_nombre_referencia }}">
@@ -97,7 +97,7 @@
             {{-- INICIO SEGUNDA PREGUNTA --}}
                 <div class="form-group" {{ $errors->has('datos_numero_carpeta') ? 'has-error' : ''}}>
                     <label for="datos_numero_carpeta">A 2. Número de carpeta:</label>
-                    @if (auth()->user()->isAdmin !== 2)
+                    @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                         <input type="text" class="form-control" name="datos_numero_carpeta" id="datos_numero_carpeta" value="{{ $aFormulario->datos_numero_carpeta }}">
                     @else
                         <input readonly type="text" class="form-control" name="datos_numero_carpeta" id="datos_numero_carpeta" value="{{ $aFormulario->datos_numero_carpeta }}">
@@ -109,7 +109,7 @@
             {{-- INICIO TERCERA PREGUNTA --}}
                 <div class="form-group" {{ $errors->has('datos_fecha_ingreso') ? 'has-error' : ''}}>
                     <label for="datos_fecha_ingreso">A 3. Fecha de Ingreso:</label>
-                    @if (auth()->user()->isAdmin !== 2)
+                    @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                         <input type="date" class="form-control" name="datos_fecha_ingreso" id="datos_fecha_ingreso" value="{{ $aFormulario->datos_fecha_ingreso->format('Y-m-d')}}">
                     @else
                         <input readonly type="date" class="form-control" name="datos_fecha_ingreso" id="datos_fecha_ingreso" value="{{ $aFormulario->datos_fecha_ingreso->format('Y-m-d')}}">
@@ -121,7 +121,7 @@
             {{-- INICIO CUARTA PREGUNTA --}}
                 <div class="form-group" {{ $errors->has('modalidad_id') ? 'has-error' : ''}}>
                     <label for="modalidad_id">A 4. Modalidad de Ingreso</label>
-                    @if (auth()->user()->isAdmin !== 2)
+                    @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                         <select class="form-control modalidad" name="modalidad_id" onChange="selectOnChange2(this)">
                             <option value="">Modalidad</option>
                             @foreach ($datosModalidad as $modalidad)
@@ -146,7 +146,7 @@
                     {!! $errors->first('modalidad_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 
                     <div id="presentacion_espontanea_id" class="presentacion_espontanea" style="display: none;" {{ $errors->has('presentacion_espontanea_id') ? 'has-error' : ''}}><br>
-                        @if (auth()->user()->isAdmin !== 2)
+                        @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                             <select class="form-control presentacion" name="presentacion_espontanea_id">
                                 <option value="">De que tipo?</option>
                                 @foreach ($datosPresentacion as $presentacion)
@@ -172,7 +172,7 @@
                     </div>
 
                     <div id="derivacion_otro_organismo_id" class="derivacion_otro_organismo" style="display: none;" {{ $errors->has('derivacion_otro_organismo_id') ? 'has-error' : ''}}><br>
-                        @if (auth()->user()->isAdmin !== 2)
+                        @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                             <select class="form-control derivacion_otro_organismo_select" onChange="selectOnChange3(this)" name="derivacion_otro_organismo_id">
                                 <option value="">Que Organismo?</option>
                                 @foreach ($datosOrganismo as $organismo)
@@ -198,7 +198,7 @@
 
                     <div id="derivacion_otro_organismo_cual" class="derivacion_otro_organismo_cual" style="display: none;" {{ $errors->has('derivacion_otro_organismo_cual') ? 'has-error' : ''}}>
                         <br><label for="">Cuál?</label>
-                        @if (auth()->user()->isAdmin !== 2)
+                        @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                             <input class="form-control derivacion_otro_organismo_cual_input" value="{{ $aFormulario->derivacion_otro_organismo_cual }}" name="derivacion_otro_organismo_cual" type="text">
                         @else
                             <input readonly class="form-control derivacion_otro_organismo_cual_input" value="{{ $aFormulario->derivacion_otro_organismo_cual }}" name="derivacion_otro_organismo_cual" type="text">
@@ -246,7 +246,7 @@
             {{-- INICIO QUINTA PREGUNTA --}}
                 <div class="form-group" {{ $errors->has('estadocaso_id') ? 'has-error' : ''}}>
                     <label for="estadocaso_id">A 5. Estado Actual:</label>
-                    @if (auth()->user()->isAdmin !== 2)
+                    @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                         <select class="form-control selectEstadoCaso" name="estadocaso_id">
                             <option value="">Estado Actual</option>
                             @foreach ($datosEstadoCaso as $estadocaso)
@@ -270,7 +270,7 @@
                     {!! $errors->first('estadocaso_id', '<p class="help-block" style="color:red";>:message</p>') !!}
                 </div>
 
-                @if (auth()->user()->isAdmin !== 2)
+                @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                     <div class="form-group divMotivoCierre" style="display: none;">
                         <label for="">A 5 I. Motivo de cierre</label>
                         <select class="form-control selectMotivoCierre" name="motivocierre_id">
@@ -298,7 +298,7 @@
             {{-- FIN QUINTA PREGUNTA --}}
 
             {{-- INICIO SEXTA PREGUNTA --}}
-                @if (auth()->user()->isAdmin !== 2)
+                @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                     <div class="form-group" {{ $errors->has('ambito_id') ? 'has-error' : ''}}>
                         <label for="">A 6. Ámbito de competencia</label>
                         <select name="ambito_id" class="form-control selectAmbito">
@@ -384,7 +384,7 @@
             {{-- INICIO SEPTIMA PREGUNTA --}}
                 <div class="form-group" {{ $errors->has('caratulacionjudicial_id') ? 'has-error' : ''}}>
                     <label for="caratulacionjudicial_id">A 7. Caratulación Judicial:</label>
-                    @if (auth()->user()->isAdmin !== 2)
+                    @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                         <select class="form-control caratulacionjudicial" name="caratulacionjudicial_id" onChange="selectOnChange(this)">
                             <option value="">Caratulación</option>
                             @foreach ($datosCaratulacion as $caratulacion)
@@ -408,7 +408,7 @@
                     {!! $errors->first('caratulacionjudicial_id', '<p class="help-block" style="color:red";>:message</p>') !!}
                     <div id="cual" class="caratulacionjudicial_cual" style="display: none;" {{ $errors->has('caratulacionjudicial_otro') ? 'has-error' : ''}}>
                         <br><label for="">Cuál?</label>
-                        @if (auth()->user()->isAdmin !== 2)
+                        @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                             <input class="form-control caratulacionjudicial_otro" name="caratulacionjudicial_otro" value="{{ $aFormulario->caratulacionjudicial_otro }}" id="caratulacionjudicial_otro" type="text" onclick="cual()">
                         @else
                             <input readonly class="form-control caratulacionjudicial_otro" name="caratulacionjudicial_otro" value="{{ $aFormulario->caratulacionjudicial_otro }}" id="caratulacionjudicial_otro" type="text" onclick="cual()">
@@ -435,7 +435,7 @@
             {{-- INICIO OCTAVA PREGUNTA --}}
                 <div class="form-group" {{ $errors->has('datos_nro_causa') ? 'has-error' : ''}}>
                     <label for="datos_nro_causa">A 8. N° Causa o Id Judicial:</label>
-                    @if (auth()->user()->isAdmin !== 2)
+                    @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                         <input type="text" class="form-control" name="datos_nro_causa" value="{{ $aFormulario->datos_nro_causa }}">
                     @else
                         <input readonly type="text" class="form-control" name="datos_nro_causa" value="{{ $aFormulario->datos_nro_causa }}">
@@ -479,7 +479,7 @@
             {{-- INICIO AGREGAR PROFESIONAL PREGUNTA --}}
                 <div class="padre"></div>
 
-                @if (auth()->user()->isAdmin !== 2)
+                @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                         <button id="anadir" class="btn btn-outline-primary col-xl anadirProfesional" type="button"> Agregar profesional </button><br><br>
                         <button id="borra" class="btn btn-outline-danger col-xl borrarProfesional" type="button">Borrar profesional</button><br><br>
                     {{-- FIN AGREGAR PROFESIONAL PREGUNTA --}}

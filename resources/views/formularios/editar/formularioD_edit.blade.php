@@ -67,7 +67,7 @@
 	
 
     <section class="container">
-    	@if (auth()->user()->isAdmin !== 2)
+    	@if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
     		<form action="" class="form-group formDedit" method="POST">
 		    	{{ csrf_field() }}
 		    	@method('PUT')
@@ -450,7 +450,7 @@
 
 			 	<div class="form-group" {{ $errors->has('frecuenciapago_id') ? 'has-error' : ''}}>
 		    		<label for="">D 21. Frecuencia de pago:</label>
-		    		<select class="form-control" name="frecuenciapago_id">
+		    		<select class="form-control selectFrecuenciaPago" name="frecuenciapago_id">
 		    			<option value="">Seleccioná frecuencia</option>
 		    			@foreach ($datosFrecuenciaPago as $frecuenciaPago)
 		    				<option value="{{ $frecuenciaPago->getId() }}" {{ $dFormulario->frecuenciapago_id == $frecuenciaPago->getId() ? 'selected' : '' }}>{{ $frecuenciaPago->getNombre() }}</option>
@@ -494,7 +494,7 @@
 
 			 			<div style="display: none;" class="especiasCual" {{ $errors->has('especiaconceptos_otro') ? 'has-error' : ''}}>
 			    	 		<label for="">Cuál?</label>
-			    	 		<input type="text" class="form-control especiaconceptos_otro" name="especiaconceptos_otro" value="{{ $dFormulario->especiaconceptos_otro }}">
+			    	 		<input type="text" class="form-control especiasCualInput" name="especiaconceptos_otro" value="{{ $dFormulario->especiaconceptos_otro }}">
 			    	 	</div>
 		    			{!! $errors->first('especiaconceptos_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
 				 	</div>
@@ -817,7 +817,7 @@
 		    	 	
 		    	 	{{-- ver como persistir los checkbox --}}
 		    	 	<div style="display: none;" class="privado">
-		    	 		<label for="">D 5 I. Lugar de ofrecimiento:</label>
+		    	 		<label for="">D 5 II. Lugar de ofrecimiento:</label>
 		    	 		{{-- ver como ponerlo como subtitulo --}}
 		    	 		<label for="">(En caso de requerir, tildar todas las opciones que considere correspondientes)</label>
 		    	 		<div>
@@ -850,7 +850,7 @@
 		    	 	</div>
 
 		    	 	<div style="display: none;" class="textil">
-		    	 		<label for="">D 5 II.</label>
+		    	 		<label for="">D 5 III.</label>
 		    	 		<div {{ $errors->has('marcaTextil') ? 'has-error' : ''}}>
 		    	 			<label for="">a) Nombre de marca, sello, nombre registral o franquicia:</label>
 		    	 			<input readonly type="text" class="form-control marcaTextil" name="marcaTextil" value="{{ $dFormulario->marcaTextil }}">
@@ -892,7 +892,7 @@
 		    	 	</div>
 
 		    	 	<div style="display: none;" class="rural">
-		    	 		<label for="">D 5 III.</label>
+		    	 		<label for="">D 5 I.</label>
 		    	 		<label for="">a) Tipo de negocio de venta: </label>
 		    	 		{{-- ver como ponerlo como subtitulo --}}
 		    	 		<label for="">(En caso de requerir, tildar todas las opciones que considere correspondientes)</label>
@@ -975,7 +975,7 @@
 		    		<div style="display: none;" class="viajoAcompanado">
 		    	 		<div {{ $errors->has('acompanado_id') ? 'has-error' : ''}}>
 		    	 			<label for="">D 10 I. ¿Por quién?:</label>
-				    		<select disabled class="form-control acompanado_id" name="acompanado_id">
+				    		<select disabled class="form-control acompanado" name="acompanado_id">
 				    			<option value="">Seleccioná quién la/lo acompañó</option>
 				    			@foreach ($datosAcompanado as $acompanado)
 				    				<option value="{{ $acompanado->getId() }}" {{ $dFormulario->acompanado_id == $acompanado->getId() ? 'selected' : '' }}>{{ $acompanado->getNombre() }}</option>
@@ -986,7 +986,7 @@
 
 		    	 		<div {{ $errors->has('acompanadored_id') ? 'has-error' : ''}}>
 		    	 			<label for="">D 10 II. Acompañante relacionado con la red:</label>
-				    		<select disabled class="form-control acompanadored_id" name="acompanadored_id">
+				    		<select disabled class="form-control acompanadored" name="acompanadored_id">
 				    			<option value="">Estaba relacionado?</option>
 				    			@foreach ($datosAcompanadoRed as $acompanadoRed)
 				    				<option value="{{ $acompanadoRed->getId() }}" {{ $dFormulario->acompanadored_id == $acompanadoRed->getId() ? 'selected' : '' }}>{{ $acompanadoRed->getNombre() }}</option>
@@ -1081,7 +1081,7 @@
 
 			 	<div class="form-group" {{ $errors->has('frecuenciapago_id') ? 'has-error' : ''}}>
 		    		<label for="">D 21. Frecuencia de pago:</label>
-		    		<select disabled class="form-control" name="frecuenciapago_id">
+		    		<select disabled class="form-control selectFrecuenciaPago" name="frecuenciapago_id">
 		    			<option value="">Seleccioná frecuencia</option>
 		    			@foreach ($datosFrecuenciaPago as $frecuenciaPago)
 		    				<option value="{{ $frecuenciaPago->getId() }}" {{ $dFormulario->frecuenciapago_id == $frecuenciaPago->getId() ? 'selected' : '' }}>{{ $frecuenciaPago->getNombre() }}</option>
@@ -1125,7 +1125,7 @@
 
 			 			<div style="display: none;" class="especiasCual" {{ $errors->has('especiaconceptos_otro') ? 'has-error' : ''}}>
 			    	 		<label for="">Cuál?</label>
-			    	 		<input readonly type="text" class="form-control especiaconceptos_otro" name="especiaconceptos_otro" value="{{ $dFormulario->especiaconceptos_otro }}">
+			    	 		<input readonly type="text" class="form-control especiasCualInput" name="especiaconceptos_otro" value="{{ $dFormulario->especiaconceptos_otro }}">
 			    	 	</div>
 		    			{!! $errors->first('especiaconceptos_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
 				 	</div>
@@ -1175,7 +1175,7 @@
 
 				 			<div style="display: none;" class="deudaCual" {{ $errors->has('motivodeuda_otro') ? 'has-error' : ''}}>
 				    	 		<label for="">Cuál?</label>
-				    	 		<input readonly type="text" class="form-control motivodeuda_otro" name="motivodeuda_otro" value="{{ $dFormulario->motivodeuda_otro }}">
+				    	 		<input readonly type="text" class="form-control deudaCualInput" name="motivodeuda_otro" value="{{ $dFormulario->motivodeuda_otro }}">
 				    	 	</div>
 		    				{!! $errors->first('motivodeuda_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
 					 	</div>
@@ -1223,7 +1223,7 @@
 
 		    	 		<div {{ $errors->has('coordinadorPTN_otro') ? 'has-error' : ''}}>
 		    	 			<label for="">D 26 II. Otros datos:</label>
-				    		<input readonly type="text" class="form-control coordinadorPTN_otro" name="coordinadorPTN_otro" value="{{ $dFormulario->coordinadorPTN_otro }}">
+				    		<input readonly type="text" class="form-control coordinadorPTNOtro" name="coordinadorPTN_otro" value="{{ $dFormulario->coordinadorPTN_otro }}">
 		    	 		</div>
 		    	 	</div>
 		    		{!! $errors->first('coordinadorPTN_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -1370,7 +1370,7 @@
 		    		{!! $errors->first('elementoseguridad_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 		    	</div>
 
-		    	<button type="submit" class="btn btn-primary col-xl" name="button">Actualizar</button><br><br>
+		    	{{-- <button type="submit" class="btn btn-primary col-xl" name="button">Actualizar</button><br><br> --}}
 		    </form>
     	@endif
     	

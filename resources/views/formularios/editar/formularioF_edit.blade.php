@@ -65,7 +65,7 @@
 </header>
 <body>
     <section class="container">
-        @if (auth()->user()->isAdmin !== 2)
+        @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
             <form action="" class="form-group" method="post">
                 {{ csrf_field() }}
                 @method('PUT')

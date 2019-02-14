@@ -112,7 +112,7 @@
 	    	 	
 	    	 	<div style="display: none;" class="finalidadCual" {{ $errors->has('finalidad_otra') ? 'has-error' : ''}}>
 	    	 		<label for="">Cuál?</label>
-	    	 		<input type="text" class="form-control" name="finalidad_otra" value="{{ old('finalidad_otra') }}">
+	    	 		<input type="text" class="form-control finalidadOtraInput" name="finalidad_otra" value="{{ old('finalidad_otra') }}">
 	    	 	</div>
 	    		{!! $errors->first('finalidad_otra', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	</div>
@@ -281,7 +281,7 @@
 	    	 	
 	    	 	<div style="display: none;" class="contactoExplotacionCual" {{ $errors->has('contactoexplotacion_otro') ? 'has-error' : ''}}>
 	    	 		<label for="">Cuál?</label>
-	    	 		<input type="text" class="form-control" name="contactoexplotacion_otro" value="{{ old('contactoexplotacion_otro') }}">
+	    	 		<input type="text" class="form-control contactoexplotacion_otro" name="contactoexplotacion_otro" value="{{ old('contactoexplotacion_otro') }}">
 	    	 	</div>
 	    		{!! $errors->first('contactoexplotacion_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	</div>
@@ -299,7 +299,7 @@
 	    		<div style="display: none;" class="viajoAcompanado">
 	    	 		<div {{ $errors->has('acompanado_id') ? 'has-error' : ''}}>
 	    	 			<label for="">D 10 I. ¿Por quién?:</label>
-			    		<select class="form-control" name="acompanado_id">
+			    		<select class="form-control acompanado" name="acompanado_id">
 			    			<option value="">Seleccioná quién la/lo acompañó</option>
 			    			@foreach ($datosAcompanado as $acompanado)
 			    				<option value="{{ $acompanado->getId() }}" {{ old('acompanado_id') == $acompanado->getId() ? 'selected' : '' }}>{{ $acompanado->getNombre() }}</option>
@@ -310,7 +310,7 @@
 
 	    	 		<div {{ $errors->has('acompanadored_id') ? 'has-error' : ''}}>
 	    	 			<label for="">D 10 II. Acompañante relacionado con la red:</label>
-			    		<select class="form-control" name="acompanadored_id">
+			    		<select class="form-control acompanadored" name="acompanadored_id">
 			    			<option value="">Estaba relacionado?</option>
 			    			@foreach ($datosAcompanadoRed as $acompanadoRed)
 			    				<option value="{{ $acompanadoRed->getId() }}" {{ old('acompanadored_id') == $acompanadoRed->getId() ? 'selected' : '' }}>{{ $acompanadoRed->getNombre() }}</option>
@@ -466,7 +466,7 @@
 
 		 			<div style="display: none;" class="especiasCual" {{ $errors->has('especiaconceptos_otro') ? 'has-error' : ''}}>
 		    	 		<label for="">Cuál?</label>
-		    	 		<input type="text" class="form-control" name="especiaconceptos_otro" value="{{ old('especiaconceptos_otro') }}">
+		    	 		<input type="text" class="form-control especiasCualInput" name="especiaconceptos_otro" value="{{ old('especiaconceptos_otro') }}">
 		    	 	</div>
 	    			{!! $errors->first('especiaconceptos_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
 			 	</div>
@@ -515,14 +515,14 @@
 
 			 			<div style="display: none;" class="deudaCual" {{ $errors->has('motivodeuda_otro') ? 'has-error' : ''}}>
 			    	 		<label for="">Cuál?</label>
-			    	 		<input type="text" class="form-control" name="motivodeuda_otro" value="{{ old('motivodeuda_otro') }}">
+			    	 		<input type="text" class="form-control deudaCualInput" name="motivodeuda_otro" value="{{ old('motivodeuda_otro') }}">
 			    	 	</div>
 	    				{!! $errors->first('motivodeuda_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
 				 	</div>
 
 	    	 		<div {{ $errors->has('lugardeuda_id') ? 'has-error' : ''}}>
 	    	 			<label for="">D 24 II. Lugar de deuda</label>
-			    		<select class="form-control" name="lugardeuda_id">
+			    		<select class="form-control lugardeuda_id" name="lugardeuda_id">
 			    			<option value="">Lugar de dueda?</option>
 			    			@foreach ($datosLugarDeuda as $lugarDeuda)
 			    				<option value="{{ $lugarDeuda->getId() }}" {{ old('lugardeuda_id') == $lugarDeuda->getId() ? 'selected' : '' }}>{{ $lugarDeuda->getNombre() }}</option>
@@ -557,13 +557,13 @@
 	    		<div style="display: none;" class="testigoSi">
 	    	 		<div {{ $errors->has('coordinadorPTN') ? 'has-error' : ''}}>
 	    	 			<label for=""> D 26 I. Coordinador PNT a cargo:</label>
-			    		<input type="text" class="form-control" name="coordinadorPTN" value="{{ old('coordinadorPTN') }}">
+			    		<input type="text" class="form-control coordinadorPTN" name="coordinadorPTN" value="{{ old('coordinadorPTN') }}">
 	    	 		</div>
 	    		{!! $errors->first('coordinadorPTN', '<p class="help-block" style="color:red";>:message</p>') !!}
 
 	    	 		<div {{ $errors->has('coordinadorPTN_otro') ? 'has-error' : ''}}>
 	    	 			<label for="">D 26 II. Otros datos:</label>
-			    		<input type="text" class="form-control" name="coordinadorPTN_otro" value="{{ old('coordinadorPTN_otro') }}">
+			    		<input type="text" class="form-control coordinadorPTNOtro" name="coordinadorPTN_otro" value="{{ old('coordinadorPTN_otro') }}">
 	    	 		</div>
 	    	 	</div>
 	    		{!! $errors->first('coordinadorPTN_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -679,7 +679,7 @@
 	    	 	
 	    	 	<div style="display: none;" class="materialCual" {{ $errors->has('material_otro') ? 'has-error' : ''}}>
 	    	 		<label for="">Cuál?</label>
-	    	 		<input type="text" class="form-control" name="material_otro" value="{{ old('material_otro') }}">
+	    	 		<input type="text" class="form-control material_otro" name="material_otro" value="{{ old('material_otro') }}">
 	    	 	</div>
 	    		{!! $errors->first('material_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
 	    	</div>

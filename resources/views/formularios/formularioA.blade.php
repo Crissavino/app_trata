@@ -73,7 +73,7 @@
                 {{-- TODAVIA NO SE COMO HACER PARA PERSISTIR LA OPCION ELEGIDA DE LOS SELECTS DINAMICOS --}}
                 <div class="form-group {{ $errors->has('modalidad_id') ? 'has-error' : ''}}">
                     <label for="modalidad_id">A 4. Modalidad de Ingreso</label>
-                    <select class="form-control modalidad" name="modalidad_id" onChange="selectOnChange2(this)" >
+                    <select class="form-control modalidad" name="modalidad_id">
                         <option value="">Modalidad</option>
                         @foreach ($datosModalidad as $modalidad)
                             @php
@@ -98,7 +98,7 @@
                     </div>
 
                     <div id="derivacion_otro_organismo_id" class="derivacion_otro_organismo" style="display: none;" {{ $errors->has('derivacion_otro_organismo_id') ? 'has-error' : ''}}><br>
-                        <select class="form-control derivacion_otro_organismo_select" onChange="selectOnChange3(this)" name="derivacion_otro_organismo_id">
+                        <select class="form-control derivacion_otro_organismo_select" name="derivacion_otro_organismo_id">
                             <option value="">Que Organismo?</option>
                             @foreach ($datosOrganismo as $organismo)
                                 @php
@@ -113,13 +113,13 @@
                     <div id="derivacion_otro_organismo_cual" class="derivacion_otro_organismo_cual" style="display: none;" {{ $errors->has('derivacion_otro_organismo_cual') ? 'has-error' : ''}}>
                         <br><label for="">Cuál?</label>
                         <div class="">
-                            <input class="form-control derivacion_otro_organismo_cual_input" name="derivacion_otro_organismo_cual" type="text" onclick="derivacion_otro_organismo_cual()">
+                            <input class="form-control derivacion_otro_organismo_cual_input" name="derivacion_otro_organismo_cual" type="text">
                         </div>
                     {!! $errors->first('derivacion_otro_organismo_cual', '<p class="help-block" style="color:red";>:message</p>') !!}
                     </div>
                 </div>
 
-                <script>
+                {{-- <script>
                     function selectOnChange3(sel) {
                         if (sel.value=="16"){
                             divC = document.getElementById("derivacion_otro_organismo_cual");
@@ -152,7 +152,7 @@
                             divC.style.display="none";
                         }
                     }
-                </script>
+                </script> --}}
             {{-- FIN CUARTA PREGUNTA --}}
 
             {{-- INICIO QUINTA PREGUNTA --}}

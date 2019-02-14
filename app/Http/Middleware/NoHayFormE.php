@@ -20,6 +20,9 @@ class NoHayFormE
         // $hayFormE = DB::table('Eformularios')->WHERE('user_id', '=', Auth::id())
         // 									 ->ORDERBY('numeroCarpeta')
 								// 			 ->get();
+        $userId = auth()->user();
+
+        dd($userId);
         $hayFormE = \App\FormE\Eformulario::WHERE('user_id', '=', Auth::id())->orderBy('numeroCarpeta');
         // dd($hayFormE->count());
 

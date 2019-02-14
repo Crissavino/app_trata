@@ -275,6 +275,12 @@ class FormsController extends Controller
         return Excel::download(new EstadisticaExport, 'Estadisticas al '.Carbon::parse($fecha_hoy)->format('d-m-Y').'.xlsx');
 	}
 
+	// public function isDeveloper()
+	// {
+	// 	$data = request()->all();
+	// 	var_dump($data);
+	// }
+
 	public function createA()
 	{
 		//aca voy a tener que llamar a todos los modelos de los que saque datos
@@ -435,29 +441,57 @@ class FormsController extends Controller
 		                            ->get();
 
 		//id de los formularios de una misma carpeta
-			$idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-							->where('aformulario_id', '=', $id)
+			// $idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 				->where('aformulario_id', '=', $id)
+			// 				->value('aformulario_id');
+			// $idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('aformulario_id', '=', $id)
+			// 					->value('bformulario_id');
+			// $idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('aformulario_id', '=', $id)
+			// 					->value('cformulario_id');
+			// $idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('aformulario_id', '=', $id)
+			// 					->value('dformulario_id');
+			// $idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('aformulario_id', '=', $id)
+			// 					->value('eformulario_id');
+			// $idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('aformulario_id', '=', $id)
+			// 					->value('fformulario_id');
+			// $idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('aformulario_id', '=', $id)
+			// 					->value('gformulario_id');
+			// $idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormA = \App\Carpetas\Numerocarpeta::where('aformulario_id', '=', $id)
+							// ->where('cformulario_id', '=', $id)
 							->value('aformulario_id');
-			$idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('aformulario_id', '=', $id)
+			// $idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormB = \App\Carpetas\Numerocarpeta::where('aformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('bformulario_id');
-			$idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('aformulario_id', '=', $id)
+			// $idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormC = \App\Carpetas\Numerocarpeta::where('aformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('cformulario_id');
-			$idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('aformulario_id', '=', $id)
+			// $idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormD = \App\Carpetas\Numerocarpeta::where('aformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('dformulario_id');
-			$idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('aformulario_id', '=', $id)
+			// $idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormE = \App\Carpetas\Numerocarpeta::where('aformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('eformulario_id');
-			$idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('aformulario_id', '=', $id)
+			// $idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormF = \App\Carpetas\Numerocarpeta::where('aformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('fformulario_id');
-			$idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('aformulario_id', '=', $id)
+			// $idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormG = \App\Carpetas\Numerocarpeta::where('aformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('gformulario_id');
 		//fin ids
-
+			$usuarioCarpeta = \App\Carpetas\Numerocarpeta::WHERE('aformulario_id', '=', $id)->value('user_id');
 
 		return view('formularios.editar.formularioA_edit', ['aFormulario' => $aFormulario,
 															'datosModalidad' => $datosModalidad,
@@ -478,7 +512,8 @@ class FormsController extends Controller
 															'idFormD' => $idFormD,
 															'idFormE' => $idFormE,
 															'idFormF' => $idFormF,
-															'idFormG' => $idFormG
+															'idFormG' => $idFormG,
+															'usuarioCarpeta' => $usuarioCarpeta,
 															]);
 	}
 
@@ -577,7 +612,7 @@ class FormsController extends Controller
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
-    	return redirect('formularios');
+    	return redirect('formularios/buscador');
 	}
 
 	public function createB()
@@ -668,6 +703,9 @@ class FormsController extends Controller
 			'tipodocumento_id' => 'required',
 			//'victima_tipo_documento_otro' => 'required',
 			'victima_documento' => 'required',
+			'paisNacimiento' => 'required',
+			'provinciaNacimiento' => 'required',
+			'ciudadNacimiento' => 'required',
 			//'victima_documento_se_desconoce' => 'required',
 			// 'pais_id' => 'required',
 			//'argprovincia' => 'required',
@@ -702,6 +740,9 @@ class FormsController extends Controller
 			'tipodocumento_id.required' => 'Este campo es obligatorio',
 			//'victima_tipo_documento_otro.required' => 'Este campo es obligatorio',
 			'victima_documento.required' => 'Este campo es obligatorio',
+			'paisNacimiento.required' => 'Este campo es obligatorio',
+			'provinciaNacimiento.required' => 'Este campo es obligatorio',
+			'ciudadNacimiento.required' => 'Este campo es obligatorio',
 			//'victima_documento_se_desconoce.required' => 'Este campo es obligatorio',
 			// 'pais_id.required' => 'Este campo es obligatorio',
 			//'argprovincia.required' => 'Este campo es obligatorio',
@@ -795,28 +836,57 @@ class FormsController extends Controller
 		$userId = auth()->user()->id;
 
 		//id de los formularios de una misma carpeta
-			$idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-							->where('bformulario_id', '=', $id)
+			// $idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 				->where('bformulario_id', '=', $id)
+			// 				->value('aformulario_id');
+			// $idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('bformulario_id', '=', $id)
+			// 					->value('bformulario_id');
+			// $idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('bformulario_id', '=', $id)
+			// 					->value('cformulario_id');
+			// $idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('bformulario_id', '=', $id)
+			// 					->value('dformulario_id');
+			// $idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('bformulario_id', '=', $id)
+			// 					->value('eformulario_id');
+			// $idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('bformulario_id', '=', $id)
+			// 					->value('fformulario_id');
+			// $idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('bformulario_id', '=', $id)
+			// 					->value('gformulario_id');
+			// $idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormA = \App\Carpetas\Numerocarpeta::where('bformulario_id', '=', $id)
+							// ->where('cformulario_id', '=', $id)
 							->value('aformulario_id');
-			$idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('bformulario_id', '=', $id)
+			// $idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormB = \App\Carpetas\Numerocarpeta::where('bformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('bformulario_id');
-			$idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('bformulario_id', '=', $id)
+			// $idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormC = \App\Carpetas\Numerocarpeta::where('bformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('cformulario_id');
-			$idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('bformulario_id', '=', $id)
+			// $idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormD = \App\Carpetas\Numerocarpeta::where('bformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('dformulario_id');
-			$idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('bformulario_id', '=', $id)
+			// $idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormE = \App\Carpetas\Numerocarpeta::where('bformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('eformulario_id');
-			$idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('bformulario_id', '=', $id)
+			// $idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormF = \App\Carpetas\Numerocarpeta::where('bformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('fformulario_id');
-			$idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('bformulario_id', '=', $id)
+			// $idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormG = \App\Carpetas\Numerocarpeta::where('bformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('gformulario_id');
 		//fin ids
+			$usuarioCarpeta = \App\Carpetas\Numerocarpeta::WHERE('bformulario_id', '=', $id)->value('user_id');
 
 		return view('formularios.editar.formularioB_edit', ['Bformulario' => $Bformulario,
 															'datosGenero' => $datosGenero,
@@ -848,16 +918,91 @@ class FormsController extends Controller
 															'idFormE' => $idFormE,
 															'idFormF' => $idFormF,
 															'idFormG' => $idFormG,
-															'userId' => $userId
+															'usuarioCarpeta' => $usuarioCarpeta
 															]);
 	}
 
 	public function updateB($id)
 	{
-		//busco segun el id el formulario desdeado
-		$Bformulario = \App\FormB\Bformulario::find($id);
+		request()->validate([
+			'victima_nombre_y_apellido' => 'required',
+			//'victima_nombre_y_apellido_desconoce' => 'required',
+			'victima_apodo' => 'required',
+			//'victima_apodo_desconoce' => 'required',
+			'genero_id' => 'required',
+			//'victima_genero_otro' => 'required',
+			'tienedoc_id' => 'required',
+			'tipodocumento_id' => 'required',
+			//'victima_tipo_documento_otro' => 'required',
+			'victima_documento' => 'required',
+			'paisNacimiento' => 'required',
+			'provinciaNacimiento' => 'required',
+			'ciudadNacimiento' => 'required',
+			//'victima_documento_se_desconoce' => 'required',
+			// 'pais_id' => 'required',
+			//'argprovincia' => 'required',
+			//'brestado' => 'required',
+			'victima_fecha_nacimiento' => 'required',
+			'victima_edad' => 'required',
+			//'victima_edad_desconoce' => 'required',
+			'franjaetaria_id' => 'required',
+			'embarazorelevamiento_id' => 'required',
+			'embarazoprevio_id' => 'required',
+			'hijosembarazo_id' => 'required',
+			'bajoefecto_id' => 'required',
+			'tienelesion_id' => 'required',
+			//'victima_lesion' => 'required',
+			//'lesionconstatada_id' => 'required',
+			//'victima_lesion_organismo' => 'required',
+			'enfermedadcronica_id' => 'required',
+			//'victima_tipo_enfermedad_cronica' => 'required',
+			//'victima_limitacion_otra' => 'required',
+			'niveleducativo_id' => 'required',
+			'oficio_id' => 'required',
+			//'victima_oficio_cual' => 'required',
+		], 
+		[
+			'victima_nombre_y_apellido.required' => 'Este campo es obligatorio',
+			//'victima_nombre_y_apellido_desconoce.required' => 'Este campo es obligatorio',
+			'victima_apodo.required' => 'Este campo es obligatorio',
+			//'victima_apodo_desconoce.required' => 'Este campo es obligatorio',
+			'genero_id.required' => 'Este campo es obligatorio',
+			//'victima_genero_otro.required' => 'Este campo es obligatorio',
+			'tienedoc_id.required' => 'Este campo es obligatorio',
+			'tipodocumento_id.required' => 'Este campo es obligatorio',
+			//'victima_tipo_documento_otro.required' => 'Este campo es obligatorio',
+			'victima_documento.required' => 'Este campo es obligatorio',
+			'paisNacimiento.required' => 'Tenes que completar esta campo, si no lo modificaste ingresa el valor anterior',
+			'provinciaNacimiento.required' => 'Tenes que completar esta campo, si no lo modificaste ingresa el valor anterior',
+			'ciudadNacimiento.required' => 'Tenes que completar esta campo, si no lo modificaste ingresa el valor anterior',
+			//'victima_documento_se_desconoce.required' => 'Este campo es obligatorio',
+			// 'pais_id.required' => 'Este campo es obligatorio',
+			//'argprovincia.required' => 'Este campo es obligatorio',
+			//'brestado.required' => 'Este campo es obligatorio',
+			'victima_fecha_nacimiento.required' => 'Este campo es obligatorio',
+			'victima_edad.required' => 'Este campo es obligatorio',
+			//'victima_edad_desconoce.required' => 'Este campo es obligatorio',
+			'franjaetaria_id.required' => 'Este campo es obligatorio',
+			'embarazorelevamiento_id.required' => 'Este campo es obligatorio',
+			'embarazoprevio_id.required' => 'Este campo es obligatorio',
+			'hijosembarazo_id.required' => 'Este campo es obligatorio',
+			'bajoefecto_id.required' => 'Este campo es obligatorio',
+			'tienelesion_id.required' => 'Este campo es obligatorio',
+			//'victima_lesion.required' => 'Este campo es obligatorio',
+			//'lesionconstatada_id.required' => 'Este campo es obligatorio',
+			//'victima_lesion_organismo.required' => 'Este campo es obligatorio',
+			'enfermedadcronica_id.required' => 'Este campo es obligatorio',
+			//'victima_tipo_enfermedad_cronica.required' => 'Este campo es obligatorio',
+			//'victima_limitacion_otra.required' => 'Este campo es obligatorio',
+			'niveleducativo_id.required' => 'Este campo es obligatorio',
+			'oficio_id.required' => 'Este campo es obligatorio',
+			//'victima_oficio_cual.required' => 'Este campo es obligatorio',
+		]);
 
 		$data = request()->all();
+
+		//busco segun el id el formulario desdeado
+		$Bformulario = \App\FormB\Bformulario::find($id);
 
 		//requiero el input discapacidad_id para actualizarlo
 		$arrayDiscapacidades = request()->input('discapacidad_id');
@@ -890,7 +1035,7 @@ class FormsController extends Controller
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
-    	return redirect('formularios');	
+    	return redirect('formularios/buscador');	
 	}
 
 	public function createC()
@@ -1015,28 +1160,36 @@ class FormsController extends Controller
 		                            ->get();
 
 		//id de los formularios de una misma carpeta
-			$idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-							->where('cformulario_id', '=', $id)
+			// $idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormA = \App\Carpetas\Numerocarpeta::where('cformulario_id', '=', $id)
+							// ->where('cformulario_id', '=', $id)
 							->value('aformulario_id');
-			$idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('cformulario_id', '=', $id)
+			// $idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormB = \App\Carpetas\Numerocarpeta::where('cformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('bformulario_id');
-			$idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('cformulario_id', '=', $id)
+			// $idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormC = \App\Carpetas\Numerocarpeta::where('cformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('cformulario_id');
-			$idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('cformulario_id', '=', $id)
+			// $idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormD = \App\Carpetas\Numerocarpeta::where('cformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('dformulario_id');
-			$idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('cformulario_id', '=', $id)
+			// $idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormE = \App\Carpetas\Numerocarpeta::where('cformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('eformulario_id');
-			$idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('cformulario_id', '=', $id)
+			// $idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormF = \App\Carpetas\Numerocarpeta::where('cformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('fformulario_id');
-			$idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('cformulario_id', '=', $id)
+			// $idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormG = \App\Carpetas\Numerocarpeta::where('cformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('gformulario_id');
 		//fin ids
+			$usuarioCarpeta = \App\Carpetas\Numerocarpeta::WHERE('cformulario_id', '=', $id)->value('user_id');
 
 		return view('formularios.editar.formularioC_edit', [
 															'datosOtraspersonas' => $datosOtraspersonas,
@@ -1051,7 +1204,8 @@ class FormsController extends Controller
 															'idFormD' => $idFormD,
 															'idFormE' => $idFormE,
 															'idFormF' => $idFormF,
-															'idFormG' => $idFormG
+															'idFormG' => $idFormG,
+															'usuarioCarpeta' => $usuarioCarpeta,
 														]);
 	}
 
@@ -1061,15 +1215,15 @@ class FormsController extends Controller
 
 		request()->validate([
 			'nombre_apellido.*' => 'nullable',
-			'nombre_apellido.0' => 'required',
+			// 'nombre_apellido.0' => 'required',
 			'edad.*' => 'nullable',
-			'edad.0' => 'required',
+			// 'edad.0' => 'required',
 			// 'genero_id.*' => 'nullable',
 			// 'genero_id.0' => 'required',
 			'vinculo_id.*' => 'nullable',
-			'vinculo_id.0' => 'required',
+			// 'vinculo_id.0' => 'required',
 			'referenteContacto.*' => 'nullable',
-			'referenteContacto.0' => 'required_if:otraspersonas_id,==,1',
+			// 'referenteContacto.0' => 'required_if:otraspersonas_id,==,1',
 		],
 		[
 			'nombre_apellido.*.required' => 'Este campo es obligatorio',
@@ -1087,7 +1241,10 @@ class FormsController extends Controller
 
 			$referente['nombre_apellido'] = $data['nombre_apellido'][$i];
 			$referente['edad'] = $data['edad'][$i];
-			$referente['vinculo_id'] = $data['vinculo_id'][$i]; 
+			$referente['vinculo_id'] = $data['vinculo_id'][$i];
+			if (isset($data['vinculo_otro'][$i])) {
+				$referente['vinculo_otro'] = $data['vinculo_otro'][$i];
+			}
 			$referente['referenteContacto'] = $data['referenteContacto'][$i];
 			$referente['user_id'] = $data['user_id'];
 
@@ -1119,7 +1276,7 @@ class FormsController extends Controller
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
-    	return redirect('formularios');	
+    	return redirect('formularios/buscador');	
 	}
 
 	public function createD()
@@ -1270,6 +1427,12 @@ class FormsController extends Controller
 				'material_otro' => 'required_if:material_id,==,7',
 				'elementotrabajo_id' => 'required',
 				'elementoseguridad_id' => 'required',
+				'paisCaptacion' => 'required',
+				'provinciaCaptacion' => 'required',
+				'ciudadCaptacion' => 'required',
+				'paisExplotacion' => 'required',
+				'provinciaExplotacion' => 'required',
+				'ciudadExplotacion' => 'required',
 			],
 			[
 				'calificaciongeneral_id.required' => 'Este campo es obligatorio',
@@ -1324,6 +1487,12 @@ class FormsController extends Controller
 				'material_otro.required_if' => 'Este campo es obligatorio',
 				'elementotrabajo_id.required' => 'Este campo es obligatorio',
 				'elementoseguridad_id.required' => 'Este campo es obligatorio',
+				'paisCaptacion.required' => 'Este campo es obligatorio',
+				'provinciaCaptacion.required' => 'Este campo es obligatorio',
+				'ciudadCaptacion.required' => 'Este campo es obligatorio',
+				'paisExplotacion.required' => 'Este campo es obligatorio',
+				'provinciaExplotacion.required' => 'Este campo es obligatorio',
+				'ciudadExplotacion.required' => 'Este campo es obligatorio',
 			]);
 
 
@@ -1370,11 +1539,11 @@ class FormsController extends Controller
 	public function editD($id)
 	{
 		$userId = auth()->user()->id;
-		$numeroCarpeta = DB::table('aformularios')
-											->WHERE('user_id', '=', $userId)
-											->ORDERBY('updated_at')
-											->first()
-											->datos_numero_carpeta;
+		// $numeroCarpeta = DB::table('aformularios')
+		// 									->WHERE('user_id', '=', $userId)
+		// 									->ORDERBY('updated_at')
+		// 									->first()
+		// 									->datos_numero_carpeta;
 		$datosAcompanado = \App\FormD\Acompanado::all();
 		$datosAcompanadoRed = \App\FormD\Acompanadored::all();
 		$datosActividad = \App\FormD\Actividad::all();
@@ -1411,30 +1580,59 @@ class FormsController extends Controller
 		$dFormulario = \App\FormD\Dformulario::find($id);
 		
 		//id de los formularios de una misma carpeta
-			$idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-							->where('dformulario_id', '=', $id)
+			// $idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 				->where('dformulario_id', '=', $id)
+			// 				->value('aformulario_id');
+			// $idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('dformulario_id', '=', $id)
+			// 					->value('bformulario_id');
+			// $idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('dformulario_id', '=', $id)
+			// 					->value('cformulario_id');
+			// $idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('dformulario_id', '=', $id)
+			// 					->value('dformulario_id');
+			// $idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('dformulario_id', '=', $id)
+			// 					->value('eformulario_id');
+			// $idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('dformulario_id', '=', $id)
+			// 					->value('fformulario_id');
+			// $idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('dformulario_id', '=', $id)
+			// 					->value('gformulario_id');
+			// $idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormA = \App\Carpetas\Numerocarpeta::where('dformulario_id', '=', $id)
+							// ->where('cformulario_id', '=', $id)
 							->value('aformulario_id');
-			$idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('dformulario_id', '=', $id)
+			// $idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormB = \App\Carpetas\Numerocarpeta::where('dformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('bformulario_id');
-			$idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('dformulario_id', '=', $id)
+			// $idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormC = \App\Carpetas\Numerocarpeta::where('dformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('cformulario_id');
-			$idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('dformulario_id', '=', $id)
+			// $idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormD = \App\Carpetas\Numerocarpeta::where('dformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('dformulario_id');
-			$idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('dformulario_id', '=', $id)
+			// $idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormE = \App\Carpetas\Numerocarpeta::where('dformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('eformulario_id');
-			$idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('dformulario_id', '=', $id)
+			// $idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormF = \App\Carpetas\Numerocarpeta::where('dformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('fformulario_id');
-			$idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('dformulario_id', '=', $id)
+			// $idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormG = \App\Carpetas\Numerocarpeta::where('dformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('gformulario_id');
 		//fin ids
+			$usuarioCarpeta = \App\Carpetas\Numerocarpeta::WHERE('dformulario_id', '=', $id)->value('user_id');
 
-		return view('formularios.editar.formularioD_edit', ['numeroCarpeta' => $numeroCarpeta,
+		return view('formularios.editar.formularioD_edit', [
 												'datosAcompanado' => $datosAcompanado,
 												'datosAcompanadoRed' => $datosAcompanadoRed,
 												'datosActividad' => $datosActividad,
@@ -1475,7 +1673,8 @@ class FormsController extends Controller
 												'idFormD' => $idFormD,
 												'idFormE' => $idFormE,
 												'idFormF' => $idFormF,
-												'idFormG' => $idFormG
+												'idFormG' => $idFormG,
+												'usuarioCarpeta' => $usuarioCarpeta,
 											]);
 	}
 
@@ -1537,6 +1736,12 @@ class FormsController extends Controller
 				'material_otro' => 'required_if:material_id,==,7',
 				'elementotrabajo_id' => 'required',
 				'elementoseguridad_id' => 'required',
+				'paisCaptacion' => 'required',
+				'provinciaCaptacion' => 'required',
+				'ciudadCaptacion' => 'required',
+				'paisExplotacion' => 'required',
+				'provinciaExplotacion' => 'required',
+				'ciudadExplotacion' => 'required',
 			],
 			[
 				'calificaciongeneral_id.required' => 'Este campo es obligatorio',
@@ -1591,6 +1796,12 @@ class FormsController extends Controller
 				'material_otro.required_if' => 'Este campo es obligatorio',
 				'elementotrabajo_id.required' => 'Este campo es obligatorio',
 				'elementoseguridad_id.required' => 'Este campo es obligatorio',
+				'paisCaptacion.required' => 'Tenes que completar esta campo, si no lo modificaste ingresa el valor anterior',
+				'provinciaCaptacion.required' => 'Tenes que completar esta campo, si no lo modificaste ingresa el valor anterior',
+				'ciudadCaptacion.required' => 'Tenes que completar esta campo, si no lo modificaste ingresa el valor anterior',
+				'paisExplotacion.required' => 'Tenes que completar esta campo, si no lo modificaste ingresa el valor anterior',
+				'provinciaExplotacion.required' => 'Tenes que completar esta campo, si no lo modificaste ingresa el valor anterior',
+				'ciudadExplotacion.required' => 'Tenes que completar esta campo, si no lo modificaste ingresa el valor anterior',
 			]);
 
 		$data = request()->all();
@@ -1671,7 +1882,7 @@ class FormsController extends Controller
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
-    	return redirect('formularios');	
+    	return redirect('formularios/buscador');	
 	}
 
 	//QUEDA SUSPENDIDO EL EJE E Y EL EJE F PARA A SER EL NUEVO EJE E
@@ -2047,11 +2258,11 @@ class FormsController extends Controller
 	{
 		$userId = auth()->user()->id;
 		$aFormularios = \App\FormA\Aformulario::all();
-		$numeroCarpeta = DB::table('aformularios')
-											->WHERE('user_id', '=', $userId)
-											->ORDERBY('updated_at', 'desc')
-											->first()
-											->datos_numero_carpeta;
+		// $numeroCarpeta = DB::table('aformularios')
+		// 									->WHERE('user_id', '=', $userId)
+		// 									->ORDERBY('updated_at', 'desc')
+		// 									->first()
+		// 									->datos_numero_carpeta;
 		$derivacionOrganismo = DB::table('otrosorganismos')
 											->get();
 		$datosOrgJudiciales = \App\FormF\Orgjudicial::all();
@@ -2074,29 +2285,57 @@ class FormsController extends Controller
 		$orgSocCivilActualmente = \App\FormF\Orgsoccivilactualmente::all();
 
 		//id de los formularios de una misma carpeta
-			$idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-							->where('fformulario_id', '=', $id)
+			// $idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 				->where('fformulario_id', '=', $id)
+			// 				->value('aformulario_id');
+			// $idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('fformulario_id', '=', $id)
+			// 					->value('bformulario_id');
+			// $idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('fformulario_id', '=', $id)
+			// 					->value('cformulario_id');
+			// $idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('fformulario_id', '=', $id)
+			// 					->value('dformulario_id');
+			// $idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('fformulario_id', '=', $id)
+			// 					->value('eformulario_id');
+			// $idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('fformulario_id', '=', $id)
+			// 					->value('fformulario_id');
+			// $idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('fformulario_id', '=', $id)
+			// 					->value('gformulario_id');
+			// $idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormA = \App\Carpetas\Numerocarpeta::where('fformulario_id', '=', $id)
+							// ->where('cformulario_id', '=', $id)
 							->value('aformulario_id');
-			$idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('fformulario_id', '=', $id)
+			// $idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormB = \App\Carpetas\Numerocarpeta::where('fformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('bformulario_id');
-			$idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('fformulario_id', '=', $id)
+			// $idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormC = \App\Carpetas\Numerocarpeta::where('fformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('cformulario_id');
-			$idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('fformulario_id', '=', $id)
+			// $idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormD = \App\Carpetas\Numerocarpeta::where('fformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('dformulario_id');
-			$idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('fformulario_id', '=', $id)
+			// $idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormE = \App\Carpetas\Numerocarpeta::where('fformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('eformulario_id');
-			$idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('fformulario_id', '=', $id)
+			// $idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormF = \App\Carpetas\Numerocarpeta::where('fformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('fformulario_id');
-			$idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('fformulario_id', '=', $id)
+			// $idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormG = \App\Carpetas\Numerocarpeta::where('fformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('gformulario_id');
 		//fin ids
-
+			$usuarioCarpeta = \App\Carpetas\Numerocarpeta::WHERE('fformulario_id', '=', $id)->value('user_id');
 
 		return view('formularios.editar.formularioF_edit', [
 												'aFormularios' => $aFormularios,
@@ -2124,7 +2363,8 @@ class FormsController extends Controller
 												'idFormD' => $idFormD,
 												'idFormE' => $idFormE,
 												'idFormF' => $idFormF,
-												'idFormG' => $idFormG
+												'idFormG' => $idFormG,
+												'usuarioCarpeta' => $usuarioCarpeta,
 											]);
 	}
 
@@ -2472,7 +2712,7 @@ class FormsController extends Controller
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
-    	return redirect('formularios');	
+    	return redirect('formularios/buscador');	
 	}
 
 	public function createG()
@@ -2748,17 +2988,17 @@ class FormsController extends Controller
 
 		}
 
-		return redirect('/formularios');	
+		return redirect('formularios/buscador');	
 	}
 
 	public function editG($id)
 	{
 		$userId = auth()->user()->id;
-		$numeroCarpeta = DB::table('aformularios')
-											->WHERE('user_id', '=', $userId)
-											->ORDERBY('updated_at', 'desc')
-											->first()
-											->datos_numero_carpeta;
+		// $numeroCarpeta = DB::table('aformularios')
+		// 									->WHERE('user_id', '=', $userId)
+		// 									->ORDERBY('updated_at', 'desc')
+		// 									->first()
+		// 									->datos_numero_carpeta;
 		//datos del formulario A
 			$datosModalidad = \App\FormA\Modalidad::all();;
 			$datosEstadoCaso = \App\FormA\Estadocaso::all();
@@ -2818,32 +3058,61 @@ class FormsController extends Controller
 			// dd($docInterna);
 		//Fin datos del G
 
-			//id de los formularios de una misma carpeta
-			$idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-							->where('gformulario_id', '=', $id)
+		//id de los formularios de una misma carpeta
+			// $idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 				->where('gformulario_id', '=', $id)
+			// 				->value('aformulario_id');
+			// $idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('gformulario_id', '=', $id)
+			// 					->value('bformulario_id');
+			// $idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('gformulario_id', '=', $id)
+			// 					->value('cformulario_id');
+			// $idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('gformulario_id', '=', $id)
+			// 					->value('dformulario_id');
+			// $idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('gformulario_id', '=', $id)
+			// 					->value('eformulario_id');
+			// $idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('gformulario_id', '=', $id)
+			// 					->value('fformulario_id');
+			// $idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('gformulario_id', '=', $id)
+			// 					->value('gformulario_id');
+			// $idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormA = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $id)
+							// ->where('cformulario_id', '=', $id)
 							->value('aformulario_id');
-			$idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('gformulario_id', '=', $id)
+			// $idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormB = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('bformulario_id');
-			$idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('gformulario_id', '=', $id)
+			// $idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormC = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('cformulario_id');
-			$idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('gformulario_id', '=', $id)
+			// $idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormD = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('dformulario_id');
-			$idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('gformulario_id', '=', $id)
+			// $idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormE = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('eformulario_id');
-			$idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('gformulario_id', '=', $id)
+			// $idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormF = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('fformulario_id');
-			$idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-								->where('gformulario_id', '=', $id)
+			// $idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormG = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $id)
+								// ->where('cformulario_id', '=', $id)
 								->value('gformulario_id');
 		//fin ids
+			$usuarioCarpeta = \App\Carpetas\Numerocarpeta::WHERE('gformulario_id', '=', $id)->value('user_id');
 
 		return view('formularios.editar.formularioG_edit', [
-												'numeroCarpeta' => $numeroCarpeta,
+												// 'numeroCarpeta' => $numeroCarpeta,
 												'aFormularios' => $aFormularios,
 												//formulario A
 												'datosModalidad' => $datosModalidad,
@@ -2888,7 +3157,8 @@ class FormsController extends Controller
 												'idFormD' => $idFormD,
 												'idFormE' => $idFormE,
 												'idFormF' => $idFormF,
-												'idFormG' => $idFormG
+												'idFormG' => $idFormG,
+												'usuarioCarpeta' => $usuarioCarpeta,
 												]);
 	}
 
@@ -2947,7 +3217,6 @@ class FormsController extends Controller
 	            $datos = ['nombreArchivo' => $docInterna, 'path' => $pathDocInterna, 'gformulario_id' => $id];
 
 	            $guardoDocInterna = \App\FormG\Docinterna::create($datos);
-
 			}
         }
 
@@ -3076,151 +3345,7 @@ class FormsController extends Controller
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
-    	return redirect('formularios');	
+    	return redirect('formularios/buscador');	
 	}
 
-	// public function exportarPDFG($id)
-	// {
-	// 	$userId = auth()->user()->id;
-	// 	$numeroCarpeta = DB::table('aformularios')
-	// 										->WHERE('user_id', '=', $userId)
-	// 										->ORDERBY('updated_at', 'desc')
-	// 										->first()
-	// 										->datos_numero_carpeta;
-	// 	//datos del formulario A
-	// 		$datosModalidad = \App\FormA\Modalidad::all();;
-	// 		$datosEstadoCaso = \App\FormA\Estadocaso::all();
-	// 		$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
-	// 		$datosProfesional = \App\FormA\Profesional::all();
-	// 		$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
-	// 		$datosPresentacion = \App\FormA\Presentacionespontanea::all();
-	// 		$datosOrganismo = \App\FormA\Otrosorganismo::all();
-	// 		$aFormularios = \App\FormA\Aformulario::all();
-	// 		// $getIdA = DB::table('aformularios')
-	// 		//                             ->WHERE('datos_numero_carpeta', '=', $numeroCarpeta)
-	// 		// 							->ORDERBY('updated_at', 'desc')
-	// 		// 							->first()
-	// 		// 							->id;
-	// 		// $aFormulario = \App\FormA\Aformulario::find($getIdA);
-	// 		// $todo = DB::table('aformularios')
-	// 		//                             ->WHERE('aformulario_id', '=', $getIdA)
-	// 		// 							->JOIN('aformulario_profesionalinterviniente', 'aformularios.id', '=', 'aformulario_profesionalinterviniente.aformulario_id')
-	// 		// 							->JOIN('profesionalintervinientes', 'aformulario_profesionalinterviniente.profesionalinterviniente_id', '=', 'profesionalintervinientes.id')
-	// 		// 							->JOIN('profesionals', 'profesionalintervinientes.profesional_id', '=', 'profesionals.id')
-	// 		// 							->JOIN('profesionalactualmentes', 'profesionalintervinientes.profesionalactualmente_id', '=', 'profesionalactualmentes.id')
-	// 		//                             ->get();
-	// 	//fin datos del formulario A
-
-	// 	//datos del formulario F
-	// 		$datosOrgJudicialesActualmente = \App\FormF\Orgjudicialactualmente::all();
-	// 		$datosProgNacionalesActualmente = \App\FormF\Orgprognacionalactualmente::all();
-	// 		$datosPoliciaActualmente = \App\FormF\Policiaactualmente::all();
-	// 		// ---necesarios para el edit
-	// 		// $getIdF = DB::table('fformularios')
-	// 		//                             ->WHERE('numeroCarpeta', '=', $numeroCarpeta)
-	// 		// 							->ORDERBY('updated_at', 'desc')
-	// 		// 							->first()
-	// 		// 							->id;
-	// 		// 							// dd($getIdF);
-	// 		$formulariosF = \App\FormF\Fformulario::all();
-	// 		$orgProgNacionalOtro = \App\FormF\Orgprognacionalotro::all();
-	// 		$orgProgProvincial = \App\FormF\Orgprogprovincial::all();
-	// 		$orgProgMunipal = \App\FormF\Orgprogmunicipal::all();
-	// 		$orgSocCivil = \App\FormF\Orgsoccivil::all();
-	// 		$orgProgNacionalActualmenteOtro = \App\FormF\Orgprognacionalactualmenteotro::all();
-	// 		$orgProgProvincialesAlactualmente = \App\FormF\Orgprogprovincialesactualmente::all();
-	// 		$orgProgMunipalesActualmente = \App\FormF\Orgprogmunicipalesactualmente::all();
-	// 		$orgSocCivilActualmente = \App\FormF\Orgsoccivilactualmente::all();
-	// 	//fin datos del formulario F
-
-	// 	//datos del G
-	// 		$temaIntervencion = \App\FormG\Temaintervencion::all();
-	// 		$formularioG = \App\FormG\Gformulario::find($id);
-	// 		$intervenciones = $formularioG->intervencions;
-	// 		$docInterna = $formularioG->docinternas;
-	// 		$docExterna = $formularioG->docexternas;
-	// 		$infoSocioambiental = $formularioG->infosocioambientals;
-	// 		$intervencionEstrategias = $formularioG->intervencionestrategias;
-	// 		$notRelacionadas = $formularioG->notrelacionadas;
-	// 		// response()->file($docInterna);
-	// 		// dd($docInterna);
-	// 	//Fin datos del G
-
-	// 		//id de los formularios de una misma carpeta
-	// 		$idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-	// 						->where('gformulario_id', '=', $id)
-	// 						->value('aformulario_id');
-	// 		$idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-	// 							->where('gformulario_id', '=', $id)
-	// 							->value('bformulario_id');
-	// 		$idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-	// 							->where('gformulario_id', '=', $id)
-	// 							->value('cformulario_id');
-	// 		$idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-	// 							->where('gformulario_id', '=', $id)
-	// 							->value('dformulario_id');
-	// 		$idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-	// 							->where('gformulario_id', '=', $id)
-	// 							->value('eformulario_id');
-	// 		$idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-	// 							->where('gformulario_id', '=', $id)
-	// 							->value('fformulario_id');
-	// 		$idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-	// 							->where('gformulario_id', '=', $id)
-	// 							->value('gformulario_id');
-	// 	//fin ids
-
-	// 	$data = [
-	// 				'numeroCarpeta' => $numeroCarpeta,
-	// 				'aFormularios' => $aFormularios,
-	// 				//formulario A
-	// 				'datosModalidad' => $datosModalidad,
-	// 				'datosEstadoCaso' => $datosEstadoCaso,
-	// 				'datosCaratulacion' => $datosCaratulacion,
-	// 				'datosProfesional' => $datosProfesional,
-	// 				'datosIntervieneActualmente' => $datosIntervieneActualmente,
-	// 				'datosPresentacion' => $datosPresentacion,
-	// 				'datosOrganismo' => $datosOrganismo,
-	// 				// 'todo' => $todo,
-	// 				//fin formulario A
-	// 				//formulario F
-	// 				'datosOrgJudicialesActualmente' => $datosOrgJudicialesActualmente,
-	// 				'datosProgNacionalesActualmente' => $datosProgNacionalesActualmente,
-	// 				'datosPoliciaActualmente' => $datosPoliciaActualmente,
-	// 				// 'datosAsistencia' => $datosAsistencia,
-	// 				// 'datosSocioeconomica' => $datosSocioeconomica,
-	// 				// 'derivacionOrganismo' => $derivacionOrganismo,
-	// 				'formulariosF' => $formulariosF,
-	// 				'orgProgNacionalOtro' => $orgProgNacionalOtro,
-	// 				'orgProgProvincial' => $orgProgProvincial,
-	// 				'orgProgMunipal' => $orgProgMunipal,
-	// 				'orgSocCivil' => $orgSocCivil,
-	// 				'orgProgNacionalActualmenteOtro' => $orgProgNacionalActualmenteOtro,
-	// 				'orgProgProvincialesAlactualmente' => $orgProgProvincialesAlactualmente,
-	// 				'orgProgMunipalesActualmente' => $orgProgMunipalesActualmente,
-	// 				'orgSocCivilActualmente' => $orgSocCivilActualmente,
-	// 				//fin formulario F
-	// 				//formulario F
-	// 				'temaIntervencion' => $temaIntervencion,
-	// 				'intervenciones' => $intervenciones,
-	// 				'docInterna' => $docInterna,
-	// 				'docExterna' => $docExterna,
-	// 				'infoSocioambiental' => $infoSocioambiental,
-	// 				'intervencionEstrategias' => $intervencionEstrategias,
-	// 				'notRelacionadas' => $notRelacionadas,
-	// 				'formularioG' => $formularioG,
-	// 				//fin formulario F
-	// 				'idFormA' => $idFormA,
-	// 				'idFormB' => $idFormB,
-	// 				'idFormC' => $idFormC,
-	// 				'idFormD' => $idFormD,
-	// 				'idFormE' => $idFormE,
-	// 				'idFormF' => $idFormF,
-	// 				'idFormG' => $idFormG
-	// 			];
-
- //        $pdf = PDF::loadView('pdfFormG', $data);
-  
- //        return $pdf->download('Eje F: Detalle de intervención.pdf');
-	// }
 }

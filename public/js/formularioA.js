@@ -8,21 +8,31 @@
 	var derivacionOtroOrganismoCual = document.querySelector('.derivacion_otro_organismo_cual');
 	var derivacionOtroOrganismoCualInput = document.querySelector('.derivacion_otro_organismo_cual_input');
 
-	if (selectModalidad.value === '3') {
+	if (selectModalidad.value == 3) {
 		presentacionEspontanea.style.display = '';
-	}else if (selectModalidad.value === '4') {
+		derivacionOtroOrganismo.style.display = 'none';
+		derivacionOtroOrganismoCual.style.display = 'none';
+		derivacionOtroOrganismoSelect.value = '';
+		derivacionOtroOrganismoCualInput.value = '';
+	}else if (selectModalidad.value == 5) {
+		presentacionEspontanea.style.display = 'none';
 		derivacionOtroOrganismo.style.display = '';
-		if (derivacionOtroOrganismoSelect.value === '16') {
+		presentacionEspontaneaSelect.value = '';
+		if (derivacionOtroOrganismoSelect.value == 16) {
 			derivacionOtroOrganismoCual.style.display = '';
-			derivacionOtroOrganismoSelect.addEventListener('change', function(){
-				derivacionOtroOrganismoCualInput.value = '';
-			});
+		}else{
+			derivacionOtroOrganismoCual.style.display = 'none';
+			derivacionOtroOrganismoCualInput.value = '';
 		}
 	}else{
 		presentacionEspontanea.style.display = 'none';
 		derivacionOtroOrganismo.style.display = 'none';
-		derivacionOtroOrganismoCual.style.display = 'none';
+		presentacionEspontaneaSelect.value = '';
+		derivacionOtroOrganismoSelect.value = '';
+		derivacionOtroOrganismoCualInput.value = '';
 	}
+	
+//fin pregunta 4
 
 //pregunta 5
 
@@ -93,6 +103,44 @@
     });
 
 window.onload =function (){
+
+	//pregunta 4
+		var selectModalidad = document.querySelector('.modalidad');
+		var presentacionEspontanea = document.querySelector('.presentacion_espontanea');
+		var presentacionEspontaneaSelect = document.querySelector('.presentacion');
+		var derivacionOtroOrganismo = document.querySelector('.derivacion_otro_organismo');
+		var derivacionOtroOrganismoSelect = document.querySelector('.derivacion_otro_organismo_select');
+		var derivacionOtroOrganismoCual = document.querySelector('.derivacion_otro_organismo_cual');
+		var derivacionOtroOrganismoCualInput = document.querySelector('.derivacion_otro_organismo_cual_input');
+
+		selectModalidad.addEventListener('change', function(){
+			if (selectModalidad.value == 3) {
+				presentacionEspontanea.style.display = '';
+				derivacionOtroOrganismo.style.display = 'none';
+				derivacionOtroOrganismoCual.style.display = 'none';
+				derivacionOtroOrganismoSelect.value = '';
+				derivacionOtroOrganismoCualInput.value = '';
+			}else if (selectModalidad.value == 5) {
+				presentacionEspontanea.style.display = 'none';
+				derivacionOtroOrganismo.style.display = '';
+				presentacionEspontaneaSelect.value = '';
+				derivacionOtroOrganismoSelect.addEventListener('change', function(){
+					if (derivacionOtroOrganismoSelect.value == 16) {
+						derivacionOtroOrganismoCual.style.display = '';
+					}else{
+						derivacionOtroOrganismoCual.style.display = 'none';
+						derivacionOtroOrganismoCualInput.value = '';
+					}
+				});
+			}else{
+				presentacionEspontanea.style.display = 'none';
+				derivacionOtroOrganismo.style.display = 'none';
+				presentacionEspontaneaSelect.value = '';
+				derivacionOtroOrganismoSelect.value = '';
+				derivacionOtroOrganismoCualInput.value = '';
+			}
+		});
+	//fin pregunta 4
 
 	//pregunta 5
 		var selectEstadoCaso = document.querySelector('.selectEstadoCaso');

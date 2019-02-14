@@ -90,3 +90,7 @@
 
 /*Fin desplegable usuario*/
 
+	.custom-file-input{
+        z-index: 0 !important;
+    }
+
