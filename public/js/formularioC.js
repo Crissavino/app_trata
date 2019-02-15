@@ -43,12 +43,12 @@ window.onload =function (){
 
  	function mostrarConviviente() {
  		if (this.value == '2' || this.value == '3') {
-			var convivientes = document.querySelector('.padre');
+			var convivientes = document.querySelector('.referentes');
 			convivientes.style.display = "none";
 			var btnAnadir = document.querySelector('.clickAnadir');
 			var btnBorrar = document.querySelector('.clickBorrar');
  		}else if(this.value == '1'){
- 			var convivientes = document.querySelector('.padre');
+ 			var convivientes = document.querySelector('.referentes');
 			convivientes.style.display = "";
 			var btnAnadir = document.querySelector('.clickAnadir');
 			var btnBorrar = document.querySelector('.clickBorrar');
@@ -56,7 +56,7 @@ window.onload =function (){
 			btnBorrar.removeAttribute('disabled', 'disabled');
 			swal("Agregá al menos un referente");
  		}else{
- 			var convivientes = document.querySelector('.padre');
+ 			var convivientes = document.querySelector('.referentes');
  			convivientes.style.display = "";
  			var btnAnadir = document.querySelector('.clickAnadir');
 			var btnBorrar = document.querySelector('.clickBorrar');
