@@ -23,37 +23,37 @@ class Numerocarpeta extends Model
 
     public function aformulario()
     {
-        return $this->hasOne('App\FormA\Aformulario');
+        return $this->belongsTo('App\FormA\Aformulario');
     }
 
     public function bformulario()
     {
-        return $this->hasOne('App\FormB\Bformulario');
+        return $this->belongsTo('App\FormB\Bformulario');
     }
 
     public function cformulario()
     {
-        return $this->hasOne('App\FormC\Cformulario');
+        return $this->belongsTo('App\FormC\Cformulario');
     }
 
     public function dformulario()
     {
-        return $this->hasOne('App\FormD\Dformulario');
+        return $this->belongsTo('App\FormD\Dformulario');
     }
 
     public function eformulario()
     {
-        return $this->hasOne('App\FormE\Eformulario');
+        return $this->belongsTo('App\FormE\Eformulario');
     }
 
     public function fformulario()
     {
-        return $this->hasOne('App\FormF\Fformulario');
+        return $this->belongsTo('App\FormF\Fformulario');
     }
 
     public function gformulario()
     {
-        return $this->hasOne('App\FormG\Gformulario');
+        return $this->belongsTo('App\FormG\Gformulario');
     }
 
     //Scopes

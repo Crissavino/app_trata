@@ -28,7 +28,7 @@ class ActividadsTableSeeder extends Seeder
 
             ['nombre' => 'Producción textil'],
 
-            ['nombre' => 'Local/Bar/Expendio de bebidas'],
+            // ['nombre' => 'Local/Bar/Expendio de bebidas'],
 
             ['nombre' => 'Otro']
         ]);

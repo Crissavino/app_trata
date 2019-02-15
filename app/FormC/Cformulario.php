@@ -22,7 +22,7 @@ class Cformulario extends Model
 
     public function numerocarpeta()
     {
-        return $this->belongsTo('App\Carpetas\Numerocarpeta');
+        return $this->hasOne('App\Carpetas\Numerocarpeta');
     }
 
     //Scope

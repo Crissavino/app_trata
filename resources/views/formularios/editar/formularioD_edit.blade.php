@@ -320,7 +320,7 @@
 		    		<div style="display: none;" class="viajoAcompanado">
 		    	 		<div {{ $errors->has('acompanado_id') ? 'has-error' : ''}}>
 		    	 			<label for="">D 10 I. ¿Por quién?:</label>
-				    		<select class="form-control acompanado_id" name="acompanado_id">
+				    		<select class="form-control acompanado" name="acompanado_id">
 				    			<option value="">Seleccioná quién la/lo acompañó</option>
 				    			@foreach ($datosAcompanado as $acompanado)
 				    				<option value="{{ $acompanado->getId() }}" {{ $dFormulario->acompanado_id == $acompanado->getId() ? 'selected' : '' }}>{{ $acompanado->getNombre() }}</option>
@@ -331,7 +331,7 @@
 
 		    	 		<div {{ $errors->has('acompanadored_id') ? 'has-error' : ''}}>
 		    	 			<label for="">D 10 II. Acompañante relacionado con la red:</label>
-				    		<select class="form-control acompanadored_id" name="acompanadored_id">
+				    		<select class="form-control acompanadored" name="acompanadored_id">
 				    			<option value="">Estaba relacionado?</option>
 				    			@foreach ($datosAcompanadoRed as $acompanadoRed)
 				    				<option value="{{ $acompanadoRed->getId() }}" {{ $dFormulario->acompanadored_id == $acompanadoRed->getId() ? 'selected' : '' }}>{{ $acompanadoRed->getNombre() }}</option>
@@ -547,7 +547,7 @@
 
 				 			<div style="display: none;" class="deudaCual" {{ $errors->has('motivodeuda_otro') ? 'has-error' : ''}}>
 				    	 		<label for="">Cuál?</label>
-				    	 		<input type="text" class="form-control motivodeuda_otro" name="motivodeuda_otro" value="{{ $dFormulario->motivodeuda_otro }}">
+				    	 		<input type="text" class="form-control deudaCualInput" name="motivodeuda_otro" value="{{ $dFormulario->motivodeuda_otro }}">
 				    	 	</div>
 		    				{!! $errors->first('motivodeuda_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
 					 	</div>

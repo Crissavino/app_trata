@@ -101,7 +101,7 @@
 		// 	textil.style.display = ''
 		// }
 
-		if (selectActividad.value == '7') {
+		if (selectActividad.value == '6') {
 			actividadCual.style.display = '';
 			rural.style.display = 'none';
 			privado.style.display = 'none';
@@ -551,7 +551,7 @@ window.onload = function (){
 
 
 		selectActividad.addEventListener('change', function(){
-			if (this.value == '7') {
+			if (this.value == '6') {
 				actividadCual.style.display = '';
 				rural.style.display = 'none';
 				privado.style.display = 'none';

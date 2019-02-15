@@ -202,7 +202,10 @@
                     <select name="ambito_id" class="form-control selectAmbito">
                         <option value="">Seleccioná el ámbito de competencia</option>
                         @foreach ($datosAmbito as $ambito)
-                            <option value="{{ $ambito->id }}">{{ $ambito->nombre }}</option>
+                            @php
+                                $selected = ($ambito->id == old('ambito_id')) ? 'selected' : '';
+                            @endphp
+                            <option value="{{ $ambito->id }}" {{ $selected }}>{{ $ambito->nombre }}</option>
                         @endforeach
                     </select>
                     {!! $errors->first('ambito_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -232,7 +235,7 @@
             {{-- INICIO SEPTIMA PREGUNTA --}}
                 <div class="form-group {{ $errors->has('caratulacionjudicial_id') ? 'has-error' : ''}}">
                     <label for="caratulacionjudicial_id">A 7. Caratulación Judicial:</label>
-                    <select class="form-control caratulacionjudicial" name="caratulacionjudicial_id" onChange="selectOnChange(this)">
+                    <select class="form-control caratulacionjudicial" name="caratulacionjudicial_id">
                         <option value="">Caratulación</option>
                         @foreach ($datosCaratulacion as $caratulacion)
                             @php
@@ -244,14 +247,14 @@
                     {!! $errors->first('caratulacionjudicial_id', '<p class="help-block" style="color:red";>:message</p>') !!}
                     <div id="cual" class="caratulacionjudicial_cual" style="display: none;" {{ $errors->has('caratulacionjudicial_otro') ? 'has-error' : ''}}>
                         <br><label for="">Cuál?</label>
-                        <input class="form-control caratulacionjudicial_otro" name="caratulacionjudicial_otro" id="caratulacionjudicial_otro" type="text" onclick="cual()">
+                        <input class="form-control caratulacionjudicial_otro" name="caratulacionjudicial_otro" id="caratulacionjudicial_otro" type="text">
                     {!! $errors->first('caratulacionjudicial_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
                     </div>
                 </div>
 
-                <script>
+               {{--  <script>
                     function selectOnChange(sel) {
-                        if (sel.value=="6"){
+                        if (sel.value=="7"){
                             divC = document.getElementById("cual");
                             divC.style.display = "";
                         }else{
@@ -260,7 +263,7 @@
                             divC.style.display="none";
                         }
                     }
-                </script>
+                </script> --}}
             {{-- FIN SEPTIMA PREGUNTA --}}
 
             {{-- INICIO OCTAVA PREGUNTA --}}

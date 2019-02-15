@@ -24,6 +24,8 @@ class CaratulacionjudicialsTableSeeder extends Seeder
             
             ['nombre' => 'Delito de otra competencia'],
             
+            ['nombre' => 'Averiguación de ilítico'],
+            
             ['nombre' => 'Otro']
 
         ]);    

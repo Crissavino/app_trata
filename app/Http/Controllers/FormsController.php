@@ -295,8 +295,8 @@ class FormsController extends Controller
 		$datosAmbito = \App\FormA\Ambito::all();
 		$datosDepartamento = \App\FormA\Departamento::all();
 		$datosOtrasProv = \App\FormA\Otrasprov::all();
-		$ultimoNroCarpeta = \App\FormA\Aformulario::orderBy('datos_numero_carpeta', 'desc')
-		    ->first();
+		// $ultimoNroCarpeta = \App\FormA\Aformulario::orderBy('datos_numero_carpeta', 'desc')->first();
+		$ultimoNroCarpeta = \App\FormA\Aformulario::WHERE('deleted_at', '=', null)->orderBy('datos_numero_carpeta', 'desc')->first();
 		// $ultimoNroCarpeta = DB::table('aformularios')->orderBy('datos_numero_carpeta', 'desc')
 		//                                              ->first()
 		//                                              ->datos_numero_carpeta;
@@ -652,6 +652,7 @@ class FormsController extends Controller
 		$userId = auth()->user()->id;
 		$numeroCarpeta = DB::table('aformularios')
 											->WHERE('user_id', '=', $userId)
+											->WHERE('deleted_at', '=', null)
 											->ORDERBY('updated_at', 'desc')
 											->first()
 											->datos_numero_carpeta;
@@ -1068,6 +1069,7 @@ class FormsController extends Controller
 
 		$numeroCarpeta = DB::table('aformularios')
 											->WHERE('user_id', '=', $userId)
+											->WHERE('deleted_at', '=', null)
 											->ORDERBY('updated_at', 'desc')
 											->first()
 											->datos_numero_carpeta;
@@ -1315,6 +1317,7 @@ class FormsController extends Controller
 		$userId = auth()->user()->id;
 		$numeroCarpeta = DB::table('aformularios')
 											->WHERE('user_id', '=', $userId)
+											->WHERE('deleted_at', '=', null)
 											->ORDERBY('updated_at', 'desc')
 											->first()
 											->datos_numero_carpeta;
@@ -2122,6 +2125,7 @@ class FormsController extends Controller
 		// 									->datos_numero_carpeta;
 		$numeroCarpeta = DB::table('aformularios')
 											->WHERE('user_id', '=', $userId)
+											->WHERE('deleted_at', '=', null)
 											->ORDERBY('updated_at', 'desc')
 											->first()
 											->datos_numero_carpeta;
@@ -2771,6 +2775,7 @@ class FormsController extends Controller
 		$userId = auth()->user()->id;
 		$numeroCarpeta = DB::table('aformularios')
 											->WHERE('user_id', '=', $userId)
+											->WHERE('deleted_at', '=', null)
 											->ORDERBY('updated_at', 'desc')
 											->first()
 											->datos_numero_carpeta;

@@ -75,7 +75,7 @@
 	var caratulacionJudicialCual = document.querySelector('.caratulacionjudicial_cual');
 	var caratulacionJudicialCualInput = document.querySelector('.caratulacionjudicial_otro');
 
-	if (selectCaratulacion.value === '6') {
+	if (selectCaratulacion.value === '7') {
 		caratulacionJudicialCual.style.display = '';
 		selectCaratulacion.addEventListener('change', function(){
 			caratulacionJudicialCualInput.value = '';
@@ -184,6 +184,24 @@ window.onload =function (){
 		});
 
 	//fin pregunta 6
+
+	//pregunta 7
+	var selectCaratulacion = document.querySelector('.caratulacionjudicial');
+	var caratulacionJudicialCual = document.querySelector('.caratulacionjudicial_cual');
+	var caratulacionJudicialCualInput = document.querySelector('.caratulacionjudicial_otro');
+
+	selectCaratulacion.addEventListener('change', function(){
+		if (selectCaratulacion.value === '7') {
+			caratulacionJudicialCual.style.display = '';
+			selectCaratulacion.addEventListener('change', function(){
+				caratulacionJudicialCualInput.value = '';
+			});
+		}else{
+			caratulacionJudicialCual.style.display = 'none';
+		}
+	});
+	//fin pregunta 7
+
 
 //---------FORMULARIO A--------------
 	// var agregar = document.querySelector('.anadirProfesional');

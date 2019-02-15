@@ -45,9 +45,9 @@ class Aformulario extends Model
 		            ->withPivot('id', 'aformulario_id', 'profesionalinterviniente_id');
 	}
 
-	public function numerocarpeta()
+    public function numerocarpeta()
     {
-        return $this->belongsTo('App\Carpetas\Numerocarpeta');
+        return $this->hasOne('App\Carpetas\Numerocarpeta');
     }
 
 	//Scope
