@@ -296,5 +296,141 @@ window.onload =function (){
 
 //---------FIN FORMULARIO A--------------
 
+
+
+$("#formularioA").validate({ //se definen las opciones de validaciÃ³n para el formulario1
+	debug:false,
+	errorClass: 'error_cliente',
+	ignore:":not(:visible)",
+	rules: { //se definen las reglas
+			   datos_nombre_referencia: {
+				   required:true
+			   },
+			   datos_numero_carpeta: {
+				   number:true,
+				   required:true
+			   },
+			   datos_fecha_ingreso:{
+				   date:true,
+				   required:true,
+			   },
+			   modalidad_id:{
+				   required: true,
+			   },
+			   presentacion_espontanea_id:{
+				   required: true,
+			   },
+			   derivacion_otro_organismo_id:{
+				   required: true,
+			   },
+			   derivacion_otro_organismo_cual:{
+				   required: true,
+			   },
+			   estadocaso_id:{
+				   required: true,
+			   },
+			   motivocierre_id:{
+				   required: true,
+			   },
+			   ambito_id:{
+				   required: true,
+			   },
+			   departamento_id:{
+				   required: true,
+			   },
+			   otrasprov_id:{
+				   required: true,
+			   },
+			   caratulacionjudicial_id:{
+				   required: true,
+			   },
+			   caratulacionjudicial_otro:{
+				   required: true,
+			   },
+			   datos_nro_causa:{
+				   required: true,
+			   },
+			   profesional_id:{
+				   required: true,
+			   },
+			   datos_profesional_interviene_desde:{
+				   required: true,
+				   date:true
+			   },
+			   profesionalactualmente_id:{
+				   required: true,
+			   },
+			   datos_profesional_interviene_hasta:{
+				   required: true,
+			   }
+	   },
+	   messages: { //se definen los mensajes a mostrar
+		   datos_nombre_referencia:{
+			   required:"Este campo es obligatorio",
+		   },
+		   datos_numero_carpeta: {
+				  required: "Este campo es obligatorio",
+				   number: "Debe ingresar un número",
+			   },
+		   datos_fecha_ingreso:{
+			   date:"Debe ingresar una fecha válida",
+			   required:"Este campo es obligatorio",
+		   },
+		   modalidad_id:{
+			   required:"Este campo es obligatorio",
+		   },
+		   presentacion_espontanea_id:{
+			   required:"Este campo es obligatorio",
+		   },
+		   derivacion_otro_organismo_id:{
+			   required:"Este campo es obligatorio",
+		   },
+		   derivacion_otro_organismo_cual:{
+			   required:"Este campo es obligatorio",
+		   },
+		   estadocaso_id:{
+			   required:"Este campo es obligatorio",
+		   },
+		   motivocierre_id:{
+			   required:"Este campo es obligatorio",
+		   },
+		   ambito_id:{
+			   required:"Este campo es obligatorio",
+		   },
+		   departamento_id:{
+			   required:"Este campo es obligatorio",
+		   },
+		   otrasprov_id:{
+			   required:"Este campo es obligatorio",
+		   },
+		   caratulacionjudicial_id:{
+			   required:"Este campo es obligatorio",
+		   },
+		   caratulacionjudicial_otro:{
+			   required:"Este campo es obligatorio",
+		   },
+		   datos_nro_causa:{
+			   required:"Este campo es obligatorio",
+		   },
+		   profesional_id:{
+			   required:"Este campo es obligatorio",
+		   },
+		   datos_profesional_interviene_desde:{
+			   required:"Este campo es obligatorio",
+			   date:"Debe ingresar una fecha válida",
+		   },
+		   profesionalactualmente_id:{
+			   required:"Este campo es obligatorio",
+		   },
+		   datos_profesional_interviene_hasta:{
+			   required:"Este campo es obligatorio",
+		   },
+	   },
+   });
+
+
+
+
+
 }
 
