@@ -27,14 +27,14 @@
     </ul>
     <ul class="nav nav-tabs">
         @if ($idFormA)
-            <li class="nav-item"> <a class="nav-link active" href="/formularios/edicion/A/{{ $idFormA }}">Eje A: Datos institucionales</a> </li>
+            <li class="nav-item"> <a class="nav-link active" href="/formularios/edicion/A/{{ $idCarpeta }}/{{ $idFormA }}">Eje A: Datos institucionales</a> </li>
         @else
             <li class="nav-item"> <a class="nav-link active" href="/formularios/A">Eje A: Datos institucionales</a> </li>
         @endif
         @if ($idFormB)
-            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/B/{{ $idFormB }}">Eje B: Caracterización de la víctima</a> </li>
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/B/{{ $idCarpeta }}/{{ $idFormB }}">Eje B: Caracterización de la víctima</a> </li>
         @else
-            <li class="nav-item"> <a class="nav-link " href="/formularios/B">Eje B: Caracterización de la víctima</a> </li>
+            <li class="nav-item"> <a class="nav-link " href="/formularios/B/{{ $idCarpeta }}">Eje B: Caracterización de la víctima</a> </li>
         @endif
         @if ($idFormC)
             <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/C/{{ $idFormC }}">Eje C: Referentes afectivos</a> </li>

@@ -27,13 +27,13 @@ Route::post('formularios/buscador', 'FormsController@search')->middleware('auth'
 // Route::get('formularios/A', 'FormsController@createA')->middleware('auth');
 Route::get('formularios/A', 'FormsController@createA')->middleware('auth', 'faltaCompletarEje', 'soloLectura');
 Route::post('formularios/A', 'FormsController@insertA');
-Route::get('formularios/edicion/A/{id}', 'FormsController@editA')->middleware('auth');
+Route::get('formularios/edicion/A/{idCarpeta}/{numeroCarpeta}', 'FormsController@editA')->middleware('auth');
 Route::put('formularios/edicion/A/{id}', 'FormsController@updateA');
 Route::delete('formularios/edicion/A/{id}', 'FormsController@destroyA');
 
 //RUTAS FORMULARIO B
 //funciona el middleware, de esa manera verifico q haya un usuario registrado
-Route::get('formularios/B', 'FormsController@createB')->middleware('auth', 'noHayEjeA', 'soloLectura');
+Route::get('formularios/B/{idCarpeta?}/{numeroCarpeta?}', 'FormsController@createB')->middleware('auth', 'noHayEjeA', 'soloLectura');
 Route::post('formularios/B', 'FormsController@insertB');
 Route::get('formularios/edicion/B/{id}', 'FormsController@editB')->middleware('auth');
 Route::put('formularios/edicion/B/{id}', 'FormsController@updateB');

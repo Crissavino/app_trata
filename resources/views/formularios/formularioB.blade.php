@@ -22,7 +22,7 @@
 	<ul class="nav nav-tabs">
         @foreach ($carpetas as $carpeta)
             @if ($numeroCarpeta == $carpeta->numeroCarpeta)
-                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/A/{{ $carpeta->aformulario_id }}">Eje A: Datos institucionales</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/A/{{ $carpeta->id }}/{{ $carpeta->aformulario_id }}">Eje A: Datos institucionales</a> </li>
             @endif
         @endforeach
         <li class="nav-item"> <a class="nav-link active" href="B">Eje B: Caracterización de la víctima</a> </li>
@@ -44,7 +44,10 @@
 
 
 	<section class="container">	
-
+        @php 
+        echo "NUMERO CARPETA". $numeroCarpeta;
+        echo "ID CARPETA". $idCarpeta;
+        @endphp
         <form class="formulario" action="" method="post">
         	{{-- inicio esta proteccion contra datos maliciosso --}}
         	{{ csrf_field() }}
