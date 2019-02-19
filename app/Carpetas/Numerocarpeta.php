@@ -61,8 +61,8 @@ class Numerocarpeta extends Model
     public function scopeCarpeta($query, $numeroCarpeta)
 	{
 		if ($numeroCarpeta) {
-			return $query->WHERE('numeroCarpeta', $numeroCarpeta)
-				->JOIN('aformularios', 'aformularios.datos_numero_carpeta', '=', 'numerocarpetas.numeroCarpeta');
+			return $query->WHERE('numeroCarpeta', $numeroCarpeta);
+				// ->JOIN('aformularios', 'aformularios.datos_numero_carpeta', '=', 'numerocarpetas.numeroCarpeta');
 		}
 	}
 
