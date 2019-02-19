@@ -18,25 +18,25 @@
         {{-- <li class="nav-item"> <a class="nav-link " href="D">Eje D: Datos de delito</a> </li> --}}
         @foreach ($carpetas as $carpeta)
             @if ($numeroCarpeta == $carpeta->numeroCarpeta)
-                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/A/{{ $carpeta->aformulario_id }}">Eje A: Datos institucionales</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/A/{{ $carpeta->id }}/{{ $carpeta->aformulario_id }}">Eje A: Datos institucionales</a> </li>
                 @break
             @endif
         @endforeach
         @foreach ($carpetas as $carpeta)
             @if ($numeroCarpeta == $carpeta->numeroCarpeta)
-                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/B/{{ $carpeta->bformulario_id }}">Eje B: Caracterización de la víctima</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/B/{{ $carpeta->id }}/{{ $carpeta->bformulario_id }}">Eje B: Caracterización de la víctima</a> </li>
                 @break
             @endif
         @endforeach
         @foreach ($carpetas as $carpeta)
             @if ($numeroCarpeta == $carpeta->numeroCarpeta)
-                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/C/{{ $carpeta->cformulario_id }}">Eje C: Referentes afectivos</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/C/{{ $carpeta->id }}/{{ $carpeta->cformulario_id }}">Eje C: Referentes afectivos</a> </li>
                 @break
             @endif
         @endforeach
         @foreach ($carpetas as $carpeta)
             @if ($numeroCarpeta == $carpeta->numeroCarpeta)
-                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/D/{{ $carpeta->dformulario_id }}">Eje D: Datos de delito</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/D/{{ $carpeta->id }}/{{ $carpeta->dformulario_id }}">Eje D: Datos de delito</a> </li>
                 @break
             @endif
         @endforeach

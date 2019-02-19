@@ -22,7 +22,7 @@ class NoHayEjeC
         foreach ($carpetas as $carpeta) {
             if ($carpeta->numeroCarpeta) {
                 if (!($carpeta->cformulario_id)) {
-                    return redirect('/formularios/C')->with('message', 'Primero tenes que completar el Eje C de tu carpeta!');
+                    return redirect('/formularios/C/'.$carpeta->id.'/'.$carpeta->cformulario_id)->with('message', 'Primero tenes que completar el Eje C de tu carpeta!');
                 }
             }
         }

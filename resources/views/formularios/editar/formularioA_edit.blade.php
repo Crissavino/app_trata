@@ -37,14 +37,14 @@
             <li class="nav-item"> <a class="nav-link " href="/formularios/B/{{ $idCarpeta }}">Eje B: Caracterización de la víctima</a> </li>
         @endif
         @if ($idFormC)
-            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/C/{{ $idFormC }}">Eje C: Referentes afectivos</a> </li>
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/C/{{ $idCarpeta }}/{{ $idFormC }}">Eje C: Referentes afectivos</a> </li>
         @else
-            <li class="nav-item"> <a class="nav-link " href="/formularios/C">Eje C: Referentes afectivos</a> </li>
+            <li class="nav-item"> <a class="nav-link " href="/formularios/C/{{ $idCarpeta }}">Eje C: Referentes afectivos</a> </li>
         @endif
         @if ($idFormD)
-            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/D/{{ $idFormD }}">Eje D: Datos de delito</a> </li>
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/D/{{ $idCarpeta }}/{{ $idFormD }}">Eje D: Datos de delito</a> </li>
         @else
-            <li class="nav-item"> <a class="nav-link " href="/formularios/D">Eje D: Datos de delito</a> </li>
+            <li class="nav-item"> <a class="nav-link " href="/formularios/D/{{ $idCarpeta }}">Eje D: Datos de delito</a> </li>
         @endif
         {{-- @if ($idFormE)
             <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/E/{{ $idFormE }}">Eje E: Datos del imputado</a> </li>
@@ -53,14 +53,14 @@
         @endif --}}
         {{-- el eje F paso a ser el eje E y el eje G paso a ser el eje F --}}
         @if ($idFormF)
-            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/F/{{ $idFormF }}">Eje E: Atención del caso</a> </li>
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/F/{{ $idCarpeta }}/{{ $idFormF }}">Eje E: Atención del caso</a> </li>
         @else
-            <li class="nav-item"> <a class="nav-link " href="/formularios/F">Eje E: Atención del caso</a> </li>
+            <li class="nav-item"> <a class="nav-link " href="/formularios/F/{{ $idCarpeta }}">Eje E: Atención del caso</a> </li>
         @endif
         @if ($idFormG)
-            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/G/{{ $idFormG }}">Eje F: Documentación</a> </li>
+            <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/G/{{ $idCarpeta }}/{{ $idFormG }}">Eje F: Documentación</a> </li>
         @else
-            <li class="nav-item"> <a class="nav-link " href="/formularios/G">Eje F: Detalle de intervención</a> </li>
+            <li class="nav-item"> <a class="nav-link " href="/formularios/G/{{ $idCarpeta }}">Eje F: Detalle de intervención</a> </li>
         @endif
          {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/C">Eje C: Grupo Conviviente</a> </li> --}}
         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/edicion/D">Eje D: Datos de delito</a> </li> --}}

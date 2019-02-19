@@ -21,7 +21,7 @@ class NoHayEjeD
         foreach ($carpetas as $carpeta) {
             if ($carpeta->numeroCarpeta) {
                 if (!($carpeta->dformulario_id)) {
-                    return redirect('/formularios/D')->with('message', 'Primero tenes que completar el Eje D de tu carpeta!');
+                    return redirect('/formularios/D/'.$carpeta->id.'/'.$carpeta->dformulario_id)->with('message', 'Primero tenes que completar el Eje D de tu carpeta!');
                 }
             }
         }
