@@ -161,15 +161,15 @@
                             var divB = document.getElementById("nrodoc");
                             divA.style.display="none";
                             divB.style.display="none";
-                            $('#tipodocumento_id').val('7');
-                            $('#victima_documento').val('No posee');
+                            $('#tipodocumento_id').val('8');
+                            $('#victima_documento').val('Se desconoce');
                         }else if(sel.value == "6"){
                             var divA = document.getElementById("tipodoc");
                             var divB = document.getElementById("nrodoc");
                             divA.style.display="none";
                             divB.style.display="none";
-                            $('#tipodocumento_id').val('8');
-                            $('#victima_documento').val('Se desconoce');
+                            $('#tipodocumento_id').val('7');
+                            $('#victima_documento').val('No posee');
                         }else{
                             $('#tipodocumento_id').val('');
                             $('#victima_documento').val('');
