@@ -15,6 +15,8 @@ use PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\EstadisticaExport;
 use App\Exports\FormGExport;
+use App\Rules\RequiredConditional;
+use App\Rules\FormBDocumentacion;
 
 class FormsController extends Controller
 {
@@ -229,6 +231,87 @@ class FormsController extends Controller
 										]);
 	}
 
+	public function searchName(Request $request)
+	{
+		$userId = auth()->user()->id;
+		$userName = auth()->user()->name;
+
+		// $formsA = \App\FormA\Aformulario::all();
+
+		$numeroCarpeta    = $request->get('numeroCarpeta');
+		$nombreReferencia = $request->get('nombreReferencia');
+		$numeroCausa      = $request->get('numeroCausa');
+		$nombreApellido   = $request->get('nombreApellido');
+		$dni              = $request->get('dni');
+
+		$formsA = \App\FormA\Aformulario::orderBy('datos_numero_carpeta', 'DESC')
+			->select('numerocarpetas.id as numerocarpetasId','aformularios.*')
+			->join('numerocarpetas','numerocarpetas.numeroCarpeta','=','aformularios.datos_numero_carpeta')
+			->nombreRef($nombreReferencia)
+			->numeroCausa($numeroCausa)
+			->get();
+
+		
+
+		$carpetas = \App\Carpetas\Numerocarpeta::orderBy('numeroCarpeta', 'DESC')
+			->carpeta($numeroCarpeta)
+			->get();
+		// $carpetas = \App\Carpetas\Numerocarpeta::orderBy('numeroCarpeta', 'DESC')->paginate(5);
+
+
+
+		return view('formularios.buscadorNombre', 
+										[
+											'userId' => $userId,
+											'userName' => $userName,
+											'formsA' => $formsA,
+											'carpetas' => $carpetas
+										]);
+	}
+
+	public function searchVictim(Request $request)
+	{
+		$userId = auth()->user()->id;
+		$userName = auth()->user()->name;
+
+		// $formsA = \App\FormA\Aformulario::all();
+
+		$numeroCarpeta    = $request->get('numeroCarpeta');
+		$nombreReferencia = $request->get('nombreReferencia');
+		$numeroCausa      = $request->get('numeroCausa');
+		$nombreApellido   = $request->get('nombreApellido');
+		$dni              = $request->get('dni');
+
+		$formsA = \App\FormA\Aformulario::orderBy('datos_numero_carpeta', 'DESC')
+			->nombreRef($nombreReferencia)
+			->numeroCausa($numeroCausa)
+			->get();
+
+		$formsB = \App\FormB\Bformulario::orderBy('numeroCarpeta', 'DESC')
+		->select('numerocarpetas.id as numerocarpetasId','bformularios.*')
+			->join('numerocarpetas','numerocarpetas.numeroCarpeta','=','bformularios.numeroCarpeta')
+			->nombApe($nombreApellido)
+			->DNI($dni)
+			->get();
+
+		$carpetas = \App\Carpetas\Numerocarpeta::orderBy('numeroCarpeta', 'DESC')
+			->carpeta($numeroCarpeta)
+			->get();
+		// $carpetas = \App\Carpetas\Numerocarpeta::orderBy('numeroCarpeta', 'DESC')->paginate(5);
+
+
+
+		return view('formularios.buscadorVictima', 
+										[
+											'userId' => $userId,
+											'userName' => $userName,
+											'formsA' => $formsA,
+											'formsB' => $formsB,
+											'carpetas' => $carpetas
+										]);
+	}
+
+
 	public function showEstadisticas()
 	{
 		$formsA = \App\FormA\Aformulario::all();
@@ -322,33 +405,43 @@ class FormsController extends Controller
 		
 		//esta fecha es la del momento
 		$fecha_hoy = Carbon::now();
-
+		// if(request()->input('estadocaso_id')==3){
+		// 	request()->validate([
+		// 		'motivocierre_id' => 'required | numeric | min:0 | max:5'
+		// 	],
+		// 	[
+		// 		'motivocierre_id.required' => 'Este campo es obligatorio',
+		// 		'motivocierre_id.numeric' => 'La opci&oacute;n seleccionada no es v&aacute;lida',
+		// 		'motivocierre_id.min' => 'La opci&oacute;n seleccionada no es v&aacute;lida',
+		// 		'motivocierre_id.max' => 'La opci&oacute;n seleccionada no es v&aacute;lida',
+		// 	]);
+		// } 
 		request()->validate([
 							'datos_nombre_referencia' => 'required',
 							//nuevo
 							'datos_numero_carpeta' => 'required|unique:numerocarpetas,numeroCarpeta',
 							'datos_fecha_ingreso' => 'required|date|before_or_equal:'.$fecha_hoy,
-							'modalidad_id' => 'required',
-							'presentacion_espontanea_id' => 'required_if:modalidad_id,==,3',
-							'derivacion_otro_organismo_id' => 'required_if:modalidad_id,==,5',
-							'derivacion_otro_organismo_cual' => 'required_if:derivacion_otro_organismo_id,==,16',
+							'modalidad_id' => 'required | numeric | min:0 | max:5',
+							'presentacion_espontanea_id' => [new RequiredConditional(request()->get('modalidad_id'),array('3'),0,2,'Para ingresar un tipo debe seleccionar presentaci&oacute;n espont&aacute;nea')],
+							'derivacion_otro_organismo_id' => [new RequiredConditional(request()->get('modalidad_id'),array('5'),0,16,'Para ingresar un organismo debe seleccionar derivaci&oacute;n de otro organismo')],
+							'derivacion_otro_organismo_cual' => [new RequiredConditional(request()->get('derivacion_otro_organismo_id'),array('16'),0,255,'Para ingresar otro organismo debe seleccionar otro',true)],
 							// 'nombre_apellido.0' => 'required_if:otraspersonas_id,==,1',
-							'estadocaso_id' => 'required',
-							'motivocierre_id' => 'required_if:estadocaso_id,==,3',
-							'ambito_id' => 'required',
-							'departamento_id' => 'required_if:ambito_id,==,2',
-							'otrasprov_id' => 'required_if:ambito_id,==,3',
-							'caratulacionjudicial_id' => 'required',
-							'caratulacionjudicial_otro' => 'required_if:caratulacionjudicial_id,==,5',
+							'estadocaso_id' => 'required | numeric | min:0 | max:3',
+							'motivocierre_id' => [new RequiredConditional(request()->get('estadocaso_id'),array('3'),0,5,'Para ingresar un motivo de cierre el estado dede ser cerrado')],						
+							'ambito_id' => 'required | numeric | min:0 | max:3',
+							'departamento_id' => [new RequiredConditional(request()->get('ambito_id'),array('2'),0,18,'Para ingresar un departamento debe seleccionar provincial')],
+							'otrasprov_id' => [new RequiredConditional(request()->get('ambito_id'),array('3'),0,23,'Para ingresar una provincia debe seleccionar otra provincia')],
+							'caratulacionjudicial_id' => 'required | numeric | min:0 | max:7',
+							'caratulacionjudicial_otro' => [new RequiredConditional(request()->get('caratulacionjudicial_id'),array('5'),0,255,'Para ingresar otra caratulaci&oacute;n judicial debe ingresar otro',true)],
 							'datos_nro_causa' => 'required',
 							'profesional_id.*' => 'nullable',
-							'profesional_id.0' => 'required',
+							'profesional_id.0' => 'required | numeric | min:0 | max:25',
 							'datos_profesional_interviene_desde.*' => 'nullable|date|after_or_equal:datos_fecha_ingreso',
 							'datos_profesional_interviene_desde.0' => 'required|date|after_or_equal:datos_fecha_ingreso',
 							'datos_profesional_interviene_hasta.*' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.*',
 							'datos_profesional_interviene_hasta.0' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.0',
 							'profesionalactualmente_id.*' => 'nullable',
-							'profesionalactualmente_id.0' => 'required',
+							'profesionalactualmente_id.0' => 'required | numeric | min:0 | max:2',
 						],
 						[		
 
@@ -359,8 +452,13 @@ class FormsController extends Controller
 							'datos_fecha_ingreso.required' => 'Este campo es obligatorio',
 							'datos_fecha_ingreso.before_or_equal' => 'La fecha ingresada es posterior al dia de hoy',
 							'modalidad_id.required' => 'Este campo es obligatorio',
+							'modalidad_id.numeric' => 'La opci&oacute;n seleccionada no es v&aacute;lida',
+							'modalidad_id.min' => 'La opci&oacute;n seleccionada no es v&aacute;lida',
+							'modalidad_id.max' => 'La opci&oacute;n seleccionada no es v&aacute;lida',
 							'estadocaso_id.required' => 'Este campo es obligatorio',
-							'motivocierre_id.required' => 'Este campo es obligatorio',
+							'estadocaso_id.numeric' => 'La opci&oacute;n seleccionada no es v&aacute;lida',
+							'estadocaso_id.min' => 'La opci&oacute;n seleccionada no es v&aacute;lida',
+							'estadocaso_id.max' => 'La opci&oacute;n seleccionada no es v&aacute;lida',																		
 							'ambito_id.required' => 'Este campo es obligatorio',
 							'departamento_id.required_if' => 'Este campo es obligatorio',
 							'otrasprov_id.required_if' => 'Este campo es obligatorio',
@@ -371,9 +469,7 @@ class FormsController extends Controller
 							'datos_profesional_interviene_desde.*.after_or_equal' => 'Se ingresó una fecha anterior a la fecha de ingreso del caso',
 							'datos_profesional_interviene_hasta.*.required' => 'Este campo es obligatorio',
 							'datos_profesional_interviene_hasta.*.after_or_equal' => 'Se ingresó un fecha anterior a la fecha de inicio de intervención',
-							'profesionalactualmente_id.*.required' => 'Este campo es obligatorio',
-							'presentacion_espontanea_id.required_if' => 'Este campo es obligatorio', 
-							'derivacion_otro_organismo_id.required_if' => 'Este campo es obligatorio', 
+							'profesionalactualmente_id.*.required' => 'Este campo es obligatorio',							
 							'derivacion_otro_organismo_cual.required_if' => 'Este campo es obligatorio', 
 							'caratulacionjudicial_otro.required_if' => 'Este campo es obligatorio', 
 						]);
@@ -502,7 +598,7 @@ class FormsController extends Controller
 		request()->validate([
 							'datos_nombre_referencia' => 'required',
 							//cuando actualizo me dice que ya existe una carpeta con ese valor, le agrego un tercer parametro para que se saltee el userId si
-							'datos_numero_carpeta' => 'required|unique:numerocarpetas,numeroCarpeta,'. $aFormulario->id,
+							'datos_numero_carpeta' => 'required|unique:numerocarpetas,numeroCarpeta,'. $idCarpeta,
 							'datos_fecha_ingreso' => 'required|date|before_or_equal:'.$fecha_hoy,
 							'modalidad_id' => 'required',
 							'presentacion_espontanea_id' => 'required_if:modalidad_id,==,3',
@@ -547,7 +643,23 @@ class FormsController extends Controller
 		$data = request()->all();
 		$data['user_id'] = $userId;
 		$aFormulario->update($data);
-
+		$carpeta=\App\Carpetas\Numerocarpeta::find($idCarpeta);
+		$carpeta->update(['numeroCarpeta'=>$data['datos_numero_carpeta']]);
+		if($carpeta->bformulario){
+		$carpeta->bformulario->update(['numeroCarpeta'=>$data['datos_numero_carpeta']]);
+		}
+		if($carpeta->cformulario){
+		$carpeta->cformulario->update(['numeroCarpeta'=>$data['datos_numero_carpeta']]);
+		}
+		if($carpeta->dformulario){
+			$carpeta->dformulario->update(['numeroCarpeta'=>$data['datos_numero_carpeta']]);
+		}
+		if($carpeta->fformulario){
+			$carpeta->fformulario->update(['numeroCarpeta'=>$data['datos_numero_carpeta']]);
+		}
+		if($carpeta->gformulario){
+			$carpeta->gformulario->update(['numeroCarpeta'=>$data['datos_numero_carpeta']]);
+		}
 		//requiero los datos de los profesionales
 		$arrayProfesionales = request()->only(['profesional_id', 'datos_profesional_interviene_desde', 'datos_profesional_interviene_hasta', 'profesionalactualmente_id']);	
 
@@ -695,10 +807,10 @@ class FormsController extends Controller
 			//'victima_nombre_y_apellido_desconoce' => 'required',
 			'victima_apodo' => 'required',
 			//'victima_apodo_desconoce' => 'required',
-			'genero_id' => 'required',
+			'genero_id' => 'required | numeric | min:0 | max:6',
 			//'victima_genero_otro' => 'required',
-			'tienedoc_id' => 'required',
-			'tipodocumento_id' => 'required',
+			'tienedoc_id' => 'required | numeric | min:0 | max:6',
+			'tipodocumento_id' => [new FormBDocumentacion(request()->get('tienedoc_id'),0,9)],
 			//'victima_tipo_documento_otro' => 'required',
 			'victima_documento' => 'required',
 			'paisNacimiento' => 'required',
@@ -711,21 +823,25 @@ class FormsController extends Controller
 			'victima_fecha_nacimiento' => 'required',
 			'victima_edad' => 'required',
 			//'victima_edad_desconoce' => 'required',
-			'franjaetaria_id' => 'required',
-			'embarazorelevamiento_id' => 'required',
-			'embarazoprevio_id' => 'required',
-			'hijosembarazo_id' => 'required',
-			'bajoefecto_id' => 'required',
-			'tienelesion_id' => 'required',
-			//'victima_lesion' => 'required',
-			//'lesionconstatada_id' => 'required',
-			//'victima_lesion_organismo' => 'required',
-			'enfermedadcronica_id' => 'required',
-			//'victima_tipo_enfermedad_cronica' => 'required',
+			'franjaetaria_id' => 'required | numeric | min:0 | max:7',
+			'embarazorelevamiento_id' => 'required | numeric | min:0 | max:3',
+			'embarazoprevio_id' => 'required | numeric | min:0 | max:3',
+			'hijosembarazo_id' => 'required | numeric | min:0 | max:3',
+			'bajoefecto_id' => 'required | numeric | min:0 | max:3',
+			'tienelesion_id' => 'required | numeric | min:0 | max:3',
+			'victima_lesion' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un tipo debe seleccionar si',true)],
+			'lesionconstatada_id' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,3,'Para ingresar si fue constatada debe seleccionar si')],
+			'victima_lesion_organismo' => [new RequiredConditional(request()->get('lesionconstatada_id'),array('1'),0,255,'Para ingresar un organismo debe seleccionar si',true)],
+			'enfermedadcronica_id' => 'required | numeric | min:0 | max:3',
+			'victima_tipo_enfermedad_cronica' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un tipo debe seleccionar si',true)],
 			//'victima_limitacion_otra' => 'required',
-			'niveleducativo_id' => 'required',
-			'oficio_id' => 'required',
+			'niveleducativo_id' => 'required | numeric | min:0 | max:8',
+			'oficio_id' => 'required | numeric | min:0 | max:3',
+			'victima_oficio_cual' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un oficio debe seleccionar si',true)],
 			//'victima_oficio_cual' => 'required',
+			'discapacidad_id' => 'required',
+			'limitacion_id' => 'required',
+
 		], 
 		[
 			'victima_nombre_y_apellido.required' => 'Este campo es obligatorio',
@@ -763,6 +879,9 @@ class FormsController extends Controller
 			'niveleducativo_id.required' => 'Este campo es obligatorio',
 			'oficio_id.required' => 'Este campo es obligatorio',
 			//'victima_oficio_cual.required' => 'Este campo es obligatorio',
+			'discapacidad_id.required' => 'Este campo es obligatorio',
+			'limitacion_id.required' => 'Este campo es obligatorio',
+
 		]);
 
 		$data = request()->all();
@@ -784,11 +903,11 @@ class FormsController extends Controller
 
 		$guardoNumeroCarpeta = \App\Carpetas\Numerocarpeta::where('numeroCarpeta', '=', $data['numeroCarpeta'])->update(['bformulario_id' => $ultimoId]);
 
-		request()->validate([
-			'discapacidad_id' => 'required'
-		],[
-			'discapacidad_id.required' => 'Este campo es obligatorio'
-		]);
+		// request()->validate([
+		// 	'discapacidad_id' => 'required'
+		// ],[
+		// 	'discapacidad_id.required' => 'Este campo es obligatorio'
+		// ]);
 
 		$bformulario = \App\FormB\Bformulario::find($ultimoId);
 
@@ -796,11 +915,11 @@ class FormsController extends Controller
 
 		$guardoDiscapacidades = $bformulario->discapacidads()->sync($arrayDiscapacidades);
 
-		request()->validate([
-			'limitacion_id' => 'required'
-		],[
-			'limitacion_id.required' => 'Este campo es obligatorio'
-		]);
+		// request()->validate([
+		// 	'limitacion_id' => 'required'
+		// ],[
+		// 	'limitacion_id.required' => 'Este campo es obligatorio'
+		// ]);
 
 		$bformulario = \App\FormB\Bformulario::find($ultimoId);
 
@@ -945,6 +1064,8 @@ class FormsController extends Controller
 			'niveleducativo_id' => 'required',
 			'oficio_id' => 'required',
 			//'victima_oficio_cual' => 'required',
+			'discapacidad_id' => 'required',
+			'limitacion_id' => 'required',
 		], 
 		[
 			'victima_nombre_y_apellido.required' => 'Este campo es obligatorio',
@@ -982,6 +1103,8 @@ class FormsController extends Controller
 			'niveleducativo_id.required' => 'Este campo es obligatorio',
 			'oficio_id.required' => 'Este campo es obligatorio',
 			//'victima_oficio_cual.required' => 'Este campo es obligatorio',
+			'discapacidad_id.required' => 'Este campo es obligatorio',
+			'limitacion_id.required' => 'Este campo es obligatorio',
 		]);
 
 		$data = request()->all();
@@ -1080,19 +1203,19 @@ class FormsController extends Controller
 		$userId = auth()->user()->id;
 
 			request()->validate([
-			'otraspersonas_id' => 'required',
+			'otraspersonas_id' => 'required | numeric | min:0 | max:3',
 			'nombre_apellido.*' => 'nullable',
-			'nombre_apellido.0' => 'required_if:otraspersonas_id,==,1',
+			'nombre_apellido.0' => [new RequiredConditional(request()->get('otraspersonas_id'),array('1'),0,255,'Para ingresar nombre y apellido debe seleccionar si',true)],
 			'edad.*' => 'nullable',
-			'edad.0' => 'required_if:otraspersonas_id,==,1',
+			'edad.0' => [new RequiredConditional(request()->get('otraspersonas_id'),array('1'),0,255,'Para ingresar edad debe seleccionar si',true)],
 			// 'genero_id.*' => 'nullable',
 			// 'genero_id.0' => 'required_if:otraspersonas_id,==,1',
 			'vinculo_id.*' => 'nullable',
-			'vinculo_id.0' => 'required_if:otraspersonas_id,==,1',
+			'vinculo_id.0' => [new RequiredConditional(request()->get('otraspersonas_id'),array('1'),0,6,'Para ingresar vinculo debe seleccionar si')],
 			'vinculo_otro.*' => 'nullable',
-			'vinculo_otro.0' => 'required_if:vinculo_id,==,6',
+			'vinculo_otro.0' => [new RequiredConditional(request()->get('vinculo_id'),array('6'),0,255,'Para ingresar vinculo debe seleccionar otro',true)],
 			'referenteContacto.*' => 'nullable',
-			'referenteContacto.0' => 'required_if:otraspersonas_id,==,1',
+			'referenteContacto.0' => [new RequiredConditional(request()->get('otraspersonas_id'),array('1'),0,255,'Para ingresar contacto debe seleccionar si',true)],
 		],
 		[
 			'otraspersonas_id.required' => 'Este campo es obligatorio',
@@ -1243,31 +1366,114 @@ class FormsController extends Controller
 		$data = request()->all();
 		$data['user_id'] = $userId;
 
-		$cant = (count(request()->input('nombre_apellido')));
-		
-		for ($i=0; $i < $cant; $i++) {
+		// $cant = (count(request()->input('nombre_apellido')));
 
-			$referente['nombre_apellido'] = $data['nombre_apellido'][$i];
-			$referente['edad'] = $data['edad'][$i];
-			$referente['vinculo_id'] = $data['vinculo_id'][$i];
-			if (isset($data['vinculo_otro'][$i])) {
-				$referente['vinculo_otro'] = $data['vinculo_otro'][$i];
-			}
-			$referente['referenteContacto'] = $data['referenteContacto'][$i];
-			$referente['user_id'] = $data['user_id'];
-
-			$guardoReferente = \App\FormC\Referente::create($referente);
-
-			$referenteId[] = $guardoReferente->id;
-		}
-			
+		//nuevo
 		$cFormulario = \App\FormC\Cformulario::find($idFormulario);
+
+		$referenteId = [];
+
+		$cantidadReferentesViejos = false;
+		if (request()->input('nombre_apellido_viejo')) {
+			$cantidadReferentesViejos = (count(request()->input('nombre_apellido_viejo')));
+		}
+
+		$cantidadReferentesNuevos = false;
+		if (request()->input('nombre_apellido')) {
+			$cantidadReferentesNuevos = (count(request()->input('nombre_apellido')));
+		}
+
+		// dd($cFormulario->referentes->count());
+		$referentes = $cFormulario->referentes;
+
+		if ($cantidadReferentesViejos) {
+			foreach ($referentes as $i => $referente) {
+				$referenteCargado = \App\FormC\Referente::find($referente->id);
+
+				$referenteViejo['nombre_apellido'] = $data['nombre_apellido_viejo'][$i];
+				$referenteViejo['edad'] = $data['edad_viejo'][$i];
+				$referenteViejo['vinculo_id'] = $data['vinculo_id_viejo'][$i];
+				if (isset($data['vinculo_otro'][$i])) {
+					$referenteViejo['vinculo_otro'] = $data['vinculo_otro_viejo'][$i];
+				}
+				$referenteViejo['referenteContacto'] = $data['referenteContacto_viejo'][$i];
+				$referenteViejo['user_id'] = $data['user_id'];
+
+
+				$actualizoReferente = $referenteCargado->update($referenteViejo);
+				
+				$referenteId[] = $referente->id;
+			}
+		}
+
+		if ($cantidadReferentesNuevos) {
+			for ($i = 0; $i < $cantidadReferentesNuevos ; $i++) { 
+
+				$referenteNuevo['nombre_apellido'] = $data['nombre_apellido'][$i];
+				$referenteNuevo['edad'] = $data['edad'][$i];
+				$referenteNuevo['vinculo_id'] = $data['vinculo_id'][$i];
+				if (isset($data['vinculo_otro'][$i])) {
+					$referenteNuevo['vinculo_otro'] = $data['vinculo_otro'][$i];
+				}
+				$referenteNuevo['referenteContacto'] = $data['referenteContacto'][$i];
+				$referenteNuevo['user_id'] = $data['user_id'];
+
+				$guardoReferente = \App\FormC\Referente::create($referenteNuevo);
+
+				$referenteId[] = $guardoReferente->id;
+
+			}
+		}
+
+		//fin nuevo
+			// var_dump(count($referente));
+			// $idReferentesCargados[] = $referente->id;
+			
+			// var_dump($idReferentesCargados);
+		// for ($i = 0; $i < $cantidadReferentesViejos; $i++) { 
+			
+		// }
+		// if ($cFormulario->referentes) {
+		// 	for ($i=0; $i < $cantidadReferentesAnteriores; $i++) { 
+		// 		$referente['nombre_apellido'] = $data['nombre_apellido'][$i];
+		// 		$referente['edad'] = $data['edad'][$i];
+		// 		$referente['vinculo_id'] = $data['vinculo_id'][$i];
+		// 		if (isset($data['vinculo_otro'][$i])) {
+		// 			$referente['vinculo_otro'] = $data['vinculo_otro'][$i];
+		// 		}
+		// 		$referente['referenteContacto'] = $data['referenteContacto'][$i];
+		// 		$referente['user_id'] = $data['user_id'];
+
+		// 		$guardoReferente = \App\FormC\Referente::create($referente);
+
+		// 		$referenteId[] = $guardoReferente->id;
+		// 	}
+		// }
+
+		
+		// for ($i=0; $i < $cant; $i++) {
+
+		// 	$referente['nombre_apellido'] = $data['nombre_apellido'][$i];
+		// 	$referente['edad'] = $data['edad'][$i];
+		// 	$referente['vinculo_id'] = $data['vinculo_id'][$i];
+		// 	if (isset($data['vinculo_otro'][$i])) {
+		// 		$referente['vinculo_otro'] = $data['vinculo_otro'][$i];
+		// 	}
+		// 	$referente['referenteContacto'] = $data['referenteContacto'][$i];
+		// 	$referente['user_id'] = $data['user_id'];
+
+		// 	$guardoReferente = \App\FormC\Referente::create($referente);
+
+		// 	$referenteId[] = $guardoReferente->id;
+		// }
 
 		$cFormulario->update($data);
 
 		//de esta manera lo que hago es guardar los referentes nuevos y mantener los viejos
 		// $guardoRelacion = $cFormulario->convivientes()->sync($convivienteId, false);
-		$guardoRelacion = $cFormulario->referentes()->sync($referenteId);
+		if (count($referenteId) !== 0) {
+			$guardoRelacion = $cFormulario->referentes()->sync($referenteId);
+		}
 
 		return redirect('formularios/buscador');	
 	}
@@ -1306,7 +1512,7 @@ class FormsController extends Controller
 		// 									->ORDERBY('updated_at', 'desc')
 		// 									->first()
 		// 									->datos_numero_carpeta;
-		$numeroCarpeta= DB::table('numerocarpetas')
+		$numeroCarpeta = DB::table('numerocarpetas')
 												  ->WHERE('user_id', '=', $userId)
 												  ->WHERE('deleted_at', '=', null)
 												  ->WHERE('id','=',$idCarpeta)
@@ -2310,7 +2516,7 @@ class FormsController extends Controller
 		}
 		// dd('Se guardo');
 
-		return redirect('formularios/G'.$idCarpeta.'/'.$numeroCarpeta);	
+		return redirect('formularios/G/'.$idCarpeta.'/'.$numeroCarpeta);	
 	}
 
 	public function editF($idCarpeta,$idFormulario)
@@ -2798,11 +3004,15 @@ class FormsController extends Controller
 		//datos del formulario A
 			$datosModalidad = \App\FormA\Modalidad::all();;
 			$datosEstadoCaso = \App\FormA\Estadocaso::all();
+			$datosMotivoCierre = \App\FormA\Motivocierre::all();
 			$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
 			$datosProfesional = \App\FormA\Profesional::all();
 			$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
 			$datosPresentacion = \App\FormA\Presentacionespontanea::all();
 			$datosOrganismo = \App\FormA\Otrosorganismo::all();
+			$datosAmbito = \App\FormA\Ambito::all();
+			$datosDepartamento = \App\FormA\Departamento::all();
+			$datosOtrasProv = \App\FormA\Otrasprov::all();
 			// $getIdA = DB::table('aformularios')
 			//                             ->WHERE('datos_numero_carpeta', '=', $numeroCarpeta)
 			// 							->ORDERBY('created_at', 'desc')
@@ -2884,6 +3094,10 @@ class FormsController extends Controller
 												//fin formulario F
 												'temaIntervencion' => $temaIntervencion,
 												'idCarpeta' => $idCarpeta,
+												'datosMotivoCierre' => $datosMotivoCierre,
+												'datosAmbito'		=> $datosAmbito,
+												'datosDepartamento'	=> $datosDepartamento,
+												'datosOtrasProv'	=> $datosOtrasProv,
 
 												]);
 	}

@@ -23,6 +23,10 @@ Route::get('index', 'FormsController@index')->middleware('auth');
 Route::get('formularios/buscador', 'FormsController@search')->middleware('auth');
 Route::post('formularios/buscador', 'FormsController@search')->middleware('auth');
 
+//RUTAS BUSCADOR NOMBRE
+Route::get('formularios/buscadorNombre', 'FormsController@searchName')->middleware('auth');
+Route::get('formularios/buscadorVictima', 'FormsController@searchVictim')->middleware('auth');
+
 //RUTAS FORMULARIO A
 // Route::get('formularios/A', 'FormsController@createA')->middleware('auth');
 Route::get('formularios/A', 'FormsController@createA')->middleware('auth', 'faltaCompletarEje', 'soloLectura');
@@ -79,7 +83,7 @@ Route::put('formularios/edicion/G/{idCarpeta?}/{idFormulario?}', 'FormsControlle
 Route::delete('formularios/edicion/G/{id}', 'FormsController@destroyG');
 
 //TODOS LOS FORMULARIOS
-Route::get('formularios', 'FormsController@formularios')->middleware('auth', 'soloLectura');
+// Route::get('formularios', 'FormsController@formularios')->middleware('auth', 'soloLectura');
 
 //MAPAS DE CALOR
 //ver tambien de poner si es administrador
