@@ -88,7 +88,7 @@
                             <td>
                                 @if ($carpeta->aformulario_id)
                                     {{-- nuevo --}}
-                                    <a href="/formularios/edicion/A/{{ $carpeta->id }}/{{ $carpeta->aformulario_id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+                                    <a href="/formularios/edicion/A/{{ $carpeta->id }}/{{ $carpeta->aformulario_id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>
                                     {{-- <a href="/formularios/edicion/A/{{$carpeta->aformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br> --}}
                                     @if (auth()->user()->isAdmin === 1)
                                         <form action="/formularios/edicion/A/{{$carpeta->aformulario_id}}" class="" method="post">
@@ -107,8 +107,8 @@
                                 {{-- @if ($carpeta->bformulario_id) --}}
                                 @if ($carpeta->aformulario_id && $carpeta->bformulario_id)
                                 {{-- nuevo --}}
-                                    <a href="/formularios/edicion/B/{{ $carpeta->id }}/{{ $carpeta->bformulario_id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
-                                    {{-- <a href="/formularios/edicion/B/{{$carpeta->bformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br> --}}
+                                    <a href="/formularios/edicion/B/{{ $carpeta->id }}/{{ $carpeta->bformulario_id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i>  @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>
+                                    {{-- <a href="/formularios/edicion/B/{{$carpeta->bformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i>Ver/Editar </a><br><br> --}}
                                     @if (auth()->user()->isAdmin === 1)
                                         <form action="/formularios/edicion/B/{{$carpeta->bformulario_id}}" class="" method="post">
                                             @method('DELETE')
@@ -127,7 +127,7 @@
                             <td>
                                 {{-- @if ($carpeta->cformulario_id) --}}
                                 @if (($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id))
-                                    <a href="/formularios/edicion/C/{{ $carpeta->id }}/{{$carpeta->cformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+                                    <a href="/formularios/edicion/C/{{ $carpeta->id }}/{{$carpeta->cformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>
                                     @if (auth()->user()->isAdmin === 1)
                                         <form action="/formularios/edicion/C/{{$carpeta->cformulario_id}}" class="" method="post">
                                             @method('DELETE')
@@ -145,7 +145,7 @@
                             <td>
                                 {{-- @if ($carpeta->dformulario_id) --}}
                                 @if ($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id)
-                                    <a href="/formularios/edicion/D/{{ $carpeta->id }}/{{$carpeta->dformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+                                    <a href="/formularios/edicion/D/{{ $carpeta->id }}/{{$carpeta->dformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>
                                     @if (auth()->user()->isAdmin === 1)
                                         <form action="/formularios/edicion/D/{{$carpeta->dformulario_id}}" class="" method="post">
                                             @method('DELETE')
@@ -162,7 +162,7 @@
                             </td>
                             {{-- <td>
                                 @if ($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->eformulario_id)
-                                    <a href="/formularios/edicion/E/{{$carpeta->eformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+                                    <a href="/formularios/edicion/E/{{$carpeta->eformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>
                                     @if (auth()->user()->isAdmin === 1)
                                         <form action="/formularios/edicion/E/{{$carpeta->eformulario_id}}" class="" method="post">
                                             @method('DELETE')
@@ -179,7 +179,7 @@
                             <td>
                                 {{-- @if ($carpeta->fformulario_id) --}}
                                 @if ($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->fformulario_id)
-                                    <a href="/formularios/edicion/F/{{ $carpeta->id }}/{{$carpeta->fformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+                                    <a href="/formularios/edicion/F/{{ $carpeta->id }}/{{$carpeta->fformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>
                                     @if (auth()->user()->isAdmin === 1)
                                         <form action="/formularios/edicion/F/{{$carpeta->fformulario_id}}" class="" method="post">
                                             @method('DELETE')
@@ -197,7 +197,7 @@
                             <td>
                                 {{-- @if ($carpeta->gformulario_id) --}}
                                 @if ($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->fformulario_id && $carpeta->gformulario_id)
-                                    <a href="/formularios/edicion/G/{{ $carpeta->id }}/{{$carpeta->gformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>
+                                    <a href="/formularios/edicion/G/{{ $carpeta->id }}/{{$carpeta->gformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>
                                     @if (auth()->user()->isAdmin === 1)
                                         <form action="/formularios/edicion/G/{{$carpeta->gformulario_id}}" class="" method="post">
                                             @method('DELETE')

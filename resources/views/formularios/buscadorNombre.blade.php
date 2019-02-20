@@ -93,7 +93,7 @@
                             <td>{{ $formA->datos_numero_carpeta }}</td>
                             <td>{{ $formA->datos_nombre_referencia }}</td>
                             <td>{{ $formA->datos_nro_causa }}</td>
-                            <td><a href="/formularios/edicion/A/{{ $formA->numerocarpetasId }}/{{$formA->id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br></td>
+                            <td><a href="/formularios/edicion/A/{{ $formA->numerocarpetasId }}/{{$formA->id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i>  @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br></td>
                         </tr>
                     @endforeach
                 </tbody>

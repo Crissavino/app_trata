@@ -88,7 +88,7 @@
                             <td><a href="#{{ $formB->numeroCarpeta }}" title="">{{ $formB->numeroCarpeta }}</a></td>
                             <td>{{ $formB->victima_nombre_y_apellido }}</td>
                             <td>{{ $formB->victima_documento }}</td>
-                            <td><a href="/formularios/edicion/B/{{$formB->numerocarpetasId}}/{{$formB->id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br></td>
+                            <td><a href="/formularios/edicion/B/{{$formB->numerocarpetasId}}/{{$formB->id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i>  @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br></td>
                         </tr>
                     @endforeach
                 </tbody>
