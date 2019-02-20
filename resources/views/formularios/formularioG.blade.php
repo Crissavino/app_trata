@@ -123,8 +123,10 @@
                 </div>
 
                 {{-- Datos del formulario A --}}
+                
                     @foreach ($aFormularios as $formA)
-                        @if ($formA->datos_numero_carpeta === $formularioG->numeroCarpeta)
+                        
+                        @if ($formA->datos_numero_carpeta == $numeroCarpeta)
                         <section class="">
                             <h2 class="text-center m-5">Encabezado</h2>
                             {{-- INICIO PRIMERA PREGUNTA --}}
@@ -352,7 +354,6 @@
                         {{-- INICIO PROFESIONALES CARGADOS --}}
                             <h3>Profesionales cargados anteriormente:</h3>
                             @foreach ($formA->profesionalintervinientes as $profesionales)
-                                <h3>Profesionales cargados anteriormente:</h3>
                                     <div class="form-group">
                                         <label for="profesional_id">Profesional que interviene</label>
                                         <select disabled class="form-control">
@@ -401,7 +402,7 @@
                 {{-- Articulación con organismos --}}
                     @foreach ($formulariosF as $formF)
                         {{-- USO COMO NUMERO DE CARPETA AL ULTIMO ACTUALIZADO ANTES DE LLEGAR ACA, SERIA EL F --}}
-                        @if ($formF->numeroCarpeta === $numeroCarpeta)
+                        @if ($formF->numeroCarpeta == $numeroCarpeta)
                             <h2 class="text-center m-5">Articulación con organismos</h2>
                             <div class="form-group">
                                 <div class="form-group">
