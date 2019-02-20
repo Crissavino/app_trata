@@ -413,7 +413,6 @@
                         {{-- INICIO PROFESIONALES CARGADOS --}}
                             <h3>Profesionales cargados anteriormente:</h3>
                             @foreach ($formA->profesionalintervinientes as $profesionales)
-                                <h3>Profesionales cargados anteriormente:</h3>
                                     <div class="form-group">
                                         <label for="profesional_id">Profesional que interviene</label>
                                         <select disabled class="form-control">

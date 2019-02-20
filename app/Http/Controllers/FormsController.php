@@ -645,7 +645,21 @@ class FormsController extends Controller
 		$aFormulario->update($data);
 		$carpeta=\App\Carpetas\Numerocarpeta::find($idCarpeta);
 		$carpeta->update(['numeroCarpeta'=>$data['datos_numero_carpeta']]);
-
+		if($carpeta->bformulario){
+		$carpeta->bformulario->update(['numeroCarpeta'=>$data['datos_numero_carpeta']]);
+		}
+		if($carpeta->cformulario){
+		$carpeta->cformulario->update(['numeroCarpeta'=>$data['datos_numero_carpeta']]);
+		}
+		if($carpeta->dformulario){
+			$carpeta->dformulario->update(['numeroCarpeta'=>$data['datos_numero_carpeta']]);
+		}
+		if($carpeta->fformulario){
+			$carpeta->fformulario->update(['numeroCarpeta'=>$data['datos_numero_carpeta']]);
+		}
+		if($carpeta->gformulario){
+			$carpeta->gformulario->update(['numeroCarpeta'=>$data['datos_numero_carpeta']]);
+		}
 		//requiero los datos de los profesionales
 		$arrayProfesionales = request()->only(['profesional_id', 'datos_profesional_interviene_desde', 'datos_profesional_interviene_hasta', 'profesionalactualmente_id']);	
 
@@ -1050,6 +1064,8 @@ class FormsController extends Controller
 			'niveleducativo_id' => 'required',
 			'oficio_id' => 'required',
 			//'victima_oficio_cual' => 'required',
+			'discapacidad_id' => 'required',
+			'limitacion_id' => 'required',
 		], 
 		[
 			'victima_nombre_y_apellido.required' => 'Este campo es obligatorio',
@@ -1087,6 +1103,8 @@ class FormsController extends Controller
 			'niveleducativo_id.required' => 'Este campo es obligatorio',
 			'oficio_id.required' => 'Este campo es obligatorio',
 			//'victima_oficio_cual.required' => 'Este campo es obligatorio',
+			'discapacidad_id.required' => 'Este campo es obligatorio',
+			'limitacion_id.required' => 'Este campo es obligatorio',
 		]);
 
 		$data = request()->all();
