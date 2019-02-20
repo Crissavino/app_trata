@@ -418,10 +418,12 @@
                                             $orgJudicialesActualmenteIds = $formF->orgjudicialactualmentes->pluck('id')->toArray();
                                             $checked = (in_array($orgJudicialesActualmente->id, $orgJudicialesActualmenteIds)) ? 'checked' : ''
                                         @endphp
+                                        @if($checked=='checked')
                                         <div class="ml-3">
                                             <label for="{{ $orgJudicialesActualmente->id }}">{{ $orgJudicialesActualmente->nombre }}</label>
                                             <input disabled {{ $checked }} type="checkbox" id="{{ $orgJudicialesActualmente->id }}" value="{{ $orgJudicialesActualmente->id }}" name="orgjudicialactualmentes_id[]">
                                         </div>
+                                        @endif
                                     @endforeach
                                 </div>
 
@@ -434,6 +436,7 @@
                                                 $progNacionalesActualmenteIds = $formF->orgprognacionalactualmentes->pluck('id')->toArray();
                                                 $checked = (in_array($progNacionalesActualmente->id, $progNacionalesActualmenteIds)) ? 'checked' : ''
                                             @endphp
+                                            @if($checked=='checked')
                                             <div class="ml-3">
                                                 @if ($progNacionalesActualmente->nombre == 'Otro')
                                                     <label for="{{ $progNacionalesActualmente->id }}">{{ $progNacionalesActualmente->nombre }}</label>
@@ -443,6 +446,7 @@
                                                     <input disabled {{ $checked }} type="checkbox" id="{{ $progNacionalesActualmente->id }}" value="{{ $progNacionalesActualmente->id }}" name="orgprognacionalactualmente_id[]">
                                                 @endif  
                                             </div>
+                                            @endif
                                         @endforeach     
 
                                     <div class="form-group orgprognacionalActualmenteCual" style="display: none;">
@@ -482,10 +486,12 @@
                                             $policiaActualmenteIds = $formF->policiaactualmentes->pluck('id')->toArray();
                                             $checked = (in_array($policiaActualmente->id, $policiaActualmenteIds)) ? 'checked' : ''
                                         @endphp
+                                        @if($checked=='checked')
                                         <div class="ml-3">
                                             <label for="{{ $policiaActualmente->id }}">{{ $policiaActualmente->nombre }}</label>
                                             <input disabled {{ $checked }} type="checkbox" id="{{ $policiaActualmente->id }}" value="{{ $policiaActualmente->id }}" name="policiaactualmentes_id[]">
                                         </div>
+                                        @endif
                                     @endforeach
                                 </div>
 

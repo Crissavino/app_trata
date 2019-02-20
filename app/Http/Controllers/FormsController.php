@@ -698,17 +698,17 @@ class FormsController extends Controller
 
 		$carpetaFormA = \App\Carpetas\Numerocarpeta::where('aformulario_id', '=', $id);
 
-		if ($carpetaFormA->value('bformulario_id') == null && $carpetaFormA->value('cformulario_id') == null && $carpetaFormA->value('dformulario_id') == null && $carpetaFormA->value('fformulario_id') == null && $carpetaFormA->value('gformulario_id') == null) {
+		// if ($carpetaFormA->value('bformulario_id') == null && $carpetaFormA->value('cformulario_id') == null && $carpetaFormA->value('dformulario_id') == null && $carpetaFormA->value('fformulario_id') == null && $carpetaFormA->value('gformulario_id') == null) {
 			
-			$carpetaFormA->update(['numeroCarpeta' => 'Eliminada', 'aformulario_id' => null, 'deleted_at' => $fecha_hoy]);
+			$carpetaFormA->update([ 'deleted_at' => $fecha_hoy]);
 
-		}elseif ($carpetaFormA->value('bformulario_id') !== null || $carpetaFormA->value('cformulario_id') !== null || $carpetaFormA->value('dformulario_id') !== null || $carpetaFormA->value('fformulario_id') !== null || $carpetaFormA->value('gformulario_id') !== null) {
+		// }elseif ($carpetaFormA->value('bformulario_id') !== null || $carpetaFormA->value('cformulario_id') !== null || $carpetaFormA->value('dformulario_id') !== null || $carpetaFormA->value('fformulario_id') !== null || $carpetaFormA->value('gformulario_id') !== null) {
 
-			$carpetaFormA->update(['aformulario_id' => null]);
+		// 	$carpetaFormA->update(['aformulario_id' => null]);
 
-		}
+		// }
 
-		$aFormulario->delete();
+		// $aFormulario->delete();
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
@@ -1139,17 +1139,17 @@ class FormsController extends Controller
 
 		$carpetaFormB = \App\Carpetas\Numerocarpeta::where('bformulario_id', '=', $id);
 
-		if ($carpetaFormB->value('aformulario_id') == null && $carpetaFormB->value('cformulario_id') == null && $carpetaFormB->value('dformulario_id') == null && $carpetaFormB->value('fformulario_id') == null && $carpetaFormB->value('gformulario_id') == null) {
+		// if ($carpetaFormB->value('aformulario_id') == null && $carpetaFormB->value('cformulario_id') == null && $carpetaFormB->value('dformulario_id') == null && $carpetaFormB->value('fformulario_id') == null && $carpetaFormB->value('gformulario_id') == null) {
 			
-			$carpetaFormB->update(['numeroCarpeta' => 'Eliminada', 'bformulario_id' => null, 'deleted_at' => $fecha_hoy]);
+			$carpetaFormB->update(['deleted_at' => $fecha_hoy]);
 
-		}elseif ($carpetaFormB->value('aformulario_id') !== null || $carpetaFormB->value('cformulario_id') !== null || $carpetaFormB->value('dformulario_id') !== null || $carpetaFormB->value('fformulario_id') !== null || $carpetaFormB->value('gformulario_id') !== null) {
+		// }elseif ($carpetaFormB->value('aformulario_id') !== null || $carpetaFormB->value('cformulario_id') !== null || $carpetaFormB->value('dformulario_id') !== null || $carpetaFormB->value('fformulario_id') !== null || $carpetaFormB->value('gformulario_id') !== null) {
 
-			$carpetaFormB->update(['bformulario_id' => null]);
+		// 	$carpetaFormB->update(['bformulario_id' => null]);
 
-		}
+		// }
 
-		$Bformulario->delete();
+		// $Bformulario->delete();
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
@@ -1366,31 +1366,114 @@ class FormsController extends Controller
 		$data = request()->all();
 		$data['user_id'] = $userId;
 
-		$cant = (count(request()->input('nombre_apellido')));
-		
-		for ($i=0; $i < $cant; $i++) {
+		// $cant = (count(request()->input('nombre_apellido')));
 
-			$referente['nombre_apellido'] = $data['nombre_apellido'][$i];
-			$referente['edad'] = $data['edad'][$i];
-			$referente['vinculo_id'] = $data['vinculo_id'][$i];
-			if (isset($data['vinculo_otro'][$i])) {
-				$referente['vinculo_otro'] = $data['vinculo_otro'][$i];
-			}
-			$referente['referenteContacto'] = $data['referenteContacto'][$i];
-			$referente['user_id'] = $data['user_id'];
-
-			$guardoReferente = \App\FormC\Referente::create($referente);
-
-			$referenteId[] = $guardoReferente->id;
-		}
-			
+		//nuevo
 		$cFormulario = \App\FormC\Cformulario::find($idFormulario);
+
+		$referenteId = [];
+
+		$cantidadReferentesViejos = false;
+		if (request()->input('nombre_apellido_viejo')) {
+			$cantidadReferentesViejos = (count(request()->input('nombre_apellido_viejo')));
+		}
+
+		$cantidadReferentesNuevos = false;
+		if (request()->input('nombre_apellido')) {
+			$cantidadReferentesNuevos = (count(request()->input('nombre_apellido')));
+		}
+
+		// dd($cFormulario->referentes->count());
+		$referentes = $cFormulario->referentes;
+
+		if ($cantidadReferentesViejos) {
+			foreach ($referentes as $i => $referente) {
+				$referenteCargado = \App\FormC\Referente::find($referente->id);
+
+				$referenteViejo['nombre_apellido'] = $data['nombre_apellido_viejo'][$i];
+				$referenteViejo['edad'] = $data['edad_viejo'][$i];
+				$referenteViejo['vinculo_id'] = $data['vinculo_id_viejo'][$i];
+				if (isset($data['vinculo_otro'][$i])) {
+					$referenteViejo['vinculo_otro'] = $data['vinculo_otro_viejo'][$i];
+				}
+				$referenteViejo['referenteContacto'] = $data['referenteContacto_viejo'][$i];
+				$referenteViejo['user_id'] = $data['user_id'];
+
+
+				$actualizoReferente = $referenteCargado->update($referenteViejo);
+				
+				$referenteId[] = $referente->id;
+			}
+		}
+
+		if ($cantidadReferentesNuevos) {
+			for ($i = 0; $i < $cantidadReferentesNuevos ; $i++) { 
+
+				$referenteNuevo['nombre_apellido'] = $data['nombre_apellido'][$i];
+				$referenteNuevo['edad'] = $data['edad'][$i];
+				$referenteNuevo['vinculo_id'] = $data['vinculo_id'][$i];
+				if (isset($data['vinculo_otro'][$i])) {
+					$referenteNuevo['vinculo_otro'] = $data['vinculo_otro'][$i];
+				}
+				$referenteNuevo['referenteContacto'] = $data['referenteContacto'][$i];
+				$referenteNuevo['user_id'] = $data['user_id'];
+
+				$guardoReferente = \App\FormC\Referente::create($referenteNuevo);
+
+				$referenteId[] = $guardoReferente->id;
+
+			}
+		}
+
+		//fin nuevo
+			// var_dump(count($referente));
+			// $idReferentesCargados[] = $referente->id;
+			
+			// var_dump($idReferentesCargados);
+		// for ($i = 0; $i < $cantidadReferentesViejos; $i++) { 
+			
+		// }
+		// if ($cFormulario->referentes) {
+		// 	for ($i=0; $i < $cantidadReferentesAnteriores; $i++) { 
+		// 		$referente['nombre_apellido'] = $data['nombre_apellido'][$i];
+		// 		$referente['edad'] = $data['edad'][$i];
+		// 		$referente['vinculo_id'] = $data['vinculo_id'][$i];
+		// 		if (isset($data['vinculo_otro'][$i])) {
+		// 			$referente['vinculo_otro'] = $data['vinculo_otro'][$i];
+		// 		}
+		// 		$referente['referenteContacto'] = $data['referenteContacto'][$i];
+		// 		$referente['user_id'] = $data['user_id'];
+
+		// 		$guardoReferente = \App\FormC\Referente::create($referente);
+
+		// 		$referenteId[] = $guardoReferente->id;
+		// 	}
+		// }
+
+		
+		// for ($i=0; $i < $cant; $i++) {
+
+		// 	$referente['nombre_apellido'] = $data['nombre_apellido'][$i];
+		// 	$referente['edad'] = $data['edad'][$i];
+		// 	$referente['vinculo_id'] = $data['vinculo_id'][$i];
+		// 	if (isset($data['vinculo_otro'][$i])) {
+		// 		$referente['vinculo_otro'] = $data['vinculo_otro'][$i];
+		// 	}
+		// 	$referente['referenteContacto'] = $data['referenteContacto'][$i];
+		// 	$referente['user_id'] = $data['user_id'];
+
+		// 	$guardoReferente = \App\FormC\Referente::create($referente);
+
+		// 	$referenteId[] = $guardoReferente->id;
+		// }
 
 		$cFormulario->update($data);
 
 		//de esta manera lo que hago es guardar los referentes nuevos y mantener los viejos
 		// $guardoRelacion = $cFormulario->convivientes()->sync($convivienteId, false);
-		$guardoRelacion = $cFormulario->referentes()->sync($referenteId);
+		if (count($referenteId) !== 0) {
+			$guardoRelacion = $cFormulario->referentes()->sync($referenteId);
+		}
 
 		return redirect('formularios/buscador');	
 	}
@@ -1403,17 +1486,17 @@ class FormsController extends Controller
 
 		$carpetaFormC = \App\Carpetas\Numerocarpeta::where('cformulario_id', '=', $id);
 
-		if ($carpetaFormC->value('aformulario_id') == null && $carpetaFormC->value('bformulario_id') == null && $carpetaFormC->value('dformulario_id') == null && $carpetaFormC->value('fformulario_id') == null && $carpetaFormC->value('gformulario_id') == null) {
+		// if ($carpetaFormC->value('aformulario_id') == null && $carpetaFormC->value('bformulario_id') == null && $carpetaFormC->value('dformulario_id') == null && $carpetaFormC->value('fformulario_id') == null && $carpetaFormC->value('gformulario_id') == null) {
 			
-			$carpetaFormC->update(['numeroCarpeta' => 'Eliminada', 'cformulario_id' => null, 'deleted_at' => $fecha_hoy]);
+			$carpetaFormC->update([ 'deleted_at' => $fecha_hoy]);
 
-		}elseif ($carpetaFormC->value('aformulario_id') !== null || $carpetaFormC->value('bformulario_id') !== null || $carpetaFormC->value('dformulario_id') !== null || $carpetaFormC->value('fformulario_id') !== null || $carpetaFormC->value('gformulario_id') !== null) {
+		// }elseif ($carpetaFormC->value('aformulario_id') !== null || $carpetaFormC->value('bformulario_id') !== null || $carpetaFormC->value('dformulario_id') !== null || $carpetaFormC->value('fformulario_id') !== null || $carpetaFormC->value('gformulario_id') !== null) {
 
-			$carpetaFormC->update(['cformulario_id' => null]);
+		// 	$carpetaFormC->update(['cformulario_id' => null]);
 
-		}
+		// }
 
-		$Cformulario->delete();
+		// $Cformulario->delete();
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
@@ -1429,7 +1512,7 @@ class FormsController extends Controller
 		// 									->ORDERBY('updated_at', 'desc')
 		// 									->first()
 		// 									->datos_numero_carpeta;
-		$numeroCarpeta= DB::table('numerocarpetas')
+		$numeroCarpeta = DB::table('numerocarpetas')
 												  ->WHERE('user_id', '=', $userId)
 												  ->WHERE('deleted_at', '=', null)
 												  ->WHERE('id','=',$idCarpeta)
@@ -2034,17 +2117,17 @@ class FormsController extends Controller
 
 		$carpetaFormD = \App\Carpetas\Numerocarpeta::where('dformulario_id', '=', $id);
 
-		if ($carpetaFormD->value('aformulario_id') == null && $carpetaFormD->value('bformulario_id') == null && $carpetaFormD->value('cformulario_id') == null && $carpetaFormD->value('fformulario_id') == null && $carpetaFormD->value('gformulario_id') == null) {
+		// if ($carpetaFormD->value('aformulario_id') == null && $carpetaFormD->value('bformulario_id') == null && $carpetaFormD->value('cformulario_id') == null && $carpetaFormD->value('fformulario_id') == null && $carpetaFormD->value('gformulario_id') == null) {
 			
-			$carpetaFormD->update(['numeroCarpeta' => 'Eliminada', 'dformulario_id' => null, 'deleted_at' => $fecha_hoy]);
+			$carpetaFormD->update(['deleted_at' => $fecha_hoy]);
 
-		}elseif ($carpetaFormD->value('aformulario_id') !== null || $carpetaFormD->value('bformulario_id') !== null || $carpetaFormD->value('cformulario_id') !== null || $carpetaFormD->value('fformulario_id') !== null || $carpetaFormD->value('gformulario_id') !== null) {
+		// }elseif ($carpetaFormD->value('aformulario_id') !== null || $carpetaFormD->value('bformulario_id') !== null || $carpetaFormD->value('cformulario_id') !== null || $carpetaFormD->value('fformulario_id') !== null || $carpetaFormD->value('gformulario_id') !== null) {
 
-			$carpetaFormD->update(['dformulario_id' => null]);
+		// 	$carpetaFormD->update(['dformulario_id' => null]);
 
-		}
+		// }
 
-		$Dformulario->delete();
+		// $Dformulario->delete();
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
@@ -2891,17 +2974,17 @@ class FormsController extends Controller
 
 		$carpetaFormF = \App\Carpetas\Numerocarpeta::where('fformulario_id', '=', $id);
 
-		if ($carpetaFormF->value('aformulario_id') == null && $carpetaFormF->value('bformulario_id') == null && $carpetaFormF->value('cformulario_id') == null && $carpetaFormF->value('dformulario_id') == null && $carpetaFormF->value('gformulario_id') == null) {
+		// if ($carpetaFormF->value('aformulario_id') == null && $carpetaFormF->value('bformulario_id') == null && $carpetaFormF->value('cformulario_id') == null && $carpetaFormF->value('dformulario_id') == null && $carpetaFormF->value('gformulario_id') == null) {
 			
-			$carpetaFormF->update(['numeroCarpeta' => 'Eliminada', 'fformulario_id' => null, 'deleted_at' => $fecha_hoy]);
+			$carpetaFormF->update(['deleted_at' => $fecha_hoy]);
 
-		}elseif ($carpetaFormF->value('aformulario_id') !== null || $carpetaFormF->value('bformulario_id') !== null || $carpetaFormF->value('cformulario_id') !== null || $carpetaFormF->value('dformulario_id') !== null || $carpetaFormF->value('gformulario_id') !== null) {
+		// }elseif ($carpetaFormF->value('aformulario_id') !== null || $carpetaFormF->value('bformulario_id') !== null || $carpetaFormF->value('cformulario_id') !== null || $carpetaFormF->value('dformulario_id') !== null || $carpetaFormF->value('gformulario_id') !== null) {
 
-			$carpetaFormF->update(['fformulario_id' => null]);
+		// 	$carpetaFormF->update(['fformulario_id' => null]);
 
-		}
+		// }
 
-		$Fformulario->delete();
+		// $Fformulario->delete();
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
@@ -3555,17 +3638,17 @@ class FormsController extends Controller
 
 		$carpetaFormG = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $id);
 
-		if ($carpetaFormG->value('aformulario_id') == null && $carpetaFormG->value('bformulario_id') == null && $carpetaFormG->value('cformulario_id') == null && $carpetaFormG->value('dformulario_id') == null && $carpetaFormG->value('fformulario_id') == null) {
+		// if ($carpetaFormG->value('aformulario_id') == null && $carpetaFormG->value('bformulario_id') == null && $carpetaFormG->value('cformulario_id') == null && $carpetaFormG->value('dformulario_id') == null && $carpetaFormG->value('fformulario_id') == null) {
 			
-			$carpetaFormG->update(['numeroCarpeta' => 'Eliminada', 'gformulario_id' => null, 'deleted_at' => $fecha_hoy]);
+			$carpetaFormG->update(['deleted_at' => $fecha_hoy]);
 
-		}elseif ($carpetaFormG->value('aformulario_id') !== null || $carpetaFormG->value('bformulario_id') !== null || $carpetaFormG->value('cformulario_id') !== null || $carpetaFormG->value('dformulario_id') !== null || $carpetaFormG->value('fformulario_id') !== null) {
+		// }elseif ($carpetaFormG->value('aformulario_id') !== null || $carpetaFormG->value('bformulario_id') !== null || $carpetaFormG->value('cformulario_id') !== null || $carpetaFormG->value('dformulario_id') !== null || $carpetaFormG->value('fformulario_id') !== null) {
 
-			$carpetaFormG->update(['gformulario_id' => null]);
+		// 	$carpetaFormG->update(['gformulario_id' => null]);
 
-		}
+		// }
 
-		$Gformulario->delete();
+		// $Gformulario->delete();
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
