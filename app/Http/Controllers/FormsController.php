@@ -1371,8 +1371,13 @@ class FormsController extends Controller
 		//nuevo
 		$cFormulario = \App\FormC\Cformulario::find($idFormulario);
 
-		$cantidadReferentesViejos = (count(request()->input('nombre_apellido_viejo')));
-		var_dump(request()->input('nombre_apellido'));
+		$referenteId = [];
+
+		$cantidadReferentesViejos = false;
+		if (request()->input('nombre_apellido_viejo')) {
+			$cantidadReferentesViejos = (count(request()->input('nombre_apellido_viejo')));
+		}
+
 		$cantidadReferentesNuevos = false;
 		if (request()->input('nombre_apellido')) {
 			$cantidadReferentesNuevos = (count(request()->input('nombre_apellido')));
@@ -1381,24 +1386,25 @@ class FormsController extends Controller
 		// dd($cFormulario->referentes->count());
 		$referentes = $cFormulario->referentes;
 
-		foreach ($referentes as $i => $referente) {
-			$referenteCargado = \App\FormC\Referente::find($referente->id);
+		if ($cantidadReferentesViejos) {
+			foreach ($referentes as $i => $referente) {
+				$referenteCargado = \App\FormC\Referente::find($referente->id);
 
-			$referenteViejo['nombre_apellido'] = $data['nombre_apellido_viejo'][$i];
-			$referenteViejo['edad'] = $data['edad_viejo'][$i];
-			$referenteViejo['vinculo_id'] = $data['vinculo_id_viejo'][$i];
-			if (isset($data['vinculo_otro'][$i])) {
-				$referenteViejo['vinculo_otro'] = $data['vinculo_otro_viejo'][$i];
+				$referenteViejo['nombre_apellido'] = $data['nombre_apellido_viejo'][$i];
+				$referenteViejo['edad'] = $data['edad_viejo'][$i];
+				$referenteViejo['vinculo_id'] = $data['vinculo_id_viejo'][$i];
+				if (isset($data['vinculo_otro'][$i])) {
+					$referenteViejo['vinculo_otro'] = $data['vinculo_otro_viejo'][$i];
+				}
+				$referenteViejo['referenteContacto'] = $data['referenteContacto_viejo'][$i];
+				$referenteViejo['user_id'] = $data['user_id'];
+
+
+				$actualizoReferente = $referenteCargado->update($referenteViejo);
+				
+				$referenteId[] = $referente->id;
 			}
-			$referenteViejo['referenteContacto'] = $data['referenteContacto_viejo'][$i];
-			$referenteViejo['user_id'] = $data['user_id'];
-
-
-			$actualizoReferente = $referenteCargado->update($referenteViejo);
-			
-			$referenteId[] = $referente->id;
 		}
-
 
 		if ($cantidadReferentesNuevos) {
 			for ($i = 0; $i < $cantidadReferentesNuevos ; $i++) { 
@@ -1465,7 +1471,9 @@ class FormsController extends Controller
 
 		//de esta manera lo que hago es guardar los referentes nuevos y mantener los viejos
 		// $guardoRelacion = $cFormulario->convivientes()->sync($convivienteId, false);
-		$guardoRelacion = $cFormulario->referentes()->sync($referenteId);
+		if (count($referenteId) !== 0) {
+			$guardoRelacion = $cFormulario->referentes()->sync($referenteId);
+		}
 
 		return redirect('formularios/buscador');	
 	}
