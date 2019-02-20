@@ -2327,7 +2327,7 @@ class FormsController extends Controller
 		}
 		// dd('Se guardo');
 
-		return redirect('formularios/G'.$idCarpeta.'/'.$numeroCarpeta);	
+		return redirect('formularios/G/'.$idCarpeta.'/'.$numeroCarpeta);	
 	}
 
 	public function editF($idCarpeta,$idFormulario)
@@ -2815,11 +2815,15 @@ class FormsController extends Controller
 		//datos del formulario A
 			$datosModalidad = \App\FormA\Modalidad::all();;
 			$datosEstadoCaso = \App\FormA\Estadocaso::all();
+			$datosMotivoCierre = \App\FormA\Motivocierre::all();
 			$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
 			$datosProfesional = \App\FormA\Profesional::all();
 			$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
 			$datosPresentacion = \App\FormA\Presentacionespontanea::all();
 			$datosOrganismo = \App\FormA\Otrosorganismo::all();
+			$datosAmbito = \App\FormA\Ambito::all();
+			$datosDepartamento = \App\FormA\Departamento::all();
+			$datosOtrasProv = \App\FormA\Otrasprov::all();
 			// $getIdA = DB::table('aformularios')
 			//                             ->WHERE('datos_numero_carpeta', '=', $numeroCarpeta)
 			// 							->ORDERBY('created_at', 'desc')
@@ -2901,6 +2905,10 @@ class FormsController extends Controller
 												//fin formulario F
 												'temaIntervencion' => $temaIntervencion,
 												'idCarpeta' => $idCarpeta,
+												'datosMotivoCierre' => $datosMotivoCierre,
+												'datosAmbito'		=> $datosAmbito,
+												'datosDepartamento'	=> $datosDepartamento,
+												'datosOtrasProv'	=> $datosOtrasProv,
 
 												]);
 	}
