@@ -67,8 +67,19 @@ window.onload =function (){
 	//fin Informe Socioambiental
 
 
+
+	$(".imprimir").click(function(){
+		var noprint=$("#noimprimir").html();
+		$("#noimprimir").html("");
+		$("#imprimible").show();
+		$("#imprimirbtn").hide();
+		window.print();
+		$("#imprimible").hide();
+		$("#imprimirbtn").show();
+		$("#noimprimir").html(noprint);
+	});
 	//imprimir pantalla solo es para el edit
-		var imprimir = document.querySelector('.imprimir');
+	/* 	var imprimir = document.querySelector('.imprimir');
 
 		imprimir.addEventListener('click', function(){
      		var contenidoImprimible = document.getElementById('imprimible').innerHTML;
@@ -80,7 +91,7 @@ window.onload =function (){
 
      		document.body.innerHTML = contendioOriginal;
 
-		});
+		}); */
 	//fin imprimir pantalla
 
 	//descargar pdf
