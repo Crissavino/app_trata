@@ -967,6 +967,8 @@ class FormsController extends Controller
 			'niveleducativo_id' => 'required',
 			'oficio_id' => 'required',
 			//'victima_oficio_cual' => 'required',
+			'discapacidad_id' => 'required',
+			'limitacion_id' => 'required',
 		], 
 		[
 			'victima_nombre_y_apellido.required' => 'Este campo es obligatorio',
@@ -1004,6 +1006,8 @@ class FormsController extends Controller
 			'niveleducativo_id.required' => 'Este campo es obligatorio',
 			'oficio_id.required' => 'Este campo es obligatorio',
 			//'victima_oficio_cual.required' => 'Este campo es obligatorio',
+			'discapacidad_id.required' => 'Este campo es obligatorio',
+			'limitacion_id.required' => 'Este campo es obligatorio',
 		]);
 
 		$data = request()->all();

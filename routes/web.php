@@ -79,7 +79,7 @@ Route::put('formularios/edicion/G/{idCarpeta?}/{idFormulario?}', 'FormsControlle
 Route::delete('formularios/edicion/G/{id}', 'FormsController@destroyG');
 
 //TODOS LOS FORMULARIOS
-Route::get('formularios', 'FormsController@formularios')->middleware('auth', 'soloLectura');
+// Route::get('formularios', 'FormsController@formularios')->middleware('auth', 'soloLectura');
 
 //MAPAS DE CALOR
 //ver tambien de poner si es administrador
