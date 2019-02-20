@@ -23,6 +23,10 @@ Route::get('index', 'FormsController@index')->middleware('auth');
 Route::get('formularios/buscador', 'FormsController@search')->middleware('auth');
 Route::post('formularios/buscador', 'FormsController@search')->middleware('auth');
 
+//RUTAS BUSCADOR NOMBRE
+Route::get('formularios/buscadorNombre', 'FormsController@searchName')->middleware('auth');
+Route::get('formularios/buscadorVictima', 'FormsController@searchVictim')->middleware('auth');
+
 //RUTAS FORMULARIO A
 // Route::get('formularios/A', 'FormsController@createA')->middleware('auth');
 Route::get('formularios/A', 'FormsController@createA')->middleware('auth', 'faltaCompletarEje', 'soloLectura');
