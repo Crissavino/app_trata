@@ -230,6 +230,87 @@ class FormsController extends Controller
 										]);
 	}
 
+	public function searchName(Request $request)
+	{
+		$userId = auth()->user()->id;
+		$userName = auth()->user()->name;
+
+		// $formsA = \App\FormA\Aformulario::all();
+
+		$numeroCarpeta    = $request->get('numeroCarpeta');
+		$nombreReferencia = $request->get('nombreReferencia');
+		$numeroCausa      = $request->get('numeroCausa');
+		$nombreApellido   = $request->get('nombreApellido');
+		$dni              = $request->get('dni');
+
+		$formsA = \App\FormA\Aformulario::orderBy('datos_numero_carpeta', 'DESC')
+			->select('numerocarpetas.id as numerocarpetasId','aformularios.*')
+			->join('numerocarpetas','numerocarpetas.numeroCarpeta','=','aformularios.datos_numero_carpeta')
+			->nombreRef($nombreReferencia)
+			->numeroCausa($numeroCausa)
+			->get();
+
+		
+
+		$carpetas = \App\Carpetas\Numerocarpeta::orderBy('numeroCarpeta', 'DESC')
+			->carpeta($numeroCarpeta)
+			->get();
+		// $carpetas = \App\Carpetas\Numerocarpeta::orderBy('numeroCarpeta', 'DESC')->paginate(5);
+
+
+
+		return view('formularios.buscadorNombre', 
+										[
+											'userId' => $userId,
+											'userName' => $userName,
+											'formsA' => $formsA,
+											'carpetas' => $carpetas
+										]);
+	}
+
+	public function searchVictim(Request $request)
+	{
+		$userId = auth()->user()->id;
+		$userName = auth()->user()->name;
+
+		// $formsA = \App\FormA\Aformulario::all();
+
+		$numeroCarpeta    = $request->get('numeroCarpeta');
+		$nombreReferencia = $request->get('nombreReferencia');
+		$numeroCausa      = $request->get('numeroCausa');
+		$nombreApellido   = $request->get('nombreApellido');
+		$dni              = $request->get('dni');
+
+		$formsA = \App\FormA\Aformulario::orderBy('datos_numero_carpeta', 'DESC')
+			->nombreRef($nombreReferencia)
+			->numeroCausa($numeroCausa)
+			->get();
+
+		$formsB = \App\FormB\Bformulario::orderBy('numeroCarpeta', 'DESC')
+		->select('numerocarpetas.id as numerocarpetasId','bformularios.*')
+			->join('numerocarpetas','numerocarpetas.numeroCarpeta','=','bformularios.numeroCarpeta')
+			->nombApe($nombreApellido)
+			->DNI($dni)
+			->get();
+
+		$carpetas = \App\Carpetas\Numerocarpeta::orderBy('numeroCarpeta', 'DESC')
+			->carpeta($numeroCarpeta)
+			->get();
+		// $carpetas = \App\Carpetas\Numerocarpeta::orderBy('numeroCarpeta', 'DESC')->paginate(5);
+
+
+
+		return view('formularios.buscadorVictima', 
+										[
+											'userId' => $userId,
+											'userName' => $userName,
+											'formsA' => $formsA,
+											'formsB' => $formsB,
+											'carpetas' => $carpetas
+										]);
+	}
+
+
 	public function showEstadisticas()
 	{
 		$formsA = \App\FormA\Aformulario::all();

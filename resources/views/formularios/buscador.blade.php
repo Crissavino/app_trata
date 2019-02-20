@@ -35,7 +35,9 @@
         <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
         <li class="nav-item cerrarSesion"> <a class="nav-link " href="/logout">Cerrar sesión</a> </li>
-        <li class="nav-item active"> <a class="nav-link active" href="/formularios/buscador">Buscador</a> </li>
+        <li class="nav-item active"> <a class="nav-link active" href="/formularios/buscador">Buscador por número</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="/formularios/buscadorNombre">Buscador por nombre</a> </li>
+        <li class="nav-item "> <a class="nav-link " href="/formularios/buscadorVictima">Buscador por victima</a> </li>
     </ul>
 </header>
 <body>
@@ -210,102 +212,6 @@
                                     <a href="/formularios/G/{{ $carpeta->id }}" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Completar carga </a><br><br>
                                 @endif
                             </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-
-        <form action="/formularios/buscador" class="navbar-form" method="get" accept-charset="utf-8">
-            {{ csrf_field() }}
-            <div class="form-group">
-                <div class="input-group mb-2 mr-sm-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i class="fas fa-search"></i></div>
-                    </div>
-                    <input type="text" class="form-control form-control-lg" id="inlineFormInputGroupUsername2" placeholder="Nombre de referencia del caso" name="nombreReferencia">
-                </div>
-            </div> 
-        </form>
-
-        <form action="/formularios/buscador" class="navbar-form" method="get" accept-charset="utf-8">
-            {{ csrf_field() }}
-            <div class="form-group">
-                <div class="input-group mb-2 mr-sm-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i class="fas fa-search"></i></div>
-                    </div>
-                    <input type="text" class="form-control form-control-lg" id="inlineFormInputGroupUsername2" placeholder="Número de causa judicial" name="numeroCausa">
-                </div>
-            </div> 
-        </form>
-
-        <div class="mt-5 busqueda-formA">
-            <table class="mb-5 table table-hover table-striped">
-                <thead>
-                    <h2>Resultado busqueda por nombre de referencia y/o causa judicial</h2>
-                </thead>
-                <tbody>
-                    <tr class="encabezado">
-                        <th class="w-25">Número de carpeta</th>
-                        <th class="w-25">Nombre de referencia</th>
-                        <th class="w-25">Número de causa judicial</th>
-                        <th class="w-25"></th>
-                    </tr>
-                    @foreach ($formsA as $formA)
-                        <tr>
-                            <td><a href="#{{ $formA->datos_numero_carpeta }}" title="">{{ $formA->datos_numero_carpeta }}</a></td>
-                            <td>{{ $formA->datos_nombre_referencia }}</td>
-                            <td>{{ $formA->datos_nro_causa }}</td>
-                            <td><a href="/formularios/edicion/A/{{$formA->id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br></td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-
-        <form action="/formularios/buscador" class="navbar-form" method="get" accept-charset="utf-8">
-            {{ csrf_field() }}
-            <div class="form-group">
-                <div class="input-group mb-2 mr-sm-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i class="fas fa-search"></i></div>
-                    </div>
-                    <input type="text" class="form-control form-control-lg" id="inlineFormInputGroupUsername2" placeholder="Nombre y apellido de la víctima" name="nombreApellido">
-                </div>
-            </div>
-        </form>
-
-        <form action="/formularios/buscador" class="navbar-form" method="get" accept-charset="utf-8">
-            {{ csrf_field() }}
-            <div class="form-group">
-                <div class="input-group mb-2 mr-sm-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i class="fas fa-search"></i></div>
-                    </div>
-                    <input type="text" class="form-control form-control-lg" id="inlineFormInputGroupUsername2" placeholder="DNI de la víctima" name="dni">
-                </div>
-            </div> 
-        </form>
-
-        <div class="mt-5 busqueda-formB">
-            <table class="mb-5 table table-hover table-striped">
-                <thead>
-                   <h2>Resultado busqueda por nombre y apellido y/o DNI</h2>
-                </thead>
-                <tbody>
-                    <tr class="encabezado">
-                        <th class="w-25">Número de carpeta</th>
-                        <th class="w-25">Nombre y apellido</th>
-                        <th class="w-25">DNI</th>
-                        <th class="w-25"></th>
-                    </tr>
-                    @foreach ($formsB as $formB)
-                        <tr>
-                            <td><a href="#{{ $formB->numeroCarpeta }}" title="">{{ $formB->numeroCarpeta }}</a></td>
-                            <td>{{ $formB->victima_nombre_y_apellido }}</td>
-                            <td>{{ $formB->victima_documento }}</td>
-                            <td><a href="/formularios/edicion/B/{{$formB->id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br></td>
                         </tr>
                     @endforeach
                 </tbody>
