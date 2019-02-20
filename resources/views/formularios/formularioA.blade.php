@@ -42,7 +42,7 @@
 {{-- con el @auth veo si un usuario esta logueado, y si no esta, lo mando para el login
 @auth  --}}     
     <section class="container">
-            <form class="" action="" method="post">
+            <form class="" action="" method="post" id="formularioA">
             {{ csrf_field() }}
             
             {{-- INICIO PRIMERA PREGUNTA --}}
@@ -73,47 +73,47 @@
                 {{-- TODAVIA NO SE COMO HACER PARA PERSISTIR LA OPCION ELEGIDA DE LOS SELECTS DINAMICOS --}}
                 <div class="form-group {{ $errors->has('modalidad_id') ? 'has-error' : ''}}">
                     <label for="modalidad_id">A 4. Modalidad de Ingreso</label>
-                    <select class="form-control modalidad" name="modalidad_id">
-                        <option value="">Modalidad</option>
+                    <select class="form-control modalidad" name="modalidad_id" id="modalidad_id">
+                        <option value="" disabled selected>Seleccione</option>
                         @foreach ($datosModalidad as $modalidad)
                             @php
                                 $selected = ($modalidad->id == old('modalidad_id')) ? 'selected' : '';
                             @endphp
-                            <option value="{{ $modalidad->getId() }}" {{ $selected }}>{{ $modalidad->getNombre() }}</option>
+                            <option value="{{ $modalidad->getId() }}">{{ $modalidad->getNombre() }}</option>
                         @endforeach
                     </select>
                     {!! $errors->first('modalidad_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 
                     <div id="presentacion_espontanea_id" class="presentacion_espontanea" style="display: none;" {{ $errors->has('presentacion_espontanea_id') ? 'has-error' : ''}}><br>
                         <select class="form-control presentacion" name="presentacion_espontanea_id">
-                            <option value="">De que tipo?</option>
+                            <option value="" disabled selected>Seleccione el Tipo</option>
                             @foreach ($datosPresentacion as $presentacion)
                                 @php
                                     $selected = ($presentacion->id == old('presentacion_espontanea_id')) ? 'selected' : '';
                                 @endphp
-                                <option value="{{ $presentacion->getId() }} {{ $selected }}">{{ $presentacion->getNombre() }}</option>
+                                <option value="{{ $presentacion->getId() }}">{{ $presentacion->getNombre() }}</option>
                             @endforeach
                         </select>
                     {!! $errors->first('presentacion_espontanea_id', '<p class="help-block" style="color:red";>:message</p>') !!}
                     </div>
 
                     <div id="derivacion_otro_organismo_id" class="derivacion_otro_organismo" style="display: none;" {{ $errors->has('derivacion_otro_organismo_id') ? 'has-error' : ''}}><br>
-                        <select class="form-control derivacion_otro_organismo_select" name="derivacion_otro_organismo_id">
-                            <option value="">Que Organismo?</option>
+                        <select class="form-control derivacion_otro_organismo_select" name="derivacion_otro_organismo_id" id="derivacion_otro_organismo_id">
+                            <option value="">Seleccione el Organismo</option>
                             @foreach ($datosOrganismo as $organismo)
                                 @php
                                     $selected = ($organismo->id == old('derivacion_otro_organismo_id')) ? 'selected' : '';
                                 @endphp
-                                <option value="{{ $organismo->getId() }}" {{ $selected }}>{{ $organismo->getNombre() }}</option>
+                                <option value="{{ $organismo->getId() }}">{{ $organismo->getNombre() }}</option>
                             @endforeach
                         </select>
                     {!! $errors->first('derivacion_otro_organismo_id', '<p class="help-block" style="color:red";>:message</p>') !!}
                     </div>
 
                     <div id="derivacion_otro_organismo_cual" class="derivacion_otro_organismo_cual" style="display: none;" {{ $errors->has('derivacion_otro_organismo_cual') ? 'has-error' : ''}}>
-                        <br><label for="">Cuál?</label>
+                        <br><label for="">Introduzca el Organismo</label>
                         <div class="">
-                            <input class="form-control derivacion_otro_organismo_cual_input" name="derivacion_otro_organismo_cual" type="text">
+                            <input class="form-control derivacion_otro_organismo_cual_input" name="derivacion_otro_organismo_cual" id="derivacion_otro_organismo_cual" type="text">
                         </div>
                     {!! $errors->first('derivacion_otro_organismo_cual', '<p class="help-block" style="color:red";>:message</p>') !!}
                     </div>
@@ -158,13 +158,13 @@
             {{-- INICIO QUINTA PREGUNTA --}}
                 <div class="form-group {{ $errors->has('estadocaso_id') ? 'has-error' : ''}}">
                     <label for="estadocaso_id">A 5. Estado Actual:</label>
-                    <select class="form-control selectEstadoCaso" name="estadocaso_id">
-                    <option value="">Estado Actual</option>
+                    <select class="form-control selectEstadoCaso" name="estadocaso_id" id="estadocaso_id">
+                    <option value="" disabled selected>Estado Actual</option>
                     @foreach ($datosEstadoCaso as $estadocaso)
                         @php
                             $selected = ($estadocaso->id == old('estadocaso_id')) ? 'selected' : '';
                         @endphp
-                        <option value="{{ $estadocaso->getId() }}" {{ $selected }}>{{ $estadocaso->getNombre() }}</option>
+                        <option value="{{ $estadocaso->getId() }}">{{ $estadocaso->getNombre() }}</option>
                     @endforeach
                     </select>
                     {!! $errors->first('estadocaso_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -172,8 +172,8 @@
 
                 <div class="form-group divMotivoCierre" style="display: none;" {{ $errors->has('motivocierre_id') ? 'has-error' : ''}}>
                     <label for="">A 5 I. Motivo de cierre</label>
-                    <select class="form-control selectMotivoCierre" name="motivocierre_id">
-                        <option value="">Seleccioná un motivo</option>
+                    <select class="form-control selectMotivoCierre" name="motivocierre_id" id="motivocierre_id">
+                        <option value="" disabled selected>Seleccione el Motivo</option>
                         @foreach ($datosMotivoCierre as $motivoCierre)
                             <option value="{{ $motivoCierre->id }}">{{ $motivoCierre->nombre }}</option>
                         @endforeach
@@ -199,21 +199,21 @@
             {{-- INICIO SEXTA PREGUNTA --}}
                 <div class="form-group" {{ $errors->has('ambito_id') ? 'has-error' : ''}}>
                     <label for="">A 6. Ámbito de competencia</label>
-                    <select name="ambito_id" class="form-control selectAmbito">
-                        <option value="">Seleccioná el ámbito de competencia</option>
+                    <select name="ambito_id" class="form-control selectAmbito" id="ambito_id">
+                        <option value=""disabled selected>Seleccione</option>
                         @foreach ($datosAmbito as $ambito)
                             @php
                                 $selected = ($ambito->id == old('ambito_id')) ? 'selected' : '';
                             @endphp
-                            <option value="{{ $ambito->id }}" {{ $selected }}>{{ $ambito->nombre }}</option>
+                            <option value="{{ $ambito->id }}">{{ $ambito->nombre }}</option>
                         @endforeach
                     </select>
                     {!! $errors->first('ambito_id', '<p class="help-block" style="color:red";>:message</p>') !!}
                 </div>
 
                 <div class="form-group divDepartamento" {{ $errors->has('departamento_id') ? 'has-error' : ''}} style="display: none;">
-                    <select name="departamento_id" class="form-control selectDepartamento">
-                        <option value="">Seleccioná el departamento</option>
+                    <select name="departamento_id" class="form-control selectDepartamento" id="departamento_id">
+                        <option value="" disabled selected>Seleccione Departamento</option>
                         @foreach ($datosDepartamento as $departamento)
                             <option value="{{ $departamento->id }}">{{ $departamento->nombre }}</option>
                         @endforeach
@@ -222,8 +222,8 @@
                 </div>
 
                  <div class="form-group divOtrasProv" {{ $errors->has('otrasprov_id') ? 'has-error' : ''}} style="display: none;">
-                    <select name="otrasprov_id" class="form-control selectOtrasProv">
-                        <option value="">Seleccioná la provincia</option>
+                    <select name="otrasprov_id" class="form-control selectOtrasProv" id="otrasprov_id">
+                        <option value="" disabled selected>Seleccione Provincia</option>
                         @foreach ($datosOtrasProv as $otrasProv)
                             <option value="{{ $otrasProv->id }}">{{ $otrasProv->nombre }}</option>
                         @endforeach
@@ -235,18 +235,18 @@
             {{-- INICIO SEPTIMA PREGUNTA --}}
                 <div class="form-group {{ $errors->has('caratulacionjudicial_id') ? 'has-error' : ''}}">
                     <label for="caratulacionjudicial_id">A 7. Caratulación Judicial:</label>
-                    <select class="form-control caratulacionjudicial" name="caratulacionjudicial_id">
-                        <option value="">Caratulación</option>
+                    <select class="form-control caratulacionjudicial" name="caratulacionjudicial_id" id="caratulacionjudicial_id">
+                        <option value="" disabled selected>Seleccione</option>
                         @foreach ($datosCaratulacion as $caratulacion)
                             @php
                                 $selected = ($caratulacion->id == old('caratulacionjudicial_id')) ? 'selected' : '';
                             @endphp
-                            <option value="{{ $caratulacion->getId() }}" {{ $selected }}>{{ $caratulacion->getNombre() }}</option>
+                            <option value="{{ $caratulacion->getId() }}">{{ $caratulacion->getNombre() }}</option>
                         @endforeach
                     </select>
                     {!! $errors->first('caratulacionjudicial_id', '<p class="help-block" style="color:red";>:message</p>') !!}
                     <div id="cual" class="caratulacionjudicial_cual" style="display: none;" {{ $errors->has('caratulacionjudicial_otro') ? 'has-error' : ''}}>
-                        <br><label for="">Cuál?</label>
+                        <br><label for="">Introduzca Tipo Caratulaci&oacute;n</label>
                         <input class="form-control caratulacionjudicial_otro" name="caratulacionjudicial_otro" id="caratulacionjudicial_otro" type="text">
                     {!! $errors->first('caratulacionjudicial_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
                     </div>
@@ -269,7 +269,7 @@
             {{-- INICIO OCTAVA PREGUNTA --}}
                 <div class="form-group {{ $errors->has('datos_nro_causa') ? 'has-error' : ''}}">
                     <label for="datos_nro_causa">A 8. N° Causa o Id Judicial:</label>
-                    <input type="text" class="form-control" name="datos_nro_causa" value="{{old('datos_nro_causa')}}">
+                    <input type="text" class="form-control" name="datos_nro_causa" id="datos_nro_causa" value="{{old('datos_nro_causa')}}">
                     {!! $errors->first('datos_nro_causa', '<p class="help-block" style="color:red";>:message</p>') !!}
                 </div>
             {{-- FIN OCTAVA PREGUNTA --}}
@@ -279,9 +279,9 @@
                 {{-- <div class="hijo" style="display: none;">
                         <h3>A 9. Profesional Interviniente:</h3>
                         <div class="form-group" {{ $errors->has('profesional_id[]') ? 'has-error' : ''}}>
-                            <label for="profesional_id">A 9.1 Nombre/Profesion/Equipo: </label>
-                            <select class="form-control profesional_id">
-                                <option value="">Seleccioná profesional</option>
+                            <label for="profesional_id">A 9.1 Nombre/Equipo/Profesión: </label>
+                            <select class="form-control profesional_id" id="profesional_id">
+                                <option value="" disabled selected>Seleccione</option>
                                 @foreach ($datosProfesional as $profesional)
                                     <option value="{{ $profesional->getId() }}">{{ $profesional->getNombreCompletoyProfesion() }}</option>
                                 @endforeach
@@ -297,8 +297,8 @@
 
                         <div class="form-group {{ $errors->has('profesionalactualmente_id[]') ? 'has-error' : ''}}">
                             <label for="profesionalactualmente_id">A 9.3 Actualmente Interviene:</label>
-                            <select class="form-control actualmente" >
-                                <option value="">Actualmente interviene?</option>
+                            <select class="form-control actualmente" id="profesionalactualmente_id">
+                                <option value="" disabled selected >Seleccione</option>
                                 @foreach ($datosIntervieneActualmente as $profesionalInterviene)
                                     <option value="{{ $profesionalInterviene->getId() }}">{{ $profesionalInterviene->getNombre() }}</option>
                                 @endforeach
@@ -324,6 +324,7 @@
     </section>
         
         {{-- SCRIPTS --}}
+            <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"  type="text/javascript"></script>
             <script src="/js/formularioA.js" type="text/javascript" charset="utf-8" async defer></script>
             <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
@@ -337,7 +338,7 @@
                 btnAgregarProfesional.addEventListener('click', function(){
                     clicks++
 
-                    var divClickProfesional = '<div class="hijo"><h3>A 9. Profesional Interviniente:</h3><div class="form-group" {{ $errors->has("profesional_id[]") ? "has-error" : ""}}><label for="profesional_id">A 9.1 Nombre/Equipo/Profesión: </label><select class="form-control profesional_id'+clicks+'" name="profesional_id[]"><option value="">Seleccioná profesional</option>@foreach ($datosProfesional as $profesional)<option value="{{ $profesional->getId() }}">{{ $profesional->getNombreCompletoyProfesion() }} - {{ $profesional->profesion }}</option>@endforeach</select>{!! $errors->first("profesional_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="mostrarInicio form-group" {{ $errors->has("datos_profesional_interviene_desde[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_desde">A 9.2 Interviene desde:</label><input type="date" class="form-control desde'+clicks+'" name="datos_profesional_interviene_desde[]" id="datos_profesional_interviene_desde" value="">{!! $errors->first("datos_profesional_interviene_desde.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group" {{ $errors->has("profesionalactualmente_id[]") ? "has-error" : ""}}><label for="profesionalactualmente_id">A 9.3 Actualmente Interviene:</label><select class="form-control actualmente'+clicks+'" name="profesionalactualmente_id[]"><option value="">Actualmente interviene?</option>@foreach ($datosIntervieneActualmente as $profesionalInterviene)<option value="{{ $profesionalInterviene->getId() }}">{{ $profesionalInterviene->getNombre() }}</option>@endforeach</select>{!! $errors->first("profesionalactualmente_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div style="display: none;" class="mostrarFinal'+clicks+' form-group" {{ $errors->has("datos_profesional_interviene_hasta[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_hasta">A 9.4 Interviene hasta:</label><input type="date" class="form-control hasta'+clicks+'" name="datos_profesional_interviene_hasta[]" id="datos_profesional_interviene_hasta" value="">{!! $errors->first("datos_profesional_interviene_hasta.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div></div>';
+                    var divClickProfesional = '<div class="hijo"><h3>A 9. Profesional Interviniente:</h3><div class="form-group" {{ $errors->has("profesional_id[]") ? "has-error" : ""}}><label for="profesional_id">A 9.1 Nombre/Equipo/Profesión: </label><select class="form-control profesional_id'+clicks+'" name="profesional_id[]" id="profesional_id"><option value="" disabled selected >Seleccione</option>@foreach ($datosProfesional as $profesional)<option value="{{ $profesional->getId() }}">{{ $profesional->getNombreCompletoyProfesion() }} - {{ $profesional->profesion }}</option>@endforeach</select>{!! $errors->first("profesional_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="mostrarInicio form-group" {{ $errors->has("datos_profesional_interviene_desde[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_desde">A 9.2 Interviene desde:</label><input type="date" class="form-control desde'+clicks+'" name="datos_profesional_interviene_desde[]" id="datos_profesional_interviene_desde" value="">{!! $errors->first("datos_profesional_interviene_desde.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group" {{ $errors->has("profesionalactualmente_id[]") ? "has-error" : ""}}><label for="profesionalactualmente_id">A 9.3 Actualmente Interviene:</label><select class="form-control actualmente'+clicks+'" name="profesionalactualmente_id[]" id="profesionalactualmente_id"><option value="" disabled selected>Seleccione</option>@foreach ($datosIntervieneActualmente as $profesionalInterviene)<option value="{{ $profesionalInterviene->getId() }}">{{ $profesionalInterviene->getNombre() }}</option>@endforeach</select>{!! $errors->first("profesionalactualmente_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div style="display: none;" class="mostrarFinal'+clicks+' form-group" {{ $errors->has("datos_profesional_interviene_hasta[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_hasta">A 9.4 Interviene hasta:</label><input type="date" class="form-control hasta'+clicks+'" name="datos_profesional_interviene_hasta[]" id="datos_profesional_interviene_hasta" value="">{!! $errors->first("datos_profesional_interviene_hasta.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div></div>';
 
                     var divProfesionales = document.querySelector('.padre');
                     divProfesionales.insertAdjacentHTML('beforeend', divClickProfesional);
@@ -364,7 +365,7 @@
 
                     $("#anadir").click(function(){
                         $(".padre").append(nueva_entrada);
-                    });
+                  });
 
                 // function borra() {
                 //     $('.hijo').first().remove();
@@ -384,6 +385,10 @@
 {{-- @else
     <script>window.location = "/login";</script>
 @endauth --}}
+
+
+
+
 </body>
 </html>
 

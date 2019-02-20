@@ -122,7 +122,7 @@
                 <div class="form-group" {{ $errors->has('modalidad_id') ? 'has-error' : ''}}>
                     <label for="modalidad_id">A 4. Modalidad de Ingreso</label>
                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                        <select class="form-control modalidad" name="modalidad_id" onChange="selectOnChange2(this)">
+                        <select class="form-control modalidad" name="modalidad_id" id="modalidad_id" onChange="selectOnChange2(this)">
                             <option value="">Modalidad</option>
                             @foreach ($datosModalidad as $modalidad)
                                 @php
@@ -147,7 +147,7 @@
 
                     <div id="presentacion_espontanea_id" class="presentacion_espontanea" style="display: none;" {{ $errors->has('presentacion_espontanea_id') ? 'has-error' : ''}}><br>
                         @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                            <select class="form-control presentacion" name="presentacion_espontanea_id">
+                            <select class="form-control presentacion" name="presentacion_espontanea_id" id="presentacion_espontanea_id">
                                 <option value="">De que tipo?</option>
                                 @foreach ($datosPresentacion as $presentacion)
                                     @php
@@ -173,7 +173,7 @@
 
                     <div id="derivacion_otro_organismo_id" class="derivacion_otro_organismo" style="display: none;" {{ $errors->has('derivacion_otro_organismo_id') ? 'has-error' : ''}}><br>
                         @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                            <select class="form-control derivacion_otro_organismo_select" onChange="selectOnChange3(this)" name="derivacion_otro_organismo_id">
+                            <select class="form-control derivacion_otro_organismo_select" onChange="selectOnChange3(this)" name="derivacion_otro_organismo_id" id="derivacion_otro_organismo_id">
                                 <option value="">Que Organismo?</option>
                                 @foreach ($datosOrganismo as $organismo)
                                     @php
@@ -247,7 +247,7 @@
                 <div class="form-group" {{ $errors->has('estadocaso_id') ? 'has-error' : ''}}>
                     <label for="estadocaso_id">A 5. Estado Actual:</label>
                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                        <select class="form-control selectEstadoCaso" name="estadocaso_id">
+                        <select class="form-control selectEstadoCaso" name="estadocaso_id" id="estadocaso_id">
                             <option value="">Estado Actual</option>
                             @foreach ($datosEstadoCaso as $estadocaso)
                                 @php
@@ -273,7 +273,7 @@
                 @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                     <div class="form-group divMotivoCierre" style="display: none;">
                         <label for="">A 5 I. Motivo de cierre</label>
-                        <select class="form-control selectMotivoCierre" name="motivocierre_id">
+                        <select class="form-control selectMotivoCierre" name="motivocierre_id" id="motivocierre_id">
                             @foreach ($datosMotivoCierre as $motivoCierre)
                                 @php
                                     $selected = ($motivoCierre->id == $aFormulario->motivocierre_id) ? 'selected' : '';
@@ -301,7 +301,7 @@
                 @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                     <div class="form-group" {{ $errors->has('ambito_id') ? 'has-error' : ''}}>
                         <label for="">A 6. Ámbito de competencia</label>
-                        <select name="ambito_id" class="form-control selectAmbito">
+                        <select name="ambito_id" id="ambito_id" class="form-control selectAmbito">
                             <option value="">Seleccioná el ámbito de competencia</option>
                             @foreach ($datosAmbito as $ambito)
                                 @php
@@ -314,7 +314,7 @@
                     </div>
 
                     <div class="form-group divDepartamento" {{ $errors->has('departamento_id') ? 'has-error' : ''}} style="display: none;">
-                        <select name="departamento_id" class="form-control selectDepartamento">
+                        <select name="departamento_id" id="departamento_id" class="form-control selectDepartamento">
                             <option value="">Seleccioná el departamento</option>
                             @foreach ($datosDepartamento as $departamento)
                                 @php
@@ -327,7 +327,7 @@
                     </div>
 
                      <div class="form-group divOtrasProv" {{ $errors->has('otrasprov_id') ? 'has-error' : ''}} style="display: none;">
-                        <select name="otrasprov_id" class="form-control selectOtrasProv">
+                        <select name="otrasprov_id" id="otrasprov_id"  class="form-control selectOtrasProv">
                             <option value="">Seleccioná la provincia</option>
                             @foreach ($datosOtrasProv as $otrasProv)
                                 @php
@@ -385,7 +385,7 @@
                 <div class="form-group" {{ $errors->has('caratulacionjudicial_id') ? 'has-error' : ''}}>
                     <label for="caratulacionjudicial_id">A 7. Caratulación Judicial:</label>
                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                        <select class="form-control caratulacionjudicial" name="caratulacionjudicial_id">
+                        <select class="form-control caratulacionjudicial" name="caratulacionjudicial_id" id="caratulacionjudicial_id"  >
                             <option value="">Caratulación</option>
                             @foreach ($datosCaratulacion as $caratulacion)
                                 @php
@@ -409,7 +409,7 @@
                     <div id="cual" class="caratulacionjudicial_cual" style="display: none;" {{ $errors->has('caratulacionjudicial_otro') ? 'has-error' : ''}}>
                         <br><label for="">Cuál?</label>
                         @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                            <input class="form-control caratulacionjudicial_otro" name="caratulacionjudicial_otro" value="{{ $aFormulario->caratulacionjudicial_otro }}" id="caratulacionjudicial_otro" type="text">
+                            <input class="form-control caratulacionjudicial_otro" name="caratulacionjudicial_otro" id="caratulacionjudicial_otro" value="{{ $aFormulario->caratulacionjudicial_otro }}" id="caratulacionjudicial_otro" type="text">
                         @else
                             <input readonly class="form-control caratulacionjudicial_otro" name="caratulacionjudicial_otro" value="{{ $aFormulario->caratulacionjudicial_otro }}" id="caratulacionjudicial_otro" type="text">
                         @endif
@@ -436,9 +436,9 @@
                 <div class="form-group" {{ $errors->has('datos_nro_causa') ? 'has-error' : ''}}>
                     <label for="datos_nro_causa">A 8. N° Causa o Id Judicial:</label>
                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                        <input type="text" class="form-control" name="datos_nro_causa" value="{{ $aFormulario->datos_nro_causa }}">
+                        <input type="text" class="form-control" name="datos_nro_causa" id="datos_nro_causa" value="{{ $aFormulario->datos_nro_causa }}">
                     @else
-                        <input readonly type="text" class="form-control" name="datos_nro_causa" value="{{ $aFormulario->datos_nro_causa }}">
+                        <input readonly type="text" class="form-control" name="datos_nro_causa" id="datos_nro_causa" value="{{ $aFormulario->datos_nro_causa }}">
                     @endif
                     {!! $errors->first('datos_nro_causa', '<p class="help-block" style="color:red";>:message</p>') !!}
                 </div>
@@ -493,6 +493,7 @@
     </section>
         
         {{-- SCRIPT PARA AGREGAR OTRO PROFESIONAL --}}
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"  type="text/javascript"></script>
         <script src="/js/formularioA.js" type="text/javascript" charset="utf-8" async defer></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         
@@ -504,7 +505,7 @@
                 btnAgregarProfesional.addEventListener('click', function(){
                     clicks++
 
-                    var divClickProfesional = '<div class="hijo"><h3>A 9. Profesional Interviniente:</h3><div class="form-group" {{ $errors->has("profesional_id[]") ? "has-error" : ""}}><label for="profesional_id">A 9.1 Nombre/Equipo/Profesión: </label><select class="form-control profesional_id'+clicks+'" name="profesional_id[]"><option value="">Seleccioná profesional</option>@foreach ($datosProfesional as $profesional)<option value="{{ $profesional->getId() }}">{{ $profesional->getNombreCompletoyProfesion() }} - {{ $profesional->profesion }}</option>@endforeach</select>{!! $errors->first("profesional_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="mostrarInicio form-group" {{ $errors->has("datos_profesional_interviene_desde[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_desde">A 9.2 Interviene desde:</label><input type="date" class="form-control desde'+clicks+'" name="datos_profesional_interviene_desde[]" id="datos_profesional_interviene_desde" value="">{!! $errors->first("datos_profesional_interviene_desde.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group" {{ $errors->has("profesionalactualmente_id[]") ? "has-error" : ""}}><label for="profesionalactualmente_id">A 9.3 Actualmente Interviene:</label><select class="form-control actualmente'+clicks+'" name="profesionalactualmente_id[]"><option value="">Actualmente interviene?</option>@foreach ($datosIntervieneActualmente as $profesionalInterviene)<option value="{{ $profesionalInterviene->getId() }}">{{ $profesionalInterviene->getNombre() }}</option>@endforeach</select>{!! $errors->first("profesionalactualmente_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div style="display: none;" class="mostrarFinal'+clicks+' form-group" {{ $errors->has("datos_profesional_interviene_hasta[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_hasta">A 9.4 Interviene hasta:</label><input type="date" class="form-control hasta'+clicks+'" name="datos_profesional_interviene_hasta[]" id="datos_profesional_interviene_hasta" value="">{!! $errors->first("datos_profesional_interviene_hasta.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div></div>';
+                    var divClickProfesional = '<div class="hijo"><h3>A 9. Profesional Interviniente:</h3><div class="form-group" {{ $errors->has("profesional_id[]") ? "has-error" : ""}}><label for="profesional_id">A 9.1 Nombre/Equipo/Profesión: </label><select class="form-control profesional_id'+clicks+'" name="profesional_id[]" id="profesional_id"><option value="">Seleccioná profesional</option>@foreach ($datosProfesional as $profesional)<option value="{{ $profesional->getId() }}">{{ $profesional->getNombreCompletoyProfesion() }} - {{ $profesional->profesion }}</option>@endforeach</select>{!! $errors->first("profesional_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="mostrarInicio form-group" {{ $errors->has("datos_profesional_interviene_desde[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_desde">A 9.2 Interviene desde:</label><input type="date" class="form-control desde'+clicks+'" name="datos_profesional_interviene_desde[]" id="datos_profesional_interviene_desde" value="">{!! $errors->first("datos_profesional_interviene_desde.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group" {{ $errors->has("profesionalactualmente_id[]") ? "has-error" : ""}}><label for="profesionalactualmente_id">A 9.3 Actualmente Interviene:</label><select class="form-control actualmente'+clicks+'" name="profesionalactualmente_id[]" id="profesionalactualmente_id[]"><option value="">Actualmente interviene?</option>@foreach ($datosIntervieneActualmente as $profesionalInterviene)<option value="{{ $profesionalInterviene->getId() }}">{{ $profesionalInterviene->getNombre() }}</option>@endforeach</select>{!! $errors->first("profesionalactualmente_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div style="display: none;" class="mostrarFinal'+clicks+' form-group" {{ $errors->has("datos_profesional_interviene_hasta[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_hasta">A 9.4 Interviene hasta:</label><input type="date" class="form-control hasta'+clicks+'" name="datos_profesional_interviene_hasta[]" id="datos_profesional_interviene_hasta" value="">{!! $errors->first("datos_profesional_interviene_hasta.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div></div>';
 
                     var divProfesionales = document.querySelector('.padre');
                     divProfesionales.insertAdjacentHTML('beforeend', divClickProfesional);
@@ -538,8 +539,5 @@
             //     swal('Se borro un profesional');
             // }
         </script>
-
-
-
 </body>
 </html>
