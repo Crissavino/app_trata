@@ -197,15 +197,17 @@
                         <select class="form-control" id="residenciaprecaria_id" name="residenciaprecaria_id" class="form-control">
                             <option value="">Estado?</option>
                             @foreach ($datosResidencia as $residenciaprecaria)
-                                <option value="{{$residenciaprecaria->getId()}}">{{$residenciaprecaria->getNombre()}}</option>
+                                <option value="{{$residenciaprecaria->getId()}}" {{ old('residenciaprecaria_id') == $residenciaprecaria->getId() ? 'selected' : '' }}>{{$residenciaprecaria->getNombre()}}</option>
+                                {{-- <option value="{{$residenciaprecaria->getId()}}">{{$residenciaprecaria->getNombre()}}</option> --}}
                             @endforeach
                         </select>
                     </div>
 
-                    <div class="tipoDocumentoOtro" style="display: none">
+                    <div class="tipoDocumentoOtro" style="display: none" {{ $errors->has('victima_tipo_documento_otro') ? 'has-error' : ''}}>
                         <label for="">Cual?</label>
-                        <input name="victima_tipo_documento_otro"  id="victima_tipo_documento_otro" class="form-control" type="text">
+                        <input name="victima_tipo_documento_otro" value="{{old('victima_tipo_documento_otro')}}" id="victima_tipo_documento_otro" class="form-control" type="text">
                     </div>
+                    {!! $errors->first('victima_tipo_documento_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
                 </div>
 				{{-- funcion js para el, otro --}}
                 {{-- <script>
@@ -445,7 +447,7 @@
                     <label for="">B 17. ¿Presenta algún tipo de discapacidad?</label><br>
                     <label for="">En caso de requerir, tildar todas las opciones que considere correspondientes.</label><br>
                     <div class="">
-                        @foreach ($datosDiscapacidad as $discapacidad)
+                        @foreach ($datosDiscapacidad as $key=>$discapacidad)
                             @if ($discapacidad->getDiscapacidad() === "No")
                                 <label for="{{ $discapacidad->getDiscapacidad() }}" style="margin-left: 15px;" class="form-check-label">{{$discapacidad->getDiscapacidad()}}</label>
                                 <input type="checkbox" value="{{$discapacidad->getId()}}" class="form-check-inline" name="discapacidad_id[]" id="{{ $discapacidad->getDiscapacidad() }}" onchange="check5(this)">
@@ -455,7 +457,7 @@
                                     @else
                                         <label for="{{ $discapacidad->getDiscapacidad() }}" class=" form-check-inline form-check-label"> </label>{{$discapacidad->getDiscapacidad()}}</label>
                                         <input type="checkbox" value="{{$discapacidad->getId()}}" class="form-check-inline" id="{{ $discapacidad->getDiscapacidad() }}" name="discapacidad_id[]">
-                            @endif  
+                            @endif 
                         @endforeach
                     </div>
                 </div>
@@ -528,7 +530,7 @@
                         <div>
                             <label class="">B 18I. Tipo de lesión:</label>
                             <div class="">
-                                <input name="victima_lesion" placeholder="" class="form-control victimaLesionInput" type="text">
+                                <input name="victima_lesion" placeholder="" class="form-control victimaLesionInput" type="text" value="{{old('victima_lesion')}}">
                             </div>
 
                             <label for="">B 18II. ¿Fue constatado en el momento por algún profesional de la salud? :</label>
@@ -536,13 +538,13 @@
                                 <select class="form-control selectLesionConstatada" name="lesionconstatada_id">
                                     <option value="">Fue constatada?</option>
 			                        @foreach ($datosLesionConstatada as $constatada)
-			                        	<option value="{{$constatada->getId()}}">{{$constatada->getLesionConstatada()}}</option>
+                                        <option value="{{$constatada->getId()}}" {{ old('tienelesion_id') == $constatada->getId() ? 'selected' : '' }}>{{$constatada->getLesionConstatada()}}</option>
 			                        @endforeach
                                 </select>
                                 <div id="victima_lesion_organismo" style="display: none">
                                     <label class="">B 18III. ¿A qué organismo pertenece el profesional de la salud?:</label>
                                     <div class="">
-                                        <input name="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text">
+                                        <input name="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text" value="{{old('victima_lesion_organismo')}}">
                                     </div>
                                     <label for="desconoce">Se deconoce</label>
                                     <input type="checkbox" class="form-check-inline desconoce18" id="desconoce" name="">
@@ -604,7 +606,7 @@
                     <div class="" id="victima_tipo_enfermedad_cronica" style="display: none;">
                         <label class="">B 19I. Tipo de enfermedad crónica:</label>
                             <div class="">
-                                <input name="victima_tipo_enfermedad_cronica" placeholder="" class="form-control victima_tipo_enfermedad_cronica_input" type="text">
+                                <input name="victima_tipo_enfermedad_cronica" placeholder="" class="form-control victima_tipo_enfermedad_cronica_input" value="{{old('victima_tipo_enfermedad_cronica')}}" type="text">
                             </div>
                     </div>
                 </div>
@@ -652,7 +654,7 @@
                         <!-- mostrando lo que contiene el id cual -->
                         <div id="victimaLimitacionCual" style="display:none">
                             <label for="">Cual?</label>
-                            <input type="text" class="form-control victimaLimitacionCualInput" name="victima_limitacion_otra" value="">
+                            <input type="text" class="form-control victimaLimitacionCualInput" name="victima_limitacion_otra" value="{{old('victima_limitacion_otra')}}">
                         </div>
                 </div>
                	{!! $errors->first('limitacion_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -720,7 +722,7 @@
 
                     <div class="victimaOficioCual" style="display: none">
                         <label for="">Cual?</label>
-                        <input name="victima_oficio_cual" placeholder="" class="form-control victimaOficioCualInput" type="text">
+                        <input name="victima_oficio_cual" value="{{ old('victima_oficio_cual') }}" placeholder="" class="form-control victimaOficioCualInput" type="text">
                     </div>
                 </div>
 		        <script>
