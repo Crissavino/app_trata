@@ -699,7 +699,6 @@ class FormsController extends Controller
 			//'victima_genero_otro' => 'required',
 			'tienedoc_id' => 'required',
 			'tipodocumento_id' => 'required',
-			//'victima_tipo_documento_otro' => 'required',
 			'victima_documento' => 'required',
 			'paisNacimiento' => 'required',
 			'provinciaNacimiento' => 'required',
@@ -726,6 +725,9 @@ class FormsController extends Controller
 			'niveleducativo_id' => 'required',
 			'oficio_id' => 'required',
 			//'victima_oficio_cual' => 'required',
+			'discapacidad_id' => 'required',
+			'limitacion_id' => 'required',
+
 		], 
 		[
 			'victima_nombre_y_apellido.required' => 'Este campo es obligatorio',
@@ -763,6 +765,9 @@ class FormsController extends Controller
 			'niveleducativo_id.required' => 'Este campo es obligatorio',
 			'oficio_id.required' => 'Este campo es obligatorio',
 			//'victima_oficio_cual.required' => 'Este campo es obligatorio',
+			'discapacidad_id.required' => 'Este campo es obligatorio',
+			'limitacion_id.required' => 'Este campo es obligatorio',
+
 		]);
 
 		$data = request()->all();
@@ -784,11 +789,11 @@ class FormsController extends Controller
 
 		$guardoNumeroCarpeta = \App\Carpetas\Numerocarpeta::where('numeroCarpeta', '=', $data['numeroCarpeta'])->update(['bformulario_id' => $ultimoId]);
 
-		request()->validate([
-			'discapacidad_id' => 'required'
-		],[
-			'discapacidad_id.required' => 'Este campo es obligatorio'
-		]);
+		// request()->validate([
+		// 	'discapacidad_id' => 'required'
+		// ],[
+		// 	'discapacidad_id.required' => 'Este campo es obligatorio'
+		// ]);
 
 		$bformulario = \App\FormB\Bformulario::find($ultimoId);
 
@@ -796,11 +801,11 @@ class FormsController extends Controller
 
 		$guardoDiscapacidades = $bformulario->discapacidads()->sync($arrayDiscapacidades);
 
-		request()->validate([
-			'limitacion_id' => 'required'
-		],[
-			'limitacion_id.required' => 'Este campo es obligatorio'
-		]);
+		// request()->validate([
+		// 	'limitacion_id' => 'required'
+		// ],[
+		// 	'limitacion_id.required' => 'Este campo es obligatorio'
+		// ]);
 
 		$bformulario = \App\FormB\Bformulario::find($ultimoId);
 
