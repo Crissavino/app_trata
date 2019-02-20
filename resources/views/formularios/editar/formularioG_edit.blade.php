@@ -29,6 +29,7 @@
         }
     </style>
 </head>
+<div id="noimprimir" > 
 <header>
     <ul class="nav nav-tabs">
         <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
@@ -413,7 +414,6 @@
                         {{-- INICIO PROFESIONALES CARGADOS --}}
                             <h3>Profesionales cargados anteriormente:</h3>
                             @foreach ($formA->profesionalintervinientes as $profesionales)
-                                <h3>Profesionales cargados anteriormente:</h3>
                                     <div class="form-group">
                                         <label for="profesional_id">Profesional que interviene</label>
                                         <select disabled class="form-control">
@@ -927,7 +927,7 @@
                         {{-- INICIO PROFESIONALES CARGADOS --}}
                             <h3>Profesionales cargados anteriormente:</h3>
                             @foreach ($formA->profesionalintervinientes as $profesionales)
-                                <h3>Profesionales cargados anteriormente:</h3>
+                               
                                     <div class="form-group">
                                         <label for="profesional_id">Profesional que interviene</label>
                                         <select disabled class="form-control">
@@ -1133,6 +1133,7 @@
             </form>
         @endif
     </section>
+    </div>
 
     <div id="imprimible" style="display: none;">
         <h1 class="text-center" style="padding: 15px;">
@@ -1651,7 +1652,7 @@
 
     <div class="botones">
         {{-- <a href="/pdf/{{ $formularioG->id }}" title=""><input type="button" name="descargar" id="descargar" class="btn btn-dark descargar ml-4 mb-2" value="Descargar"></a> --}}
-        <input type="button" name="imprimir" class="btn btn-dark imprimir ml-4" value="Imprimir">
+        <input type="button" id="imprimirbtn" name="imprimir" class="btn btn-dark imprimir ml-4" value="Imprimir">
     </div>
 
     <script>
