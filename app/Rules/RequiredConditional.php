@@ -12,16 +12,16 @@ class RequiredConditional implements Rule
      * @return void
      */
     private $external_attribute;
-    private $required_value;
+    private $required_values;
     private $min;
     private $max;
     private $message;
     private $is_input;
 
-    public function __construct($external_attribute, $required_value, $min, $max, $own_message, $is_input = false)
+    public function __construct($external_attribute, $required_values, $min, $max, $own_message, $is_input = false)
     {
         $this->external_attribute = $external_attribute;
-        $this->required_value = $required_value; 
+        $this->required_values = $required_values; 
         $this->min = $min;
         $this->max = $max;
         $this->message = $own_message;
@@ -38,13 +38,13 @@ class RequiredConditional implements Rule
     public function passes($attribute, $value)
     {   
         if (is_null($value)) {
-            if($this->external_attribute == $this->required_value){
+            if(in_array($this->external_attribute,$this->required_values)){
                 $this->message = 'Este campo es obligatorio';
                 return false;
             }else {
                 return true;
-            }                
-        } elseif ($this->external_attribute == $this->required_value) {
+            }                            
+        } elseif (in_array($this->external_attribute,$this->required_values)) {
             if ($this->is_input){
                 $value = strlen($value);
             }
