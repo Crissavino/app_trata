@@ -502,7 +502,7 @@ class FormsController extends Controller
 		request()->validate([
 							'datos_nombre_referencia' => 'required',
 							//cuando actualizo me dice que ya existe una carpeta con ese valor, le agrego un tercer parametro para que se saltee el userId si
-							'datos_numero_carpeta' => 'required|unique:numerocarpetas,numeroCarpeta,'. $aFormulario->id,
+							'datos_numero_carpeta' => 'required|unique:numerocarpetas,numeroCarpeta,'. $idCarpeta,
 							'datos_fecha_ingreso' => 'required|date|before_or_equal:'.$fecha_hoy,
 							'modalidad_id' => 'required',
 							'presentacion_espontanea_id' => 'required_if:modalidad_id,==,3',
@@ -547,6 +547,8 @@ class FormsController extends Controller
 		$data = request()->all();
 		$data['user_id'] = $userId;
 		$aFormulario->update($data);
+		$carpeta=\App\Carpetas\Numerocarpeta::find($idCarpeta);
+		$carpeta->update(['numeroCarpeta'=>$data['datos_numero_carpeta']]);
 
 		//requiero los datos de los profesionales
 		$arrayProfesionales = request()->only(['profesional_id', 'datos_profesional_interviene_desde', 'datos_profesional_interviene_hasta', 'profesionalactualmente_id']);	
