@@ -1366,25 +1366,100 @@ class FormsController extends Controller
 		$data = request()->all();
 		$data['user_id'] = $userId;
 
-		$cant = (count(request()->input('nombre_apellido')));
-		
-		for ($i=0; $i < $cant; $i++) {
+		// $cant = (count(request()->input('nombre_apellido')));
 
-			$referente['nombre_apellido'] = $data['nombre_apellido'][$i];
-			$referente['edad'] = $data['edad'][$i];
-			$referente['vinculo_id'] = $data['vinculo_id'][$i];
-			if (isset($data['vinculo_otro'][$i])) {
-				$referente['vinculo_otro'] = $data['vinculo_otro'][$i];
-			}
-			$referente['referenteContacto'] = $data['referenteContacto'][$i];
-			$referente['user_id'] = $data['user_id'];
-
-			$guardoReferente = \App\FormC\Referente::create($referente);
-
-			$referenteId[] = $guardoReferente->id;
-		}
-			
+		//nuevo
 		$cFormulario = \App\FormC\Cformulario::find($idFormulario);
+
+		$cantidadReferentesViejos = (count(request()->input('nombre_apellido_viejo')));
+		var_dump(request()->input('nombre_apellido'));
+		$cantidadReferentesNuevos = false;
+		if (request()->input('nombre_apellido')) {
+			$cantidadReferentesNuevos = (count(request()->input('nombre_apellido')));
+		}
+
+		// dd($cFormulario->referentes->count());
+		$referentes = $cFormulario->referentes;
+
+		foreach ($referentes as $i => $referente) {
+			$referenteCargado = \App\FormC\Referente::find($referente->id);
+
+			$referenteViejo['nombre_apellido'] = $data['nombre_apellido_viejo'][$i];
+			$referenteViejo['edad'] = $data['edad_viejo'][$i];
+			$referenteViejo['vinculo_id'] = $data['vinculo_id_viejo'][$i];
+			if (isset($data['vinculo_otro'][$i])) {
+				$referenteViejo['vinculo_otro'] = $data['vinculo_otro_viejo'][$i];
+			}
+			$referenteViejo['referenteContacto'] = $data['referenteContacto_viejo'][$i];
+			$referenteViejo['user_id'] = $data['user_id'];
+
+
+			$actualizoReferente = $referenteCargado->update($referenteViejo);
+			
+			$referenteId[] = $referente->id;
+		}
+
+
+		if ($cantidadReferentesNuevos) {
+			for ($i = 0; $i < $cantidadReferentesNuevos ; $i++) { 
+
+				$referenteNuevo['nombre_apellido'] = $data['nombre_apellido'][$i];
+				$referenteNuevo['edad'] = $data['edad'][$i];
+				$referenteNuevo['vinculo_id'] = $data['vinculo_id'][$i];
+				if (isset($data['vinculo_otro'][$i])) {
+					$referenteNuevo['vinculo_otro'] = $data['vinculo_otro'][$i];
+				}
+				$referenteNuevo['referenteContacto'] = $data['referenteContacto'][$i];
+				$referenteNuevo['user_id'] = $data['user_id'];
+
+				$guardoReferente = \App\FormC\Referente::create($referenteNuevo);
+
+				$referenteId[] = $guardoReferente->id;
+
+			}
+		}
+
+		//fin nuevo
+			// var_dump(count($referente));
+			// $idReferentesCargados[] = $referente->id;
+			
+			// var_dump($idReferentesCargados);
+		// for ($i = 0; $i < $cantidadReferentesViejos; $i++) { 
+			
+		// }
+		// if ($cFormulario->referentes) {
+		// 	for ($i=0; $i < $cantidadReferentesAnteriores; $i++) { 
+		// 		$referente['nombre_apellido'] = $data['nombre_apellido'][$i];
+		// 		$referente['edad'] = $data['edad'][$i];
+		// 		$referente['vinculo_id'] = $data['vinculo_id'][$i];
+		// 		if (isset($data['vinculo_otro'][$i])) {
+		// 			$referente['vinculo_otro'] = $data['vinculo_otro'][$i];
+		// 		}
+		// 		$referente['referenteContacto'] = $data['referenteContacto'][$i];
+		// 		$referente['user_id'] = $data['user_id'];
+
+		// 		$guardoReferente = \App\FormC\Referente::create($referente);
+
+		// 		$referenteId[] = $guardoReferente->id;
+		// 	}
+		// }
+
+		
+		// for ($i=0; $i < $cant; $i++) {
+
+		// 	$referente['nombre_apellido'] = $data['nombre_apellido'][$i];
+		// 	$referente['edad'] = $data['edad'][$i];
+		// 	$referente['vinculo_id'] = $data['vinculo_id'][$i];
+		// 	if (isset($data['vinculo_otro'][$i])) {
+		// 		$referente['vinculo_otro'] = $data['vinculo_otro'][$i];
+		// 	}
+		// 	$referente['referenteContacto'] = $data['referenteContacto'][$i];
+		// 	$referente['user_id'] = $data['user_id'];
+
+		// 	$guardoReferente = \App\FormC\Referente::create($referente);
+
+		// 	$referenteId[] = $guardoReferente->id;
+		// }
 
 		$cFormulario->update($data);
 
@@ -1429,7 +1504,7 @@ class FormsController extends Controller
 		// 									->ORDERBY('updated_at', 'desc')
 		// 									->first()
 		// 									->datos_numero_carpeta;
-		$numeroCarpeta= DB::table('numerocarpetas')
+		$numeroCarpeta = DB::table('numerocarpetas')
 												  ->WHERE('user_id', '=', $userId)
 												  ->WHERE('deleted_at', '=', null)
 												  ->WHERE('id','=',$idCarpeta)

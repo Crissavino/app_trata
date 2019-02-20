@@ -57,7 +57,7 @@
         @endforeach --}}
         {{-- el eje F paso a ser el eje E y el eje G paso a ser el eje F --}}
         <li class="nav-item"> <a class="nav-link active" href="#">Eje E: Atención del caso</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="formularios/G/{{ $idCarpeta }}">Eje F: Detalle de intervención</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/G/{{ $idCarpeta }}">Eje F: Detalle de intervención</a> </li>
     </ul>
 </header>
 <body>

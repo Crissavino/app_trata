@@ -43,8 +43,8 @@
         <li class="nav-item"> <a class="nav-link active" href="#">Eje D: Datos de delito</a> </li>
         {{-- <li class="nav-item"> <a class="nav-link " href="E">Eje E: Datos del imputado</a> </li> --}}
         {{-- el eje F paso a ser el eje E y el eje G paso a ser el eje F --}}
-        <li class="nav-item"> <a class="nav-link " href="formularios/F/{{ $idCarpeta }}">Eje E: Atención del caso</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="formularios/G/{{ $idCarpeta }}">Eje F: Detalle de intervención</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/F/{{ $idCarpeta }}">Eje E: Atención del caso</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/G/{{ $idCarpeta }}">Eje F: Detalle de intervención</a> </li>
     </ul>
 </header>
 <body>
