@@ -68,19 +68,19 @@ window.onload =function (){
 
 
 	//imprimir pantalla solo es para el edit
-		// var imprimir = document.querySelector('.imprimir');
+		var imprimir = document.querySelector('.imprimir');
 
-		// imprimir.addEventListener('click', function(){
-  //    		var contenidoImprimible = document.getElementById('imprimible').innerHTML;
-  //    		var contendioOriginal = document.body.innerHTML;
+		imprimir.addEventListener('click', function(){
+     		var contenidoImprimible = document.getElementById('imprimible').innerHTML;
+     		var contendioOriginal = document.body.innerHTML;
      		
-  //    		document.body.innerHTML = contenidoImprimible;
+     		document.body.innerHTML = contenidoImprimible;
 
-		// 	window.print()
+			window.print()
 
-  //    		document.body.innerHTML = contendioOriginal;
+     		document.body.innerHTML = contendioOriginal;
 
-		// });
+		});
 	//fin imprimir pantalla
 
 	//descargar pdf

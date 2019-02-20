@@ -25,19 +25,18 @@ class FaltaCompletarEje
                 // if (!($carpeta->aformulario_id)) {
                 //     return redirect('/formularios/A')->with('message', 'Primero tenes que completar el Eje A de tu carpeta!');
                 // }
-                // if (!($carpeta->aformulario_id)) {
-                //     return redirect('/formularios/A')->with('message', 'Primero tenes que completar el Eje A de tu carpeta!');
-                // }elseif ($carpeta->aformulario_id && !($carpeta->bformulario_id)) {
-                if ($carpeta->aformulario_id && !($carpeta->bformulario_id)) {
-                    return redirect('/formularios/B')->with('message', 'Primero tenes que completar el Eje B de tu carpeta!');
-                }elseif ($carpeta->aformulario_id && ($carpeta->bformulario_id) && !($carpeta->cformulario_id)) {
-                    return redirect('/formularios/C')->with('message', 'Primero tenes que completar el Eje C de tu carpeta!');
-                }elseif ($carpeta->aformulario_id && ($carpeta->bformulario_id) && ($carpeta->cformulario_id) && !($carpeta->dformulario_id)) {
-                    return redirect('/formularios/D')->with('message', 'Primero tenes que completar el Eje D de tu carpeta!');
-                }elseif ($carpeta->aformulario_id && ($carpeta->bformulario_id) && ($carpeta->cformulario_id) && ($carpeta->dformulario_id) && !($carpeta->fformulario_id)) {
-                    return redirect('/formularios/F')->with('message', 'Primero tenes que completar el Eje E de tu carpeta!');
-                }elseif ($carpeta->aformulario_id && ($carpeta->bformulario_id) && ($carpeta->cformulario_id) && ($carpeta->dformulario_id) && ($carpeta->fformulario_id) && !($carpeta->gformulario_id)) {
-                    return redirect('/formularios/G')->with('message', 'Primero tenes que completar el Eje F de tu carpeta!');
+                if (!($carpeta->aformulario)) {
+                    return redirect('/formularios/A'.$carpeta->id.'/'.$carpeta->aformulario_id)->with('message', 'Primero tenes que completar el Eje A de tu carpeta!');
+                }elseif ($carpeta->aformulario && !($carpeta->bformulario)) {
+                    return redirect('/formularios/B/'.$carpeta->id.'/'.$carpeta->bformulario_id)->with('message', 'Primero tenes que completar el Eje B de tu carpeta!');
+                }elseif ($carpeta->aformulario && ($carpeta->bformulario) && !($carpeta->cformulario)) {
+                    return redirect('/formularios/C/'.$carpeta->id.'/'.$carpeta->cformulario_id)->with('message', 'Primero tenes que completar el Eje C de tu carpeta!');
+                }elseif ($carpeta->aformulario && ($carpeta->bformulario) && ($carpeta->cformulario) && !($carpeta->dformulario)) {
+                    return redirect('/formularios/D/'.$carpeta->id.'/'.$carpeta->dformulario_id)->with('message', 'Primero tenes que completar el Eje D de tu carpeta!');
+                }elseif ($carpeta->aformulario && ($carpeta->bformulario) && ($carpeta->cformulario) && ($carpeta->dformulario) && !($carpeta->fformulario)) {
+                    return redirect('/formularios/F/'.$carpeta->id.'/'.$carpeta->fformulario_id)->with('message', 'Primero tenes que completar el Eje E de tu carpeta!');
+                }elseif ($carpeta->aformulario && ($carpeta->bformulario) && ($carpeta->cformulario) && ($carpeta->dformulario) && ($carpeta->fformulario) && !($carpeta->gformulario)) {
+                    return redirect('/formularios/G/'.$carpeta->id.'/'.$carpeta->gformulario_id)->with('message', 'Primero tenes que completar el Eje F de tu carpeta!');
                 }
 
                 // if (!($carpeta->eformulario_id)) {

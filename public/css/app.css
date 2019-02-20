@@ -89,3 +89,11 @@
 	}
 
 /*Fin desplegable usuario*/
+
+
+/**
+	ERROR EN EL CLIENTE
+*/
+.error_cliente{
+	color: red;
+}

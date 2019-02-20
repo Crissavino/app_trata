@@ -12,6 +12,7 @@
     </style>
 </head>
 <header>
+    {{-- @dump($numeroCarpeta) --}}
     <ul class="nav nav-tabs">
         <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
@@ -20,10 +21,11 @@
         <li class="nav-item cerrarSesion"> <a class="nav-link " href="/logout">Cerrar sesión</a> </li>
     </ul>
 	<ul class="nav nav-tabs">
+
         {{-- <li class="nav-item"> <a class="nav-link" href="A">Eje A: Datos institucionales</a> </li> --}}
         @foreach ($carpetas as $carpeta)
             @if ($numeroCarpeta == $carpeta->numeroCarpeta)
-                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/A/{{ $carpeta->aformulario_id }}">Eje A: Datos institucionales</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/A/{{ $carpeta->id }}/{{ $carpeta->aformulario_id }}">Eje A: Datos institucionales</a> </li>
                 @break
                 {{-- @continue --}}
             @endif
@@ -35,7 +37,7 @@
         @endforeach
         @foreach ($carpetas as $carpeta)
             @if ($numeroCarpeta == $carpeta->numeroCarpeta)
-                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/B/{{ $carpeta->bformulario_id }}">Eje B: Caracterización de la víctima</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/B/{{ $carpeta->id }}/{{ $carpeta->bformulario_id }}">Eje B: Caracterización de la víctima</a> </li>
                 @break
                 {{-- @continue --}}
             @endif
@@ -45,11 +47,11 @@
                 @break
             @endif --}}
         @endforeach
-        <li class="nav-item"> <a class="nav-link active" href="C">Eje C: Referentes afectivos</a> </li>
-        <li class="nav-item"> <a class="nav-link" href="D">Eje D: Datos de delito</a> </li>
+        <li class="nav-item"> <a class="nav-link active" href="#">Eje C: Referentes afectivos</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="/formularios/D/{{ $idCarpeta }}">Eje D: Datos de delito</a> </li>
         {{-- el eje F paso a ser el eje E y el eje G paso a ser el eje F --}}
-        <li class="nav-item"> <a class="nav-link" href="F">Eje E: Atención del caso</a> </li>
-        <li class="nav-item"> <a class="nav-link" href="G">Eje F: Detalle de intervención</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="/formularios/F/{{ $idCarpeta }}">Eje E: Atención del caso</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="/formularios/G/{{ $idCarpeta }}">Eje F: Detalle de intervención</a> </li>
 	</ul>
 </header>
 <body>

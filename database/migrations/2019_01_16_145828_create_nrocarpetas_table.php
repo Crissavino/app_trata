@@ -15,7 +15,8 @@ class CreateNrocarpetasTable extends Migration
     {
         Schema::create('numerocarpetas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('numeroCarpeta');
+            //nuevo
+            $table->integer('numeroCarpeta')->unique();
             $table->integer('aformulario_id')->nullable()->unsigned();
             $table->integer('bformulario_id')->nullable()->unsigned();
             $table->integer('cformulario_id')->nullable()->unsigned();

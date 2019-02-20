@@ -22,16 +22,16 @@
 	<ul class="nav nav-tabs">
         @foreach ($carpetas as $carpeta)
             @if ($numeroCarpeta == $carpeta->numeroCarpeta)
-                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/A/{{ $carpeta->aformulario_id }}">Eje A: Datos institucionales</a> </li>
+                <li class="nav-item"> <a class="nav-link" href="/formularios/edicion/A/{{ $carpeta->id }}/{{ $carpeta->aformulario_id }}">Eje A: Datos institucionales</a> </li>
             @endif
         @endforeach
-        <li class="nav-item"> <a class="nav-link active" href="B">Eje B: Caracterización de la víctima</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="C">Eje C: Referentes afectivos</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="D">Eje D: Datos de delito</a> </li>
+        <li class="nav-item"> <a class="nav-link active" href="#">Eje B: Caracterización de la víctima</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/C/{{ $idCarpeta }}">Eje C: Referentes afectivos</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/D/{{ $idCarpeta }}">Eje D: Datos de delito</a> </li>
         {{-- <li class="nav-item"> <a class="nav-link " href="E">Eje E: Datos del imputado</a> </li> --}}
         {{-- el eje F paso a ser el eje E y el eje G paso a ser el eje F --}}
-        <li class="nav-item"> <a class="nav-link " href="F">Eje E: Atención del caso</a> </li>
-        <li class="nav-item"> <a class="nav-link " href="G">Eje F: Detalle de intervención</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/F/{{ $idCarpeta }}">Eje E: Atención del caso</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/G/{{ $idCarpeta }}">Eje F: Detalle de intervención</a> </li>
 	</ul>
 </header>
 <body>
@@ -44,7 +44,6 @@
 
 
 	<section class="container">	
-
         <form class="formulario" action="" method="post">
         	{{-- inicio esta proteccion contra datos maliciosso --}}
         	{{ csrf_field() }}
