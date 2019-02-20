@@ -698,17 +698,17 @@ class FormsController extends Controller
 
 		$carpetaFormA = \App\Carpetas\Numerocarpeta::where('aformulario_id', '=', $id);
 
-		if ($carpetaFormA->value('bformulario_id') == null && $carpetaFormA->value('cformulario_id') == null && $carpetaFormA->value('dformulario_id') == null && $carpetaFormA->value('fformulario_id') == null && $carpetaFormA->value('gformulario_id') == null) {
+		// if ($carpetaFormA->value('bformulario_id') == null && $carpetaFormA->value('cformulario_id') == null && $carpetaFormA->value('dformulario_id') == null && $carpetaFormA->value('fformulario_id') == null && $carpetaFormA->value('gformulario_id') == null) {
 			
-			$carpetaFormA->update(['numeroCarpeta' => 'Eliminada', 'aformulario_id' => null, 'deleted_at' => $fecha_hoy]);
+			$carpetaFormA->update([ 'deleted_at' => $fecha_hoy]);
 
-		}elseif ($carpetaFormA->value('bformulario_id') !== null || $carpetaFormA->value('cformulario_id') !== null || $carpetaFormA->value('dformulario_id') !== null || $carpetaFormA->value('fformulario_id') !== null || $carpetaFormA->value('gformulario_id') !== null) {
+		// }elseif ($carpetaFormA->value('bformulario_id') !== null || $carpetaFormA->value('cformulario_id') !== null || $carpetaFormA->value('dformulario_id') !== null || $carpetaFormA->value('fformulario_id') !== null || $carpetaFormA->value('gformulario_id') !== null) {
 
-			$carpetaFormA->update(['aformulario_id' => null]);
+		// 	$carpetaFormA->update(['aformulario_id' => null]);
 
-		}
+		// }
 
-		$aFormulario->delete();
+		// $aFormulario->delete();
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
@@ -1139,17 +1139,17 @@ class FormsController extends Controller
 
 		$carpetaFormB = \App\Carpetas\Numerocarpeta::where('bformulario_id', '=', $id);
 
-		if ($carpetaFormB->value('aformulario_id') == null && $carpetaFormB->value('cformulario_id') == null && $carpetaFormB->value('dformulario_id') == null && $carpetaFormB->value('fformulario_id') == null && $carpetaFormB->value('gformulario_id') == null) {
+		// if ($carpetaFormB->value('aformulario_id') == null && $carpetaFormB->value('cformulario_id') == null && $carpetaFormB->value('dformulario_id') == null && $carpetaFormB->value('fformulario_id') == null && $carpetaFormB->value('gformulario_id') == null) {
 			
-			$carpetaFormB->update(['numeroCarpeta' => 'Eliminada', 'bformulario_id' => null, 'deleted_at' => $fecha_hoy]);
+			$carpetaFormB->update(['deleted_at' => $fecha_hoy]);
 
-		}elseif ($carpetaFormB->value('aformulario_id') !== null || $carpetaFormB->value('cformulario_id') !== null || $carpetaFormB->value('dformulario_id') !== null || $carpetaFormB->value('fformulario_id') !== null || $carpetaFormB->value('gformulario_id') !== null) {
+		// }elseif ($carpetaFormB->value('aformulario_id') !== null || $carpetaFormB->value('cformulario_id') !== null || $carpetaFormB->value('dformulario_id') !== null || $carpetaFormB->value('fformulario_id') !== null || $carpetaFormB->value('gformulario_id') !== null) {
 
-			$carpetaFormB->update(['bformulario_id' => null]);
+		// 	$carpetaFormB->update(['bformulario_id' => null]);
 
-		}
+		// }
 
-		$Bformulario->delete();
+		// $Bformulario->delete();
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
@@ -1486,17 +1486,17 @@ class FormsController extends Controller
 
 		$carpetaFormC = \App\Carpetas\Numerocarpeta::where('cformulario_id', '=', $id);
 
-		if ($carpetaFormC->value('aformulario_id') == null && $carpetaFormC->value('bformulario_id') == null && $carpetaFormC->value('dformulario_id') == null && $carpetaFormC->value('fformulario_id') == null && $carpetaFormC->value('gformulario_id') == null) {
+		// if ($carpetaFormC->value('aformulario_id') == null && $carpetaFormC->value('bformulario_id') == null && $carpetaFormC->value('dformulario_id') == null && $carpetaFormC->value('fformulario_id') == null && $carpetaFormC->value('gformulario_id') == null) {
 			
-			$carpetaFormC->update(['numeroCarpeta' => 'Eliminada', 'cformulario_id' => null, 'deleted_at' => $fecha_hoy]);
+			$carpetaFormC->update([ 'deleted_at' => $fecha_hoy]);
 
-		}elseif ($carpetaFormC->value('aformulario_id') !== null || $carpetaFormC->value('bformulario_id') !== null || $carpetaFormC->value('dformulario_id') !== null || $carpetaFormC->value('fformulario_id') !== null || $carpetaFormC->value('gformulario_id') !== null) {
+		// }elseif ($carpetaFormC->value('aformulario_id') !== null || $carpetaFormC->value('bformulario_id') !== null || $carpetaFormC->value('dformulario_id') !== null || $carpetaFormC->value('fformulario_id') !== null || $carpetaFormC->value('gformulario_id') !== null) {
 
-			$carpetaFormC->update(['cformulario_id' => null]);
+		// 	$carpetaFormC->update(['cformulario_id' => null]);
 
-		}
+		// }
 
-		$Cformulario->delete();
+		// $Cformulario->delete();
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
@@ -1607,58 +1607,58 @@ class FormsController extends Controller
 			// dd($userId);
 		request()->validate(
 			[
-				'calificaciongeneral_id' => 'required',
-				'calificaciongeneral_otra' => 'required_if:calificaciongeneral_id,==,8',
-				'calificacionespecifica_id' => 'required',
-				'finalidad_id' => 'required',
-				'finalidad_otra' => 'required_if:finalidad_id,==,5',
-				'actividad_id' => 'required',
-				'actividad_otra' => 'required_if:actividad_id,==,8',
+				'calificaciongeneral_id' => 'required | numeric | min:0 | max:8',
+				'calificaciongeneral_otra' => [new RequiredConditional(request()->get('calificaciongeneral_id'),array('8'),0,255,'Para ingresar una nueva calificaci&oacute;n debe seleccionar otro',true)],
+				'calificacionespecifica_id' => 'required | numeric | min:0 | max:22',
+				'finalidad_id' => 'required | numeric | min:0 | max:5',
+				'finalidad_otra' => [new RequiredConditional(request()->get('finalidad_id'),array('5'),0,255,'Para ingresar una nueva finalidad debe seleccionar otro',true)],
+				'actividad_id' => 'required | numeric | min:0 | max:6',
+				'actividad_otra' => [new RequiredConditional(request()->get('actividad_id'),array('6'),0,255,'Para ingresar una nueva actividad debe seleccionar otro',true)],				
 				'privado_id' => 'required_if:actividad_id,==,3',
 				'privado_otra' => 'required_if:privado_id,==,8',
 				'rural_id' => 'required_if:actividad_id,==,1',
-				'domicilioVenta' => 'required_if:actividad_id,==,1',
+				'domicilioVenta' => [new RequiredConditional(request()->get('actividad_id'),array('1','2'),0,255,'Para ingresar un domicilio debe seleccionar la actividad rural o manufacturaci&oacute;n',true)],
 				'rural_otra' => 'required_if:rural_id,==,6',
 				'textil_id' => 'required_if:actividad_id,==,6',
-				'marcaTextil' => 'required_if:actividad_id,==,6',
+				'marcaTextil' => [new RequiredConditional(request()->get('actividad_id'),array('5'),0,255,'Para ingresar una marca debe seleccionar porducci&oacute;n textil',true)],
 				'textil_otra' => 'required_if:textil_id,==,6',
-				'contactoexplotacion_id' => 'required',
-				'contactoexplotacion_otro' => 'required_if:contactoexplotacion_id,==,6',
-				'viajo_id' => 'required',
-				'acompanado_id' => 'required_if:viajo_id,==,2',
-				'acompanadored_id' => 'required_if:viajo_id,==,2',
+				'contactoexplotacion_id' => 'required | numeric | min:0 | max:7 ',
+				'contactoexplotacion_otro' => [new RequiredConditional(request()->get('contactoexplotacion_id'),array('6'),0,255,'Para ingresar un contacto debe seleccionar otro',true)],
+				'viajo_id' => 'required | numeric | min:0 | max:4',
+				'acompanado_id' => [new RequiredConditional(request()->get('viajo_id'),array('2'),0,4,'Para ingresar un acompa&ntilde;ante debe seleccionar acompa&ntilde;o')],
+				'acompanadored_id' => [new RequiredConditional(request()->get('viajo_id'),array('2'),0,3,'Para ingresar un acompa&ntilde;ante debe seleccionar acompa&ntilde;o')],
 				'domicilio' => 'required',
-				'residelugar_id' => 'required',
-				'engano_id' => 'required',
-				'haypersona_id' => 'required',
-				'tipovictima_id' => 'required',
+				'residelugar_id' => 'required | numeric | min:0 | max:3',
+				'engano_id' => 'required | numeric | min:0 | max:3',
+				'haypersona_id' => 'required | numeric | min:0 | max:3',
+				'tipovictima_id' => 'required | numeric | min:0 | max:4',
 				'tarea' => 'required',
 				'horasTarea' => 'required',
-				'frecuenciapago_id' => 'required',
-				'modalidadpagos_id' => 'required',
+				'frecuenciapago_id' => 'required | numeric | min:0 | max:5',
+				'modalidadpagos_id' => 'required | numeric | min:0 | max:6',
 				'especiaconcepto_id' => 'required_if:modalidadpagos_id,==,4',
 				'especiaconceptos_otro' => 'required_if:especiaconcepto_id,==,5',
 				'montoPago' => 'required',
-				'deuda_id' => 'required',
+				'deuda_id' => 'required | numeric | min:0 | max:3',
 				'motivodeuda_id' => 'required_if:deuda_id,==,1',
-				'lugardeuda_id' => 'required_if:deuda_id,==,1',
+				'lugardeuda_id' => [new RequiredConditional(request()->get('deuda_id'),array('1'),0,3,'Para ingresar un lugar de deuda seleccionar si')],
 				'motivodeuda_otro' => 'required_if:motivodeuda_id,==,5',
-				'permanencia_id' => 'required',
-				'testigo_id' => 'required',
-				'coordinadorPTN' => 'required_if:testigo_id,==,1',
-				'coordinadorPTN_otro' => 'required_if:testigo_id,==,1',
-				'haycorriente_id' => 'required',
-				'haygas_id' => 'required',
+				'permanencia_id' => 'required | numeric | min:0 | max:6',
+				'testigo_id' => 'required | numeric | min:0 | max:2',
+				'coordinadorPTN' => [new RequiredConditional(request()->get('testigo_id'),array('1'),0,255,'Para ingresar este campo debe seleccionar si',true)],
+				'coordinadorPTN_otro' => [new RequiredConditional(request()->get('testigo_id'),array('1'),0,255,'Para ingresar este campo debe seleccionar si',true)],
+				'haycorriente_id' => 'required | numeric | min:0 | max:3',
+				'haygas_id' => 'required | numeric | min:0 | max:3',
 				'haymedida_id' => 'required',
 				'haymedidas_otro' => 'required_if:haymedida_id,==,6',
-				'hayhacinamiento_id' => 'required',
-				'hayagua_id' => 'required',
-				'haybano_id' => 'required',
-				'cuantosbano_id' => 'required',
-				'material_id' => 'required',
-				'material_otro' => 'required_if:material_id,==,7',
-				'elementotrabajo_id' => 'required',
-				'elementoseguridad_id' => 'required',
+				'hayhacinamiento_id' => 'required | numeric | min:0 | max:3',
+				'hayagua_id' => 'required | numeric | min:0 | max:3',
+				'haybano_id' => 'required | numeric | min:0 | max:4',
+				'cuantosbano_id' => 'required | numeric | min:0 | max:3',
+				'material_id' => 'required | numeric | min:0 | max:7',
+				'material_otro' => [new RequiredConditional(request()->get('material_id'),array('7'),0,255,'Para ingresar este campo debe seleccionar otro',true)],
+				'elementotrabajo_id' => 'required | numeric | min:0 | max:3',
+				'elementoseguridad_id' => 'required | numeric | min:0 | max:3',
 				'paisCaptacion' => 'required',
 				'provinciaCaptacion' => 'required',
 				'ciudadCaptacion' => 'required',
@@ -2117,17 +2117,17 @@ class FormsController extends Controller
 
 		$carpetaFormD = \App\Carpetas\Numerocarpeta::where('dformulario_id', '=', $id);
 
-		if ($carpetaFormD->value('aformulario_id') == null && $carpetaFormD->value('bformulario_id') == null && $carpetaFormD->value('cformulario_id') == null && $carpetaFormD->value('fformulario_id') == null && $carpetaFormD->value('gformulario_id') == null) {
+		// if ($carpetaFormD->value('aformulario_id') == null && $carpetaFormD->value('bformulario_id') == null && $carpetaFormD->value('cformulario_id') == null && $carpetaFormD->value('fformulario_id') == null && $carpetaFormD->value('gformulario_id') == null) {
 			
-			$carpetaFormD->update(['numeroCarpeta' => 'Eliminada', 'dformulario_id' => null, 'deleted_at' => $fecha_hoy]);
+			$carpetaFormD->update(['deleted_at' => $fecha_hoy]);
 
-		}elseif ($carpetaFormD->value('aformulario_id') !== null || $carpetaFormD->value('bformulario_id') !== null || $carpetaFormD->value('cformulario_id') !== null || $carpetaFormD->value('fformulario_id') !== null || $carpetaFormD->value('gformulario_id') !== null) {
+		// }elseif ($carpetaFormD->value('aformulario_id') !== null || $carpetaFormD->value('bformulario_id') !== null || $carpetaFormD->value('cformulario_id') !== null || $carpetaFormD->value('fformulario_id') !== null || $carpetaFormD->value('gformulario_id') !== null) {
 
-			$carpetaFormD->update(['dformulario_id' => null]);
+		// 	$carpetaFormD->update(['dformulario_id' => null]);
 
-		}
+		// }
 
-		$Dformulario->delete();
+		// $Dformulario->delete();
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
@@ -2379,7 +2379,7 @@ class FormsController extends Controller
 	{
 		request()->validate(
 			[
-				'intervinieronOrganismos' => 'required',
+				'intervinieronOrganismos' => 'required | numeric | min:0 | max:3',
 				'intervinieronOrganismosActualmente' => 'required',
 			],
 			[
@@ -2974,17 +2974,17 @@ class FormsController extends Controller
 
 		$carpetaFormF = \App\Carpetas\Numerocarpeta::where('fformulario_id', '=', $id);
 
-		if ($carpetaFormF->value('aformulario_id') == null && $carpetaFormF->value('bformulario_id') == null && $carpetaFormF->value('cformulario_id') == null && $carpetaFormF->value('dformulario_id') == null && $carpetaFormF->value('gformulario_id') == null) {
+		// if ($carpetaFormF->value('aformulario_id') == null && $carpetaFormF->value('bformulario_id') == null && $carpetaFormF->value('cformulario_id') == null && $carpetaFormF->value('dformulario_id') == null && $carpetaFormF->value('gformulario_id') == null) {
 			
-			$carpetaFormF->update(['numeroCarpeta' => 'Eliminada', 'fformulario_id' => null, 'deleted_at' => $fecha_hoy]);
+			$carpetaFormF->update(['deleted_at' => $fecha_hoy]);
 
-		}elseif ($carpetaFormF->value('aformulario_id') !== null || $carpetaFormF->value('bformulario_id') !== null || $carpetaFormF->value('cformulario_id') !== null || $carpetaFormF->value('dformulario_id') !== null || $carpetaFormF->value('gformulario_id') !== null) {
+		// }elseif ($carpetaFormF->value('aformulario_id') !== null || $carpetaFormF->value('bformulario_id') !== null || $carpetaFormF->value('cformulario_id') !== null || $carpetaFormF->value('dformulario_id') !== null || $carpetaFormF->value('gformulario_id') !== null) {
 
-			$carpetaFormF->update(['fformulario_id' => null]);
+		// 	$carpetaFormF->update(['fformulario_id' => null]);
 
-		}
+		// }
 
-		$Fformulario->delete();
+		// $Fformulario->delete();
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
@@ -3638,17 +3638,17 @@ class FormsController extends Controller
 
 		$carpetaFormG = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $id);
 
-		if ($carpetaFormG->value('aformulario_id') == null && $carpetaFormG->value('bformulario_id') == null && $carpetaFormG->value('cformulario_id') == null && $carpetaFormG->value('dformulario_id') == null && $carpetaFormG->value('fformulario_id') == null) {
+		// if ($carpetaFormG->value('aformulario_id') == null && $carpetaFormG->value('bformulario_id') == null && $carpetaFormG->value('cformulario_id') == null && $carpetaFormG->value('dformulario_id') == null && $carpetaFormG->value('fformulario_id') == null) {
 			
-			$carpetaFormG->update(['numeroCarpeta' => 'Eliminada', 'gformulario_id' => null, 'deleted_at' => $fecha_hoy]);
+			$carpetaFormG->update(['deleted_at' => $fecha_hoy]);
 
-		}elseif ($carpetaFormG->value('aformulario_id') !== null || $carpetaFormG->value('bformulario_id') !== null || $carpetaFormG->value('cformulario_id') !== null || $carpetaFormG->value('dformulario_id') !== null || $carpetaFormG->value('fformulario_id') !== null) {
+		// }elseif ($carpetaFormG->value('aformulario_id') !== null || $carpetaFormG->value('bformulario_id') !== null || $carpetaFormG->value('cformulario_id') !== null || $carpetaFormG->value('dformulario_id') !== null || $carpetaFormG->value('fformulario_id') !== null) {
 
-			$carpetaFormG->update(['gformulario_id' => null]);
+		// 	$carpetaFormG->update(['gformulario_id' => null]);
 
-		}
+		// }
 
-		$Gformulario->delete();
+		// $Gformulario->delete();
 
     	session()->flash('message', 'El formulario se eliminó con éxito.');
 
