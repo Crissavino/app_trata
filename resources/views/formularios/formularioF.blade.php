@@ -75,14 +75,16 @@
     	<form action="" class="form-group" method="post">
 	    	{{ csrf_field() }}
             <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
-
-            <label for="">E 1. Organismos que intervinieron previamente:</label>
-            <select class="ml-3 mb-3 form-control intervinieronOrganismos" name="intervinieronOrganismos">
-                <option value="">Seleccioná si intervino otro organismo previamente</option>
-                <option value="No">No</option>
-                <option value="Intervino solo el organismo que derivó" selected>Intervino solo el organismo que derivó</option>
-                <option value="Intervinieron más organismos">Intervinieron más organismos</option>
-            </select>
+            <div class="form-group {{ $errors->has('intervinieronOrganismos') ? 'has-error' : ''}}">
+                <label for="">E 1. Organismos que intervinieron previamente:</label>
+                <select class="ml-3 mb-3 form-control intervinieronOrganismos" name="intervinieronOrganismos">
+                    <option value="">Seleccioná si intervino otro organismo previamente</option>
+                    <option value="No">No</option>
+                    <option value="Intervino solo el organismo que derivó" selected>Intervino solo el organismo que derivó</option>
+                    <option value="Intervinieron más organismos">Intervinieron más organismos</option>
+                </select>
+                {!! $errors->first('intervinieronOrganismos', '<p class="help-block" style="color:red";>:message</p>') !!}
+            </div>
             <div class="form-group organismoDerivo" style="display: none;">
                 @foreach ($aFormularios as $aFormulario)
                     @if ($aFormulario->datos_numero_carpeta === $numeroCarpeta)
@@ -207,7 +209,7 @@
             </div>
 
             {{-- F 3 --}}
-            <div class="form-group">
+            <div class="form-group {{ $errors->has('intervinieronOrganismosActualmente') ? 'has-error' : ''}}">
             	<label for="">E 3 Organismos con los que se articula actualmente:</label><br>
                 <label for="">Se ha articulado con otros organismos en el transcurso de la asistencia?</label>
                 <select name="intervinieronOrganismosActualmente" class="form-control intervinieronOrganismosActualmente">
@@ -215,6 +217,7 @@
                     <option value="Si">Sí</option>
                     <option value="No">No</option>
                 </select>
+                {!! $errors->first('intervinieronOrganismosActualmente', '<p class="help-block" style="color:red";>:message</p>') !!}
             </div>
 
             <div class="intervinieronActualmente" style="display: none;">
