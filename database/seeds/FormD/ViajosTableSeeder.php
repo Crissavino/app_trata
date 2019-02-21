@@ -16,7 +16,7 @@ class ViajosTableSeeder extends Seeder
 
             ['nombre' => 'Solo/a'],
 
-            ['nombre' => 'Acompañado'],
+            ['nombre' => 'Acompañado/a'],
 
             ['nombre' => 'No viajó'],
 

@@ -68,7 +68,7 @@
                 <h1 class="text-center" style="padding: 15px;">
                     {{-- ele eje F paso a ser el eje E --}}
                     Eje E: Atención del caso
-                    <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $formularioF->numeroCarpeta }}</h5>
+                    <h5 style="text-align: center;" >Estás trabajando sobre la carpeta n° {{ $formularioF->numeroCarpeta }}</h5>
                 </h1>
                 <label for="">E 1. Organismos que intervinieron previamente:</label>
                 <select class="ml-3 mb-3 form-control intervinieronOrganismos" name="intervinieronOrganismos">

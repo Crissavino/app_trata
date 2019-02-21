@@ -70,7 +70,7 @@
         <h1 class="text-center" style="padding: 15px;">
             {{-- ele eje F paso a ser el eje E --}}
             Eje E: Atención del caso
-            <h5 class="mb-5" style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5>
+            <h5 class="mb-5" style="text-align: center;">Estás trabajando sobre la carpeta n° {{ $numeroCarpeta }}</h5>
         </h1>
     	<form action="" class="form-group" method="post">
 	    	{{ csrf_field() }}

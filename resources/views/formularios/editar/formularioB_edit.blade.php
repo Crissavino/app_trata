@@ -73,7 +73,7 @@
 
         	<h1 class="text-center" style="padding: 15px;">
                 Eje B: Caracterización de la víctima
-                <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $Bformulario->numeroCarpeta }}</h5>
+                <h5 style="text-align: center;" >Estás trabajando sobre la carpeta n° {{ $Bformulario->numeroCarpeta }}</h5>
             </h1>
             <input type="text" name="numeroCarpeta" value="{{ $Bformulario->numeroCarpeta }}" style="display: none;">
 

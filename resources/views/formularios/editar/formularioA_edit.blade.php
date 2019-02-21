@@ -77,7 +77,7 @@
 
             <h1 class="text-center" style="padding: 15px;">
                 Eje A: Datos institucionales
-                <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $aFormulario->datos_numero_carpeta }}</h5>
+                <h5 style="text-align: center;" >Estás trabajando sobre la carpeta n° {{ $aFormulario->datos_numero_carpeta }}</h5>
             </h1>
             {{-- <input type="text" name="numeroCarpeta" value="{{ $aFormulario->numeroCarpeta }}" style="display: none;"> --}}
 

@@ -82,7 +82,7 @@
         @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
             <h1 class="text-center" style="padding: 15px;">
                 Eje F: Detalle de intervención
-                <h5 class=" mb-5" style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $formularioG->numeroCarpeta }}</h5>
+                <h5 class=" mb-5" style="text-align: center;">Estás trabajando sobre la carpeta n° {{ $formularioG->numeroCarpeta }}</h5>
             </h1>
             <form action="" id="form" method="POST" accept-charset="utf-8" enctype='multipart/form-data'>
                 {{ csrf_field() }}
