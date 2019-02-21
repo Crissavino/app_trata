@@ -51,7 +51,7 @@
 
             <h1 class="text-center" style="padding: 15px;">
                 Eje B: Caracterización de la victima
-                <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $numeroCarpeta }}</h5>
+                <h5 style="text-align: center;" >Estás trabajando sobre la carpeta n° {{ $numeroCarpeta }}</h5>
                 {{-- <h5 style="text-align: center;" >Seleccioná la carpeta sobre la que deseas trabajar
                 <select name="numeroCarpeta" class="select-sinborde">
                     @foreach ($todoFormA as $formA)
@@ -544,11 +544,7 @@
                                 <div id="victima_lesion_organismo" style="display: none">
                                     <label class="">B 18III. ¿A qué organismo pertenece el profesional de la salud?:</label>
                                     <div class="">
-<<<<<<< HEAD
-                                        <input name="victima_lesion_organismo" id="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text">
-=======
-                                        <input name="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text" value="{{old('victima_lesion_organismo')}}">
->>>>>>> 8e9d8a1d16b307608110405116c374cb26222c8f
+                                        <input name="victima_lesion_organismo" id="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text" value="{{old('victima_lesion_organismo')}}">
                                     </div>
                                     <label for="desconoce">Se deconoce</label>
                                     <input type="checkbox" class="form-check-inline desconoce18" id="desconoce" name="">
@@ -610,11 +606,7 @@
                     <div class="" id="victima_tipo_enfermedad_cronica" style="display: none;">
                         <label class="">B 19I. Tipo de enfermedad crónica:</label>
                             <div class="">
-<<<<<<< HEAD
-                                <input name="victima_tipo_enfermedad_cronica" id="victima_tipo_enfermedad_cronica" placeholder="" class="form-control victima_tipo_enfermedad_cronica_input" type="text">
-=======
-                                <input name="victima_tipo_enfermedad_cronica" placeholder="" class="form-control victima_tipo_enfermedad_cronica_input" value="{{old('victima_tipo_enfermedad_cronica')}}" type="text">
->>>>>>> 8e9d8a1d16b307608110405116c374cb26222c8f
+                                <input name="victima_tipo_enfermedad_cronica" id="victima_tipo_enfermedad_cronica" placeholder="" class="form-control victima_tipo_enfermedad_cronica_input" value="{{old('victima_tipo_enfermedad_cronica')}}" type="text">
                             </div>
                     </div>
                 </div>
@@ -662,11 +654,7 @@
                         <!-- mostrando lo que contiene el id cual -->
                         <div id="victimaLimitacionCual" style="display:none">
                             <label for="">Cual?</label>
-<<<<<<< HEAD
-                            <input type="text" class="form-control victimaLimitacionCualInput" name="victima_limitacion_otra" id="victima_limitacion_otra" value="">
-=======
-                            <input type="text" class="form-control victimaLimitacionCualInput" name="victima_limitacion_otra" value="{{old('victima_limitacion_otra')}}">
->>>>>>> 8e9d8a1d16b307608110405116c374cb26222c8f
+                            <input type="text" class="form-control victimaLimitacionCualInput" name="victima_limitacion_otra" id="victima_limitacion_otra" value="{{old('victima_limitacion_otra')}}">
                         </div>
                 </div>
                	{!! $errors->first('limitacion_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -734,11 +722,7 @@
 
                     <div class="victimaOficioCual" style="display: none">
                         <label for="">Cual?</label>
-<<<<<<< HEAD
-                        <input name="victima_oficio_cual" id="victima_oficio_cual" placeholder="" class="form-control victimaOficioCualInput" type="text">
-=======
-                        <input name="victima_oficio_cual" value="{{ old('victima_oficio_cual') }}" placeholder="" class="form-control victimaOficioCualInput" type="text">
->>>>>>> 8e9d8a1d16b307608110405116c374cb26222c8f
+                        <input name="victima_oficio_cual" id="victima_oficio_cual" placeholder="" class="form-control victimaOficioCualInput" type="text" value="{{ old('victima_oficio_cual') }}">
                     </div>
                 </div>
 		        <script>

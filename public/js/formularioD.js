@@ -371,8 +371,6 @@
 
 		if (selectFrecuenciaPago.value == 4) {
 			selectModalidadPagos.value = 5;
-		}else{
-			selectModalidadPagos.value = '';
 		}
 
 	//pregunta 22

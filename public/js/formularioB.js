@@ -304,6 +304,16 @@ $.validator.addMethod("edad",function(value,element){
 
 },"Ingrese un Número de 1 a 150. ");
 
+$.validator.addMethod("documento",function(value,element){
+	//return this.optional(element) || /^[\t 0-9 Ã±]+$/i.test(value);
+	tipo=isNaN(parseInt(value));
+	valorSeDesconoce=(value=="Se desconoce");
+	premisa1=(tipo && valorSeDesconoce);
+	return (premisa1 || (!tipo));
+
+
+},"Ingrese un Número de 1 a 150. ");
+
 
 
 
@@ -335,7 +345,7 @@ $("#formularioB").validate({ //se definen las opciones de validaciÃ³n para el 
 				required:true
 			},
 			victima_documento: {
-				number:true,
+				documento:"#victima_documento",
 				required:true
 			},
 			paisNacimiento: {

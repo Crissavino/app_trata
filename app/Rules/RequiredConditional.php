@@ -36,7 +36,7 @@ class RequiredConditional implements Rule
      * @return bool
      */
     public function passes($attribute, $value)
-    {   
+    { 
         if (is_null($value)) {
             if(in_array($this->external_attribute,$this->required_values)){
                 $this->message = 'Este campo es obligatorio';
