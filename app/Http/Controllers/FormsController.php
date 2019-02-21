@@ -1344,6 +1344,9 @@ class FormsController extends Controller
 	{	
 		$userId = auth()->user()->id;
 
+		//se agregaron campos nombre_apellido_viejo edad_viejo genero_id_viejo vinculo_id_viejo referenteContacto_viejo para
+		//diferenciar los referentes cargados anteriormente
+
 		request()->validate([
 			'nombre_apellido.*' => 'nullable',
 			// 'nombre_apellido.0' => 'required',

@@ -141,8 +141,10 @@
                     </div>
             </div> --}}
 
-            <button type="button" id="anadir" disabled="disabled" class="clickAnadir btn btn-outline-primary col-xl"> Agregar referente </button><br><br>
-            <button id="borra" type="button" disabled="disabled" class="clickBorrar btn btn-outline-danger col-xl">Borrar referente</button><br><br>
+            <div id="botones">
+                <button type="button" id="anadir" disabled="disabled" class="clickAnadir btn btn-outline-primary col-xl"> Agregar referente </button><br><br>
+                <button id="borra" type="button" disabled="disabled" class="clickBorrar btn btn-outline-danger col-xl">Borrar referente</button><br><br>
+            </div>
 
             <button type="submit" class="btn btn-primary col-xl enviar" name="button">Guardar</button><br><br>
 

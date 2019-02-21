@@ -30,6 +30,17 @@
 		var btnBorrar = document.querySelector('.clickBorrar');
 	}
 
+	//muestra u oculta los botones si de acuerdo a la seleccion
+		var noPersonas = document.querySelector('.noPersonas');
+
+			if (noPersonas.value == 1) {
+				$('#anadir').click();
+				$('#botones').show()
+			}else{
+				$('#botones').hide()
+			}
+	//fin
+
 window.onload =function (){
 
 //---------FORMULARIO C--------------
@@ -61,6 +72,21 @@ window.onload =function (){
  		}
  	};
 //hasta aca
+
+//cuando se seleccion la opcion si(agregar otro referente) aparece un referente automaticamente
+	var noPersonas = document.querySelector('.noPersonas');
+
+	noPersonas.addEventListener('change', function(){
+		if (this.value == 1) {
+			$('#anadir').click();
+			$('#botones').show()
+		}else{
+			$('#botones').hide()
+		}
+	});
+//fin
+
+//cuando la opcion cambie de si a no o se desconoce, se oculten y se borren los referentes cargados
 
 //de esta forma agrego otro conviviente
 
@@ -281,8 +307,6 @@ window.onload =function (){
 
 
 //---------FIN FORMULARIO C--------------
-
-
 
 
 }

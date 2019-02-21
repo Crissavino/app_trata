@@ -195,8 +195,10 @@
 
                     <div class="referentes" id="referentes"></div>
                     
-                    <button type="button" id="anadir" class="clickAnadir btn btn-outline-primary col-xl"> Agregar referente </button><br><br>
-                    <button id="borra" type="button" class="mb-4 clickBorrar btn btn-outline-danger col-xl">Borrar referente</button>
+                    <div id="botones">
+                        <button type="button" id="anadir" class="clickAnadir btn btn-outline-primary col-xl"> Agregar referente </button><br><br>
+                        <button id="borra" type="button" class="mb-4 clickBorrar btn btn-outline-danger col-xl">Borrar referente</button>
+                    </div>
 
                     <button type="submit" class="btn btn-primary col-xl" name="button">Actualizar</button><br><br>
                 </form>
@@ -336,6 +338,7 @@
 
         <!-- este script lo que hace es agregar otro formulario de profesionales en el caso que intervenga mas de un profesional en el caso -->
         
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"  type="text/javascript"></script>
 
         {{-- <script src="/js/app.js" type="text/javascript" charset="utf-8" async defer></script> --}}
         <script src="/js/formularioC.js" type="text/javascript" charset="utf-8" async defer></script>
