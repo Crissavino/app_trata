@@ -40,7 +40,7 @@
 		divVictimaLesion.style.display = 'none'
 		divVictimaLesionOrganismo.style.display = 'none';
 		victimaLesionInput.value = '';
-		selectLesionConstatada.value = '';
+		selectLesionConstatada.value = '2';
 		victimaLesionOrganismoInput.value = '';
 		checkDesconoce.checked = false;
 		victimaLesionOrganismoInput.removeAttribute('readonly');
@@ -209,7 +209,7 @@ window.onload =function (){
 				divVictimaLesion.style.display = 'none'
 				divVictimaLesionOrganismo.style.display = 'none';
 				victimaLesionInput.value = '';
-				selectLesionConstatada.value = '';
+				selectLesionConstatada.value = '2';
 				victimaLesionOrganismoInput.value = '';
 				checkDesconoce.checked = false;
 				victimaLesionOrganismoInput.removeAttribute('readonly');

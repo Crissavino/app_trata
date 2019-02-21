@@ -210,9 +210,9 @@
                 <script>
                     function selectOnChange16(sel)
                     {
+                        divA = document.getElementById("tipodoc");
+                        divB = document.getElementById("nrodoc");
                         if (sel.value == "3" || sel.value == "6"){
-                            divA = document.getElementById("tipodoc");
-                            divB = document.getElementById("nrodoc");
                             divA.style.display="none";
                             divB.style.display="none";
                             $('#tipodocumento_id').val('7');
@@ -753,7 +753,7 @@
                             <label class="">B 18II. ¿Fue constatado en el momento por algún profesional de la salud? :</label>
                             <div class="">
                                 @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                                    <select class="form-control selectLesionConstatada"  name="lesionconstatada_id" id="lesionconstatada">
+                                    <select class="form-control selectLesionConstatada"  name="lesionconstatada_id" id="lesionconstatada_id">
                                         <option value="" disabled selected>Seleccione</option>
                                         @foreach ($datosLesionConstatada as $constatada)
                                         @php
@@ -764,7 +764,7 @@
                                         @endforeach
                                     </select>
                                 @else
-                                    <select disabled class="form-control selectLesionConstatada" name="lesionconstatada_id" id="lesionconstatada">
+                                    <select disabled class="form-control selectLesionConstatada" name="lesionconstatada_id" id="lesionconstatada_id">
                                         <option value="">Fue constatada?</option>
                                         @foreach ($datosLesionConstatada as $constatada)
                                              @php

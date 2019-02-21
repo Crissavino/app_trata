@@ -1108,7 +1108,7 @@ class FormsController extends Controller
 		]);
 
 		$data = request()->all();
-
+	    
 		//busco segun el id el formulario desdeado
 		$Bformulario = \App\FormB\Bformulario::find($idFormulario);
 
@@ -1932,7 +1932,7 @@ class FormsController extends Controller
 				'finalidad_id' => 'required',
 				'finalidad_otra' => 'required_if:finalidad_id,==,5',
 				'actividad_id' => 'required',
-				'actividad_otra' => 'required_if:actividad_id,==,8',
+				'actividad_otra' => 'required_if:actividad_id,==,6',
 				'privado_id' => 'required_if:actividad_id,==,3',
 				'privado_otra' => 'required_if:privado_id,==,8',
 				'rural_id' => 'required_if:actividad_id,==,1',
