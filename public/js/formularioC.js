@@ -34,7 +34,6 @@
 		var noPersonas = document.querySelector('.noPersonas');
 
 			if (noPersonas.value == 1) {
-				$('#anadir').click();
 				$('#botones').show()
 			}else{
 				$('#botones').hide()
