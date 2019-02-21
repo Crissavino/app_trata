@@ -73,7 +73,7 @@
 
         	<h1 class="text-center" style="padding: 15px;">
                 Eje B: Caracterización de la víctima
-                <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $Bformulario->numeroCarpeta }}</h5>
+                <h5 style="text-align: center;" >Estás trabajando sobre la carpeta n° {{ $Bformulario->numeroCarpeta }}</h5>
             </h1>
             <input type="text" name="numeroCarpeta" value="{{ $Bformulario->numeroCarpeta }}" style="display: none;">
 
@@ -210,9 +210,9 @@
                 <script>
                     function selectOnChange16(sel)
                     {
+                        divA = document.getElementById("tipodoc");
+                        divB = document.getElementById("nrodoc");
                         if (sel.value == "3" || sel.value == "6"){
-                            divA = document.getElementById("tipodoc");
-                            divB = document.getElementById("nrodoc");
                             divA.style.display="none";
                             divB.style.display="none";
                             $('#tipodocumento_id').val('7');
@@ -753,17 +753,32 @@
                             <label class="">B 18II. ¿Fue constatado en el momento por algún profesional de la salud? :</label>
                             <div class="">
                                 @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
+<<<<<<< HEAD
                                     <select class="form-control selectLesionConstatada"  name="lesionconstatada" id="lesionconstatada">
+=======
+                                    <select class="form-control selectLesionConstatada"  name="lesionconstatada_id" id="lesionconstatada_id">
+>>>>>>> 5cc4cb4ed6d40347f91cca125699222e0d97e356
                                         <option value="" disabled selected>Seleccione</option>
                                         @foreach ($datosLesionConstatada as $constatada)
-                                            <option value="{{$constatada->id}}">{{$constatada->nombre}}</option>
+                                        @php
+                                            $selected = ($constatada->id == $Bformulario->lesionconstatada_id) ? 'selected' : '';
+                                        @endphp
+                                        <option value="{{$constatada->id}}" {{ $selected }}>{{$constatada->nombre}}</option>
+                                            
                                         @endforeach
                                     </select>
                                 @else
+<<<<<<< HEAD
                                     <select disabled class="form-control selectLesionConstatada" name="lesionconstatada" id="lesionconstatada">
+=======
+                                    <select disabled class="form-control selectLesionConstatada" name="lesionconstatada_id" id="lesionconstatada_id">
+>>>>>>> 5cc4cb4ed6d40347f91cca125699222e0d97e356
                                         <option value="">Fue constatada?</option>
                                         @foreach ($datosLesionConstatada as $constatada)
-                                            <option value="{{$constatada->id}}">{{$constatada->nombre}}</option>
+                                             @php
+                                            $selected = ($constatada->id == $Bformulario->lesionconstatada_id) ? 'selected' : '';
+                                        @endphp
+                                        <option value="{{$constatada->id}}" {{ $selected }}>{{$constatada->nombre}}</option>
                                         @endforeach
                                     </select>
                                 @endif
@@ -771,14 +786,22 @@
                                     <label class="">B 18III. ¿A qué organismo pertenece el profesional de la salud?:</label>
                                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                                         <div class="">
+<<<<<<< HEAD
                                             <input name="victima_lesion_organismo" id="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text">
+=======
+                                            <input name="victima_lesion_organismo" value="{{$Bformulario->victima_lesion_organismo}}" id="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text">
+>>>>>>> 5cc4cb4ed6d40347f91cca125699222e0d97e356
                                         </div>
 
                                         <label for="desconoce">Se deconoce</label>
                                         <input type="checkbox" class="form-check-inline desconoce18" id="desconoce" name="">
                                     @else
                                         <div class="">
+<<<<<<< HEAD
                                             <input readonly name="victima_lesion_organismo" id="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text">
+=======
+                                            <input readonly name="victima_lesion_organismo" value="{{$Bformulario->victima_lesion_organismo}}" id="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text">
+>>>>>>> 5cc4cb4ed6d40347f91cca125699222e0d97e356
                                         </div>
                                     @endif
                                     <script>

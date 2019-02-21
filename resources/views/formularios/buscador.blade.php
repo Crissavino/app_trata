@@ -101,7 +101,11 @@
 
                                 <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)">
                                                 <i class="far fa-trash-alt"></i> Borrar </span>
+<<<<<<< HEAD
                                             </button> 
+=======
+                                            </button>
+>>>>>>> 5cc4cb4ed6d40347f91cca125699222e0d97e356
 
 
                             </form>
@@ -118,8 +122,19 @@
                                                                                 <i class="far fa-trash-alt"></i> Borrar </span>
                                                                             </button>
                             </form>
+<<<<<<< HEAD
                             @endif {{-- @elseif(!($carpeta->bformulario_id)) --}} @elseif($carpeta->aformulario_id && !($carpeta->bformulario_id) &&
                             ($carpeta->user_id == auth()->user()->id)) {{-- nuevo --}}
+=======
+                            {{--
+                            <form action="/formularios/edicion/B/{{$carpeta->bformulario_id}}" class="" method="post">
+                                @method('DELETE') @csrf
+                                <button class="btn btn-danger">
+<i class="far fa-trash-alt"></i> Borrar </span>
+</button>
+                            </form> --}} @endif {{-- @elseif(!($carpeta->bformulario_id)) --}} @elseif($carpeta->aformulario_id
+                            && !($carpeta->bformulario_id) && ($carpeta->user_id == auth()->user()->id)) {{-- nuevo --}}
+>>>>>>> 5cc4cb4ed6d40347f91cca125699222e0d97e356
                             <a href="/formularios/B/{{ $carpeta->id }}" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Completar carga </a><br><br>                            @endif
                         </td>
                         <td>
@@ -141,7 +156,11 @@
                             <a href="/formularios/edicion/D/{{ $carpeta->id }}/{{$carpeta->dformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>                            @if (auth()->user()->isAdmin === 1)
                             <form action="/formularios/edicion/D/{{ $carpeta->id }}" class="" method="post" id="form">
                                 @method('DELETE') @csrf
+<<<<<<< HEAD
                                <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)">
+=======
+                                <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)">
+>>>>>>> 5cc4cb4ed6d40347f91cca125699222e0d97e356
                                                                                 <i class="far fa-trash-alt"></i> Borrar </span>
                                                                             </button>
                             </form>
@@ -155,7 +174,11 @@
                             <a href="/formularios/edicion/E/{{$carpeta->eformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>                            @if (auth()->user()->isAdmin === 1)
                             <form action="/formularios/edicion/E/{{$carpeta->eformulario_id}}" class="" method="post">
                                 @method('DELETE') @csrf
+<<<<<<< HEAD
                      <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)">
+=======
+                                <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)">
+>>>>>>> 5cc4cb4ed6d40347f91cca125699222e0d97e356
                                                                                                             <i class="far fa-trash-alt"></i> Borrar </span>
                                                                                                         </button>
                             </form>
@@ -171,7 +194,11 @@
                             === 1)
                             <form action="/formularios/edicion/F/{{$carpeta->id}}" class="" method="post">
                                 @method('DELETE') @csrf
+<<<<<<< HEAD
                                <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)">
+=======
+                                <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)">
+>>>>>>> 5cc4cb4ed6d40347f91cca125699222e0d97e356
                                                                                 <i class="far fa-trash-alt"></i> Borrar </span>
                                                                             </button>
                             </form>

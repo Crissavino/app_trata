@@ -802,6 +802,8 @@ class FormsController extends Controller
 	{
 		$userId = auth()->user()->id;
 
+		
+		
 		request()->validate([
 			'victima_nombre_y_apellido' => 'required',
 			//'victima_nombre_y_apellido_desconoce' => 'required',
@@ -830,6 +832,7 @@ class FormsController extends Controller
 			'bajoefecto_id' => 'required | numeric | min:0 | max:3',
 			'tienelesion_id' => 'required | numeric | min:0 | max:3',
 			'victima_lesion' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un tipo debe seleccionar si',true)],
+<<<<<<< HEAD
 			'lesionconstatada_id' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,3,'Para ingresar si fue constatada debe seleccionar si')],
 			'victima_lesion_organismo' => [new RequiredConditional(request()->get('lesionconstatada_id'),array('1'),0,255,'Para ingresar un organismo debe seleccionar si',true)],
 			'enfermedadcronica_id' => 'required | numeric | min:0 | max:3',
@@ -838,6 +841,19 @@ class FormsController extends Controller
 			'niveleducativo_id' => 'required | numeric | min:0 | max:8',
 			'oficio_id' => 'required | numeric | min:0 | max:3',
 			'victima_oficio_cual' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un oficio debe seleccionar si',true)],
+=======
+			//* REVISAR VALIDACION NO ESTA FUNCIONANDO *//
+			// 'lesionconstatada_id' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,3,'Para ingresar si fue constatada debe seleccionar si')],
+			'victima_lesion_organismo' => [new RequiredConditional(request()->get('lesionconstatada_id'),array('1'),0,255,'Para ingresar un organismo debe seleccionar si',true)],
+			'enfermedadcronica_id' => 'required | numeric | min:0 | max:3',
+			//* REVISAR VALIDACION NO ESTA FUNCIONANDO *//
+			//'victima_tipo_enfermedad_cronica' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un tipo debe seleccionar si',true)],
+			//'victima_limitacion_otra' => 'required',
+			'niveleducativo_id' => 'required | numeric | min:0 | max:8',
+			'oficio_id' => 'required | numeric | min:0 | max:3',
+			//* REVISAR VALIDACION NO ESTA FUNCIONANDO *//
+			//'victima_oficio_cual' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un oficio debe seleccionar si',true)],
+>>>>>>> 5cc4cb4ed6d40347f91cca125699222e0d97e356
 			//'victima_oficio_cual' => 'required',
 			'discapacidad_id' => 'required',
 			'limitacion_id' => 'required',
@@ -885,8 +901,7 @@ class FormsController extends Controller
 		]);
 
 		$data = request()->all();
-
-		// dd($data);
+		
 
 		$data['user_id'] = $userId;
 
@@ -1108,7 +1123,7 @@ class FormsController extends Controller
 		]);
 
 		$data = request()->all();
-
+	    
 		//busco segun el id el formulario desdeado
 		$Bformulario = \App\FormB\Bformulario::find($idFormulario);
 
@@ -1283,11 +1298,12 @@ class FormsController extends Controller
 		$datosReferentes = \App\FormC\Referente::all();
 		$cFormulario = \App\FormC\Cformulario::find($idFormulario);
 
-		$datosTodo = DB::table('cformularios')
-		                            ->WHERE('cformularios.id', '=', $idFormulario)
-									->JOIN('cformulario_referente', 'cformularios.id', '=', 'cformulario_referente.cformulario_id')
-									->JOIN('referentes', 'cformulario_referente.referente_id', '=', 'referentes.id')
-		                            ->get();
+		// $datosTodo = DB::table('cformularios')
+		//                             ->WHERE('cformularios.id', '=', $idFormulario)
+		// 							->JOIN('cformulario_referente', 'cformularios.id', '=', 'cformulario_referente.cformulario_id')
+		// 							->JOIN('referentes', 'cformulario_referente.referente_id', '=', 'referentes.id')
+		//                             ->get();
+		$referentes = $cFormulario->referentes;
 
 		//id de los formularios de una misma carpeta
 			// $idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
@@ -1327,7 +1343,8 @@ class FormsController extends Controller
 															'datosVinculos' => $datosVinculos,
 															'userId' => $userId,
 															'cFormulario' => $cFormulario,
-															'datosTodo' => $datosTodo,
+															// 'datosTodo' => $datosTodo,
+															'referentes' => $referentes,
 															'idFormA' => $idFormA,
 															'idFormB' => $idFormB,
 															'idFormC' => $idFormC,
@@ -1343,6 +1360,10 @@ class FormsController extends Controller
 	public function updateC($idCarpeta,$idFormulario)
 	{	
 		$userId = auth()->user()->id;
+		$fecha_hoy = Carbon::now();
+
+		//se agregaron campos nombre_apellido_viejo edad_viejo genero_id_viejo vinculo_id_viejo referenteContacto_viejo para
+		//diferenciar los referentes cargados anteriormente
 
 		request()->validate([
 			'nombre_apellido.*' => 'nullable',
@@ -1373,6 +1394,11 @@ class FormsController extends Controller
 
 		$referenteId = [];
 
+<<<<<<< HEAD
+=======
+		// dd((count(request()->input('nombre_apellido_viejo'))));
+
+>>>>>>> 5cc4cb4ed6d40347f91cca125699222e0d97e356
 		$cantidadReferentesViejos = false;
 		if (request()->input('nombre_apellido_viejo')) {
 			$cantidadReferentesViejos = (count(request()->input('nombre_apellido_viejo')));
@@ -1382,6 +1408,7 @@ class FormsController extends Controller
 		if (request()->input('nombre_apellido')) {
 			$cantidadReferentesNuevos = (count(request()->input('nombre_apellido')));
 		}
+<<<<<<< HEAD
 
 		// dd($cFormulario->referentes->count());
 		$referentes = $cFormulario->referentes;
@@ -1422,6 +1449,59 @@ class FormsController extends Controller
 
 				$referenteId[] = $guardoReferente->id;
 
+=======
+			// dd($cFormulario->referentes()->WHERE('referente_id', '=', $data['idsEliminados']));
+
+		if ($data['idsEliminados']) {
+			$ids = array_map("intval", explode(',', $data['idsEliminados']));
+			for ($i=0; $i < count($ids); $i++) { 
+				
+				$referente = DB::table('referentes')->where('referentes.id', '=', $ids[$i])->update(['updated_at' => $fecha_hoy, 'deleted_at' => $fecha_hoy]);
+				$tablaPivot = DB::table('cformulario_referente')->where('cformulario_referente.referente_id', '=', $ids[$i])->update(['updated_at' => $fecha_hoy, 'deleted_at' => $fecha_hoy]);
+
+			}
+		}
+
+		$referentes = $cFormulario->referentes;
+		// dd($data['vinculo_id_viejo']);
+		// dd($data);
+		if ($cantidadReferentesViejos) {
+			foreach ($referentes as $i => $referente) {
+				$referenteCargado = \App\FormC\Referente::find($referente->id);
+
+				$referenteViejo['nombre_apellido'] = $data['nombre_apellido_viejo'][$i];
+				$referenteViejo['edad'] = $data['edad_viejo'][$i];
+				$referenteViejo['vinculo_id'] = $data['vinculo_id_viejo'][$i];
+				if (isset($data['vinculo_otro_viejo'][$i])) {
+					$referenteViejo['vinculo_otro'] = $data['vinculo_otro_viejo'][$i];
+				}
+				$referenteViejo['referenteContacto'] = $data['referenteContacto_viejo'][$i];
+				$referenteViejo['user_id'] = $data['user_id'];
+
+
+				$actualizoReferente = $referenteCargado->update($referenteViejo);
+				
+				$referenteId[] = $referente->id;
+			}
+		}
+
+		if ($cantidadReferentesNuevos) {
+			for ($i = 0; $i < $cantidadReferentesNuevos ; $i++) { 
+
+				$referenteNuevo['nombre_apellido'] = $data['nombre_apellido'][$i];
+				$referenteNuevo['edad'] = $data['edad'][$i];
+				$referenteNuevo['vinculo_id'] = $data['vinculo_id'][$i];
+				if (isset($data['vinculo_otro'][$i])) {
+					$referenteNuevo['vinculo_otro'] = $data['vinculo_otro'][$i];
+				}
+				$referenteNuevo['referenteContacto'] = $data['referenteContacto'][$i];
+				$referenteNuevo['user_id'] = $data['user_id'];
+
+				$guardoReferente = \App\FormC\Referente::create($referenteNuevo);
+
+				$referenteId[] = $guardoReferente->id;
+
+>>>>>>> 5cc4cb4ed6d40347f91cca125699222e0d97e356
 			}
 		}
 
@@ -1929,7 +2009,7 @@ class FormsController extends Controller
 				'finalidad_id' => 'required',
 				'finalidad_otra' => 'required_if:finalidad_id,==,5',
 				'actividad_id' => 'required',
-				'actividad_otra' => 'required_if:actividad_id,==,8',
+				'actividad_otra' => 'required_if:actividad_id,==,6',
 				'privado_id' => 'required_if:actividad_id,==,3',
 				'privado_otra' => 'required_if:privado_id,==,8',
 				'rural_id' => 'required_if:actividad_id,==,1',

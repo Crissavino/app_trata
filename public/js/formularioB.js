@@ -40,7 +40,7 @@
 		divVictimaLesion.style.display = 'none'
 		divVictimaLesionOrganismo.style.display = 'none';
 		victimaLesionInput.value = '';
-		selectLesionConstatada.value = '';
+		selectLesionConstatada.value = '2';
 		victimaLesionOrganismoInput.value = '';
 		checkDesconoce.checked = false;
 		victimaLesionOrganismoInput.removeAttribute('readonly');
@@ -209,7 +209,7 @@ window.onload =function (){
 				divVictimaLesion.style.display = 'none'
 				divVictimaLesionOrganismo.style.display = 'none';
 				victimaLesionInput.value = '';
-				selectLesionConstatada.value = '';
+				selectLesionConstatada.value = '2';
 				victimaLesionOrganismoInput.value = '';
 				checkDesconoce.checked = false;
 				victimaLesionOrganismoInput.removeAttribute('readonly');
@@ -304,6 +304,19 @@ $.validator.addMethod("edad",function(value,element){
 
 },"Ingrese un Número de 1 a 150. ");
 
+<<<<<<< HEAD
+=======
+$.validator.addMethod("documento",function(value,element){
+	//return this.optional(element) || /^[\t 0-9 Ã±]+$/i.test(value);
+	tipo=isNaN(parseInt(value));
+	valorSeDesconoce=(value=="Se desconoce");
+	premisa1=(tipo && valorSeDesconoce);
+	return (premisa1 || (!tipo));
+
+
+},"Ingrese un Número de 1 a 150. ");
+
+>>>>>>> 5cc4cb4ed6d40347f91cca125699222e0d97e356
 
 
 
@@ -335,7 +348,11 @@ $("#formularioB").validate({ //se definen las opciones de validaciÃ³n para el 
 				required:true
 			},
 			victima_documento: {
+<<<<<<< HEAD
 				number:true,
+=======
+				documento:"#victima_documento",
+>>>>>>> 5cc4cb4ed6d40347f91cca125699222e0d97e356
 				required:true
 			},
 			paisNacimiento: {
