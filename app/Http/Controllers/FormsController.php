@@ -802,6 +802,8 @@ class FormsController extends Controller
 	{
 		$userId = auth()->user()->id;
 
+		
+		
 		request()->validate([
 			'victima_nombre_y_apellido' => 'required',
 			//'victima_nombre_y_apellido_desconoce' => 'required',
@@ -830,14 +832,17 @@ class FormsController extends Controller
 			'bajoefecto_id' => 'required | numeric | min:0 | max:3',
 			'tienelesion_id' => 'required | numeric | min:0 | max:3',
 			'victima_lesion' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un tipo debe seleccionar si',true)],
-			'lesionconstatada_id' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,3,'Para ingresar si fue constatada debe seleccionar si')],
+			//* REVISAR VALIDACION NO ESTA FUNCIONANDO *//
+			// 'lesionconstatada_id' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,3,'Para ingresar si fue constatada debe seleccionar si')],
 			'victima_lesion_organismo' => [new RequiredConditional(request()->get('lesionconstatada_id'),array('1'),0,255,'Para ingresar un organismo debe seleccionar si',true)],
 			'enfermedadcronica_id' => 'required | numeric | min:0 | max:3',
-			'victima_tipo_enfermedad_cronica' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un tipo debe seleccionar si',true)],
+			//* REVISAR VALIDACION NO ESTA FUNCIONANDO *//
+			//'victima_tipo_enfermedad_cronica' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un tipo debe seleccionar si',true)],
 			//'victima_limitacion_otra' => 'required',
 			'niveleducativo_id' => 'required | numeric | min:0 | max:8',
 			'oficio_id' => 'required | numeric | min:0 | max:3',
-			'victima_oficio_cual' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un oficio debe seleccionar si',true)],
+			//* REVISAR VALIDACION NO ESTA FUNCIONANDO *//
+			//'victima_oficio_cual' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un oficio debe seleccionar si',true)],
 			//'victima_oficio_cual' => 'required',
 			'discapacidad_id' => 'required',
 			'limitacion_id' => 'required',
@@ -885,8 +890,7 @@ class FormsController extends Controller
 		]);
 
 		$data = request()->all();
-
-		// dd($data);
+		
 
 		$data['user_id'] = $userId;
 
