@@ -66,7 +66,7 @@
 <body>
         <section class="container">
             @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                <form class="" action="{{$cFormulario->id}}" method="post">
+                <form class="" id="ejeC"  action="{{$cFormulario->id}}" method="post">
                     {{ csrf_field() }}
                     @method('PUT')
 
@@ -147,7 +147,7 @@
 
                             <div class="form-group" {{ $errors->has('nombre_apellido[]') ? 'has-error' : ''}}>
                                 <label for="">C 2. Referente - Nombre y apellido</label>
-                                <input type="text" class="form-control nombre_apellidoAnt<?=$i?>" name="nombre_apellido_viejo[]" value="{{ $todo->nombre_apellido }}">
+                                <input type="text" class="form-control nombre_apellidoAnt<?=$i?>" required title="Este campo es obligatorio." name="nombre_apellido_viejo[]" value="{{ $todo->nombre_apellido }}">
                                 {!! $errors->first('nombre_apellido.*', '<p class="help-block" style="color:red";>:message</p>') !!}
 
                                 <label for="" >Se desconoce</label>
@@ -156,7 +156,7 @@
 
                             <div class="form-group" {{ $errors->has('edad[]') ? 'has-error' : ''}}>
                                 <label for="edad">C 3. Referente - Edad:</label>
-                                <input type="text" class="form-control edadAnt<?=$i?>" id="edad" name="edad_viejo[]" value="{{ $todo->edad }}">
+                                <input type="text" class="form-control edadAnt<?=$i?>" id="edad" name="edad_viejo[]" value="{{ $todo->edad }}" required title="Este campo es obligatorio.">
                                 {!! $errors->first('edad.*', '<p class="help-block" style="color:red";>:message</p>') !!}
 
                                 <label for="">Se desconoce</label>
@@ -166,12 +166,12 @@
                             <div class="form-group" {{ $errors->has('vinculo_id[]') ? 'has-error' : ''}}>
                                 <label for="vinculo_id">C 4. Referente - Tipo de vínculo con la víctima</label>
                                 <select id="vinculo_id" class="form-control vinculoAnt<?=$i?>" name="vinculo_id_viejo[]">
-                                    <option value="">Vínculo?</option>
+                                    <option value="" disabled selected>Seleccione</option>
                                     @foreach ($datosVinculos as $vinculo)
                                         @php
                                             $selected = ($vinculo->id == $todo->vinculo_id) ? 'selected' : '';
                                         @endphp
-                                        <option value="{{ $vinculo->id }}" {{ $selected }}>{{ $vinculo->nombre }}</option>
+                                        <option value="{{ $vinculo->id }}">{{ $vinculo->nombre }}</option>
                                     @endforeach
                                 </select>
                                 {!! $errors->first('vinculo_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -180,13 +180,13 @@
                             @if ($todo->vinculo_otro)
                                 <div class="form-group otro_vinculoAnt<?=$i?>">
                                     <label for="vinculo_otro">Cuál?</label>
-                                    <input type="text" class="form-control vinculo_otroAnt<?=$i?>" value="{{ $todo->vinculo_otro }}" name="vinculo_otro_viejo[]">
+                                    <input type="text" class="form-control vinculo_otroAnt<?=$i?>" value="{{ $todo->vinculo_otro }}" name="vinculo_otro_viejo[]" required title="Este campo es obligatorio.">
                                 </div>
                             @endif
 
                             <div class="form-group" {{ $errors->has('referenteContacto[]') ? 'has-error' : ''}}>
                                 <label for="">C 5. Contacto de referente</label>
-                                <input type="text" name="referenteContacto_viejo[]" class="form-control" value="{{ $todo->referenteContacto }}">
+                                <input type="text" name="referenteContacto_viejo[]" class="form-control" value="{{ $todo->referenteContacto }}" required title="Este campo es obligatorio.">
                                 {!! $errors->first('referenteContacto.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                             </div>
                             @php $i++; @endphp
@@ -212,8 +212,8 @@
                     
                     <div class="form-group">
                         <label for="otraspersonas_id">C 1. ¿Se encontraba con otras personas en el lugar de explotación? </label>
-                        <select disabled class="form-control noPersonas" name="otraspersonas_id" {{ $errors->has('otraspersonas_id') ? 'has-error' : ''}}>
-                            <option value="">Había otras personas?</option>
+                        <select disabled class="form-control noPersonas" name="otraspersonas_id" required title="Este campo es obligatorio." {{ $errors->has('otraspersonas_id') ? 'has-error' : ''}}>
+                            <option value="" disable selected>Seleccione</option>
                             @foreach ($datosOtraspersonas as $otrasPersonas)
                                 @php
                                     $selected = ($otrasPersonas->id == $cFormulario->otraspersonas_id) ? 'selected' : '';
