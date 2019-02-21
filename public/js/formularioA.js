@@ -296,6 +296,8 @@ window.onload =function (){
 
 //---------FIN FORMULARIO A--------------
 
+// se agrega un profesional por defecto
+$("#anadir").click();
 
 
 $("#formularioA").validate({ //se definen las opciones de validaciÃ³n para el formulario1

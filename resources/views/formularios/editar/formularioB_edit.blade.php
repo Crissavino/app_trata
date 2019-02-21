@@ -753,17 +753,24 @@
                             <label class="">B 18II. ¿Fue constatado en el momento por algún profesional de la salud? :</label>
                             <div class="">
                                 @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                                    <select class="form-control selectLesionConstatada"  name="lesionconstatada" id="lesionconstatada">
+                                    <select class="form-control selectLesionConstatada"  name="lesionconstatada_id" id="lesionconstatada">
                                         <option value="" disabled selected>Seleccione</option>
                                         @foreach ($datosLesionConstatada as $constatada)
-                                            <option value="{{$constatada->id}}">{{$constatada->nombre}}</option>
+                                        @php
+                                            $selected = ($constatada->id == $Bformulario->lesionconstatada_id) ? 'selected' : '';
+                                        @endphp
+                                        <option value="{{$constatada->id}}" {{ $selected }}>{{$constatada->nombre}}</option>
+                                            
                                         @endforeach
                                     </select>
                                 @else
-                                    <select disabled class="form-control selectLesionConstatada" name="lesionconstatada" id="lesionconstatada">
+                                    <select disabled class="form-control selectLesionConstatada" name="lesionconstatada_id" id="lesionconstatada">
                                         <option value="">Fue constatada?</option>
                                         @foreach ($datosLesionConstatada as $constatada)
-                                            <option value="{{$constatada->id}}">{{$constatada->nombre}}</option>
+                                             @php
+                                            $selected = ($constatada->id == $Bformulario->lesionconstatada_id) ? 'selected' : '';
+                                        @endphp
+                                        <option value="{{$constatada->id}}" {{ $selected }}>{{$constatada->nombre}}</option>
                                         @endforeach
                                     </select>
                                 @endif
@@ -771,14 +778,14 @@
                                     <label class="">B 18III. ¿A qué organismo pertenece el profesional de la salud?:</label>
                                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                                         <div class="">
-                                            <input name="victima_lesion_organismo" id="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text">
+                                            <input name="victima_lesion_organismo" value="{{$Bformulario->victima_lesion_organismo}}" id="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text">
                                         </div>
 
                                         <label for="desconoce">Se deconoce</label>
                                         <input type="checkbox" class="form-check-inline desconoce18" id="desconoce" name="">
                                     @else
                                         <div class="">
-                                            <input readonly name="victima_lesion_organismo" id="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text">
+                                            <input readonly name="victima_lesion_organismo" value="{{$Bformulario->victima_lesion_organismo}}" id="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text">
                                         </div>
                                     @endif
                                     <script>
