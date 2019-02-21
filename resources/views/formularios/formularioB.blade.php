@@ -44,7 +44,7 @@
 
 
 	<section class="container">	
-        <form class="formulario" action="" method="post">
+        <form class="formulario" action=""  method="post" id="formularioB">
         	{{-- inicio esta proteccion contra datos maliciosso --}}
         	{{ csrf_field() }}
             <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
@@ -117,8 +117,8 @@
 			<!-- TERCERA PREGUNTA -->
                 <div class="form-group {{ $errors->has('genero_id') ? 'has-error' : ''}}">
                     <label for="">B 3. Género:</label>
-                    <select class="form-control" name="genero_id" onChange="selectOnChange1(this)">
-                     <option value="">Elegí género</option>
+                    <select class="form-control" name="genero_id" id="genero_id" onChange="selectOnChange1(this)">
+                     <option value="" disabled selected>Seleccione</option>
                     @foreach ($datosGenero as $genero)
 						<option value="{{$genero->getIdGenero()}}" {{ old('genero_id') == $genero->getIdGenero() ? 'selected' : '' }}>{{$genero->getNombreGenero()}}</option>
 					@endforeach						
@@ -144,8 +144,8 @@
             <!-- CUARTA PREGUNTA -->
                 <div class="form-group {{ $errors->has('tienedoc_id') ? 'has-error' : ''}}">
                     <label for="">B 4. ¿Cuenta con alguna documentación que permita acreditar su identidad?:</label>
-                    <select class="form-control" name="tienedoc_id" onChange="selectOnChange16(this)">
-                        <option value="">Tiene documentación?</option>
+                    <select class="form-control" name="tienedoc_id" id="tienedoc_id" onChange="selectOnChange16(this)">
+                        <option value="" disabled selected>Seleccione</option>
                         @foreach ($datosDocumento as $documento)
 							<option value="{{$documento->getIdDocumentacion()}}" {{ old('tienedoc_id') == $documento->getIdDocumentacion() ? 'selected' : '' }}>{{$documento->getNombreDocumentacion()}}</option>
                         @endforeach
@@ -161,15 +161,15 @@
                             var divB = document.getElementById("nrodoc");
                             divA.style.display="none";
                             divB.style.display="none";
-                            $('#tipodocumento_id').val('7');
-                            $('#victima_documento').val('No posee');
+                            $('#tipodocumento_id').val('8');
+                            $('#victima_documento').val('Se desconoce');
                         }else if(sel.value == "6"){
                             var divA = document.getElementById("tipodoc");
                             var divB = document.getElementById("nrodoc");
                             divA.style.display="none";
                             divB.style.display="none";
-                            $('#tipodocumento_id').val('8');
-                            $('#victima_documento').val('Se desconoce');
+                            $('#tipodocumento_id').val('7');
+                            $('#victima_documento').val('No posee');
                         }else{
                             $('#tipodocumento_id').val('');
                             $('#victima_documento').val('');
@@ -185,7 +185,7 @@
                 <div class="form-group {{ $errors->has('tipodocumento_id') ? 'has-error' : ''}}" id="tipodoc">
                     <label for="">B 5. Tipo de documentación:</label>
                     <select class="form-control" id="tipodocumento_id" name="tipodocumento_id">
-                        <option value="">Tipo de documento?</option>
+                        <option value="" disabled selected>Seleccione</option>
                         @foreach ($datosTipoDocumento as $tipoDocumento)
                         	<option value="{{$tipoDocumento->getIdTipoDocumento()}}" {{ old('tipodocumento_id') == $tipoDocumento->getIdTipoDocumento() ? 'selected' : '' }}>{{$tipoDocumento->getNombreTipoDocumento()}}</option>
                         @endforeach
@@ -195,17 +195,19 @@
                     <div class="residenciaPrecaria" style="display: none">
                         <label for="">B 5.I Estado de la residencia precaria</label>
                         <select class="form-control" id="residenciaprecaria_id" name="residenciaprecaria_id" class="form-control">
-                            <option value="">Estado?</option>
+                            <option value="" disabled selected>Estado Residencia Precaria</option>
                             @foreach ($datosResidencia as $residenciaprecaria)
-                                <option value="{{$residenciaprecaria->getId()}}">{{$residenciaprecaria->getNombre()}}</option>
+                                <option value="{{$residenciaprecaria->getId()}}" {{ old('residenciaprecaria_id') == $residenciaprecaria->getId() ? 'selected' : '' }}>{{$residenciaprecaria->getNombre()}}</option>
+                                {{-- <option value="{{$residenciaprecaria->getId()}}">{{$residenciaprecaria->getNombre()}}</option> --}}
                             @endforeach
                         </select>
                     </div>
 
-                    <div class="tipoDocumentoOtro" style="display: none">
+                    <div class="tipoDocumentoOtro" style="display: none" {{ $errors->has('victima_tipo_documento_otro') ? 'has-error' : ''}}>
                         <label for="">Cual?</label>
-                        <input name="victima_tipo_documento_otro"  id="victima_tipo_documento_otro" class="form-control" type="text">
+                        <input name="victima_tipo_documento_otro" id="victima_tipo_documento_otro" value="{{old('victima_tipo_documento_otro')}}" id="victima_tipo_documento_otro" class="form-control" type="text">
                     </div>
+                    {!! $errors->first('victima_tipo_documento_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
                 </div>
 				{{-- funcion js para el, otro --}}
                 {{-- <script>
@@ -234,7 +236,7 @@
 			<!-- SEXTA PREGUNTA -->
                 <div class="form-group {{ $errors->has('victima_documento') ? 'has-error' : ''}}" id="nrodoc">
                     <label for="">B 6. Nro Documento:</label>
-                    <input type="text" class="form-control" name="victima_documento" placeholder="" id="victima_documento" value="{{old('victima_documento')}}">
+                    <input type="text" class="form-control" name="victima_documento" id="victima_documento" placeholder="" id="victima_documento" value="{{old('victima_documento')}}">
                   	{!! $errors->first('victima_documento', '<p class="help-block" style="color:red";>:message</p>') !!}
 
                     <label for="bloqueo3" class="form-check-label">Se desconoce</label>
@@ -262,7 +264,7 @@
                     <div {{ $errors->has('paisNacimiento') ? 'has-error' : ''}}>
                         <label for="countryId">B 7. País de Nacimiento: </label>
                         <select name="paisNacimiento" class="countries order-alpha form-control" id="countryId">
-                            <option value="">Seleccioná pais de nacimiento</option>
+                            <option value="" disabled selected >Seleccione</option>
                         </select>
 
                         <label for="desconocePaisNacimiento">Se desconoce</label>
@@ -273,7 +275,7 @@
                     <div {{ $errors->has('provinciaNacimiento') ? 'has-error' : ''}}>
                         <label for="stateId">B 8. Provincia de nacimiento: </label>
                         <select name="provinciaNacimiento" class="states order-alpha form-control" id="stateId">
-                            <option value="">Seleccioná provincia de nacimiento</option>
+                            <option value="" disabled selected>Seleccione</option>
                         </select>
 
                         <label for="desconoceProvinciaNacimiento">Se desconoce</label>
@@ -284,7 +286,7 @@
                     <div {{ $errors->has('ciudadNacimiento') ? 'has-error' : ''}}>
                         <label for="cityId">B 9. Localidad de nacimiento: </label>
                         <select name="ciudadNacimiento" class="cities order-alpha form-control" id="cityId">
-                            <option value="">Seleccioná ciudad de nacimiento</option>
+                            <option value=""  disabled selected>Seleccione</option>
                         </select>
 
                         <label for="desconoceCiudadNacimiento">Se desconoce</label>
@@ -351,7 +353,7 @@
                 <div class="form-group {{ $errors->has('franjaetaria_id') ? 'has-error' : ''}}">
                     <label for="">B 12. Franja Etaria</label>
                     <select name="franjaetaria_id" id="franjaetaria_id" class="form-control" value="">
-                        <option value="">Franja Etaria</option>
+                        <option value="" disabled selected>Seleccione</option>
                         @foreach ($datosFranjaEtaria as $franjaEtaria)
                         	<option value="{{$franjaEtaria->getIdFranja()}}" {{ old('franjaetaria_id') == $franjaEtaria->getIdFranja() ? 'selected' : '' }}>{{$franjaEtaria->getNombreFranja()}}</option>
                         @endforeach
@@ -391,7 +393,7 @@
                 <div class="form-group {{ $errors->has('embarazorelevamiento_id') ? 'has-error' : ''}}">
                     <label for="">B 13. Embarazo al momento del relevamiento:</label>
                     <select class="form-control" id="embarazorelevamiento_id" name="embarazorelevamiento_id">
-                        <option value="">Está embarazada?</option>
+                        <option value=""disabled selected>Seleccione</option>
                         @foreach ($datosEmbarazadaRelevamiento as $estaEmbarazada)
                         	<option value="{{$estaEmbarazada->getId()}}" {{ old('embarazorelevamiento_id') == $estaEmbarazada->getId() ? 'selected' : '' }}>{{$estaEmbarazada->getEmbarazada()}}</option>
                         @endforeach
@@ -404,7 +406,7 @@
                 <div class="form-group {{ $errors->has('embarazoprevio_id') ? 'has-error' : ''}}">
                     <label for="">B 14. ¿Estuvo embarazada previamente?:</label>
                     <select class="form-control" id="embarazoprevio_id" name="embarazoprevio_id">
-                        <option value="">Estuvo embarazada?</option>
+                        <option value="" disabled selected>Seleccione</option>
                         @foreach ($datosEmbarazoPrevio as $estuvoEmbarazada)
                         	<option value="{{$estuvoEmbarazada->getId()}}" {{ old('embarazoprevio_id') == $estuvoEmbarazada->getId() ? 'selected' : '' }}>{{$estuvoEmbarazada->getEmbarazoPrevio()}}</option>
                         @endforeach
@@ -417,7 +419,7 @@
                 <div class="form-group {{ $errors->has('hijosembarazo_id') ? 'has-error' : ''}}">
                     <label for="">B 15. ¿Tiene hijos de embarazos anteriores?:</label>
                     <select class="form-control" id="hijosembarazo_id" name="hijosembarazo_id">
-                        <option value="">Posee hijos?</option>
+                        <option value="" disabled selected>Seleccione</option>
                         @foreach ($datosHijos as $hijos)
                         	<option value="{{$hijos->getId()}}" {{ old('hijosembarazo_id') == $hijos->getId() ? 'selected' : '' }}>{{$hijos->getHijos()}}</option>
                         @endforeach
@@ -429,8 +431,8 @@
             <!-- DECIMASEXTA PREGUNTA -->
                 <div class="form-group {{ $errors->has('bajoefecto_id') ? 'has-error' : ''}}">
                     <label for="">B 16. ¿Se encuentra bajo los efectos de alcohol o estupefacientes al momento del relevamiento?:</label>
-                    <select class="form-control" name="bajoefecto_id">
-                        <option value="">Se encuentra bajo efectos?</option>
+                    <select class="form-control" name="bajoefecto_id" id="bajoefecto_id">
+                        <option value="" disabled selected>Seleccione</option>
                         @foreach ($datosBajoEfecto as $efectos)
                         	<option value="{{$efectos->getId()}}" {{ old('bajoefecto_id') == $efectos->getId() ? 'selected' : '' }}>{{$efectos->getBajoEfecto()}}</option>
                         @endforeach
@@ -445,7 +447,7 @@
                     <label for="">B 17. ¿Presenta algún tipo de discapacidad?</label><br>
                     <label for="">En caso de requerir, tildar todas las opciones que considere correspondientes.</label><br>
                     <div class="">
-                        @foreach ($datosDiscapacidad as $discapacidad)
+                        @foreach ($datosDiscapacidad as $key=>$discapacidad)
                             @if ($discapacidad->getDiscapacidad() === "No")
                                 <label for="{{ $discapacidad->getDiscapacidad() }}" style="margin-left: 15px;" class="form-check-label">{{$discapacidad->getDiscapacidad()}}</label>
                                 <input type="checkbox" value="{{$discapacidad->getId()}}" class="form-check-inline" name="discapacidad_id[]" id="{{ $discapacidad->getDiscapacidad() }}" onchange="check5(this)">
@@ -455,7 +457,7 @@
                                     @else
                                         <label for="{{ $discapacidad->getDiscapacidad() }}" class=" form-check-inline form-check-label"> </label>{{$discapacidad->getDiscapacidad()}}</label>
                                         <input type="checkbox" value="{{$discapacidad->getId()}}" class="form-check-inline" id="{{ $discapacidad->getDiscapacidad() }}" name="discapacidad_id[]">
-                            @endif  
+                            @endif 
                         @endforeach
                     </div>
                 </div>
@@ -518,7 +520,7 @@
                 <div class="form-group {{ $errors->has('tienelesion_id') ? 'has-error' : ''}}">
                     <label for="">B 18. ¿Presenta lesiones físicas visibles?</label>
                     <select class="form-control selectTieneLesion" id="tienelesion_id" name="tienelesion_id">
-                        <option value="">Presenta lesiones?</option>
+                        <option value="" disabled selected>Seleccione</option>
                         @foreach ($datosLesion as $lesion)
                         	<option value="{{$lesion->getId()}}" {{ old('tienelesion_id') == $lesion->getId() ? 'selected' : '' }}>{{$lesion->getLesion()}}</option>
                         @endforeach
@@ -528,21 +530,21 @@
                         <div>
                             <label class="">B 18I. Tipo de lesión:</label>
                             <div class="">
-                                <input name="victima_lesion" placeholder="" class="form-control victimaLesionInput" type="text">
+                                <input name="victima_lesion" placeholder="" class="form-control victimaLesionInput" type="text" value="{{old('victima_lesion')}}">
                             </div>
 
                             <label for="">B 18II. ¿Fue constatado en el momento por algún profesional de la salud? :</label>
                             <div class="">
-                                <select class="form-control selectLesionConstatada" name="lesionconstatada_id">
-                                    <option value="">Fue constatada?</option>
+                                <select class="form-control selectLesionConstatada" name="lesionconstatada_id" id="lesionconstatada_id">
+                                    <option value="" disabled selected>Seleccione</option>
 			                        @foreach ($datosLesionConstatada as $constatada)
-			                        	<option value="{{$constatada->getId()}}">{{$constatada->getLesionConstatada()}}</option>
+                                        <option value="{{$constatada->getId()}}" {{ old('tienelesion_id') == $constatada->getId() ? 'selected' : '' }}>{{$constatada->getLesionConstatada()}}</option>
 			                        @endforeach
                                 </select>
                                 <div id="victima_lesion_organismo" style="display: none">
                                     <label class="">B 18III. ¿A qué organismo pertenece el profesional de la salud?:</label>
                                     <div class="">
-                                        <input name="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text">
+                                        <input name="victima_lesion_organismo" id="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text" value="{{old('victima_lesion_organismo')}}">
                                     </div>
                                     <label for="desconoce">Se deconoce</label>
                                     <input type="checkbox" class="form-check-inline desconoce18" id="desconoce" name="">
@@ -595,7 +597,7 @@
                 <div class="form-group {{ $errors->has('enfermedadcronica_id') ? 'has-error' : ''}}">
                     <label class="">B 19. ¿Tiene enfermedades crónicas?</label>
                     <select class="form-control" id="enfermedadcronica_id" name="enfermedadcronica_id">
-                        <option value="">Posee enfermedades?</option>
+                        <option value="" disabled selected>Seleccione</option>
                         @foreach ($datoEnfermedadCronica as $enfermedad)
                         	<option value="{{$enfermedad->getId()}}" {{ old('enfermedadcronica_id') == $enfermedad->getId() ? 'selected' : '' }}>{{$enfermedad->getEnfermedadCronica()}}</option>
                         @endforeach
@@ -604,7 +606,7 @@
                     <div class="" id="victima_tipo_enfermedad_cronica" style="display: none;">
                         <label class="">B 19I. Tipo de enfermedad crónica:</label>
                             <div class="">
-                                <input name="victima_tipo_enfermedad_cronica" placeholder="" class="form-control victima_tipo_enfermedad_cronica_input" type="text">
+                                <input name="victima_tipo_enfermedad_cronica" id="victima_tipo_enfermedad_cronica" placeholder="" class="form-control victima_tipo_enfermedad_cronica_input" value="{{old('victima_tipo_enfermedad_cronica')}}" type="text">
                             </div>
                     </div>
                 </div>
@@ -652,7 +654,7 @@
                         <!-- mostrando lo que contiene el id cual -->
                         <div id="victimaLimitacionCual" style="display:none">
                             <label for="">Cual?</label>
-                            <input type="text" class="form-control victimaLimitacionCualInput" name="victima_limitacion_otra" value="">
+                            <input type="text" class="form-control victimaLimitacionCualInput" name="victima_limitacion_otra" id="victima_limitacion_otra" value="{{old('victima_limitacion_otra')}}">
                         </div>
                 </div>
                	{!! $errors->first('limitacion_id', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -697,8 +699,8 @@
             <!-- VIGESIMAPRIMERA PREGUNTA -->
                 <div class="form-group {{ $errors->has('niveleducativo_id') ? 'has-error' : ''}}">
                     <label for="">B 21. Máximo nivel educativo alcanzado:</label>
-                    <select class="form-control" name="niveleducativo_id">
-                        <option value="">Seleccioná el nivel de educación</option>
+                    <select class="form-control" name="niveleducativo_id" id="niveleducativo_id">
+                        <option value="" disabled selected>Seleccione</option>
                         @foreach ($datosNivelEducativo as $educacion)
                         	<option value="{{$educacion->getId()}}" {{ old('niveleducativo_id') == $educacion->getId() ? 'selected' : '' }}>{{$educacion->getNivelEducativo()}}</option>
                         @endforeach
@@ -710,8 +712,8 @@
             <!-- VIGESIMASEGUNDA PREGUNTA -->
                 <div class="form-group {{ $errors->has('oficio_id') ? 'has-error' : ''}}">
                     <label for="">B 22. ¿Cuenta con algún oficio adquirido o de interés?: </label>
-                    <select class="form-control oficio" name="oficio_id">
-                        <option value="">Posee oficio?</option>
+                    <select class="form-control oficio" name="oficio_id" id="oficio_id">
+                        <option value="" disabled selected>Seleccione</option>
                         @foreach ($datosOficio as $oficio)
                         	<option value="{{$oficio->getId()}}" {{ old('oficio_id') == $oficio->getId() ? 'selected' : '' }}>{{$oficio->getOficio()}}</option>
                         @endforeach
@@ -720,7 +722,7 @@
 
                     <div class="victimaOficioCual" style="display: none">
                         <label for="">Cual?</label>
-                        <input name="victima_oficio_cual" placeholder="" class="form-control victimaOficioCualInput" type="text">
+                        <input name="victima_oficio_cual" id="victima_oficio_cual" placeholder="" class="form-control victimaOficioCualInput" type="text" value="{{ old('victima_oficio_cual') }}">
                     </div>
                 </div>
 		        <script>
@@ -743,6 +745,7 @@
 		</form>
 
 	</section>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"  type="text/javascript"></script>
     <script src="/js/formularioB.js" type="text/javascript" charset="utf-8" async defer></script>
     <script src="/js/paises3.js" type="text/javascript" charset="utf-8" async defer></script>
 
@@ -754,7 +757,18 @@
             console.log(formulario);
 
             // btnEnviar.addEventListener('submit', function(){
-            formulario.addEventListener('submit', function(){
+            
+            //se documenta la siguiente linea para que valide en el cliente y luego llame a esta función    
+            //formulario.addEventListener('submit', function(){
+            
+            
+
+            /*la siguiente línea reemplaza a   formulario.addEventListener('submit', function(){
+            para que cuando validde en el cliente llame a esta funcón
+
+            */
+                function antesSubmit(){
+
                 // event.preventDefault()
                 // var formulario = document.querySelector('.formulario');
 
@@ -846,7 +860,7 @@
                 }
 
                 window.setTimeout(function(){formulario.submit()}, 2000)
-            });
+            }; //)
 
             // btnEnviar.addEventListener('click', function(){
                 

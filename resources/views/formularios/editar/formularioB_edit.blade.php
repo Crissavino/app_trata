@@ -66,7 +66,7 @@
 <body>
 	<section class="container">
 		
-        <form class="formulario" action="{{$Bformulario->id}}" method="post">
+        <form class="formulario" id="formularioB" action="{{$Bformulario->id}}" method="post">
         	{{-- inicio esta proteccion contra datos maliciosso --}}
         	{{ csrf_field() }}
         	@method('PUT')
@@ -144,7 +144,7 @@
                 <div class="form-group {{ $errors->has('genero_id') ? 'has-error' : ''}}">
                     <label for="">B 3. Género:</label>
                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                        <select class="form-control" name="genero_id" onChange="selectOnChange1(this)">
+                        <select class="form-control" name="genero_id" id="genero_id" onChange="selectOnChange1(this)">
                             @foreach ($datosGenero as $genero)
                                 @php
                                     $selected = ($genero->id == $Bformulario->genero_id) ? 'selected' : '';
@@ -153,7 +153,7 @@
                             @endforeach
                         </select>
                     @else
-                        <select disabled class="form-control" name="genero_id" onChange="selectOnChange1(this)">
+                        <select disabled class="form-control" name="genero_id" id="genero_id" onChange="selectOnChange1(this)">
                             @foreach ($datosGenero as $genero)
                                 @php
                                     $selected = ($genero->id == $Bformulario->genero_id) ? 'selected' : '';
@@ -186,7 +186,7 @@
                 <div class="form-group {{ $errors->has('tienedoc_id') ? 'has-error' : ''}}">
                     <label for="">B 4. ¿Cuenta con alguna documentación que permita acreditar su identidad?:</label>
                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                        <select class="form-control" name="tienedoc_id" onChange="selectOnChange16(this)">
+                        <select class="form-control" name="tienedoc_id" id="tienedoc_id" onChange="selectOnChange16(this)">
                             @foreach ($datosDocumento as $documento)
                             @php
                                 $selected = ($documento->id == $Bformulario->tienedoc_id) ? 'selected' : '';
@@ -195,7 +195,7 @@
                             @endforeach
                         </select>
                     @else
-                        <select disabled class="form-control" name="tienedoc_id" onChange="selectOnChange16(this)">
+                        <select disabled class="form-control" name="tienedoc_id" id="tienedoc_id" onChange="selectOnChange16(this)">
                             @foreach ($datosDocumento as $documento)
                             @php
                                 $selected = ($documento->id == $Bformulario->tienedoc_id) ? 'selected' : '';
@@ -347,7 +347,7 @@
                     <div {{ $errors->has('paisNacimiento') ? 'has-error' : ''}}>
                         <label for="countryId">B 7. País de Nacimiento: </label>
                         <input readonly type="text" value="{{ $Bformulario->paisNacimiento }}" class="form-control mb-2" name="">
-                        <select name="paisNacimiento" class="countries order-alpha form-control" id="countryId">
+                        <select name="paisNacimiento"  class="countries order-alpha form-control" id="countryId">
                             <option value="">Seleccioná pais de nacimiento</option>
                         </select>
 
@@ -359,7 +359,7 @@
                     <div {{ $errors->has('provinciaNacimiento') ? 'has-error' : ''}}>
                         <label for="stateId">B 8. Provincia de nacimiento: </label>
                         <input readonly type="text" value="{{ $Bformulario->provinciaNacimiento }}" class="form-control mb-2" name="">
-                        <select name="provinciaNacimiento" class="states order-alpha form-control" id="stateId">
+                        <select name="provinciaNacimiento"  class="states order-alpha form-control" id="stateId">
                             <option value="">Seleccioná provincia de nacimiento</option>
                         </select>
 
@@ -371,7 +371,7 @@
                     <div {{ $errors->has('ciudadNacimiento') ? 'has-error' : ''}}>
                         <label for="cityId">B 9. Localidad de nacimiento: </label>
                         <input readonly type="text" value="{{ $Bformulario->ciudadNacimiento }}" class="form-control mb-2" name="">
-                        <select name="ciudadNacimiento" class="cities order-alpha form-control" id="cityId">
+                        <select name="ciudadNacimiento"  class="cities order-alpha form-control" id="cityId">
                             <option value="">Seleccioná ciudad de nacimiento</option>
                         </select>
 
@@ -514,7 +514,7 @@
                 <div class="form-group {{ $errors->has('embarazorelevamiento_id') ? 'has-error' : ''}}">
                     <label for="">B 13. Embarazo al momento del relevamiento:</label>
                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                        <select class="form-control" name="embarazorelevamiento_id">
+                        <select class="form-control" name="embarazorelevamiento_id" id="embarazorelevamiento_id">
                             @foreach ($datosEmbarazadaRelevamiento as $estaEmbarazada)
                                 @php
                                     $selected = ($estaEmbarazada->id == $Bformulario->embarazorelevamiento_id) ? 'selected' : '';
@@ -523,7 +523,7 @@
                             @endforeach
                         </select>
                     @else
-                        <select disabled class="form-control" name="embarazorelevamiento_id">
+                        <select disabled class="form-control" name="embarazorelevamiento_id" id="embarazorelevamiento_id">
                             @foreach ($datosEmbarazadaRelevamiento as $estaEmbarazada)
                                 @php
                                     $selected = ($estaEmbarazada->id == $Bformulario->embarazorelevamiento_id) ? 'selected' : '';
@@ -540,7 +540,7 @@
                 <div class="form-group {{ $errors->has('embarazoprevio_id') ? 'has-error' : ''}}">
                     <label for="">B 14. ¿Estuvo embarazada previamente?:</label>
                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                        <select class="form-control" name="embarazoprevio_id">
+                        <select class="form-control" name="embarazoprevio_id" id="embarazoprevio_id">
                             @foreach ($datosEmbarazoPrevio as $estuvoEmbarazada)
                                 @php
                                     $selected = ($estuvoEmbarazada->id == $Bformulario->embarazoprevio_id) ? 'selected' : '';
@@ -549,7 +549,7 @@
                             @endforeach
                         </select>
                     @else
-                        <select disabled class="form-control" name="embarazoprevio_id">
+                        <select disabled class="form-control" name="embarazoprevio_id" id="embarazoprevio_id">
                             @foreach ($datosEmbarazoPrevio as $estuvoEmbarazada)
                                 @php
                                     $selected = ($estuvoEmbarazada->id == $Bformulario->embarazoprevio_id) ? 'selected' : '';
@@ -566,7 +566,7 @@
                 <div class="form-group {{ $errors->has('hijosembarazo_id') ? 'has-error' : ''}}">
                     <label for="">B 15. ¿Tiene hijos de embarazos anteriores?:</label>
                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                        <select class="form-control" name="hijosembarazo_id">
+                        <select class="form-control" name="hijosembarazo_id" id="hijosembarazo_id">
                             @foreach ($datosHijos as $hijos)
                                 @php
                                     $selected = ($hijos->id == $Bformulario->hijosembarazo_id) ? 'selected' : '';
@@ -575,7 +575,7 @@
                             @endforeach
                         </select>
                     @else
-                        <select disabled class="form-control" name="hijosembarazo_id">
+                        <select disabled class="form-control" name="hijosembarazo_id" id="hijosembarazo_id">
                             @foreach ($datosHijos as $hijos)
                                 @php
                                     $selected = ($hijos->id == $Bformulario->hijosembarazo_id) ? 'selected' : '';
@@ -592,7 +592,7 @@
                 <div class="form-group {{ $errors->has('bajoefecto_id') ? 'has-error' : ''}}">
                     <label for="">B 16. ¿Se encuentra bajo los efectos de alcohol o estupefacientes al momento del relevamiento?:</label>
                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                        <select class="form-control" name="bajoefecto_id">
+                        <select class="form-control" name="bajoefecto_id" id="bajoefecto_id">
                             @foreach ($datosBajoEfecto as $efectos)
                                 @php
                                     $selected = ($efectos->id == $Bformulario->bajoefecto_id) ? 'selected' : '';
@@ -601,7 +601,7 @@
                             @endforeach
                         </select>
                     @else
-                        <select disabled class="form-control" name="bajoefecto_id">
+                        <select disabled class="form-control" name="bajoefecto_id" id="bajoefecto_id">
                             @foreach ($datosBajoEfecto as $efectos)
                                 @php
                                     $selected = ($efectos->id == $Bformulario->bajoefecto_id) ? 'selected' : '';
@@ -741,11 +741,11 @@
                             <label class="">B 18I. Tipo de lesión:</label>
                             @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                                 <div class="">
-                                    <input name="victima_lesion" placeholder="" value="{{ $Bformulario->victima_lesion }}" class="form-control victimaLesionInput" type="text">
+                                    <input name="victima_lesion" id="victima_lesion" placeholder="" value="{{ $Bformulario->victima_lesion }}" class="form-control victimaLesionInput" type="text">
                                 </div>
                             @else
                                 <div class="">
-                                    <input readonly name="victima_lesion" placeholder="" value="{{ $Bformulario->victima_lesion }}" class="form-control victimaLesionInput" type="text">
+                                    <input readonly name="victima_lesion" id="victima_lesion" placeholder="" value="{{ $Bformulario->victima_lesion }}" class="form-control victimaLesionInput" type="text">
                                 </div>
                             @endif
                             
@@ -753,14 +753,14 @@
                             <label class="">B 18II. ¿Fue constatado en el momento por algún profesional de la salud? :</label>
                             <div class="">
                                 @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                                    <select class="form-control selectLesionConstatada" name="lesionconstatada">
-                                        <option value="">Fue constatada?</option>
+                                    <select class="form-control selectLesionConstatada"  name="lesionconstatada" id="lesionconstatada">
+                                        <option value="" disabled selected>Seleccione</option>
                                         @foreach ($datosLesionConstatada as $constatada)
                                             <option value="{{$constatada->id}}">{{$constatada->nombre}}</option>
                                         @endforeach
                                     </select>
                                 @else
-                                    <select disabled class="form-control selectLesionConstatada" name="lesionconstatada">
+                                    <select disabled class="form-control selectLesionConstatada" name="lesionconstatada" id="lesionconstatada">
                                         <option value="">Fue constatada?</option>
                                         @foreach ($datosLesionConstatada as $constatada)
                                             <option value="{{$constatada->id}}">{{$constatada->nombre}}</option>
@@ -771,14 +771,14 @@
                                     <label class="">B 18III. ¿A qué organismo pertenece el profesional de la salud?:</label>
                                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                                         <div class="">
-                                            <input name="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text">
+                                            <input name="victima_lesion_organismo" id="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text">
                                         </div>
 
                                         <label for="desconoce">Se deconoce</label>
                                         <input type="checkbox" class="form-check-inline desconoce18" id="desconoce" name="">
                                     @else
                                         <div class="">
-                                            <input readonly name="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text">
+                                            <input readonly name="victima_lesion_organismo" id="victima_lesion_organismo" placeholder="" class="form-control victimaLesionOrganismoInput" type="text">
                                         </div>
                                     @endif
                                     <script>
@@ -970,7 +970,7 @@
                 <div class="form-group {{ $errors->has('niveleducativo_id') ? 'has-error' : ''}}">
                     <label for="">B 21. Máximo nivel educativo alcanzado:</label>
                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                        <select class="form-control" name="niveleducativo_id">
+                        <select class="form-control" name="niveleducativo_id" id="niveleducativo_id">
                             @foreach ($datosNivelEducativo as $educacion)
                                 @php
                                     $selected = ($educacion->id == $Bformulario->niveleducativo_id) ? 'selected' : '';
@@ -979,7 +979,7 @@
                             @endforeach
                         </select>
                     @else
-                        <select disabled class="form-control" name="niveleducativo_id">
+                        <select disabled class="form-control" name="niveleducativo_id" id="niveleducativo_id">
                             @foreach ($datosNivelEducativo as $educacion)
                                 @php
                                     $selected = ($educacion->id == $Bformulario->niveleducativo_id) ? 'selected' : '';
@@ -996,7 +996,7 @@
                 <div class="form-group {{ $errors->has('oficio_id') ? 'has-error' : ''}}">
                     <label for="">B 22. ¿Cuenta con algún oficio adquirido o de interés?: </label>
                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                        <select class="form-control oficio" name="oficio_id" onChange="selectOnChange13(this)">
+                        <select class="form-control oficio" name="oficio_id" id="oficio_id"  onChange="selectOnChange13(this)">
                             @foreach ($datosOficio as $oficio)
                                 @php
                                     $selected = ($oficio->id == $Bformulario->oficio_id) ? 'selected' : '';
@@ -1005,7 +1005,7 @@
                             @endforeach
                         </select>
                     @else
-                        <select disabled class="form-control oficio" name="oficio_id">
+                        <select disabled class="form-control oficio" name="oficio_id" id="oficio_id">
                             @foreach ($datosOficio as $oficio)
                                 @php
                                     $selected = ($oficio->id == $Bformulario->oficio_id) ? 'selected' : '';
@@ -1020,7 +1020,7 @@
                     <div class="victimaOficioCual" style="display: none">
                         <label for="">Cual?</label>
                         @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                            <input name="victima_oficio_cual" value="{{ $Bformulario->victima_oficio_cual }}" id="" placeholder="" class="form-control victimaOficioCualInput" type="text">
+                            <input name="victima_oficio_cual" id="victima_oficio_cual" value="{{ $Bformulario->victima_oficio_cual }}" id="" placeholder="" class="form-control victimaOficioCualInput" type="text">
                         
                         @else
                             <input readonly name="victima_oficio_cual" value="{{ $Bformulario->victima_oficio_cual }}" id="" placeholder="" class="form-control victimaOficioCualInput" type="text">
@@ -1050,7 +1050,7 @@
 		</form>
 
 	</section>
-
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"  type="text/javascript"></script>
 	<script src="/js/formularioB.js" type="text/javascript" charset="utf-8" async defer></script>
     <script src="/js/paises3.js" type="text/javascript" charset="utf-8" async defer></script>
 
@@ -1064,7 +1064,16 @@
             console.log(formulario);
 
             // btnEnviar.addEventListener('submit', function(){
-            formulario.addEventListener('submit', function(){
+           //se documenta la siguiente linea para que valide en el cliente y luego llame a esta función    
+            //formulario.addEventListener('submit', function(){
+            
+            
+
+            /*la siguiente línea reemplaza a   formulario.addEventListener('submit', function(){
+            para que cuando validde en el cliente llame a esta funcón
+
+            */
+            function antesSubmit(){
                 // event.preventDefault()
                 // var formulario = document.querySelector('.formulario');
 
@@ -1158,7 +1167,7 @@
                 }
 
                 window.setTimeout(function(){formulario.submit()}, 2000)
-            });
+            };//)
 
             // btnEnviar.addEventListener('click', function(){
                 
