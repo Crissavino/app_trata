@@ -344,9 +344,6 @@ $("#ejeC").validate({
 			otraspersonas_id:{
 				   required:true
 			},
-			[name^='nombre_apellido']:{
-				required:true
-		 },
 	   },
 	   messages: { //se definen los mensajes a mostrar
 			otraspersonas_id:{
