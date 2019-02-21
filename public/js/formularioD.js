@@ -1094,4 +1094,393 @@ window.onload = function (){
 				materialOtro.value = '';
 			}
 		});
+
 }
+
+
+
+
+
+
+$.validator.addMethod("horasdiarias",function(value,element){
+	tipo=isNaN(parseInt(value));
+	valorSeDesconoce=(value=="Se desconoce");
+	premisa1=(tipo && valorSeDesconoce);
+	valorMenor=false;
+	if(!tipo){
+		if(value<=24 && value>0)
+		valorMenor=true;
+	}
+
+	return (premisa1 || (!tipo && valorMenor));
+
+
+},"Ingrese un Número de 1 a 24. ");
+
+
+
+$("#formularioD").validate({ 
+	debug:false,
+	errorClass: 'error_cliente',
+	ignore:":not(:visible)",
+	rules: { //se definen las reglas
+		calificaciongeneral_id:{
+				   required:true
+			},
+		calificaciongeneral_otra:{
+			required:true
+		},
+		calificacionespecifica_id:{
+			required:true
+		},
+		finalidad_id:{
+			required:true
+		},
+		finalidad_otra:{
+			required:true
+		},
+		actividad_id:{
+			required:true
+		},
+		actividad_otra:{
+			required:true
+		},
+		'privado_id[]':{
+			required:true
+		},
+		privado_otra:{
+			required:true
+		},
+		marcaTextil:{
+			required:true
+		},
+		'textil_id[]':{
+			required:true,
+		},
+		textil_otra:{
+			required:true,
+		},
+		'rural_id[]':{
+			required:true,
+		},
+		rural_otra:{
+			required:true,
+		},
+		domicilioVenta:{
+			required:true,
+		},
+		engano_id:{
+			required:true,
+		},
+		/*paisCaptacion:{
+			equired:true,
+		},
+		provinciaCaptacion:{
+			required:true,
+		},
+		ciudadCaptacion:{
+			required:true,
+		},*/
+		contactoexplotacion_id:{
+			required:true,
+		},
+		contactoexplotacion_otro:{
+			required:true,
+		},
+		viajo_id:{
+			required:true,
+		},
+		acompanado_id:{
+			required:true,
+		},
+		acompanadored_id:{
+			required:true,
+		},
+		/*
+		paisExplotacion:{
+			required:true,
+		},
+		provinciaExplotacion:{
+			required:true,
+		},
+		ciudadExplotacion:{
+			required:true,
+		},*/
+		domicilio:{
+			required:true,
+		},
+		residelugar_id:{
+			required:true,
+		},
+		engano_id:{
+			required:true
+		},
+		haypersona_id:{
+			required:true
+		},
+		tipovictima_id:{
+			required:true
+		},
+		tarea:{
+			required:true
+		},
+		horasTarea:{
+			required:true,
+			horasdiarias:"#horasTarea",
+		},
+		frecuenciapago_id:{
+			required:true
+		},
+		modalidadpagos_id:{
+			required:true
+		},
+		'especiaconcepto_id[]':{
+			required:true
+		},
+		montoPago:{
+			required:true,
+			number:true
+		},
+		deuda_id:{
+			required:true
+		},
+		'motivodeuda_id[]':{
+			required:true
+		},
+		motivodeuda_otro:{
+			required:true
+		},
+		lugardeuda_id:{
+			required:true
+		},
+		permanencia_id:{
+			required:true
+		},
+		testigo_id:{
+			required:true
+		},
+		coordinadorPTN:{
+			required:true
+		},
+		coordinadorPTN_otro:{
+			required:true
+		},
+		haycorriente_id:{
+			required:true
+		},
+		haygas_id:{
+			required:true
+		},
+		'haymedida_id[]':{
+			required:true
+		},
+		haymedidas_otro:{
+			required:true
+		},
+		hayhacinamiento_id:{
+			required:true
+		},
+		hayagua_id:{
+			required:true
+		},
+		haybano_id:{
+			required:true
+		},
+		cuantosbano_id:{
+			required:true
+		},
+		material_id:{
+			required:true
+		},
+		material_otro:{
+			required:true
+		},
+		elementotrabajo_id:{
+			required:true
+		},
+		elementoseguridad_id:{
+			required:true
+		},
+		
+	   },
+	   messages: { //se definen los mensajes a mostrar
+		calificaciongeneral_id:{
+			   required:"Este campo es obligatorio",
+		   },
+		   calificaciongeneral_otra:{
+			required:"Este campo es obligatorio",
+		},
+		calificacionespecifica_id:{
+			required:"Este campo es obligatorio",
+		},
+		finalidad_id:{
+			required:"Este campo es obligatorio",
+		},
+		finalidad_otra:{
+			required:"Este campo es obligatorio",
+		},
+		actividad_id:{
+			required:"Este campo es obligatorio",
+		},
+		actividad_otra:{
+			required:"Este campo es obligatorio",
+		},
+		'privado_id[]':{
+			required:"Este campo es obligatorio",
+		},
+		privado_otra:{
+			required:"Este campo es obligatorio",
+		},
+		marcaTextil:{
+			required:"Este campo es obligatorio",
+		},
+		'textil_id[]':{
+			required:"Este campo es obligatorio",
+		},
+		textil_otra:{
+			required:"Este campo es obligatorio",
+		},
+		'rural_id[]':{
+			required:"Este campo es obligatorio",
+		},
+		rural_otra:{
+			required:"Este campo es obligatorio",
+		},
+		domicilioVenta:{
+			required:"Este campo es obligatorio",
+		},
+		paisCaptacion:{
+			required:"Este campo es obligatorio",
+		},
+		provinciaCaptacion:{
+			required:"Este campo es obligatorio",
+		},
+		ciudadCaptacion:{
+			required:"Este campo es obligatorio",
+		},
+		contactoexplotacion_id:{
+			required:"Este campo es obligatorio",
+		},
+		contactoexplotacion_otro:{
+			required:"Este campo es obligatorio",
+		},
+		viajo_id:{
+			required:"Este campo es obligatorio",
+		},
+		acompanado_id:{
+			required:"Este campo es obligatorio",
+		},
+		acompanadored_id:{
+			required:"Este campo es obligatorio",
+		},
+
+		paisExplotacion:{
+			required:"Este campo es obligatorio",
+		},
+		provinciaExplotacion:{
+			required:"Este campo es obligatorio",
+		},
+		ciudadExplotacion:{
+			required:"Este campo es obligatorio",
+		},
+		domicilio:{
+			required:"Este campo es obligatorio",
+		},
+		residelugar_id:{
+			required:"Este campo es obligatorio",
+		},
+		engano_id:{
+			required:"Este campo es obligatorio"
+		},
+		haypersona_id:{
+			required:"Este campo es obligatorio"
+		},
+		tipovictima_id:{
+			required:"Este campo es obligatorio"
+		},
+		tarea:{
+			required:"Este campo es obligatorio"
+		},
+		horasTarea:{
+			required:"Este campo es obligatorio",
+			horasdiarias:"Ingrese un número de 1 a 24"
+		},
+		frecuenciapago_id:{
+			required:"Este campo es obligatorio"
+		},
+		modalidadpagos_id:{
+			required:"Este campo es obligatorio"
+		},
+		'especiaconcepto_id[]':{
+			required:"Este campo es obligatorio"
+		},
+		especiaconceptos_otro:{
+			required:"Este campo es obligatorio"
+		},
+		montoPago:{
+			required:"Este campo es obligatorio",
+			number:"Ingrese un número"
+		},
+		deuda_id:{
+			required:"Este campo es obligatorio"
+		},
+		'motivodeuda_id[]':{
+			required:"Este campo es obligatorio"
+		},
+		motivodeuda_otro:{
+			required:"Este campo es obligatorio"
+		},
+		lugardeuda_id:{
+			required:"Este campo es obligatorio"
+		},
+		permanencia_id:{
+			required:"Este campo es obligatorio"
+		},
+		testigo_id:{
+			required:"Este campo es obligatorio"
+		},
+		coordinadorPTN:{
+			required:"Este campo es obligatorio"
+		},
+		coordinadorPTN_otro:{
+			required:"Este campo es obligatorio"
+		},
+		haycorriente_id:{
+			required:"Este campo es obligatorio"
+		},
+		haygas_id:{
+			required:"Este campo es obligatorio"
+		},
+		'haymedida_id[]':{
+			required:"Este campo es obligatorio"
+		},
+		haymedidas_otro:{
+			required:"Este campo es obligatorio"
+		},
+		hayhacinamiento_id:{
+			required:"Este campo es obligatorio"
+		},
+		hayagua_id:{
+			required:"Este campo es obligatorio"
+		},
+		haybano_id:{
+			required:"Este campo es obligatorio"
+		},
+		cuantosbano_id:{
+			required:"Este campo es obligatorio"
+		},
+		material_id:{
+			required:"Este campo es obligatorio"
+		},
+		material_otro:{
+			required:"Este campo es obligatorio"
+		},
+		elementotrabajo_id:{
+			required:"Este campo es obligatorio"
+		},
+		elementoseguridad_id:{
+			required:"Este campo es obligatorio"
+		},
+	   }
+   });
+
