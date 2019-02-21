@@ -40,6 +40,20 @@
 			}
 	//fin
 
+	//cuando se cliquea para borrar UN referente
+	
+		var ids = [];
+
+		function borrarReferenteAnterior(id){
+			ids.push(id)
+			$('#idsEliminados').val(ids)
+
+			$('.referenteAnterior'+id).html(" ")
+
+		}
+
+	//fin
+
 window.onload =function (){
 
 //---------FORMULARIO C--------------
@@ -86,6 +100,15 @@ window.onload =function (){
 //fin
 
 //cuando la opcion cambie de si a no o se desconoce, se oculten y se borren los referentes cargados
+	var noPersonas = document.querySelector('.noPersonas');
+	var referentesAnteriores = $('.referentes-anteriores')
+	
+	noPersonas.addEventListener('change', function(){
+		if (this.value !== 1) {
+			referentesAnteriores.html(" ");
+		}
+	});
+//fin
 
 //de esta forma agrego otro conviviente
 

@@ -1283,11 +1283,12 @@ class FormsController extends Controller
 		$datosReferentes = \App\FormC\Referente::all();
 		$cFormulario = \App\FormC\Cformulario::find($idFormulario);
 
-		$datosTodo = DB::table('cformularios')
-		                            ->WHERE('cformularios.id', '=', $idFormulario)
-									->JOIN('cformulario_referente', 'cformularios.id', '=', 'cformulario_referente.cformulario_id')
-									->JOIN('referentes', 'cformulario_referente.referente_id', '=', 'referentes.id')
-		                            ->get();
+		// $datosTodo = DB::table('cformularios')
+		//                             ->WHERE('cformularios.id', '=', $idFormulario)
+		// 							->JOIN('cformulario_referente', 'cformularios.id', '=', 'cformulario_referente.cformulario_id')
+		// 							->JOIN('referentes', 'cformulario_referente.referente_id', '=', 'referentes.id')
+		//                             ->get();
+		$referentes = $cFormulario->referentes;
 
 		//id de los formularios de una misma carpeta
 			// $idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
@@ -1327,7 +1328,8 @@ class FormsController extends Controller
 															'datosVinculos' => $datosVinculos,
 															'userId' => $userId,
 															'cFormulario' => $cFormulario,
-															'datosTodo' => $datosTodo,
+															// 'datosTodo' => $datosTodo,
+															'referentes' => $referentes,
 															'idFormA' => $idFormA,
 															'idFormB' => $idFormB,
 															'idFormC' => $idFormC,
@@ -1343,6 +1345,7 @@ class FormsController extends Controller
 	public function updateC($idCarpeta,$idFormulario)
 	{	
 		$userId = auth()->user()->id;
+		$fecha_hoy = Carbon::now();
 
 		//se agregaron campos nombre_apellido_viejo edad_viejo genero_id_viejo vinculo_id_viejo referenteContacto_viejo para
 		//diferenciar los referentes cargados anteriormente
@@ -1376,6 +1379,8 @@ class FormsController extends Controller
 
 		$referenteId = [];
 
+		// dd((count(request()->input('nombre_apellido_viejo'))));
+
 		$cantidadReferentesViejos = false;
 		if (request()->input('nombre_apellido_viejo')) {
 			$cantidadReferentesViejos = (count(request()->input('nombre_apellido_viejo')));
@@ -1385,10 +1390,21 @@ class FormsController extends Controller
 		if (request()->input('nombre_apellido')) {
 			$cantidadReferentesNuevos = (count(request()->input('nombre_apellido')));
 		}
+			// dd($cFormulario->referentes()->WHERE('referente_id', '=', $data['idsEliminados']));
 
-		// dd($cFormulario->referentes->count());
+		if ($data['idsEliminados']) {
+			$ids = array_map("intval", explode(',', $data['idsEliminados']));
+			for ($i=0; $i < count($ids); $i++) { 
+				
+				$referente = DB::table('referentes')->where('referentes.id', '=', $ids[$i])->update(['updated_at' => $fecha_hoy, 'deleted_at' => $fecha_hoy]);
+				$tablaPivot = DB::table('cformulario_referente')->where('cformulario_referente.referente_id', '=', $ids[$i])->update(['updated_at' => $fecha_hoy, 'deleted_at' => $fecha_hoy]);
+
+			}
+		}
+
 		$referentes = $cFormulario->referentes;
-
+		// dd($data['vinculo_id_viejo']);
+		// dd($data);
 		if ($cantidadReferentesViejos) {
 			foreach ($referentes as $i => $referente) {
 				$referenteCargado = \App\FormC\Referente::find($referente->id);
@@ -1396,7 +1412,7 @@ class FormsController extends Controller
 				$referenteViejo['nombre_apellido'] = $data['nombre_apellido_viejo'][$i];
 				$referenteViejo['edad'] = $data['edad_viejo'][$i];
 				$referenteViejo['vinculo_id'] = $data['vinculo_id_viejo'][$i];
-				if (isset($data['vinculo_otro'][$i])) {
+				if (isset($data['vinculo_otro_viejo'][$i])) {
 					$referenteViejo['vinculo_otro'] = $data['vinculo_otro_viejo'][$i];
 				}
 				$referenteViejo['referenteContacto'] = $data['referenteContacto_viejo'][$i];
