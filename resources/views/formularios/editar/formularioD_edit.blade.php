@@ -69,7 +69,7 @@
 
 		    	<h1 class="text-center" style="padding: 15px;">
 	                Eje D: Datos de delito
-	                <h5 style="text-align: center;" >Estas trabajando sobre el número de carpeta {{ $dFormulario->numeroCarpeta }}</h5>
+	                <h5 style="text-align: center;" >Estás trabajando sobre la carpeta n°:{{ $dFormulario->numeroCarpeta }}</h5>
 	            </h1>
                 <input type="text" name="numeroCarpeta" value="{{ $dFormulario->numeroCarpeta }}" style="display: none;">
 		    	
@@ -314,7 +314,7 @@
 
 		    		<div style="display: none;" class="viajoAcompanado">
 		    	 		<div {{ $errors->has('acompanado_id') ? 'has-error' : ''}}>
-		    	 			<label for="">D 10 I. ¿Por quién?:</label>
+		    	 			<label for="">D 10 I. ¿Fue acompañado/a por alguien?:</label>
 				    		<select class="form-control acompanado" name="acompanado_id">
 				    			<option value="">Seleccioná quién la/lo acompañó</option>
 				    			@foreach ($datosAcompanado as $acompanado)
@@ -1039,7 +1039,7 @@
 		    	{!! $errors->first('engano_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 
 		    	<div class="form-group" {{ $errors->has('haypersona_id') ? 'has-error' : ''}}>
-		    		<label for="">D 17. ¿Hay personas retenidas en el lugar de explotación?</label>
+		    		<label for="">D 17. ¿se encontraban otras personas en situación de explotación en el mismo espacio?</label>
 		    		<select disabled class="form-control" name="haypersona_id">
 		    			<option value="">Hay mas personas?</option>
 		    			@foreach ($datosHayPersona as $hayPersona)
