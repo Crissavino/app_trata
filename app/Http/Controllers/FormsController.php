@@ -2382,7 +2382,7 @@ class FormsController extends Controller
 	{
 		request()->validate(
 			[
-				'intervinieronOrganismos' => 'required | numeric | min:0 | max:3',
+				'intervinieronOrganismos' => 'required',
 				'intervinieronOrganismosActualmente' => 'required',
 			],
 			[
