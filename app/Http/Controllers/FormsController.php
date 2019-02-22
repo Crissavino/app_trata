@@ -832,16 +832,6 @@ class FormsController extends Controller
 			'bajoefecto_id' => 'required | numeric | min:0 | max:3',
 			'tienelesion_id' => 'required | numeric | min:0 | max:3',
 			'victima_lesion' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un tipo debe seleccionar si',true)],
-<<<<<<< HEAD
-			'lesionconstatada_id' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,3,'Para ingresar si fue constatada debe seleccionar si')],
-			'victima_lesion_organismo' => [new RequiredConditional(request()->get('lesionconstatada_id'),array('1'),0,255,'Para ingresar un organismo debe seleccionar si',true)],
-			'enfermedadcronica_id' => 'required | numeric | min:0 | max:3',
-			'victima_tipo_enfermedad_cronica' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un tipo debe seleccionar si',true)],
-			//'victima_limitacion_otra' => 'required',
-			'niveleducativo_id' => 'required | numeric | min:0 | max:8',
-			'oficio_id' => 'required | numeric | min:0 | max:3',
-			'victima_oficio_cual' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un oficio debe seleccionar si',true)],
-=======
 			//* REVISAR VALIDACION NO ESTA FUNCIONANDO *//
 			// 'lesionconstatada_id' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,3,'Para ingresar si fue constatada debe seleccionar si')],
 			'victima_lesion_organismo' => [new RequiredConditional(request()->get('lesionconstatada_id'),array('1'),0,255,'Para ingresar un organismo debe seleccionar si',true)],
@@ -853,7 +843,6 @@ class FormsController extends Controller
 			'oficio_id' => 'required | numeric | min:0 | max:3',
 			//* REVISAR VALIDACION NO ESTA FUNCIONANDO *//
 			//'victima_oficio_cual' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un oficio debe seleccionar si',true)],
->>>>>>> 5cc4cb4ed6d40347f91cca125699222e0d97e356
 			//'victima_oficio_cual' => 'required',
 			'discapacidad_id' => 'required',
 			'limitacion_id' => 'required',
@@ -1394,11 +1383,8 @@ class FormsController extends Controller
 
 		$referenteId = [];
 
-<<<<<<< HEAD
-=======
 		// dd((count(request()->input('nombre_apellido_viejo'))));
 
->>>>>>> 5cc4cb4ed6d40347f91cca125699222e0d97e356
 		$cantidadReferentesViejos = false;
 		if (request()->input('nombre_apellido_viejo')) {
 			$cantidadReferentesViejos = (count(request()->input('nombre_apellido_viejo')));
@@ -1408,51 +1394,9 @@ class FormsController extends Controller
 		if (request()->input('nombre_apellido')) {
 			$cantidadReferentesNuevos = (count(request()->input('nombre_apellido')));
 		}
-<<<<<<< HEAD
-
-		// dd($cFormulario->referentes->count());
-		$referentes = $cFormulario->referentes;
-
-		if ($cantidadReferentesViejos) {
-			foreach ($referentes as $i => $referente) {
-				$referenteCargado = \App\FormC\Referente::find($referente->id);
-
-				$referenteViejo['nombre_apellido'] = $data['nombre_apellido_viejo'][$i];
-				$referenteViejo['edad'] = $data['edad_viejo'][$i];
-				$referenteViejo['vinculo_id'] = $data['vinculo_id_viejo'][$i];
-				if (isset($data['vinculo_otro'][$i])) {
-					$referenteViejo['vinculo_otro'] = $data['vinculo_otro_viejo'][$i];
-				}
-				$referenteViejo['referenteContacto'] = $data['referenteContacto_viejo'][$i];
-				$referenteViejo['user_id'] = $data['user_id'];
-
-
-				$actualizoReferente = $referenteCargado->update($referenteViejo);
-				
-				$referenteId[] = $referente->id;
-			}
-		}
-
-		if ($cantidadReferentesNuevos) {
-			for ($i = 0; $i < $cantidadReferentesNuevos ; $i++) { 
-
-				$referenteNuevo['nombre_apellido'] = $data['nombre_apellido'][$i];
-				$referenteNuevo['edad'] = $data['edad'][$i];
-				$referenteNuevo['vinculo_id'] = $data['vinculo_id'][$i];
-				if (isset($data['vinculo_otro'][$i])) {
-					$referenteNuevo['vinculo_otro'] = $data['vinculo_otro'][$i];
-				}
-				$referenteNuevo['referenteContacto'] = $data['referenteContacto'][$i];
-				$referenteNuevo['user_id'] = $data['user_id'];
-
-				$guardoReferente = \App\FormC\Referente::create($referenteNuevo);
-
-				$referenteId[] = $guardoReferente->id;
-
-=======
 			// dd($cFormulario->referentes()->WHERE('referente_id', '=', $data['idsEliminados']));
 
-		if ($data['idsEliminados']) {
+		if (isset($data['idsEliminados'])) {
 			$ids = array_map("intval", explode(',', $data['idsEliminados']));
 			for ($i=0; $i < count($ids); $i++) { 
 				
@@ -1463,8 +1407,7 @@ class FormsController extends Controller
 		}
 
 		$referentes = $cFormulario->referentes;
-		// dd($data['vinculo_id_viejo']);
-		// dd($data);
+
 		if ($cantidadReferentesViejos) {
 			foreach ($referentes as $i => $referente) {
 				$referenteCargado = \App\FormC\Referente::find($referente->id);
@@ -1501,51 +1444,21 @@ class FormsController extends Controller
 
 				$referenteId[] = $guardoReferente->id;
 
->>>>>>> 5cc4cb4ed6d40347f91cca125699222e0d97e356
 			}
 		}
 
+		//CAMBIOS
+		if ($data['otraspersonas_id'] == 2 || $data['otraspersonas_id'] == 3) {
+			// dd(count($referentes));
+			foreach ($referentes as $referente) {
+
+				$borroReferente = DB::table('referentes')->where('referentes.id', '=', $referente->id)->update(['updated_at' => $fecha_hoy, 'deleted_at' => $fecha_hoy]);
+				$borroTablaPivot = DB::table('cformulario_referente')->where('cformulario_referente.referente_id', '=', $referente->id)->update(['updated_at' => $fecha_hoy, 'deleted_at' => $fecha_hoy]);
+			}
+		}
+		//fin cambios subir 22/02
+
 		//fin nuevo
-			// var_dump(count($referente));
-			// $idReferentesCargados[] = $referente->id;
-			
-			// var_dump($idReferentesCargados);
-		// for ($i = 0; $i < $cantidadReferentesViejos; $i++) { 
-			
-		// }
-		// if ($cFormulario->referentes) {
-		// 	for ($i=0; $i < $cantidadReferentesAnteriores; $i++) { 
-		// 		$referente['nombre_apellido'] = $data['nombre_apellido'][$i];
-		// 		$referente['edad'] = $data['edad'][$i];
-		// 		$referente['vinculo_id'] = $data['vinculo_id'][$i];
-		// 		if (isset($data['vinculo_otro'][$i])) {
-		// 			$referente['vinculo_otro'] = $data['vinculo_otro'][$i];
-		// 		}
-		// 		$referente['referenteContacto'] = $data['referenteContacto'][$i];
-		// 		$referente['user_id'] = $data['user_id'];
-
-		// 		$guardoReferente = \App\FormC\Referente::create($referente);
-
-		// 		$referenteId[] = $guardoReferente->id;
-		// 	}
-		// }
-
-		
-		// for ($i=0; $i < $cant; $i++) {
-
-		// 	$referente['nombre_apellido'] = $data['nombre_apellido'][$i];
-		// 	$referente['edad'] = $data['edad'][$i];
-		// 	$referente['vinculo_id'] = $data['vinculo_id'][$i];
-		// 	if (isset($data['vinculo_otro'][$i])) {
-		// 		$referente['vinculo_otro'] = $data['vinculo_otro'][$i];
-		// 	}
-		// 	$referente['referenteContacto'] = $data['referenteContacto'][$i];
-		// 	$referente['user_id'] = $data['user_id'];
-
-		// 	$guardoReferente = \App\FormC\Referente::create($referente);
-
-		// 	$referenteId[] = $guardoReferente->id;
-		// }
 
 		$cFormulario->update($data);
 
@@ -2459,7 +2372,7 @@ class FormsController extends Controller
 	{
 		request()->validate(
 			[
-				'intervinieronOrganismos' => 'required | numeric | min:0 | max:3',
+				'intervinieronOrganismos' => 'required',
 				'intervinieronOrganismosActualmente' => 'required',
 			],
 			[

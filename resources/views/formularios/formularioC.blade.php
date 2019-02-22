@@ -92,54 +92,6 @@
             </div>
 
             <div class="referentes" id="referentes"></div>
-            {{-- <div class="hijo" id="hijo" style="display: none;">
-                    <h3>Datos del Referente:</h3>
-                    <div class="form-group" {{ $errors->has('nombre_apellido[]') ? 'has-error' : ''}}>
-                        <label for="">C 2. Nombre y apellido</label>
-                        <input type="text" class="form-control nombre_apellido" value="">
-                        {!! $errors->first('nombre_apellido.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-
-                        <label for="" >Se desconoce</label>
-                        <input type="checkbox" class="desconoceNA" name="" value="">
-                    </div>
-                    
-                    <div class="form-group" {{ $errors->has('edad[]') ? 'has-error' : ''}}>
-                        <label for="edad">C 3. Edad:</label>
-                        <input type="text" class="form-control edad" value="">
-                        {!! $errors->first('edad.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-
-                        <label for="">Se desconoce</label>
-                        <input type="checkbox" class="desconoceE" name="" value="">
-                    </div>
-
-
-                    <div class="form-group" {{ $errors->has('genero_id[]') ? 'has-error' : ''}}>
-                        <label for="genero_id">C 4. Género</label>
-                        <select class="form-control genero" id="genero_id">
-                            <option value="">Género?</option>
-                            @foreach ($datosGeneros as $genero)
-                                <option value="{{ $genero->getIdGenero() }}" {{ old('genero_id') == $genero->getIdGenero() ? 'selected' : '' }}>{{ $genero->getNombreGenero() }}</option>
-                            @endforeach
-                        </select>
-                        {!! $errors->first('genero_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-                    </div>
-                    
-                    <div class="form-group" {{ $errors->has('vinculo_id[]') ? 'has-error' : ''}}>
-                        <label for="vinculo_id">C 5. Vinculación con la víctima:</label>
-                        <select id="vinculo_id" class="form-control vinculo">
-                            <option value="">Vínculo?</option>
-                            @foreach ($datosVinculos as $vinculo)
-                                <option value="{{ $vinculo->getId() }}" {{ old('vinculo_id') == $vinculo->getId() ? 'selected' : '' }}>{{ $vinculo->getNombre() }}</option>
-                            @endforeach
-                        </select>
-                        {!! $errors->first('vinculo_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-                    </div>
-                    
-                    <div class="form-group otro_vinculo" style="display: none">
-                        <label for="vinculo_otro">Cuál?</label>
-                        <input type="text" class="form-control vinculo_otro">
-                    </div>
-            </div> --}}
 
             <div id="botones">
                 <button type="button" id="anadir" disabled="disabled" class="clickAnadir btn btn-outline-primary col-xl"> Agregar referente </button><br><br>
