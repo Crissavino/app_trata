@@ -86,6 +86,19 @@ window.onload =function (){
  	};
 //hasta aca
 
+//cuando la opcion cambie de si a no o se desconoce, se oculten y se borren los referentes cargados
+	var noPersonas = document.querySelector('.noPersonas');
+	var referentesAnteriores = $('.referentes-anteriores')
+	var referentes = $('.referentes')
+	
+	noPersonas.addEventListener('change', function(){
+		if (this.value !== 1) {
+			referentesAnteriores.html(" ");
+			referentes.html(" ");
+		}
+	});
+//fin
+
 //cuando se seleccion la opcion si(agregar otro referente) aparece un referente automaticamente
 	var noPersonas = document.querySelector('.noPersonas');
 
@@ -95,17 +108,6 @@ window.onload =function (){
 			$('#botones').show()
 		}else{
 			$('#botones').hide()
-		}
-	});
-//fin
-
-//cuando la opcion cambie de si a no o se desconoce, se oculten y se borren los referentes cargados
-	var noPersonas = document.querySelector('.noPersonas');
-	var referentesAnteriores = $('.referentes-anteriores')
-	
-	noPersonas.addEventListener('change', function(){
-		if (this.value !== 1) {
-			referentesAnteriores.html(" ");
 		}
 	});
 //fin

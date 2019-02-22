@@ -1396,7 +1396,7 @@ class FormsController extends Controller
 		}
 			// dd($cFormulario->referentes()->WHERE('referente_id', '=', $data['idsEliminados']));
 
-		if ($data['idsEliminados']) {
+		if (isset($data['idsEliminados'])) {
 			$ids = array_map("intval", explode(',', $data['idsEliminados']));
 			for ($i=0; $i < count($ids); $i++) { 
 				
@@ -1407,8 +1407,7 @@ class FormsController extends Controller
 		}
 
 		$referentes = $cFormulario->referentes;
-		// dd($data['vinculo_id_viejo']);
-		// dd($data);
+
 		if ($cantidadReferentesViejos) {
 			foreach ($referentes as $i => $referente) {
 				$referenteCargado = \App\FormC\Referente::find($referente->id);
@@ -1448,47 +1447,18 @@ class FormsController extends Controller
 			}
 		}
 
+		//CAMBIOS
+		if ($data['otraspersonas_id'] == 2 || $data['otraspersonas_id'] == 3) {
+			// dd(count($referentes));
+			foreach ($referentes as $referente) {
+
+				$borroReferente = DB::table('referentes')->where('referentes.id', '=', $referente->id)->update(['updated_at' => $fecha_hoy, 'deleted_at' => $fecha_hoy]);
+				$borroTablaPivot = DB::table('cformulario_referente')->where('cformulario_referente.referente_id', '=', $referente->id)->update(['updated_at' => $fecha_hoy, 'deleted_at' => $fecha_hoy]);
+			}
+		}
+		//fin cambios subir 22/02
+
 		//fin nuevo
-			// var_dump(count($referente));
-			// $idReferentesCargados[] = $referente->id;
-			
-			// var_dump($idReferentesCargados);
-		// for ($i = 0; $i < $cantidadReferentesViejos; $i++) { 
-			
-		// }
-		// if ($cFormulario->referentes) {
-		// 	for ($i=0; $i < $cantidadReferentesAnteriores; $i++) { 
-		// 		$referente['nombre_apellido'] = $data['nombre_apellido'][$i];
-		// 		$referente['edad'] = $data['edad'][$i];
-		// 		$referente['vinculo_id'] = $data['vinculo_id'][$i];
-		// 		if (isset($data['vinculo_otro'][$i])) {
-		// 			$referente['vinculo_otro'] = $data['vinculo_otro'][$i];
-		// 		}
-		// 		$referente['referenteContacto'] = $data['referenteContacto'][$i];
-		// 		$referente['user_id'] = $data['user_id'];
-
-		// 		$guardoReferente = \App\FormC\Referente::create($referente);
-
-		// 		$referenteId[] = $guardoReferente->id;
-		// 	}
-		// }
-
-		
-		// for ($i=0; $i < $cant; $i++) {
-
-		// 	$referente['nombre_apellido'] = $data['nombre_apellido'][$i];
-		// 	$referente['edad'] = $data['edad'][$i];
-		// 	$referente['vinculo_id'] = $data['vinculo_id'][$i];
-		// 	if (isset($data['vinculo_otro'][$i])) {
-		// 		$referente['vinculo_otro'] = $data['vinculo_otro'][$i];
-		// 	}
-		// 	$referente['referenteContacto'] = $data['referenteContacto'][$i];
-		// 	$referente['user_id'] = $data['user_id'];
-
-		// 	$guardoReferente = \App\FormC\Referente::create($referente);
-
-		// 	$referenteId[] = $guardoReferente->id;
-		// }
 
 		$cFormulario->update($data);
 
