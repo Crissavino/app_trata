@@ -95,7 +95,7 @@
                         </td>
                         <td>
                             @if ($carpeta->aformulario_id) {{-- nuevo --}}
-                            <a href="/formularios/edicion/A/{{ $carpeta->id }}/{{ $carpeta->aformulario_id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>                            {{-- <a href="/formularios/edicion/A/{{$carpeta->aformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>                            --}} @if (auth()->user()->isAdmin === 1)
+                            <a href="/formularios/edicion/A/{{ $carpeta->id }}/{{ $carpeta->aformulario_id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>                            {{-- <a href="/formularios/edicion/A/{{$carpeta->aformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>                            --}} @if (auth()->user()->isAdmin === 1)
                             <form action="/formularios/edicion/A/{{$carpeta->id}}" class="" method="post" id="form{{$carpeta->id}}" data-id="form{{ $carpeta->id }}">
                                 @method('DELETE') @csrf
 
@@ -110,7 +110,7 @@
                         </td>
                         <td>
                             {{-- @if ($carpeta->bformulario_id) --}} @if ($carpeta->aformulario_id && $carpeta->bformulario_id) {{-- nuevo --}}
-                            <a href="/formularios/edicion/B/{{ $carpeta->id }}/{{ $carpeta->bformulario_id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>                            {{-- <a href="/formularios/edicion/B/{{$carpeta->bformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>                            --}} @if (auth()->user()->isAdmin === 1)
+                            <a href="/formularios/edicion/B/{{ $carpeta->id }}/{{ $carpeta->bformulario_id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>                            {{-- <a href="/formularios/edicion/B/{{$carpeta->bformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>                            --}} @if (auth()->user()->isAdmin === 1)
                             <form action="/formularios/edicion/B/{{$carpeta->id}}" class="" method="post" id="form">
                                 @method('DELETE') @csrf
 
@@ -130,7 +130,7 @@
                         </td>
                         <td>
                             {{-- @if ($carpeta->cformulario_id) --}} @if (($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id))
-                            <a href="/formularios/edicion/C/{{ $carpeta->id }}/{{$carpeta->cformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>                            @if (auth()->user()->isAdmin === 1)
+                            <a href="/formularios/edicion/C/{{ $carpeta->id }}/{{$carpeta->cformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>                            @if (auth()->user()->isAdmin === 1)
                             <form action="/formularios/edicion/C/{{$carpeta->id}}" class="" method="post" id="form">
                                 @method('DELETE') @csrf
                                 <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)">
@@ -144,7 +144,7 @@
                         <td>
                             {{-- @if ($carpeta->dformulario_id) --}} @if ($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id
                             && $carpeta->dformulario_id)
-                            <a href="/formularios/edicion/D/{{ $carpeta->id }}/{{$carpeta->dformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>                            @if (auth()->user()->isAdmin === 1)
+                            <a href="/formularios/edicion/D/{{ $carpeta->id }}/{{$carpeta->dformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>                            @if (auth()->user()->isAdmin === 1)
                             <form action="/formularios/edicion/D/{{ $carpeta->id }}" class="" method="post" id="form">
                                 @method('DELETE') @csrf
                                 <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)">
@@ -158,7 +158,7 @@
                         {{--
                         <td>
                             @if ($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->eformulario_id)
-                            <a href="/formularios/edicion/E/{{$carpeta->eformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>                            @if (auth()->user()->isAdmin === 1)
+                            <a href="/formularios/edicion/E/{{$carpeta->eformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>                            @if (auth()->user()->isAdmin === 1)
                             <form action="/formularios/edicion/E/{{$carpeta->eformulario_id}}" class="" method="post">
                                 @method('DELETE') @csrf
                                 <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)">
@@ -173,7 +173,7 @@
                             {{-- @if ($carpeta->fformulario_id) --}} @if ($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id
                             && $carpeta->dformulario_id && $carpeta->fformulario_id)
                             <a href="/formularios/edicion/F/{{ $carpeta->id }}/{{$carpeta->fformulario_id}}" class="btn btn-primary float-left">
-                                <i class="far fa-edit"></i> Ver/Editar </a><br><br> @if (auth()->user()->isAdmin
+                                <i class="far fa-edit"></i>@if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br> @if (auth()->user()->isAdmin
                             === 1)
                             <form action="/formularios/edicion/F/{{$carpeta->id}}" class="" method="post">
                                 @method('DELETE') @csrf
@@ -188,7 +188,7 @@
                         <td>
                             {{-- @if ($carpeta->gformulario_id) --}} @if ($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id
                             && $carpeta->dformulario_id && $carpeta->fformulario_id && $carpeta->gformulario_id)
-                            <a href="/formularios/edicion/G/{{ $carpeta->id }}/{{$carpeta->gformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> Ver/Editar </a><br><br>                            @if (auth()->user()->isAdmin === 1)
+                            <a href="/formularios/edicion/G/{{ $carpeta->id }}/{{$carpeta->gformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>                            @if (auth()->user()->isAdmin === 1)
                             <form action="/formularios/edicion/G/{{$carpeta->id}}" class="" method="post" id="form">
                                 @method('DELETE') @csrf
                                 <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)">
