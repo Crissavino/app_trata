@@ -63,7 +63,7 @@
 
     <section class="container">
     	@if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-    		<form action="" class="form-group formDedit" method="POST">
+    		<form action="" id="formularioD" class="form-group formDedit" method="POST">
 		    	{{ csrf_field() }}
 		    	@method('PUT')
 
@@ -76,7 +76,7 @@
 		    	<div class="form-group">
 		    		<label for="">D 1. Calificación general: </label>
 		    		<select class="form-control calificacionGeneral" name="calificaciongeneral_id" {{ $errors->has('calificaciongeneral_id') ? 'has-error' : ''}}>
-		    			<option value="">Seleccioná una calificación</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosCalificacionGeneral as $calificacionGeneral)
 		    				<option value="{{ $calificacionGeneral->getId() }}" {{ $calificacionGeneral->id == $dFormulario->calificaciongeneral_id ? 'selected' : '' }}>{{ $calificacionGeneral->getNombre() }}</option>
 		    			@endforeach
@@ -93,7 +93,7 @@
 		    	<div class="form-group">
 		    		<label for="">D 2. Calificación específica: </label>
 		    		<select class="form-control" name="calificacionespecifica_id" {{ $errors->has('calificacionespecifica_id') ? 'has-error' : ''}}>
-		    			<option value="">Seleccioná una calificación específica</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosCalificacionEspecifica as $calificacionEspecifica)
 		    				<option value="{{ $calificacionEspecifica->getId() }}" {{ $dFormulario->calificacionespecifica_id == $calificacionEspecifica->id ? 'selected' : '' }}>{{ $calificacionEspecifica->getNombre() }}</option>
 		    			@endforeach
@@ -104,7 +104,7 @@
 		    	<div class="form-group">
 		    		<label for="">D 3. Finalidad:</label>
 		    		<select class="form-control finalidad" name="finalidad_id" {{ $errors->has('finalidad_id') ? 'has-error' : ''}}>
-		    			<option value="">Seleccioná una finalidad</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosFinalidad as $finalidad)
 		    				<option value="{{ $finalidad->getId() }}" {{ $dFormulario->finalidad_id == $finalidad->getId() ? 'selected' : '' }}>{{ $finalidad->getNombre() }}</option>
 		    			@endforeach
@@ -121,7 +121,7 @@
 		    	<div class="form-group">
 		    		<label for="">D 4. Actividad: </label>
 		    		<select class="form-control actividad" name="actividad_id" {{ $errors->has('actividad_id') ? 'has-error' : ''}}>
-		    			<option value="">Seleccioná una actividad</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosActividad as $actividad)
 		    				<option value="{{ $actividad->getId() }}" {{ $dFormulario->actividad_id == $actividad->getId() ? 'selected' : '' }}>{{ $actividad->getNombre() }}</option>
 		    			@endforeach
@@ -257,17 +257,17 @@
 			 		{{-- ver como hacer para los casos en que se desconozca --}}
 			 			<label for="countryId">D 6. País de captación:</label>
 			 			<input readonly type="text" value="{{ $dFormulario->paisCaptacion }}" class="form-control mb-2" name="">
-				        <select name="paisCaptacion" class="countries order-alpha form-control" id="countryId">
-						    <option value="">Seleccioná pais de captación</option>
+				        <select name="paisCaptacion" class="countries order-alpha form-control" id="countryId" required title="Este campo es obligatorio" >
+						    <option value="" disabled selected>Seleccione</option>
 						</select>
 
 						<label for="desconocePaisCaptacion">Se desconoce</label>
 						<input type="checkbox" name="" id="desconocePaisCaptacion" value="Se desconoce"><br>
 
 						<label for="stateId">D 7. Provincia de captación:</label>
-						<input readonly type="text" value="{{ $dFormulario->provinciaCaptacion }}" class="form-control mb-2" name="">
-				        <select name="provinciaCaptacion" class="states order-alpha form-control" id="stateId">
-				            <option value="">Seleccioná provincia de captación</option>
+						<input readonly type="text" value="{{ $dFormulario->provinciaCaptacion }}" class="form-control mb-2" name="" >
+				        <select name="provinciaCaptacion" class="states order-alpha form-control" id="stateId" required title="Este campo es obligatorio">
+				            <option value="" disabled selected>Seleccione</option>
 				        </select>
 
 				        <label for="desconoceProvinciaCaptacion">Se desconoce</label>
@@ -275,8 +275,8 @@
 
 				        <label for="cityId">D 8. Localidad de captación:</label>
 				        <input readonly type="text" value="{{ $dFormulario->ciudadCaptacion }}" class="form-control mb-2" name="">
-				        <select name="ciudadCaptacion" class="cities order-alpha form-control" id="cityId">
-				            <option value="">Seleccioná ciudad de captación</option>
+				        <select name="ciudadCaptacion" class="cities order-alpha form-control" id="cityId" required title="Este campo es obligatorio">
+				            <option value="" disabled selected>Seleccione</option>
 				        </select>
 
 				        <label for="desconoceCiudadCaptacion">Se desconoce</label>
@@ -288,7 +288,7 @@
 			 	<div class="form-group" {{ $errors->has('contactoexplotacion_id') ? 'has-error' : ''}}>
 		    		<label for="">D 9. Modo de contacto con lugar de explotación:</label>
 		    		<select class="form-control contactoExplotacion" name="contactoexplotacion_id">
-		    			<option value="">Seleccioná un modo de contacto</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosContactoExplotacion as $contactoExplotacion)
 		    				<option value="{{ $contactoExplotacion->getId() }}" {{ $dFormulario->contactoexplotacion_id == $contactoExplotacion->getId() ? 'selected' : '' }}>{{ $contactoExplotacion->getNombre() }}</option>
 		    			@endforeach
@@ -305,7 +305,7 @@
 		    	<div class="form-group" {{ $errors->has('viajo_id') ? 'has-error' : ''}}>
 		    		<label for="">D 10 Viajó:</label>
 		    		<select class="form-control viajo" name="viajo_id">
-		    			<option value="">Seleccioná como viajó</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosViajo as $viajo)
 		    				<option value="{{ $viajo->getId() }}" {{ $dFormulario->viajo_id == $viajo->getId() ? 'selected' : '' }}>{{ $viajo->getNombre() }}</option>
 		    			@endforeach
@@ -316,7 +316,7 @@
 		    	 		<div {{ $errors->has('acompanado_id') ? 'has-error' : ''}}>
 		    	 			<label for="">D 10 I. ¿Fue acompañado/a por alguien?:</label>
 				    		<select class="form-control acompanado" name="acompanado_id">
-				    			<option value="">Seleccioná quién la/lo acompañó</option>
+				    			<option value="" disabled selected>Seleccione</option>
 				    			@foreach ($datosAcompanado as $acompanado)
 				    				<option value="{{ $acompanado->getId() }}" {{ $dFormulario->acompanado_id == $acompanado->getId() ? 'selected' : '' }}>{{ $acompanado->getNombre() }}</option>
 				    			@endforeach
@@ -343,8 +343,8 @@
 
 			 			<label for="countryId2">D 11. País de explotación:</label>
 			 			<input readonly type="text" value="{{ $dFormulario->paisExplotacion }}" class="form-control mb-2" name="">
-				        <select name="paisExplotacion" class="countries2 order-alpha form-control" id="countryId2">
-				            <option value="">Seleccioná pais de explotación</option>
+				        <select name="paisExplotacion" class="countries2 order-alpha form-control" id="countryId2" required title="Este campo es obligatorio">
+				            <option value="" disabled selected>Seleccione</option>
 				        </select>
 
 				        <label for="desconocePaisExplotacion">Se desconoce</label>
@@ -352,8 +352,8 @@
 
 				        <label for="stateId2">D 12. Provincia de explotación:</label>
 				        <input readonly type="text" value="{{ $dFormulario->provinciaExplotacion }}" class="form-control mb-2" name="">
-				        <select name="provinciaExplotacion" class="states2 order-alpha form-control" id="stateId2">
-				            <option value="">Seleccioná provincia de explotación</option>
+				        <select name="provinciaExplotacion" class="states2 order-alpha form-control" id="stateId2" required title="Este campo es obligatorio">
+				            <option value="" disabled selected>Seleccione</option>
 				        </select>
 
 				        <label for="desconoceProvinciaExplotacion">Se desconoce</label>
@@ -361,8 +361,8 @@
 
 				        <label for="cityId2">D 13. Localidad de explotación:</label>
 				        <input readonly type="text" value="{{ $dFormulario->ciudadExplotacion }}" class="form-control mb-2" name="">
-				        <select name="ciudadExplotacion" class="cities2 order-alpha form-control" id="cityId2">
-				            <option value="">Seleccioná ciudad de explotación</option>
+				        <select name="ciudadExplotacion" class="cities2 order-alpha form-control" id="cityId2" required title="Este campo es obligatorio">
+				            <option value="" disabled selected>Seleccione</option>
 				        </select>
 
 				        <label for="desconoceCiudadExplotacion">Se desconoce</label>
@@ -385,7 +385,7 @@
 			 	<div class="form-group" {{ $errors->has('residelugar_id') ? 'has-error' : ''}}>
 		    		<label for="">D 15. Reside en el lugar de explotación u otro espacio perteneciente a los tratantes?</label>
 		    		<select class="form-control" name="residelugar_id">
-		    			<option value="">Seleccioná donde reside</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosResideLugar as $resideLugar)
 		    				<option value="{{ $resideLugar->getId() }}" {{ $dFormulario->residelugar_id == $resideLugar->getId() ? 'selected' : '' }}>{{ $resideLugar->getNombre() }}</option>
 		    			@endforeach
@@ -396,7 +396,7 @@
 		    	<div class="form-group" {{ $errors->has('engano_id') ? 'has-error' : ''}}>
 		    		<label for="">D 16. Engaño en actividad y/o condiciones:</label>
 		    		<select class="form-control" name="engano_id">
-		    			<option value="">Fue engañada?</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosEngano as $engano)
 		    				<option value="{{ $engano->getId() }}" {{ $dFormulario->engano_id == $engano->getId() ? 'selected' : '' }}>{{ $engano->getNombre() }}</option>
 		    			@endforeach
@@ -407,7 +407,7 @@
 		    	<div class="form-group" {{ $errors->has('haypersona_id') ? 'has-error' : ''}}>
 		    		<label for="">D 17. ¿Hay personas retenidas en el lugar de explotación?</label>
 		    		<select class="form-control" name="haypersona_id">
-		    			<option value="">Hay mas personas?</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosHayPersona as $hayPersona)
 		    				<option value="{{ $hayPersona->getId() }}" {{ $dFormulario->haypersona_id == $hayPersona->getId() ? 'selected' : '' }}>{{ $hayPersona->getNombre() }}</option>
 		    			@endforeach
@@ -418,7 +418,7 @@
 		    	<div class="form-group" {{ $errors->has('tipovictima_id') ? 'has-error' : ''}}>
 		    		<label for="">D18. Tipo de víctima:</label>
 		    		<select class="form-control" name="tipovictima_id">
-		    			<option value="">Seleccioná una opción</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosTipoVictima as $tipoVictima)
 		    				<option value="{{ $tipoVictima->getId() }}" {{ $dFormulario->tipovictima_id == $tipoVictima->getId() ? 'selected' : '' }}>{{ $tipoVictima->getNombre() }}</option>
 		    			@endforeach
@@ -446,7 +446,7 @@
 			 	<div class="form-group" {{ $errors->has('frecuenciapago_id') ? 'has-error' : ''}}>
 		    		<label for="">D 21. Frecuencia de pago:</label>
 		    		<select class="form-control selectFrecuenciaPago" name="frecuenciapago_id">
-		    			<option value="">Seleccioná frecuencia</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosFrecuenciaPago as $frecuenciaPago)
 		    				<option value="{{ $frecuenciaPago->getId() }}" {{ $dFormulario->frecuenciapago_id == $frecuenciaPago->getId() ? 'selected' : '' }}>{{ $frecuenciaPago->getNombre() }}</option>
 		    			@endforeach
@@ -458,7 +458,7 @@
 		    		<div {{ $errors->has('modalidadpagos_id') ? 'has-error' : ''}}>
 		    			<label for="">D 22. Modalidad de pago: </label>
 			    		<select class="form-control modalidadPagos" name="modalidadpagos_id">
-			    			<option value="">Seleccioná modalidad</option>
+			    			<option value="" disabled selected>Seleccione</option>
 			    			@foreach ($datosModalidadPago as $modalidadPago)
 			    				<option value="{{ $modalidadPago->getId() }}" {{ $dFormulario->modalidadpagos_id == $modalidadPago->getId() ? 'selected' : '' }}>{{ $modalidadPago->getNombre() }}</option>
 			    			@endforeach
@@ -510,7 +510,7 @@
 		    		<div {{ $errors->has('deuda_id') ? 'has-error' : ''}}>
 		    			<label for="">D 24. Existencia de deuda:</label>
 			    		<select class="form-control deuda" name="deuda_id">
-			    			<option value="">Seleccioná si hubo deuda</option>
+			    			<option value="" disabled selected>Seleccione</option>
 			    			@foreach ($datosDeuda as $deuda)
 			    				<option value="{{ $deuda->getId() }}" {{ $dFormulario->deuda_id == $deuda->getId() ? 'selected' : '' }}>{{ $deuda->getNombre() }}</option>
 			    			@endforeach
@@ -550,7 +550,7 @@
 		    	 		<div {{ $errors->has('lugardeuda_id') ? 'has-error' : ''}}>
 		    	 			<label for="">D 24 II. Lugar de deuda</label>
 				    		<select class="form-control lugardeuda_id" name="lugardeuda_id">
-				    			<option value="">Lugar de dueda?</option>
+				    			<option value="" disabled selected>Seleccione</option>
 				    			@foreach ($datosLugarDeuda as $lugarDeuda)
 				    				<option value="{{ $lugarDeuda->getId() }}" {{ $dFormulario->lugardeuda_id == $lugarDeuda->getId() ? 'selected' : '' }}>{{ $lugarDeuda->getNombre() }}</option>
 				    			@endforeach
@@ -563,7 +563,7 @@
 		    	<div class="form-group" {{ $errors->has('permanencia_id') ? 'has-error' : ''}}>
 		    		<label for="">D 25. Tiempo de permanencia en situación de explotación:</label>
 		    		<select class="form-control" name="permanencia_id">
-		    			<option value="">Seleccioná tiempo de permanencia</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosPermanencia as $permanencia)
 		    				<option value="{{ $permanencia->getId() }}" {{ $dFormulario->permanencia_id == $permanencia->getId() ? 'selected' : '' }}>{{ $permanencia->getNombre() }}</option>
 		    			@endforeach
@@ -574,7 +574,7 @@
 		    	<div class="form-group" {{ $errors->has('testigo_id') ? 'has-error' : ''}}>
 		    		<label for="">D 26. ¿Es testigo protegido?:</label>
 		    		<select class="form-control testigo" name="testigo_id">
-		    			<option value="">Seleccioná</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosTestigo as $testigo)
 		    				<option value="{{ $testigo->getId() }}" {{ $dFormulario->testigo_id == $testigo->getId() ? 'selected' : '' }}>{{ $testigo->getNombre() }}</option>
 		    			@endforeach
@@ -599,7 +599,7 @@
 		    	<div class="form-group" {{ $errors->has('haycorriente_id') ? 'has-error' : ''}}>
 		    		<label for="">D 27. ¿El lugar de explotación cuenta con corriente eléctrica?:</label>
 		    		<select class="form-control" name="haycorriente_id">
-		    			<option value="">Cuenta con corriente?</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosHayCorriente as $hayCorriente)
 		    				<option value="{{ $hayCorriente->getId() }}" {{ $dFormulario->haycorriente_id == $hayCorriente->getId() ? 'selected' : '' }}>{{ $hayCorriente->getNombre() }}</option>
 		    			@endforeach
@@ -610,7 +610,7 @@
 		    	<div class="form-group" {{ $errors->has('haygas_id') ? 'has-error' : ''}}>
 		    		<label for="">D 28. ¿El lugar de explotación cuenta con gas?:</label>
 		    		<select class="form-control" name="haygas_id">
-		    			<option value="">Cuanta con gas?</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosHayGas as $hayGas)
 		    				<option value="{{ $hayGas->getId() }}" {{ $dFormulario->haygas_id == $hayGas->getId() ? 'selected' : '' }}>{{ $hayGas->getNombre() }}</option>
 		    			@endforeach
@@ -655,7 +655,7 @@
 			 	<div class="form-group" {{ $errors->has('hayhacinamiento_id') ? 'has-error' : ''}}>
 		    		<label for="">D 30. ¿Se presentan condiciones de hacinamiento en el lugar de explotación?:</label>
 		    		<select class="form-control" name="hayhacinamiento_id">
-		    			<option value="">Hay hacinamiento?</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosHayHacinamiento as $hayHacinamiento)
 		    				<option value="{{ $hayHacinamiento->getId() }}" {{ $dFormulario->hayhacinamiento_id == $hayHacinamiento->getId() ? 'selected' : '' }}>{{ $hayHacinamiento->getNombre() }}</option>
 		    			@endforeach
@@ -666,7 +666,7 @@
 		    	<div class="form-group" {{ $errors->has('hayagua_id') ? 'has-error' : ''}}>
 		    		<label for="">D 31. ¿El lugar de explotación posee agua potable?:</label>
 		    		<select class="form-control" name="hayagua_id">
-		    			<option value="">Cuanta con agua potable?</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosHayAgua as $hayAgua)
 		    				<option value="{{ $hayAgua->getId() }}" {{ $dFormulario->hayagua_id == $hayAgua->getId() ? 'selected' : '' }}>{{ $hayAgua->getNombre() }}</option>
 		    			@endforeach
@@ -677,7 +677,7 @@
 		    	<div class="form-group" {{ $errors->has('haybano_id') ? 'has-error' : ''}}>
 		    		<label for="">D 32. El lugar de explotación posee:</label>
 		    		<select class="form-control" name="haybano_id">
-		    			<option value="">Seleccioná una opción</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosHayBano as $hayBano)
 		    				<option value="{{ $hayBano->getId() }}" {{ $dFormulario->haybano_id == $hayBano->getId() ? 'selected' : '' }}>{{ $hayBano->getNombre() }}</option>
 		    			@endforeach
@@ -688,7 +688,7 @@
 		    	<div class="form-group" {{ $errors->has('cuantosbano_id') ? 'has-error' : ''}}>
 		    		<label for="">D 33. ¿El lugar de explotación cuenta con una cantidad de baños suficientes?:</label>
 		    		<select class="form-control" name="cuantosbano_id">
-		    			<option value="">Hay baños suficientes?</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosCuantosBano as $cuantosBano)
 		    				<option value="{{ $cuantosBano->getId() }}" {{ $dFormulario->cuantosbano_id == $cuantosBano->getId() ? 'selected' : '' }}>{{ $cuantosBano->getNombre() }}</option>
 		    			@endforeach
@@ -700,7 +700,7 @@
 		    		<div {{ $errors->has('material_id') ? 'has-error' : ''}}>
 		    			<label for="">D 34. Material de contrucción predominante en las paredes del lugar de explotación:</label>
 			    		<select class="form-control material" name="material_id">
-			    			<option value="">Seleccioná material de contrucción</option>
+			    			<option value="" disabled selected>Seleccione</option>
 			    			@foreach ($datosMaterial as $material)
 			    				<option value="{{ $material->getId() }}" {{ $dFormulario->material_id == $material->getId() ? 'selected' : '' }}>{{ $material->getNombre() }}</option>
 			    			@endforeach
@@ -718,7 +718,7 @@
 		    	<div class="form-group" {{ $errors->has('elementotrabajo_id') ? 'has-error' : ''}}>
 		    		<label for="">D 35. Provisión de elementos de trabajo por parte del explotador:</label>
 		    		<select class="form-control" name="elementotrabajo_id">
-		    			<option value="">Daban elementos de trabajo?</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosElementoTrabajo as $elementoTrabajo)
 		    				<option value="{{ $elementoTrabajo->getId() }}" {{ $dFormulario->elementotrabajo_id == $elementoTrabajo->getId() ? 'selected' : '' }}>{{ $elementoTrabajo->getNombre() }}</option>
 		    			@endforeach
@@ -729,7 +729,7 @@
 		    	<div class="form-group" {{ $errors->has('elementoseguridad_id') ? 'has-error' : ''}}>
 		    		<label for="">D 36. Provisión de elementos de seguridad por parte del explotador:</label>
 		    		<select class="form-control" name="elementoseguridad_id">
-		    			<option value="">Daban elementos de seguridad?</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosElementoSeguridad as $elementoSeguridad)
 		    				<option value="{{ $elementoSeguridad->getId() }}" {{ $dFormulario->elementoseguridad_id == $elementoSeguridad->getId() ? 'selected' : '' }}>{{ $elementoSeguridad->getNombre() }}</option>
 		    			@endforeach
@@ -740,7 +740,7 @@
 		    	<button type="submit" class="btn btn-primary col-xl" name="button">Actualizar</button><br><br>
 		    </form>
     	@else
-    		<form action="" class="form-group formDedit" method="POST">
+    		<form action="" id="formularioD" class="form-group formDedit" method="POST">
 		    	{{ csrf_field() }}
 		    	@method('PUT')
 
@@ -752,7 +752,7 @@
 		    	<div class="form-group">
 		    		<label for="">D 1. Calificación general: </label>
 		    		<select disabled class="form-control calificacionGeneral" name="calificaciongeneral_id" {{ $errors->has('calificaciongeneral_id') ? 'has-error' : ''}}>
-		    			<option value="">Seleccioná una calificación</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosCalificacionGeneral as $calificacionGeneral)
 		    				<option value="{{ $calificacionGeneral->getId() }}" {{ $calificacionGeneral->id == $dFormulario->calificaciongeneral_id ? 'selected' : '' }}>{{ $calificacionGeneral->getNombre() }}</option>
 		    			@endforeach
@@ -769,7 +769,7 @@
 		    	<div class="form-group">
 		    		<label for="">D 2. Calificación específica: </label>
 		    		<select disabled class="form-control" name="calificacionespecifica_id" {{ $errors->has('calificacionespecifica_id') ? 'has-error' : ''}}>
-		    			<option value="">Seleccioná una calificación específica</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosCalificacionEspecifica as $calificacionEspecifica)
 		    				<option value="{{ $calificacionEspecifica->getId() }}" {{ $dFormulario->calificacionespecifica_id == $calificacionEspecifica->id ? 'selected' : '' }}>{{ $calificacionEspecifica->getNombre() }}</option>
 		    			@endforeach
@@ -780,7 +780,7 @@
 		    	<div class="form-group">
 		    		<label for="">D 3. Finalidad:</label>
 		    		<select disabled class="form-control finalidad" name="finalidad_id" {{ $errors->has('finalidad_id') ? 'has-error' : ''}}>
-		    			<option value="">Seleccioná una finalidad</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosFinalidad as $finalidad)
 		    				<option value="{{ $finalidad->getId() }}" {{ $dFormulario->finalidad_id == $finalidad->getId() ? 'selected' : '' }}>{{ $finalidad->getNombre() }}</option>
 		    			@endforeach
@@ -797,7 +797,7 @@
 		    	<div class="form-group">
 		    		<label for="">D 4. Actividad: </label>
 		    		<select disabled class="form-control actividad" name="actividad_id" {{ $errors->has('actividad_id') ? 'has-error' : ''}}>
-		    			<option value="">Seleccioná una actividad</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosActividad as $actividad)
 		    				<option value="{{ $actividad->getId() }}" {{ $dFormulario->actividad_id == $actividad->getId() ? 'selected' : '' }}>{{ $actividad->getNombre() }}</option>
 		    			@endforeach
@@ -943,7 +943,7 @@
 			 	<div class="form-group" {{ $errors->has('contactoexplotacion_id') ? 'has-error' : ''}}>
 		    		<label for="">D 9. Modo de contacto con lugar de explotación:</label>
 		    		<select disabled class="form-control contactoExplotacion" name="contactoexplotacion_id">
-		    			<option value="">Seleccioná un modo de contacto</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosContactoExplotacion as $contactoExplotacion)
 		    				<option value="{{ $contactoExplotacion->getId() }}" {{ $dFormulario->contactoexplotacion_id == $contactoExplotacion->getId() ? 'selected' : '' }}>{{ $contactoExplotacion->getNombre() }}</option>
 		    			@endforeach
@@ -960,7 +960,7 @@
 		    	<div class="form-group" {{ $errors->has('viajo_id') ? 'has-error' : ''}}>
 		    		<label for="">D 10 Viajó:</label>
 		    		<select disabled class="form-control viajo" name="viajo_id">
-		    			<option value="">Seleccioná como viajó</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosViajo as $viajo)
 		    				<option value="{{ $viajo->getId() }}" {{ $dFormulario->viajo_id == $viajo->getId() ? 'selected' : '' }}>{{ $viajo->getNombre() }}</option>
 		    			@endforeach
@@ -971,7 +971,7 @@
 		    	 		<div {{ $errors->has('acompanado_id') ? 'has-error' : ''}}>
 		    	 			<label for="">D 10 I. ¿Por quién?:</label>
 				    		<select disabled class="form-control acompanado" name="acompanado_id">
-				    			<option value="">Seleccioná quién la/lo acompañó</option>
+				    			<option value="" disabled selected>Seleccione</option>
 				    			@foreach ($datosAcompanado as $acompanado)
 				    				<option value="{{ $acompanado->getId() }}" {{ $dFormulario->acompanado_id == $acompanado->getId() ? 'selected' : '' }}>{{ $acompanado->getNombre() }}</option>
 				    			@endforeach
@@ -982,7 +982,7 @@
 		    	 		<div {{ $errors->has('acompanadored_id') ? 'has-error' : ''}}>
 		    	 			<label for="">D 10 II. Acompañante relacionado con la red:</label>
 				    		<select disabled class="form-control acompanadored" name="acompanadored_id">
-				    			<option value="">Estaba relacionado?</option>
+				    			<option value="" disabled selected>Seleccione</option>
 				    			@foreach ($datosAcompanadoRed as $acompanadoRed)
 				    				<option value="{{ $acompanadoRed->getId() }}" {{ $dFormulario->acompanadored_id == $acompanadoRed->getId() ? 'selected' : '' }}>{{ $acompanadoRed->getNombre() }}</option>
 				    			@endforeach
@@ -1019,7 +1019,7 @@
 			 	<div class="form-group" {{ $errors->has('residelugar_id') ? 'has-error' : ''}}>
 		    		<label for="">D 15. Reside en el lugar de explotación u otro espacio perteneciente a los tratantes?</label>
 		    		<select disabled class="form-control" name="residelugar_id">
-		    			<option value="">Seleccioná donde reside</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosResideLugar as $resideLugar)
 		    				<option value="{{ $resideLugar->getId() }}" {{ $dFormulario->residelugar_id == $resideLugar->getId() ? 'selected' : '' }}>{{ $resideLugar->getNombre() }}</option>
 		    			@endforeach
@@ -1030,7 +1030,7 @@
 		    	<div class="form-group" {{ $errors->has('engano_id') ? 'has-error' : ''}}>
 		    		<label for="">D 16. Engaño en actividad y/o condiciones:</label>
 		    		<select disabled class="form-control" name="engano_id">
-		    			<option value="">Fue engañada?</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosEngano as $engano)
 		    				<option value="{{ $engano->getId() }}" {{ $dFormulario->engano_id == $engano->getId() ? 'selected' : '' }}>{{ $engano->getNombre() }}</option>
 		    			@endforeach
@@ -1041,7 +1041,7 @@
 		    	<div class="form-group" {{ $errors->has('haypersona_id') ? 'has-error' : ''}}>
 		    		<label for="">D 17. ¿se encontraban otras personas en situación de explotación en el mismo espacio?</label>
 		    		<select disabled class="form-control" name="haypersona_id">
-		    			<option value="">Hay mas personas?</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosHayPersona as $hayPersona)
 		    				<option value="{{ $hayPersona->getId() }}" {{ $dFormulario->haypersona_id == $hayPersona->getId() ? 'selected' : '' }}>{{ $hayPersona->getNombre() }}</option>
 		    			@endforeach
@@ -1052,7 +1052,7 @@
 		    	<div class="form-group" {{ $errors->has('tipovictima_id') ? 'has-error' : ''}}>
 		    		<label for="">D18. Tipo de víctima:</label>
 		    		<select disabled class="form-control" name="tipovictima_id">
-		    			<option value="">Seleccioná una opción</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosTipoVictima as $tipoVictima)
 		    				<option value="{{ $tipoVictima->getId() }}" {{ $dFormulario->tipovictima_id == $tipoVictima->getId() ? 'selected' : '' }}>{{ $tipoVictima->getNombre() }}</option>
 		    			@endforeach
@@ -1077,7 +1077,7 @@
 			 	<div class="form-group" {{ $errors->has('frecuenciapago_id') ? 'has-error' : ''}}>
 		    		<label for="">D 21. Frecuencia de pago:</label>
 		    		<select disabled class="form-control selectFrecuenciaPago" name="frecuenciapago_id">
-		    			<option value="">Seleccioná frecuencia</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosFrecuenciaPago as $frecuenciaPago)
 		    				<option value="{{ $frecuenciaPago->getId() }}" {{ $dFormulario->frecuenciapago_id == $frecuenciaPago->getId() ? 'selected' : '' }}>{{ $frecuenciaPago->getNombre() }}</option>
 		    			@endforeach
@@ -1089,7 +1089,7 @@
 		    		<div {{ $errors->has('modalidadpagos_id') ? 'has-error' : ''}}>
 		    			<label for="">D 22. Modalidad de pago: </label>
 			    		<select disabled class="form-control modalidadPagos" name="modalidadpagos_id">
-			    			<option value="">Seleccioná modalidad</option>
+			    			<option value="" disabled selected>Seleccione</option>
 			    			@foreach ($datosModalidadPago as $modalidadPago)
 			    				<option value="{{ $modalidadPago->getId() }}" {{ $dFormulario->modalidadpagos_id == $modalidadPago->getId() ? 'selected' : '' }}>{{ $modalidadPago->getNombre() }}</option>
 			    			@endforeach
@@ -1138,7 +1138,7 @@
 		    		<div {{ $errors->has('deuda_id') ? 'has-error' : ''}}>
 		    			<label for="">D 24. Existencia de deuda:</label>
 			    		<select disabled class="form-control deuda" name="deuda_id">
-			    			<option value="">Seleccioná si hubo deuda</option>
+			    			<option value="" disabled selected>Seleccione</option>
 			    			@foreach ($datosDeuda as $deuda)
 			    				<option value="{{ $deuda->getId() }}" {{ $dFormulario->deuda_id == $deuda->getId() ? 'selected' : '' }}>{{ $deuda->getNombre() }}</option>
 			    			@endforeach
@@ -1178,7 +1178,7 @@
 		    	 		<div {{ $errors->has('lugardeuda_id') ? 'has-error' : ''}}>
 		    	 			<label for="">D 24 II. Lugar de deuda</label>
 				    		<select disabled class="form-control lugardeuda_id" name="lugardeuda_id">
-				    			<option value="">Lugar de dueda?</option>
+				    			<option value="" disabled selected>Seleccione</option>
 				    			@foreach ($datosLugarDeuda as $lugarDeuda)
 				    				<option value="{{ $lugarDeuda->getId() }}" {{ $dFormulario->lugardeuda_id == $lugarDeuda->getId() ? 'selected' : '' }}>{{ $lugarDeuda->getNombre() }}</option>
 				    			@endforeach
@@ -1191,7 +1191,7 @@
 		    	<div class="form-group" {{ $errors->has('permanencia_id') ? 'has-error' : ''}}>
 		    		<label for="">D 25. Tiempo de permanencia en situación de explotación:</label>
 		    		<select disabled class="form-control" name="permanencia_id">
-		    			<option value="">Seleccioná tiempo de permanencia</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosPermanencia as $permanencia)
 		    				<option value="{{ $permanencia->getId() }}" {{ $dFormulario->permanencia_id == $permanencia->getId() ? 'selected' : '' }}>{{ $permanencia->getNombre() }}</option>
 		    			@endforeach
@@ -1202,7 +1202,7 @@
 		    	<div class="form-group" {{ $errors->has('testigo_id') ? 'has-error' : ''}}>
 		    		<label for="">D 26. ¿Es testigo protegido?:</label>
 		    		<select disabled class="form-control testigo" name="testigo_id">
-		    			<option value="">Seleccioná</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosTestigo as $testigo)
 		    				<option value="{{ $testigo->getId() }}" {{ $dFormulario->testigo_id == $testigo->getId() ? 'selected' : '' }}>{{ $testigo->getNombre() }}</option>
 		    			@endforeach
@@ -1227,7 +1227,7 @@
 		    	<div class="form-group" {{ $errors->has('haycorriente_id') ? 'has-error' : ''}}>
 		    		<label for="">D 27. ¿El lugar de explotación cuenta con corriente eléctrica?:</label>
 		    		<select disabled class="form-control" name="haycorriente_id">
-		    			<option value="">Cuenta con corriente?</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosHayCorriente as $hayCorriente)
 		    				<option value="{{ $hayCorriente->getId() }}" {{ $dFormulario->haycorriente_id == $hayCorriente->getId() ? 'selected' : '' }}>{{ $hayCorriente->getNombre() }}</option>
 		    			@endforeach
@@ -1238,7 +1238,7 @@
 		    	<div class="form-group" {{ $errors->has('haygas_id') ? 'has-error' : ''}}>
 		    		<label for="">D 28. ¿El lugar de explotación cuenta con gas?:</label>
 		    		<select disabled class="form-control" name="haygas_id">
-		    			<option value="">Cuanta con gas?</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosHayGas as $hayGas)
 		    				<option value="{{ $hayGas->getId() }}" {{ $dFormulario->haygas_id == $hayGas->getId() ? 'selected' : '' }}>{{ $hayGas->getNombre() }}</option>
 		    			@endforeach
@@ -1283,7 +1283,7 @@
 			 	<div class="form-group" {{ $errors->has('hayhacinamiento_id') ? 'has-error' : ''}}>
 		    		<label for="">D 30. ¿Se presentan condiciones de hacinamiento en el lugar de explotación?:</label>
 		    		<select disabled class="form-control" name="hayhacinamiento_id">
-		    			<option value="">Hay hacinamiento?</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosHayHacinamiento as $hayHacinamiento)
 		    				<option value="{{ $hayHacinamiento->getId() }}" {{ $dFormulario->hayhacinamiento_id == $hayHacinamiento->getId() ? 'selected' : '' }}>{{ $hayHacinamiento->getNombre() }}</option>
 		    			@endforeach
@@ -1294,7 +1294,7 @@
 		    	<div class="form-group" {{ $errors->has('hayagua_id') ? 'has-error' : ''}}>
 		    		<label for="">D 31. ¿El lugar de explotación posee agua potable?:</label>
 		    		<select disabled class="form-control" name="hayagua_id">
-		    			<option value="">Cuanta con agua potable?</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosHayAgua as $hayAgua)
 		    				<option value="{{ $hayAgua->getId() }}" {{ $dFormulario->hayagua_id == $hayAgua->getId() ? 'selected' : '' }}>{{ $hayAgua->getNombre() }}</option>
 		    			@endforeach
@@ -1305,7 +1305,7 @@
 		    	<div class="form-group" {{ $errors->has('haybano_id') ? 'has-error' : ''}}>
 		    		<label for="">D 32. El lugar de explotación posee:</label>
 		    		<select disabled class="form-control" name="haybano_id">
-		    			<option value="">Seleccioná una opción</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosHayBano as $hayBano)
 		    				<option value="{{ $hayBano->getId() }}" {{ $dFormulario->haybano_id == $hayBano->getId() ? 'selected' : '' }}>{{ $hayBano->getNombre() }}</option>
 		    			@endforeach
@@ -1316,7 +1316,7 @@
 		    	<div class="form-group" {{ $errors->has('cuantosbano_id') ? 'has-error' : ''}}>
 		    		<label for="">D 33. ¿El lugar de explotación cuenta con una cantidad de baños suficientes?:</label>
 		    		<select disabled class="form-control" name="cuantosbano_id">
-		    			<option value="">Hay baños suficientes?</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosCuantosBano as $cuantosBano)
 		    				<option value="{{ $cuantosBano->getId() }}" {{ $dFormulario->cuantosbano_id == $cuantosBano->getId() ? 'selected' : '' }}>{{ $cuantosBano->getNombre() }}</option>
 		    			@endforeach
@@ -1328,7 +1328,7 @@
 		    		<div {{ $errors->has('material_id') ? 'has-error' : ''}}>
 		    			<label for="">D 34. Material de contrucción predominante en las paredes del lugar de explotación:</label>
 			    		<select disabled class="form-control material" name="material_id">
-			    			<option value="">Seleccioná material de contrucción</option>
+			    			<option value="" disabled selected>Seleccione</option>
 			    			@foreach ($datosMaterial as $material)
 			    				<option value="{{ $material->getId() }}" {{ $dFormulario->material_id == $material->getId() ? 'selected' : '' }}>{{ $material->getNombre() }}</option>
 			    			@endforeach
@@ -1346,7 +1346,7 @@
 		    	<div class="form-group" {{ $errors->has('elementotrabajo_id') ? 'has-error' : ''}}>
 		    		<label for="">D 35. Provisión de elementos de trabajo por parte del explotador:</label>
 		    		<select disabled class="form-control" name="elementotrabajo_id">
-		    			<option value="">Daban elementos de trabajo?</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosElementoTrabajo as $elementoTrabajo)
 		    				<option value="{{ $elementoTrabajo->getId() }}" {{ $dFormulario->elementotrabajo_id == $elementoTrabajo->getId() ? 'selected' : '' }}>{{ $elementoTrabajo->getNombre() }}</option>
 		    			@endforeach
@@ -1357,7 +1357,7 @@
 		    	<div class="form-group" {{ $errors->has('elementoseguridad_id') ? 'has-error' : ''}}>
 		    		<label for="">D 36. Provisión de elementos de seguridad por parte del explotador:</label>
 		    		<select disabled class="form-control" name="elementoseguridad_id">
-		    			<option value="">Daban elementos de seguridad?</option>
+		    			<option value="" disabled selected>Seleccione</option>
 		    			@foreach ($datosElementoSeguridad as $elementoSeguridad)
 		    				<option value="{{ $elementoSeguridad->getId() }}" {{ $dFormulario->elementoseguridad_id == $elementoSeguridad->getId() ? 'selected' : '' }}>{{ $elementoSeguridad->getNombre() }}</option>
 		    			@endforeach
@@ -1370,7 +1370,7 @@
     	@endif
     	
     </section>
-
+	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"  type="text/javascript"></script>
     <script src="/js/paises.js" type="text/javascript"></script>
 	<script src="/js/paises2.js" type="text/javascript"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

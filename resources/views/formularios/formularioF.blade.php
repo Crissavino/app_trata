@@ -78,9 +78,9 @@
             <div class="form-group {{ $errors->has('intervinieronOrganismos') ? 'has-error' : ''}}">
                 <label for="">E 1. Organismos que intervinieron previamente:</label>
                 <select class="ml-3 mb-3 form-control intervinieronOrganismos" name="intervinieronOrganismos">
-                    <option value="">Seleccioná si intervino otro organismo previamente</option>
+                    <option value="" disabled selected>Seleccione</option>
                     <option value="No">No</option>
-                    <option value="Intervino solo el organismo que derivó" selected>Intervino solo el organismo que derivó</option>
+                    <option value="Intervino solo el organismo que derivó">Intervino solo el organismo que derivó</option>
                     <option value="Intervinieron más organismos">Intervinieron más organismos</option>
                 </select>
                 {!! $errors->first('intervinieronOrganismos', '<p class="help-block" style="color:red";>:message</p>') !!}
@@ -213,7 +213,7 @@
             	<label for="">E 3 Organismos con los que se articula actualmente:</label><br>
                 <label for="">Se ha articulado con otros organismos en el transcurso de la asistencia?</label>
                 <select name="intervinieronOrganismosActualmente" class="form-control intervinieronOrganismosActualmente">
-                    <option value="">Se ha articulado con otros organismos?</option>
+                    <option value="" disabled selected>Seleccione</option>
                     <option value="Si">Sí</option>
                     <option value="No">No</option>
                 </select>
