@@ -5,13 +5,13 @@
 		var organismoDerivo = document.querySelector('.organismoDerivo');
 		var intervinieron = document.querySelector('.intervinieron');
 
-		if (intervinieronOrganismos.value === 'Intervinieron más organismos') {
+		if (intervinieronOrganismos.value == 3) {
 			organismoDerivo.style.display = '';
 			intervinieron.style.display = '';
-		}else if (intervinieronOrganismos.value === 'Intervino solo el organismo que derivó') {
+		}else if (intervinieronOrganismos.value == 2) {
 			organismoDerivo.style.display = '';
 			intervinieron.style.display = 'none';
-		}else if(intervinieronOrganismos.value === 'No'){
+		}else if(intervinieronOrganismos.value == 1){
 			organismoDerivo.style.display = 'none';
 			intervinieron.style.display = 'none';
 		}
@@ -20,11 +20,10 @@
 	// pregunta 1.2
 		var orgProgNacionalOtro = document.querySelector('.orgProgNacionalOtro');
 		var orgProgNacionalCual = document.querySelector('.orgProgNacionalCual');
+		var divOrgProgNacionalCual = document.querySelector('#orgProgNacionalCual');
 
 		if (orgProgNacionalOtro.checked) {
 			orgProgNacionalCual.style.display = '';
-		}else{
-			orgProgNacionalCual.style.display = 'none';
 		}
 	// fin pregunta 1.2
 
@@ -65,9 +64,9 @@
 
 	//pregunta de F 3
 		var intervinieronOrganismosActualmente = document.querySelector('.intervinieronOrganismosActualmente');
-		console.log(intervinieronOrganismosActualmente);
 		var intervinieronActualmente = document.querySelector('.intervinieronActualmente');
-		if (intervinieronOrganismosActualmente.value === 'Si') {
+
+		if (intervinieronOrganismosActualmente.value == 1) {
 			intervinieronActualmente.style.display = '';
 		}else{
 			intervinieronActualmente.style.display = 'none';
@@ -85,7 +84,109 @@
 		}
 	// fin pregunta 3.2
 
+	//borrado orgProgNacionalOtro individual
+		var ids1 = [];
 
+		function borrarOrgProgNacionalOtro(id){
+			ids1.push(id);
+
+			$('#idsEliminados1').val(ids1);
+
+			$('.otroProgNacionalOtro'+id).html(" ");
+
+		}
+	//fin
+
+	//borrado orgProgProvincial individual
+		var ids2 = [];
+
+		function borrarOrgProv(id){
+			ids2.push(id);
+
+			$('#idsEliminados2').val(ids2);
+
+			$('.programaProv'+id).html(" ");
+
+		}
+	//fin
+
+	//borrado orgProgMunipal individual
+		var ids3 = [];
+
+		function borrarOrgMuni(id){
+			ids3.push(id);
+
+			$('#idsEliminados3').val(ids3);
+
+			$('.programaMuni'+id).html(" ");
+
+		}
+	//fin
+
+	//borrado OrgCivil individual
+		var ids4 = [];
+
+		function borrarOrgCivil(id){
+			ids4.push(id);
+
+			$('#idsEliminados4').val(ids4);
+
+			$('.organizacion'+id).html(" ");
+
+		}
+	//fin
+
+	//borrado orgProgNacionalOtroActualmente individual
+		var ids11 = [];
+
+		function borrarProgNacionalOtro(id){
+			ids11.push(id);
+
+			$('#idsEliminados11').val(ids11);
+
+			$('.progNacionalOtro'+id).html(" ");
+
+		}
+	//fin
+
+	//borrado orgProgProvincialActualmente individual
+		var ids22 = [];
+
+		function borrarOrgProvActualmente(id){
+			ids22.push(id);
+
+			$('#idsEliminados22').val(ids22);
+
+			$('.provActualmente'+id).html(" ");
+
+		}
+	//fin
+
+	//borrado orgProgMunipalActualmente individual
+		var ids33 = [];
+
+		function borrarOrgMuniActualmente(id){
+			ids33.push(id);
+
+			$('#idsEliminados33').val(ids33);
+
+			$('.muniActualmente'+id).html(" ");
+
+		}
+	//fin
+
+	//borrado OrgCivilActualmente individual
+		var ids44 = [];
+
+		function borrarOrgCivilActualmente(id){
+			ids44.push(id);
+
+			$('#idsEliminados44').val(ids44);
+
+			$('.socCivilActualmente'+id).html(" ");
+
+		}
+	//fin
 
 window.onload =function (){
 
@@ -95,14 +196,14 @@ window.onload =function (){
 		var organismoDerivo = document.querySelector('.organismoDerivo');
 
 		intervinieronOrganismos.addEventListener('change', function(){
-			console.log(intervinieronOrganismos.value);
-			if (intervinieronOrganismos.value === 'Intervinieron más organismos') {
+
+			if (intervinieronOrganismos.value == 3) {
 				organismoDerivo.style.display = '';
 				intervinieron.style.display = '';
-			}else if (intervinieronOrganismos.value === 'Intervino solo el organismo que derivó') {
+			}else if (intervinieronOrganismos.value == 2) {
 				organismoDerivo.style.display = '';
 				intervinieron.style.display = 'none';
-			}else if(intervinieronOrganismos.value === 'No'){
+			}else if(intervinieronOrganismos.value == 1){
 				organismoDerivo.style.display = 'none';
 				intervinieron.style.display = 'none';
 			}
@@ -224,7 +325,7 @@ window.onload =function (){
 		var intervinieronActualmente = document.querySelector('.intervinieronActualmente');
 
 		intervinieronOrganismosActualmente.addEventListener('change', function(){
-			if (intervinieronOrganismosActualmente.value === 'Si') {
+			if (intervinieronOrganismosActualmente.value == 1) {
 				intervinieronActualmente.style.display = '';
 			}else{
 				intervinieronActualmente.style.display = 'none';
@@ -313,5 +414,7 @@ window.onload =function (){
 			alert('Se borro una entrada')
 		});
 	//fin pregunta 3.1.6
+
+
 
 };

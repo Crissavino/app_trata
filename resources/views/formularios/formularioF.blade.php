@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	@include('partials.head')
-	<title>Eje E: Atención del caso</title>
+    @include('partials.head')
+    <title>Eje E: Atención del caso</title>
     <style>
         .cerrarSesion{
             position: absolute;
@@ -72,22 +72,25 @@
             Eje E: Atención del caso
             <h5 class="mb-5" style="text-align: center;">Estás trabajando sobre la carpeta n° {{ $numeroCarpeta }}</h5>
         </h1>
-    	<form action="" class="form-group" method="post">
-	    	{{ csrf_field() }}
+        <form action="" class="form-group" method="post">
+            {{ csrf_field() }}
             <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
             <div class="form-group {{ $errors->has('intervinieronOrganismos') ? 'has-error' : ''}}">
                 <label for="">E 1. Organismos que intervinieron previamente:</label>
-                <select class="ml-3 mb-3 form-control intervinieronOrganismos" name="intervinieronOrganismos">
+                <select class="ml-3 mb-3 form-control intervinieronOrganismos" name="intervinieronOrganismos_id">
                     <option value="" disabled selected>Seleccione</option>
-                    <option value="No">No</option>
-                    <option value="Intervino solo el organismo que derivó">Intervino solo el organismo que derivó</option>
-                    <option value="Intervinieron más organismos">Intervinieron más organismos</option>
+                    @foreach ($datosIntervinieronOrganismos as $organismos)
+                        @php
+                            $selected = ($organismos->id == old('intervinieronOrganismos_id')) ? 'selected' : '';
+                        @endphp
+                        <option value="{{ $organismos->id }}" {{ $selected }}>{{ $organismos->nombre }}</option>
+                    @endforeach
                 </select>
                 {!! $errors->first('intervinieronOrganismos', '<p class="help-block" style="color:red";>:message</p>') !!}
             </div>
             <div class="form-group organismoDerivo" style="display: none;">
                 @foreach ($aFormularios as $aFormulario)
-                    @if ($aFormulario->datos_numero_carpeta === $numeroCarpeta)
+                    @if ($aFormulario->datos_numero_carpeta == $numeroCarpeta)
                         @if ($aFormulario->derivacion_otro_organismo_id !== 16)
                             @foreach ($derivacionOrganismo as $organismo)
                                 @if ($organismo->id === $aFormulario->derivacion_otro_organismo_id)
@@ -100,7 +103,7 @@
                             <input type="text" name="" class="form-control ml-3" readonly="readonly" 
                                 value="{{ $aFormulario->derivacion_otro_organismo_cual }}">
                         @endif
-                        @if($aFormulario->derivacion_otro_organismo_id === null)
+                        @if($aFormulario->derivacion_otro_organismo_id == null)
                             {{-- <input type="text" name="" class="form-control ml-3" readonly="readonly" value="No intervino ningún organismo previamente"> --}}
                         @endif
                     @endif
@@ -180,42 +183,46 @@
 
             {{-- F 2 --}}
             <div class="form-group">
-            	<label for="">E 2. Tipo de asistencia requerida:
-            		<span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
-            	</label>
-            	@foreach ($datosAsistencia as $asistencia)
-            		<div class="ml-3">
-            			@if ($asistencia->id === 3)
-            				<label for="{{ $asistencia->id }}">{{ $asistencia->nombre }}</label>
-	            			<input type="checkbox" class="socioEconomicaCheckbox" id="{{ $asistencia->id }}" value="{{ $asistencia->id }}" name="asistencia_id[]">
-	            		@else
-	            			<label for="{{ $asistencia->id }}">{{ $asistencia->nombre }}</label>
-	            			<input type="checkbox" class="asistenciaCheckbox" id="{{ $asistencia->id }}" value="{{ $asistencia->id }}" name="asistencia_id[]">
-            			@endif
-            		</div>
-            	@endforeach
-            	<div class="ml-3 socioEconomica" style="display: none;">
-            		@foreach ($datosSocioeconomica as $socioeconomica)
-            			<div class="ml-3">
+                <label for="">E 2. Tipo de asistencia requerida:
+                    <span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
+                </label>
+                @foreach ($datosAsistencia as $asistencia)
+                    <div class="ml-3">
+                        @if ($asistencia->id === 3)
+                            <label for="{{ $asistencia->id }}">{{ $asistencia->nombre }}</label>
+                            <input type="checkbox" class="socioEconomicaCheckbox" id="{{ $asistencia->id }}" value="{{ $asistencia->id }}" name="asistencia_id[]">
+                        @else
+                            <label for="{{ $asistencia->id }}">{{ $asistencia->nombre }}</label>
+                            <input type="checkbox" class="asistenciaCheckbox" id="{{ $asistencia->id }}" value="{{ $asistencia->id }}" name="asistencia_id[]">
+                        @endif
+                    </div>
+                @endforeach
+                <div class="ml-3 socioEconomica" style="display: none;">
+                    @foreach ($datosSocioeconomica as $socioeconomica)
+                        <div class="ml-3">
                             <label for="{{ $socioeconomica->id }}">{{ $socioeconomica->nombre }}</label>
                             <input type="checkbox" class="deSocioEconomica{{ $socioeconomica->id }}" id="{{ $socioeconomica->id }}" value="{{ $socioeconomica->id }}" name="socioeconomic_id[]">                   
                         </div>   
-            		@endforeach
-            	</div>
-            	<div class="ml-3 socioEconomicaCual" style="display: none;">
-            		<label for="">Cual?</label>
-            		<input type="text" class="form-control socioEconomicaCualInput" name="socioeconomicaCual">
-            	</div>
+                    @endforeach
+                </div>
+                <div class="ml-3 socioEconomicaCual" style="display: none;">
+                    <label for="">Cual?</label>
+                    <input type="text" class="form-control socioEconomicaCualInput" name="socioeconomicaCual">
+                </div>
             </div>
 
             {{-- F 3 --}}
             <div class="form-group {{ $errors->has('intervinieronOrganismosActualmente') ? 'has-error' : ''}}">
-            	<label for="">E 3 Organismos con los que se articula actualmente:</label><br>
+                <label for="">E 3 Organismos con los que se articula actualmente:</label><br>
                 <label for="">Se ha articulado con otros organismos en el transcurso de la asistencia?</label>
-                <select name="intervinieronOrganismosActualmente" class="form-control intervinieronOrganismosActualmente">
+                <select name="intervinieronOrganismosActualmente_id" class="form-control intervinieronOrganismosActualmente">
                     <option value="" disabled selected>Seleccione</option>
-                    <option value="Si">Sí</option>
-                    <option value="No">No</option>
+                    @foreach ($datosIntervinieronOrganismosActualmente as $organismos)
+                        @php
+                            $selected = ($organismos->id == old('intervinieronOrganismosActualmente_id')) ? 'selected' : '';
+                        @endphp
+                        <option value="{{ $organismos->id }}" {{ $selected }}>{{ $organismos->nombre }}</option>
+                    @endforeach
                 </select>
                 {!! $errors->first('intervinieronOrganismosActualmente', '<p class="help-block" style="color:red";>:message</p>') !!}
             </div>
@@ -293,8 +300,8 @@
                 <input type="button" class="ml-3 btn btn-outline-primary btnOrgSocCivilActualmenteBorrarOtro" value="Borrar Otro" name=""><br><br>
             </div>
 
-	    	<button type="submit" class="btn btn-primary col-xl" name="button">Guardar</button><br><br>
-	    </form>
+            <button type="submit" class="btn btn-primary col-xl" name="button">Guardar</button><br><br>
+        </form>
 
 
 
@@ -302,7 +309,7 @@
 
 
     </section>
-			        
+                    
     <script src="/js/formularioF.js" type="text/javascript" charset="utf-8" async defer></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 

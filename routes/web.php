@@ -41,7 +41,7 @@ Route::get('formularios/B/{idCarpeta?}/{idFormulario?}', 'FormsController@create
 Route::post('formularios/B/{idCarpeta?}/{idFormulario?}', 'FormsController@insertB');
 Route::get('formularios/edicion/B/{idCarpeta}/{idFormulario}', 'FormsController@editB')->middleware('auth');
 Route::put('formularios/edicion/B/{idCarpeta?}/{idFormulario?}', 'FormsController@updateB');
-Route::delete('formularios/edicion/B/{id}', 'FormsController@destroyB');
+Route::delete('formularios/edicion/B/{idCarpeta?}', 'FormsController@destroyB');
 
 //RUTAS FORMULARIO C
 //funciona el middleware, de esa manera verifico q haya un usuario registrado

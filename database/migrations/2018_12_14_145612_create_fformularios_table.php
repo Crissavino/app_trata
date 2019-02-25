@@ -16,8 +16,8 @@ class CreateFformulariosTable extends Migration
         Schema::create('fformularios', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('numeroCarpeta');
-            $table->string('intervinieronOrganismos');
-            $table->string('intervinieronOrganismosActualmente');
+            $table->string('intervinieronOrganismos_id');
+            $table->string('intervinieronOrganismosActualmente_id');
             // $table->integer('orgJudiciales_id')->unsigned();
             // $table->integer('orgProgNacionales_id')->unsigned();
             // $table->string('orgprognacionalOtro')->nullable();
@@ -156,6 +156,20 @@ class CreateFformulariosTable extends Migration
             $table->timestampsTz();
         });
 
+        Schema::create('intervinieronorganismos', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->softDeletesTz();
+            $table->timestampsTz();
+        });
+
+        Schema::create('intervinieronorganismosactualmentes', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->softDeletesTz();
+            $table->timestampsTz();
+        });
+
         Schema::create('fformulario_orgjudicial', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('orgjudicial_id')->unsigned();
@@ -246,6 +260,8 @@ class CreateFformulariosTable extends Migration
         Schema::dropIfExists('orgjudicialactualmentes');
         Schema::dropIfExists('orgprognacionalactualmentes');
         Schema::dropIfExists('policiaactualmentes');
+        Schema::dropIfExists('intervinieronorganismos');
+        Schema::dropIfExists('intervinieronorganismosactuamentes');
         Schema::dropIfExists('fformulario_orgjudicial');
         Schema::dropIfExists('fformulario_orgprognacional');
         Schema::dropIfExists('fformulario_policia');

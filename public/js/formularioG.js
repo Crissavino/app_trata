@@ -70,13 +70,14 @@ window.onload =function (){
 
 	$(".imprimir").click(function(){
 		var noprint=$("#noimprimir").html();
-		$("#noimprimir").html("");
+		$("#noimprimir").hide();
 		$("#imprimible").show();
 		$("#imprimirbtn").hide();
 		window.print();
 		$("#imprimible").hide();
+		$("#noimprimir").show();
 		$("#imprimirbtn").show();
-		$("#noimprimir").html(noprint);
+		// $("#noimprimir").html(noprint);
 	});
 	//imprimir pantalla solo es para el edit
 	/* 	var imprimir = document.querySelector('.imprimir');

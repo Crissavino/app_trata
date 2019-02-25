@@ -297,7 +297,7 @@ window.onload =function (){
 //---------FIN FORMULARIO A--------------
 
 // se agrega un profesional por defecto
-$("#anadir").click();
+
 
 
 $("#formularioA").validate({ //se definen las opciones de validaciÃ³n para el formulario1
@@ -352,17 +352,17 @@ $("#formularioA").validate({ //se definen las opciones de validaciÃ³n para el 
 			   datos_nro_causa:{
 				   required: true,
 			   },
-			   profesional_id:{
+			   'profesional_id[]':{
 				   required: true,
 			   },
-			   datos_profesional_interviene_desde:{
+			   'datos_profesional_interviene_desde[]':{
 				   required: true,
 				   date:true
 			   },
-			   profesionalactualmente_id:{
+			   'profesionalactualmente_id[]':{
 				   required: true,
 			   },
-			   datos_profesional_interviene_hasta:{
+			   'datos_profesional_interviene_hasta[]':{
 				   required: true,
 			   }
 	   },
@@ -414,17 +414,17 @@ $("#formularioA").validate({ //se definen las opciones de validaciÃ³n para el 
 		   datos_nro_causa:{
 			   required:"Este campo es obligatorio",
 		   },
-		   profesional_id:{
+		   'profesional_id[]':{
 			   required:"Este campo es obligatorio",
 		   },
-		   datos_profesional_interviene_desde:{
+		   'datos_profesional_interviene_desde[]':{
 			   required:"Este campo es obligatorio",
 			   date:"Debe ingresar una fecha válida",
 		   },
-		   profesionalactualmente_id:{
+		   'profesionalactualmente_id[]':{
 			   required:"Este campo es obligatorio",
 		   },
-		   datos_profesional_interviene_hasta:{
+		   'datos_profesional_interviene_hasta[]':{
 			   required:"Este campo es obligatorio",
 		   },
 	   },
@@ -436,3 +436,19 @@ $("#formularioA").validate({ //se definen las opciones de validaciÃ³n para el 
 
 }
 
+function otraFuncion(){
+
+
+	
+	$("[name^=profesional_id]").each(function () {
+        $(this).rules("add", {
+            required: true,
+            messages: {
+                required: "Campo Requerido"
+            }
+		});
+	});
+	$("#formularioA").validate(); //sets up the validator
+
+
+}

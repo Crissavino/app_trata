@@ -26,16 +26,22 @@
 	var victimaLesionOrganismoInput = document.querySelector('.victimaLesionOrganismoInput');
 	var checkDesconoce = document.querySelector('.desconoce18');
 
+	if(selectLesionConstatada.value==1){
+		divVictimaLesionOrganismo.style.display='block'
+	}
+
 	if (selectTieneLesion.value == 1) {
 		divVictimaLesion.style.display = ''
-		if (selectLesionConstatada.value == 1) {
-			divVictimaLesionOrganismo.style.display = '';
-		}else{
-			divVictimaLesionOrganismo.style.display = 'none';
-			victimaLesionOrganismoInput.value = '';
-			checkDesconoce.checked = false;
-			victimaLesionOrganismoInput.removeAttribute('readonly');
-		}
+		selectLesionConstatada.addEventListener('change', function(){
+			if (selectLesionConstatada.value == 1) {
+				divVictimaLesionOrganismo.style.display = '';
+			}else{
+				divVictimaLesionOrganismo.style.display = 'none';
+				victimaLesionOrganismoInput.value = '';
+				checkDesconoce.checked = false;
+				victimaLesionOrganismoInput.removeAttribute('readonly');
+			}
+		});
 	}else{
 		divVictimaLesion.style.display = 'none'
 		divVictimaLesionOrganismo.style.display = 'none';
@@ -416,26 +422,7 @@ $("#formularioB").validate({ //se definen las opciones de validaciÃ³n para el 
 			victima_oficio_cual:{
 				required:true
 			},
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			   /*datos_numero_carpeta: {
-				   number:true,
-				   required:true
-			   },
-			   datos_fecha_ingreso:{
-				   date:true,
-				   required:true,
-			   },*/
+
 	   },
 	   messages: { //se definen los mensajes a mostrar
 			victima_nombre_y_apellido:{

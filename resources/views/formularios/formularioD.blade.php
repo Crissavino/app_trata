@@ -475,7 +475,7 @@
 	    	<div class="form-group">
 		 		<div {{ $errors->has('montoPago') ? 'has-error' : ''}}>
 		 			<label for="">D 23. Monto en Pesos: $</label>
-		 			<input type="text" class="form-control montoPago" name="montoPago" value="{{ old('montoPago') }}">
+		 			<input type="text" class="form-control montoPago" name="montoPago" id="montoPago" value="{{ old('montoPago') }}">
 		 		</div>
 	    		{!! $errors->first('montoPago', '<p class="help-block" style="color:red";>:message</p>') !!}
 

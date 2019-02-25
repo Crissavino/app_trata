@@ -99,7 +99,9 @@
                 </tbody>
             </table>
         </div>
-
+        <nav role="navigation" aria-label="Pagination Navigation">
+            {{ $formsA->appends(request()->input())->links() }}
+        </nav>
         
     </section>
 

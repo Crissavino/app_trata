@@ -381,14 +381,20 @@
 		var especiasCual = document.querySelector('.especiasCual');
 		var especiasCualInput = document.querySelector('.especiasCualInput');
 
+		if (checkEspeciasOtro.checked) {
+			especiasCual.style.display = 'block';
+		}
+
 		if (selectModalidadPagos.value == '4') {
 			especias.style.display = '';
-			if (checkEspeciasOtro.checked) {
-				especiasCual.style.display = '';
-			}else{
-				especiasCual.style.display = 'none';
-				especiasCualInput.value = '';
-			}
+			checkEspeciasOtro.addEventListener('click', function(){
+				if (this.checked) {
+					especiasCual.style.display = '';
+				}else{
+					especiasCual.style.display = 'none';
+					especiasCualInput.value = '';
+				}
+			});
 		}else{
 			checkEspecias.forEach(function(element){
 				element.checked = false;
@@ -1118,6 +1124,18 @@ $.validator.addMethod("horasdiarias",function(value,element){
 },"Ingrese un Número de 1 a 24. ");
 
 
+$.validator.addMethod("montopago",function(value,element){
+	//return this.optional(element) || /^[\t 0-9 Ã±]+$/i.test(value);
+	tipo=isNaN(parseInt(value));
+	valorSeDesconoce=(value=="Se desconoce");
+	premisa1=(tipo && valorSeDesconoce);
+	return (premisa1 || (!tipo));
+
+
+},"Ingrese un Número ");
+
+
+
 
 $("#formularioD").validate({ 
 	debug:false,
@@ -1239,7 +1257,7 @@ $("#formularioD").validate({
 		},
 		montoPago:{
 			required:true,
-			number:true
+			montopago:"#montopago"
 		},
 		deuda_id:{
 			required:true
@@ -1418,8 +1436,7 @@ $("#formularioD").validate({
 			required:"Este campo es obligatorio"
 		},
 		montoPago:{
-			required:"Este campo es obligatorio",
-			number:"Ingrese un número"
+			required:"Este campo es obligatorio"
 		},
 		deuda_id:{
 			required:"Este campo es obligatorio"

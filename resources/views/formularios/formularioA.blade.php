@@ -317,7 +317,7 @@
                 {{-- <button id="borra" class="btn btn-outline-danger col-xl" type="button" onclick="borra()">Borrar profesional</button><br><br> --}}
             {{-- FIN AGREGAR PROFESIONAL PREGUNTA --}}
 
-                <button type="submit" class="btn btn-primary col-xl" name="button">Guardar</button><br><br>
+                <button type="submit" onclick="javascript:otraFuncion();" class="btn btn-primary col-xl" name="button">Guardar</button><br><br>
             
             </form>
 
@@ -361,11 +361,16 @@
             </script>
 
             <script>
-                    var nueva_entrada = $('.padre').html();
 
-                    $("#anadir").click(function(){
-                        $(".padre").append(nueva_entrada);
-                  });
+                $(document).ready(function(){
+                    $("#anadir").click();
+                })
+
+                var nueva_entrada = $('.padre').html();
+
+                $("#anadir").click(function(){
+                    $(".padre").append(nueva_entrada);
+                });
 
                 // function borra() {
                 //     $('.hijo').first().remove();

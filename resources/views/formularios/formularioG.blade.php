@@ -394,7 +394,7 @@
                 {{-- Introduccion --}}
                     <h2 class="text-center m-5">Introducción</h2>
                     <div class="form-group" {{ $errors->has('introduccion') ? 'has-error' : ''}}>
-                        <textarea class="form-control" name="introduccion"></textarea>
+                        <textarea class="form-control" name="introduccion" required></textarea>
                         {!! $errors->first('introduccion', '<p class="help-block" style="color:red";>:message</p>') !!}
                     </div>
                 {{-- Fin introduccion --}}
@@ -576,7 +576,7 @@
                 // console.log(click);
                 // var divClick = '<div id="orgProgNacionalCual'+click+'" class="form-group orgProgNacionalCual'+click+'">';
 
-                var divClickIntervencion = '<div id="intervencion'+click+'" class="form-group intervencion'+click+'""><div class="form-group"><label for="" class="">Fecha</label><input type="date" class="form-control fechaInput'+click+'" name="fechaIntervencion[]"></div><div class="form-group"><label for="" class="">Tema</label><select class="form-control temaSelect'+click+'" name="temaIntervencion_id[]"><option value="">Seleccioná un tema</option>@foreach ($temaIntervencion as $tema)<option value="{{ $tema->id }}">{{ $tema->nombre }}</option>@endforeach</select><br><div class="temaCual'+click+'" style="display: none;"><label for="">Cual?</label><input type="text" class="form-control  temaCualInput'+click+'" name="temaOtro[]"><br></div></div><div class="form-group datosIntervencion'+click+'" style="display: none;"><div class="form-group"><label for="">Nombre de contacto:</label><input type="text" class="form-control" name="nombreContacto[]"></div><div class="form-group"><label for="">Teléfono de contacto:</label><input type="text" class="form-control" name="telefonoContacto[]"></div><div class="form-group"><label for="">Descripción de la intervención:</label><textarea class="form-control" name="descripcionIntervencion[]"></textarea></div></div></div>'
+                var divClickIntervencion = '<div id="intervencion'+click+'" class="form-group intervencion'+click+'""><div class="form-group"><label for="" class="">Fecha</label><input type="date" class="form-control fechaInput'+click+'" name="fechaIntervencion[]" required ></div><div class="form-group"><label for="" class="">Tema</label><select class="form-control temaSelect'+click+'" name="temaIntervencion_id[]" required><option value="">Seleccioná un tema</option>@foreach ($temaIntervencion as $tema)<option value="{{ $tema->id }}">{{ $tema->nombre }}</option>@endforeach</select><br><div class="temaCual'+click+'" style="display: none;"><label for="">Cual?</label><input type="text" class="form-control  temaCualInput'+click+'" name="temaOtro[]"><br></div></div><div class="form-group datosIntervencion'+click+'" style="display: none;"><div class="form-group"><label for="">Nombre de contacto:</label><input type="text" class="form-control" name="nombreContacto[]" required></div><div class="form-group"><label for="">Teléfono de contacto:</label><input type="text" class="form-control" name="telefonoContacto[]" required pattern="[\+]{0,1}[0-9]+"></div><div class="form-group"><label for="">Descripción de la intervención:</label><textarea class="form-control" name="descripcionIntervencion[]" required></textarea></div></div></div>'
 
                 var divIntervenciones = document.getElementById('intervenciones');
                 divIntervenciones.insertAdjacentHTML('beforeend', divClickIntervencion);
@@ -619,9 +619,11 @@
                         });
                         if (temaSelect.value === '9') {
                             temaCual.style.display = '';
+                            temaCual.getElementsByTagName("input")[0].setAttribute("required","true");
                         }else{
                             temaCual.style.display = 'none';
                             temaCualInput.value = '';
+                            temaCual.getElementsByTagName("input")[0].setAttribute("required","false");
                         }
                     });
                 //fin funcionalidades

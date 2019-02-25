@@ -5,7 +5,21 @@
 	borrarConviviente.addEventListener('click', function(){
         var divConvivientes = document.querySelector('.referentes');
         divConvivientes.removeChild(divConvivientes.lastChild)
-        swal('Se borro un referente')
+		swal('Se borro un referente')
+		if($("[name^=referentedinamico]").length==0){
+				
+			var convivientes = document.querySelector('.referentes');
+			convivientes.style.display = "";
+			var btnAnadir = document.querySelector('.clickAnadir');
+			var btnBorrar = document.querySelector('.clickBorrar');
+			btnAnadir.removeAttribute('disabled', 'disabled');
+			btnBorrar.removeAttribute('disabled', 'disabled');
+			swal("Agregá al menos un referente");
+			btnAnadir.click();
+
+
+
+		}
 	});
 
 	var noPersonas = document.querySelector('.noPersonas');
@@ -48,7 +62,23 @@
 			ids.push(id)
 			$('#idsEliminados').val(ids)
 
-			$('.referenteAnterior'+id).html(" ")
+			$('.referenteAnterior'+id).remove();
+			
+			if($("[name^=referenteAnterior]").length==0){
+				
+				var convivientes = document.querySelector('.referentes');
+				convivientes.style.display = "";
+				var btnAnadir = document.querySelector('.clickAnadir');
+				var btnBorrar = document.querySelector('.clickBorrar');
+				btnAnadir.removeAttribute('disabled', 'disabled');
+				btnBorrar.removeAttribute('disabled', 'disabled');
+				swal("Agregá al menos un referente");
+				btnAnadir.click();
+
+
+
+			}
+
 
 		}
 
@@ -337,7 +367,7 @@ window.onload =function (){
 
 
 ///VALIDACIÓN DEL LADO DEL CLIENTE
-
+/*
 $("#ejeC").validate({ 
 	debug:false,
 	errorClass: 'error_cliente',
@@ -355,4 +385,5 @@ $("#ejeC").validate({
 		   
 		   
 	   }
-   });
+   });*/
+

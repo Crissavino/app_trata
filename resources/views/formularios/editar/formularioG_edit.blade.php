@@ -454,7 +454,7 @@
                 {{-- Introduccion --}}
                     <h2 class="text-center m-5">Introducción</h2>
                     <div class="form-group">
-                        <textarea class="form-control" name="introduccion">{{ $formularioG->introduccion }}</textarea>
+                        <textarea class="form-control" name="introduccion" required>{{ $formularioG->introduccion }}</textarea>
                     </div>
                 {{-- Fin introduccion --}}
 
@@ -576,35 +576,41 @@
                             <h3><?=$i?>° Intervención</h3></h3>
                             <div class="form-group">
                                 <label for="" class="">Fecha</label>
-                                <input type="date" class="form-control fechaInput" name="fechaIntervencion[]" value="{{ $intervencion->fechaIntervencion }}">
+                                <input type="date" class="form-control fechaInput" name="fechaIntervencion[]" value="{{ $intervencion->fechaIntervencion }}" required>
                             </div>
                             <div class="form-group">
                                 <label for="" class="">Tema</label>
-                                <select class="form-control temaSelect" name="temaIntervencion_id[]">
+                                <select class="form-control temaSelect" name="temaIntervencion_id[]" required id="temaSelectInput">
                                     {{-- <option value="">Seleccioná un tema</option> --}}
                                     @foreach ($temaIntervencion as $tema)
                                         <option value="{{ $tema->id }}" {{ $tema->id == $intervencion->temaIntervencion_id ? 'selected' : '' }}>{{ $tema->nombre }}</option>
                                     @endforeach
                                 </select><br>
                                 @if ($intervencion->temaOtro)
-                                    <div class="temaCual">
+                                    <div class="temaCual" id="temaCualInputx">
                                         <label for="">Cual?</label>
-                                        <input type="text" class="form-control  temaCualInput" name="temaOtro[]" value="{{ $intervencion->temaOtro }}">
+                                        <input type="text" class="form-control  temaCualInput" name="temaOtro[]" value="{{ $intervencion->temaOtro }}" id="temaOtroInput" required>
                                         <br></div>
                                     </div>
+                                @else
+                                <div class="temaCual" id="temaCualInputx"  style="display:none;">
+                                    <label for="">Cual?</label>
+                                    <input type="text" class="form-control  temaCualInput" name="temaOtro[]" value="{{ $intervencion->temaOtro }}" id="temaOtroInput" required>
+                                    <br>
+                                </div>   
                                 @endif
                                 
                             <div class="form-group datosIntervencion">
                                 <div class="form-group">
                                     <label for="">Nombre de contacto:</label>
-                                    <input type="text" class="form-control" name="nombreContacto[]" value="{{ $intervencion->nombreContacto }}">
+                                    <input type="text" class="form-control" name="nombreContacto[]" value="{{ $intervencion->nombreContacto }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="">Teléfono de contacto:</label>
-                                    <input type="text" class="form-control" name="telefonoContacto[]" value="{{ $intervencion->telefonoContacto }}">
+                                    <input type="text" class="form-control" name="telefonoContacto[]" value="{{ $intervencion->telefonoContacto }}" required pattern="[\+]{0,1}[0-9]+">
                                 </div>
                                 <div class="form-group">
-                                    <label for="">Descripción de la intervención:</label><input type="text" class="form-control" name="descripcionIntervencion[]" value="{{ $intervencion->descripcionIntervencion }}">
+                                    <label for="">Descripción de la intervención:</label><input type="text" class="form-control" name="descripcionIntervencion[]" value="{{ $intervencion->descripcionIntervencion }}" required>
                                 </div>
                             </div>
                             @php $i++; @endphp
@@ -1440,7 +1446,6 @@
                         {{-- INICIO PROFESIONALES CARGADOS --}}
                             <h3>Profesionales cargados anteriormente:</h3>
                             @foreach ($formA->profesionalintervinientes as $profesionales)
-                                <h3>Profesionales cargados anteriormente:</h3>
                                     <div class="form-group">
                                         <label for="profesional_id">Profesional que interviene</label>
                                         <select disabled class="form-control">
@@ -1669,7 +1674,7 @@
                 console.log(click);
                 // var divClick = '<div id="orgProgNacionalCual'+click+'" class="form-group orgProgNacionalCual'+click+'">';
 
-                var divClickIntervencion = '<h3>Nueva intervención</h3></h3><div id="intervencion'+click+'" class="form-group intervencion'+click+'""><div class="form-group"><label for="" class="">Fecha</label><input type="date" class="form-control fechaInput'+click+'" name="fechaIntervencion[]"></div><div class="form-group"><label for="" class="">Tema</label><select class="form-control temaSelect'+click+'" name="temaIntervencion_id[]"><option value="">Seleccioná un tema</option>@foreach ($temaIntervencion as $tema)<option value="{{ $tema->id }}">{{ $tema->nombre }}</option>@endforeach</select><div class="temaCual'+click+'" style="display: none;"><label for="">Cual?</label><input type="text" class="form-control  temaCualInput'+click+'" name="temaOtro[]"><br></div></div><div class="form-group datosIntervencion'+click+'" style="display: none;"><div class="form-group"><label for="">Nombre de contacto:</label><input type="text" class="form-control" name="nombreContacto[]"></div><div class="form-group"><label for="">Teléfono de contacto:</label><input type="text" class="form-control" name="telefonoContacto[]"></div><div class="form-group"><label for="">Descripción de la intervención:</label><textarea class="form-control" name="descripcionIntervencion[]"></textarea></div></div></div>';
+                var divClickIntervencion = '<h3>Nueva intervención</h3></h3><div id="intervencion'+click+'" class="form-group intervencion'+click+'""><div class="form-group"><label for="" class="">Fecha</label><input type="date" class="form-control fechaInput'+click+'" name="fechaIntervencion[]" required></div><div class="form-group"><label for="" class="">Tema</label><select class="form-control temaSelect'+click+'" name="temaIntervencion_id[]" required><option value="" disabled selected>Seleccione</option>@foreach ($temaIntervencion as $tema)<option value="{{ $tema->id }}">{{ $tema->nombre }}</option>@endforeach</select><div class="temaCual'+click+'" style="display: none;"><label for="">Cual?</label><input type="text" class="form-control  temaCualInput'+click+'" name="temaOtro[]"><br></div></div><div class="form-group datosIntervencion'+click+'" style="display: none;"><div class="form-group"><label for="">Nombre de contacto:</label><input type="text" class="form-control" name="nombreContacto[]" required></div><div class="form-group"><label for="">Teléfono de contacto:</label><input type="text" class="form-control" name="telefonoContacto[]" required pattern="[\+]{0,1}[0-9]+"></div><div class="form-group"><label for="">Descripción de la intervención:</label><textarea class="form-control" name="descripcionIntervencion[]" required></textarea></div></div></div>';
 
                 var divIntervenciones = document.getElementById('intervenciones');
                 divIntervenciones.insertAdjacentHTML('beforeend', divClickIntervencion);
@@ -1712,18 +1717,46 @@
                         });
                         if (temaSelect.value === '9') {
                             temaCual.style.display = '';
+                            temaCual.getElementsByTagName("input")[0].setAttribute("required","true");
                         }else{
                             temaCual.style.display = 'none';
                             temaCualInput.value = '';
+                            temaCual.getElementsByTagName("input")[0].removeAttribute("required");
                         }
                     });
                 //fin funcionalidades
             });
+
+
+            ///controla el combo del primeri intervinente que viene cargado.
+            temaSelectInput=document.getElementById("temaSelectInput");
+            temaSelectInput.addEventListener('change', function(){
+                temaCualInput=document.getElementById("temaCualInputx").getElementsByTagName("input")[0];   
+                if (temaSelectInput.value === '9') {
+                   $("#temaCualInputx").show();
+                    temaCualInput.setAttribute("required","true");
+                        }else{
+                            $("#temaCualInputx").hide();
+                            temaCualInput.value = '';
+                            temaCualInput.removeAttribute("required");
+                        }
+            });
+            
+
+
+
+
+
+
+
+
+
         //fin agregar intervencion
     </script>
 			
     <script src="/js/formularioG.js" type="text/javascript" charset="utf-8" async defer></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
 </body>
 </html>

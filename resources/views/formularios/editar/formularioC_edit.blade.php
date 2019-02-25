@@ -96,31 +96,31 @@
                         <input type="text" name="idsEliminados" id="idsEliminados" value="" style="display: none;">
                         @foreach ($referentes as $referente)
                             {{-- @dd($referentes) --}}
-                            <div class="referenteAnterior{{ $referente->id }}">
-                                <h3><a onclick="borrarReferenteAnterior({{ $referente->id }})" class="btn float-right" class="borrarReferenteAnterior"><i class="far fa-trash-alt fa-2x" style="color: red;"></i></a><?=$i?>° Referente</h3>
+                            <div class="referenteAnterior{{ $referente->id }}" name="referenteAnterior{{ $referente->id }}">
+                                <h3><a onclick="borrarReferenteAnterior({{ $referente->id }})" class="btn float-right" class="borrarReferenteAnterior"><i class="far fa-trash-alt fa-2x" style="color: red;"></i></a><?php echo $i?>° Referente</h3>
 
 
                                 <div class="form-group" {{ $errors->has('nombre_apellido_viejo[]') ? 'has-error' : ''}}>
                                     <label for="">C 2. Referente - Nombre y apellido</label>
-                                    <input type="text" class="form-control nombre_apellidoAnt<?=$i?>" required title="Este campo es obligatorio." name="nombre_apellido_viejo[]" value="{{ $referente->nombre_apellido }}">
+                                    <input type="text" class="form-control nombre_apellidoAnt<?php echo $i?>" required title="Este campo es obligatorio." name="nombre_apellido_viejo[]" value="{{ $referente->nombre_apellido }}">
                                     {!! $errors->first('nombre_apellido_viejo.*', '<p class="help-block" style="color:red";>:message</p>') !!}
 
                                     <label for="" >Se desconoce</label>
-                                    <input type="checkbox" class="desconoceNAAnt<?=$i?> ml-2" value="">
+                                    <input type="checkbox" class="desconoceNAAnt<?php echo $i?> ml-2" value="">
                                 </div>
 
                                 <div class="form-group" {{ $errors->has('edad_viejo[]') ? 'has-error' : ''}}>
                                     <label for="edad">C 3. Referente - Edad:</label>
-                                    <input type="text" class="form-control edadAnt<?=$i?>" id="edad" name="edad_viejo[]" value="{{ $referente->edad }}" required title="Este campo es obligatorio.">
+                                    <input type="text" class="form-control edadAnt<?php echo $i?>" id="edad" name="edad_viejo[]" value="{{ $referente->edad }}" required pattern="[0-9]{1,2}" title="Este campo es obligatorio">
                                     {!! $errors->first('edad_viejo.*', '<p class="help-block" style="color:red";>:message</p>') !!}
 
                                     <label for="">Se desconoce</label>
-                                    <input type="checkbox" class="desconoceEAnt<?=$i?> ml-2" value="">
+                                    <input type="checkbox" class="desconoceEAnt<?php echo $i?> ml-2" value="">
                                 </div>
 
                                 <div class="form-group" {{ $errors->has('vinculo_id_viejo[]') ? 'has-error' : ''}}>
                                     <label for="vinculo_id">C 4. Referente - Tipo de vínculo con la víctima</label>
-                                    <select id="vinculo_id" class="form-control vinculoAnt<?=$i?>" name="vinculo_id_viejo[]">
+                                    <select id="vinculo_id" class="form-control vinculoAnt<?php echo $i?>" name="vinculo_id_viejo[]" required title="Este campo es obligatorio">
                                         <option value="" disabled selected>Seleccione</option>
                                         @foreach ($datosVinculos as $vinculo)
                                             @php
@@ -132,13 +132,13 @@
                                     {!! $errors->first('vinculo_id_viejo.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                                 </div>
 
-                                @if ($referente->vinculo_otro)
-                                    <div class="form-group otro_vinculoAnt<?=$i?>" {{ $errors->has('vinculo_otro_viejo[]') ? 'has-error' : ''}}> 
+                                {{-- @if ($referente->vinculo_otro) --}}
+                                    <div class="form-group otro_vinculoAnt<?php echo $i?>" {{ $errors->has('vinculo_otro_viejo[]') ? 'has-error' : ''}} style="display: none;"> 
                                         <label for="vinculo_otro">Cuál?</label>
-                                        <input type="text" class="form-control vinculo_otroAnt<?=$i?>" value="{{ $referente->vinculo_otro }}" name="vinculo_otro_viejo[]" required title="Este campo es obligatorio.">
+                                        <input type="text" class="form-control vinculo_otroAnt<?php echo $i?>" value="{{ $referente->vinculo_otro }}" name="vinculo_otro_viejo[]">
                                     </div>
                                     {!! $errors->first('vinculo_otro_viejo.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-                                @endif
+                                {{-- @endif --}}
 
                                 <div class="form-group" {{ $errors->has('referenteContacto_viejo[]') ? 'has-error' : ''}}>
                                     <label for="">C 5. Contacto de referente</label>
@@ -149,8 +149,8 @@
 
                             <script>
                                 //le agrego las funcionalidades para cada caso
-                                    var inputNomApTextN = document.querySelector('.nombre_apellidoAnt'+<?=$i?>);
-                                    var inputNomApCheckN = document.querySelector('.desconoceNAAnt'+<?=$i?>);
+                                    var inputNomApTextN = document.querySelector('.nombre_apellidoAnt'+<?php echo $i?>);
+                                    var inputNomApCheckN = document.querySelector('.desconoceNAAnt'+<?php echo $i?>);
                                     // console.log(inputNomApTextN, inputNomApCheckN);
 
                                     inputNomApCheckN.addEventListener('click', function () {
@@ -165,8 +165,8 @@
                                     });
 
 
-                                    var inputEdadCheckN = document.querySelector('.desconoceEAnt'+<?=$i?>);
-                                    var inputEdadTextN = document.querySelector('.edadAnt'+<?=$i?>);
+                                    var inputEdadCheckN = document.querySelector('.desconoceEAnt'+<?php echo $i?>);
+                                    var inputEdadTextN = document.querySelector('.edadAnt'+<?php echo $i?>);
 
                                     inputEdadCheckN.addEventListener('click', function () {
                                         if (inputEdadCheckN.checked) {
@@ -178,19 +178,19 @@
                                         }
                                     });
 
-                                    var selectVinculoN = $('.vinculoAnt'+<?=$i?>);
-                                    // var selectVinculoN = document.querySelector('.vinculoAnt'+<?=$i?>)
+                                    var selectVinculoN = $('.vinculoAnt'+<?php echo $i?>);
+                                    var divOtroVinculoN = $('.otro_vinculoAnt'+<?php echo $i?>);
+                                    // console.log(selectVinculoN.val());
+                                    var inputOtroVinculoN = $('.vinculo_otroAnt'+<?php echo $i?>);
 
-                                    console.log(selectVinculoN);
-                                    var divOtroVinculoN = document.querySelector('.otro_vinculoAnt'+<?=$i?>)
-                                    var inputOtroVinculoN = document.querySelector('.vinculo_otroAnt'+<?=$i?>)
-
-                                    selectVinculoN.addEventListener('change', function () {
-                                        if (selectVinculoN.value == '6') {
-                                            divOtroVinculoN.style.display = ""
+                                    selectVinculoN.change(function () {
+                                        if (selectVinculoN.val() == '6') {
+                                            divOtroVinculoN.css('display', 'block');
+                                            // divOtroVinculoN.style.display = ""
                                         }else{
-                                            divOtroVinculoN.style.display = "none"
-                                            inputOtroVinculoN.value = '';
+                                            // divOtroVinculoN.style.display = "none"
+                                            divOtroVinculoN.css('display', 'none');
+                                            inputOtroVinculoN.val(' ')
                                         }
                                     })
                                 //fin funcionalidades
@@ -209,7 +209,7 @@
                     <button type="submit" class="btn btn-primary col-xl" name="button">Actualizar</button><br><br>
                 </form>
             @else
-                <form class="" action="{{$cFormulario->id}}" method="post">
+                <form class="" action="{{$cFormulario->id}}" method="post" >
                     {{ csrf_field() }}
                     @method('PUT')
 
@@ -234,34 +234,27 @@
 
                     <div class="referentes-anteriores form-group">
                         @php $i = 1; @endphp
-                        <input type="text" name="idsEliminados" id="idsEliminados" value="" style="display: none;">
                         @foreach ($referentes as $referente)
                             {{-- @dd($referentes) --}}
-                            <div class="referenteAnterior{{ $referente->id }}">
-                                <h3><a onclick="borrarReferenteAnterior({{ $referente->id }})" class="btn float-right" class="borrarReferenteAnterior"><i class="far fa-trash-alt fa-2x" style="color: red;"></i></a><?=$i?>° Referente</h3>
+                            <div class="referenteAnterior{{ $referente->id }}"  name="referenteAnterior{{ $referente->id }}">
+                                <h3><?php echo $i?>° Referente</h3>
 
 
                                 <div class="form-group" {{ $errors->has('nombre_apellido_viejo[]') ? 'has-error' : ''}}>
                                     <label for="">C 2. Referente - Nombre y apellido</label>
-                                    <input type="text" class="form-control nombre_apellidoAnt<?=$i?>" required title="Este campo es obligatorio." name="nombre_apellido_viejo[]" value="{{ $referente->nombre_apellido }}">
+                                    <input readonly type="text" class="form-control nombre_apellidoAnt<?php echo $i?>" required title="Este campo es obligatorio." name="nombre_apellido_viejo[]" value="{{ $referente->nombre_apellido }}">
                                     {!! $errors->first('nombre_apellido_viejo.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-
-                                    <label for="" >Se desconoce</label>
-                                    <input type="checkbox" class="desconoceNAAnt<?=$i?> ml-2" value="">
                                 </div>
 
                                 <div class="form-group" {{ $errors->has('edad_viejo[]') ? 'has-error' : ''}}>
                                     <label for="edad">C 3. Referente - Edad:</label>
-                                    <input type="text" class="form-control edadAnt<?=$i?>" id="edad" name="edad_viejo[]" value="{{ $referente->edad }}" required title="Este campo es obligatorio.">
+                                    <input readonly type="text" class="form-control edadAnt<?php echo $i?>" id="edad" name="edad_viejo[]" value="{{ $referente->edad }}" required pattern="[0-9]{1,3}" title="Este campo es obligatorio.">
                                     {!! $errors->first('edad_viejo.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-
-                                    <label for="">Se desconoce</label>
-                                    <input type="checkbox" class="desconoceEAnt<?=$i?> ml-2" value="">
                                 </div>
 
                                 <div class="form-group" {{ $errors->has('vinculo_id_viejo[]') ? 'has-error' : ''}}>
                                     <label for="vinculo_id">C 4. Referente - Tipo de vínculo con la víctima</label>
-                                    <select id="vinculo_id" class="form-control vinculoAnt<?=$i?>" name="vinculo_id_viejo[]">
+                                    <select disabled id="vinculo_id" class="form-control vinculoAnt<?php echo $i?>" name="vinculo_id_viejo[]" required title="Este campo es obligatorio.">
                                         <option value="" disabled selected>Seleccione</option>
                                         @foreach ($datosVinculos as $vinculo)
                                             @php
@@ -274,16 +267,16 @@
                                 </div>
 
                                 @if ($referente->vinculo_otro)
-                                    <div class="form-group otro_vinculoAnt<?=$i?>" {{ $errors->has('vinculo_otro_viejo[]') ? 'has-error' : ''}}> 
+                                    <div class="form-group otro_vinculoAnt<?php echo $i?>" {{ $errors->has('vinculo_otro_viejo[]') ? 'has-error' : ''}}> 
                                         <label for="vinculo_otro">Cuál?</label>
-                                        <input type="text" class="form-control vinculo_otroAnt<?=$i?>" value="{{ $referente->vinculo_otro }}" name="vinculo_otro_viejo[]" required title="Este campo es obligatorio.">
+                                        <input readonly type="text" class="form-control vinculo_otroAnt<?php echo $i?>" value="{{ $referente->vinculo_otro }}" name="vinculo_otro_viejo[]" required title="Este campo es obligatorio.">
                                     </div>
                                     {!! $errors->first('vinculo_otro_viejo.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                                 @endif
 
                                 <div class="form-group" {{ $errors->has('referenteContacto_viejo[]') ? 'has-error' : ''}}>
                                     <label for="">C 5. Contacto de referente</label>
-                                    <input type="text" name="referenteContacto_viejo[]" class="form-control" value="{{ $referente->referenteContacto }}" required title="Este campo es obligatorio.">
+                                    <input readonly type="text" name="referenteContacto_viejo[]" class="form-control" value="{{ $referente->referenteContacto }}" required title="Este campo es obligatorio.">
                                     {!! $errors->first('referenteContacto_viejo.*', '<p class="help-block" style="color:red";>:message</p>') !!}
                                 </div>
                                 @php $i++; @endphp
@@ -300,7 +293,7 @@
 
         <!-- este script lo que hace es agregar otro formulario de profesionales en el caso que intervenga mas de un profesional en el caso -->
         
-        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"  type="text/javascript"></script>
+        <!--<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"  type="text/javascript"></script>-->
 
         {{-- <script src="/js/app.js" type="text/javascript" charset="utf-8" async defer></script> --}}
         <script src="/js/formularioC.js" type="text/javascript" charset="utf-8" async defer></script>
@@ -314,7 +307,7 @@
             btnAgregarReferente.addEventListener('click', function(){
                 clicks++
                 
-                var divClickReferente = '<div class="referente" id="referente"><h3>Datos del Referente:</h3><div class="form-group" {{ $errors->has('nombre_apellido[]') ? 'has-error' : ''}}><label for="">C 2. Referente - Nombre y apellido</label><input type="text" class="form-control nombre_apellido'+clicks+'" name="nombre_apellido[]" value="">{!! $errors->first('nombre_apellido.*', '<p class="help-block" style="color:red";>:message</p>') !!}<label for="" >Se desconoce</label><input type="checkbox" class="desconoceNA'+clicks+' ml-2" value=""></div><div class="form-group" {{ $errors->has('edad[]') ? 'has-error' : ''}}><label for="edad">C 3. Referente - Edad:</label><input type="text" class="form-control edad'+clicks+'" id="edad" name="edad[]" value="">{!! $errors->first('edad.*', '<p class="help-block" style="color:red";>:message</p>') !!}<label for="">Se desconoce</label><input type="checkbox" class="desconoceE'+clicks+' ml-2" value=""></div><div class="form-group" {{ $errors->has('vinculo_id[]') ? 'has-error' : ''}}><label for="vinculo_id">C 4. Referente - Tipo de vínculo con la víctima</label><select id="vinculo_id" class="form-control vinculo'+clicks+'" name="vinculo_id[]"><option value="">Vínculo?</option>@foreach ($datosVinculos as $vinculo)<option value="{{ $vinculo->getId() }}" {{ old('vinculo_id') == $vinculo->getId() ? 'selected' : '' }}>{{ $vinculo->getNombre() }}</option>@endforeach</select>{!! $errors->first('vinculo_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group otro_vinculo'+clicks+'" style="display: none"><label for="vinculo_otro">Cuál?</label><input type="text" class="form-control vinculo_otro'+clicks+'" name="vinculo_otro[]"></div></div><div class="form-group" {{ $errors->has('referenteContacto[]') ? 'has-error' : ''}}><label for="">C 5. Contacto de referente</label><input type="text" name="referenteContacto[]" class="form-control">{!! $errors->first('referenteContacto.*', '<p class="help-block" style="color:red";>:message</p>') !!}</div>';
+                var divClickReferente = '<div class="referente" id="referente" name="referentedinamico"><h3>Datos del Referente:</h3><div class="form-group" {{ $errors->has('nombre_apellido[]') ? 'has-error' : ''}}><label for="">C 2. Referente - Nombre y apellido</label><input type="text" class="form-control nombre_apellido'+clicks+'" name="nombre_apellido[]" value="" required title="Este campo es obligatorio.">{!! $errors->first('nombre_apellido.*', '<p class="help-block" style="color:red";>:message</p>') !!}<label for="" >Se desconoce</label><input type="checkbox" class="desconoceNA'+clicks+' ml-2" value=""></div><div class="form-group" {{ $errors->has('edad[]') ? 'has-error' : ''}}><label for="edad">C 3. Referente - Edad:</label><input type="text" class="form-control edad'+clicks+'" id="edad" name="edad[]" value="" required pattern="[0-9]{1,3}" title="Este campo es obligatorio."   >{!! $errors->first('edad.*', '<p class="help-block" style="color:red";>:message</p>') !!}<label for="">Se desconoce</label><input type="checkbox" class="desconoceE'+clicks+' ml-2" value=""></div><div class="form-group" {{ $errors->has('vinculo_id[]') ? 'has-error' : ''}}><label for="vinculo_id">C 4. Referente - Tipo de vínculo con la víctima</label><select id="vinculo_id" class="form-control vinculo'+clicks+'" name="vinculo_id[]" required title="Este campo es obligatorio."><option value="" disabled selected >Seleccione</option>@foreach ($datosVinculos as $vinculo)<option value="{{ $vinculo->getId() }}" {{ old('vinculo_id') == $vinculo->getId() ? 'selected' : '' }}>{{ $vinculo->getNombre() }}</option>@endforeach</select>{!! $errors->first('vinculo_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group otro_vinculo'+clicks+'" style="display: none"><label for="vinculo_otro">Cuál?</label><input type="text" class="form-control vinculo_otro'+clicks+'" name="vinculo_otro[]"></div></div><div class="form-group" {{ $errors->has('referenteContacto[]') ? 'has-error' : ''}}><label for="">C 5. Contacto de referente</label><input type="text" name="referenteContacto[]" class="form-control" required title="Este campo es obligatorio.">{!! $errors->first('referenteContacto.*', '<p class="help-block" style="color:red";>:message</p>') !!}</div>';
 
                 
 
