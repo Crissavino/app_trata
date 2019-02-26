@@ -342,7 +342,6 @@
 
             <div class="form-group">
                 <!-- {{-- PAISES --}} -->
-                {{-- ver como hacer para los casos en que se desconozca --}}
                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                     <div {{ $errors->has('paisNacimiento') ? 'has-error' : ''}}>
                         <label for="countryId">B 7. País de Nacimiento: </label>

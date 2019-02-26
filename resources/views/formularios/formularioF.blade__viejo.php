@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	@include('partials.head')
-	<title>Eje E: Atención del caso</title>
+    @include('partials.head')
+    <title>Eje E: Atención del caso</title>
     <style>
         .cerrarSesion{
             position: absolute;
@@ -72,12 +72,12 @@
             Eje E: Atención del caso
             <h5 class="mb-5" style="text-align: center;">Estás trabajando sobre la carpeta n° {{ $numeroCarpeta }}</h5>
         </h1>
-    	<form action="" id="formularioF" class="form-group" method="post">
-	    	{{ csrf_field() }}
+        <form action="" class="form-group" method="post">
+            {{ csrf_field() }}
             <input type="text" name="numeroCarpeta" style="display: none;" value="{{ $numeroCarpeta }}">
             <div class="form-group {{ $errors->has('intervinieronOrganismos') ? 'has-error' : ''}}">
                 <label for="">E 1. Organismos que intervinieron previamente:</label>
-                <select class="ml-3 mb-3 form-control intervinieronOrganismos_id" name="intervinieronOrganismos_id">
+                <select class="ml-3 mb-3 form-control intervinieronOrganismos" name="intervinieronOrganismos_id">
                     <option value="" disabled selected>Seleccione</option>
                     @foreach ($datosIntervinieronOrganismos as $organismos)
                         @php
@@ -183,39 +183,39 @@
 
             {{-- F 2 --}}
             <div class="form-group">
-            	<label for="">E 2. Tipo de asistencia requerida:
-            		<span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
-            	</label>
-            	@foreach ($datosAsistencia as $asistencia)
-            		<div class="ml-3">
-            			@if ($asistencia->id === 3)
-            				<label for="{{ $asistencia->id }}">{{ $asistencia->nombre }}</label>
-	            			<input type="checkbox" class="socioEconomicaCheckbox" id="{{ $asistencia->id }}" value="{{ $asistencia->id }}" name="asistencia_id[]">
-	            		@else
-	            			<label for="{{ $asistencia->id }}">{{ $asistencia->nombre }}</label>
-	            			<input type="checkbox" class="asistenciaCheckbox" id="{{ $asistencia->id }}" value="{{ $asistencia->id }}" name="asistencia_id[]">
-            			@endif
-            		</div>
-            	@endforeach
-            	<div class="ml-3 socioEconomica" style="display: none;">
-            		@foreach ($datosSocioeconomica as $socioeconomica)
-            			<div class="ml-3">
+                <label for="">E 2. Tipo de asistencia requerida:
+                    <span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
+                </label>
+                @foreach ($datosAsistencia as $asistencia)
+                    <div class="ml-3">
+                        @if ($asistencia->id === 3)
+                            <label for="{{ $asistencia->id }}">{{ $asistencia->nombre }}</label>
+                            <input type="checkbox" class="socioEconomicaCheckbox" id="{{ $asistencia->id }}" value="{{ $asistencia->id }}" name="asistencia_id[]">
+                        @else
+                            <label for="{{ $asistencia->id }}">{{ $asistencia->nombre }}</label>
+                            <input type="checkbox" class="asistenciaCheckbox" id="{{ $asistencia->id }}" value="{{ $asistencia->id }}" name="asistencia_id[]">
+                        @endif
+                    </div>
+                @endforeach
+                <div class="ml-3 socioEconomica" style="display: none;">
+                    @foreach ($datosSocioeconomica as $socioeconomica)
+                        <div class="ml-3">
                             <label for="{{ $socioeconomica->id }}">{{ $socioeconomica->nombre }}</label>
                             <input type="checkbox" class="deSocioEconomica{{ $socioeconomica->id }}" id="{{ $socioeconomica->id }}" value="{{ $socioeconomica->id }}" name="socioeconomic_id[]">                   
                         </div>   
-            		@endforeach
-            	</div>
-            	<div class="ml-3 socioEconomicaCual" style="display: none;">
-            		<label for="">Cual?</label>
-            		<input type="text" class="form-control socioEconomicaCualInput" name="socioeconomicaCual">
-            	</div>
+                    @endforeach
+                </div>
+                <div class="ml-3 socioEconomicaCual" style="display: none;">
+                    <label for="">Cual?</label>
+                    <input type="text" class="form-control socioEconomicaCualInput" name="socioeconomicaCual">
+                </div>
             </div>
 
             {{-- F 3 --}}
             <div class="form-group {{ $errors->has('intervinieronOrganismosActualmente') ? 'has-error' : ''}}">
-            	<label for="">E 3 Organismos con los que se articula actualmente:</label><br>
+                <label for="">E 3 Organismos con los que se articula actualmente:</label><br>
                 <label for="">Se ha articulado con otros organismos en el transcurso de la asistencia?</label>
-                <select name="intervinieronOrganismosActualmente_id" class="form-control intervinieronOrganismosActualmente_id">
+                <select name="intervinieronOrganismosActualmente_id" class="form-control intervinieronOrganismosActualmente">
                     <option value="" disabled selected>Seleccione</option>
                     @foreach ($datosIntervinieronOrganismosActualmente as $organismos)
                         @php
@@ -300,8 +300,8 @@
                 <input type="button" class="ml-3 btn btn-outline-primary btnOrgSocCivilActualmenteBorrarOtro" value="Borrar Otro" name=""><br><br>
             </div>
 
-	    	<button type="submit" class="btn btn-primary col-xl" name="button">Guardar</button><br><br>
-	    </form>
+            <button type="submit" class="btn btn-primary col-xl" name="button">Guardar</button><br><br>
+        </form>
 
 
 
@@ -309,7 +309,7 @@
 
 
     </section>
-	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"  type="text/javascript"></script>
+                    
     <script src="/js/formularioF.js" type="text/javascript" charset="utf-8" async defer></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 

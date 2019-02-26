@@ -451,7 +451,7 @@
                 $i =0;
             @endphp
             @foreach ($todo as $todosLosDatos) 
-            <hr>
+
             {{-- @dd($todo) --}}
                 <div class="form-group">
                     <label for="profesional_id">A 9.1 Nombre/Equipo/Profesión:</label>
@@ -478,10 +478,11 @@
                 </div>
 {{-- actualmente interviene --}}
 
+{{-- @dump($todosLosDatos) --}}
                 <div class="form-group" >
                     <label for="profesionalactualmente_id">A 9.3 Actualmente Interviene:</label> 
                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                        <select class="form-control actualmente<?=$i?>" name="profesionalactualmente_id[]" id="profesionalactualmente_id[]">
+                        <select class="form-control actualmente<?=$i?>" name="profesionalactualmente_id[]" id="profesionalactualmente_id[]" onChange="changeVal(<?=$i?>)">
                             <option value="{{ $todosLosDatos->profesionalactualmente_id }}">{{ $todosLosDatos->nombre }}</option>
                             @foreach ($datosIntervieneActualmente as $profesionalInterviene)
                                 <option value="{{ $profesionalInterviene->getId() }}">{{ $profesionalInterviene->getNombre() }}</option>
@@ -495,23 +496,32 @@
                         {!!$errors->first("profesionalactualmente_id.*", '<p class="help-block" style="color:red" ;>:message</p>') !!}
                 </div>
                 {{-- @dd($todo) --}}
-{{-- interviene hasta  --}}
-            <div style="display:none" class="form-group mostrarFinal<?=$i?>">
-                <label for="datos_profesional_interviene_hasta">A 9.4 Interviene hasta:</label> @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
+        {{-- interviene hasta  --}}
+        
+            @if($todosLosDatos->profesionalactualmente_id == 2)               
+                <div style="display: block;" class="form-group mostrarFinal<?=$i?>" name="intervieneHasta">
+            @elseif($todosLosDatos->profesionalactualmente_id == 1)
+                <div style="display: none;" class="form-group mostrarFinal<?=$i?>" name="intervieneHasta">
+            @endif                    
+                <label for="datos_profesional_interviene_hasta">A 9.4 Interviene hasta:</label> 
+                @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                 <input type="date" class="form-control" value="{{ Carbon\Carbon::parse($todosLosDatos->datos_profesional_interviene_hasta)->format('Y-m-d') }}"
                     name="datos_profesional_interviene_hasta[]"> @else
-                <input readonly type="date" class="form-control" value="{{ Carbon\Carbon::parse($todosLosDatos->datos_profesional_interviene_hasta)->format('Y-m-d') }}">                @endif {!! $errors->first('profesionalactualmente_id','
-                <p class="help-block" style="color:red" ;>:message</p>') !!}
-            </div>            
+                <input readonly type="date" class="form-control" value="{{ Carbon\Carbon::parse($todosLosDatos->datos_profesional_interviene_hasta)->format('Y-m-d') }}">           
+                     @endif {!! $errors->first('profesionalactualmente_id','<p class="help-block" style="color:red" ;>:message</p>') !!}
+            </div>             
+            @php $i = $i + 1; 
+            @endphp    
+            
+            <hr style="border: 2px solid grey">       
             @endforeach 
             {{-- FIN PROFESIONALES CARGADOS --}}
              {{-- INICIO AGREGAR PROFESIONAL PREGUNTA --}}
             <div class="padre"></div>
-
             @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
             <button id="anadir" class="btn btn-outline-primary col-xl anadirProfesional" type="button"> Agregar profesional </button><br><br>
-            <button id="borra" class="btn btn-outline-danger col-xl borrarProfesional" type="button">Borrar profesional</button><br><br>            {{-- FIN AGREGAR PROFESIONAL PREGUNTA --}}
-
+            <button id="borra" class="btn btn-outline-danger col-xl borrarProfesional" type="button">Borrar profesional</button><br><br>            
+            {{-- FIN AGREGAR PROFESIONAL PREGUNTA --}}
             <button type="submit" class="btn btn-primary col-xl" name="button">Actualizar</button><br><br> @endif
         </form>
 
@@ -529,24 +539,24 @@
 
                 var clicks = 0;
 
-                btnAgregarProfesional.addEventListener('click', function(){
+        btnAgregarProfesional.addEventListener('click', function(){
                     clicks++
 
-                    var divClickProfesional = 
-                    '<div class="hijo"><h3>A 9. Profesional Interviniente:</h3><div class="form-group" {{ $errors->has("profesional_id[]") ? "has-error" : ""}}><label for="profesional_id">A 9.1 Nombre/Equipo/Profesión: </label><select class="form-control profesional_id'+clicks+'" name="profesional_id[]" id="profesional_id" required><option value="" disabled selected>Seleccione</option>@foreach ($datosProfesional as $profesional)<option value="{{ $profesional->getId() }}">{{ $profesional->getNombreCompletoyProfesion() }} - {{ $profesional->profesion }}</option>@endforeach</select>{!! $errors->first("profesional_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="mostrarInicio form-group" {{ $errors->has("datos_profesional_interviene_desde[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_desde">A 9.2 Interviene desde:</label><input type="date" class="form-control desde'+clicks+'" name="datos_profesional_interviene_desde[]" id="datos_profesional_interviene_desde" value="" required date>{!! $errors->first("datos_profesional_interviene_desde.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group" {{ $errors->has("profesionalactualmente_id[]") ? "has-error" : ""}}><label for="profesionalactualmente_id">A 9.3 Actualmente Interviene:</label><select class="form-control actualmente'+clicks+'" name="profesionalactualmente_id[]" id="profesionalactualmente_id[]" required><option value="" disabled selected>Seleccione</option>@foreach ($datosIntervieneActualmente as $profesionalInterviene)<option value="{{ $profesionalInterviene->getId() }}">{{ $profesionalInterviene->getNombre() }}</option>@endforeach</select>{!! $errors->first("profesionalactualmente_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div style="display: none;" class="mostrarFinal'+clicks+' form-group" {{ $errors->has("datos_profesional_interviene_hasta[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_hasta">A 9.4 Interviene hasta:</label><input type="date" class="form-control hasta'+clicks+'" name="datos_profesional_interviene_hasta[]" id="datos_profesional_interviene_hasta" value="">{!! $errors->first("datos_profesional_interviene_hasta.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div></div>';
+            var divClickProfesional = 
+                    '<div class="hijo"><h3>A 9. Profesional Interviniente:</h3><div class="form-group" {{ $errors->has("profesional_id[]") ? "has-error" : ""}}><label for="profesional_id">A 9.1 Nombre/Equipo/Profesión: </label><select class="form-control profesional_id'+clicks+'" name="profesional_id[]" id="profesional_id" required><option value="" disabled selected>Seleccione</option>@foreach ($datosProfesional as $profesional)<option value="{{ $profesional->getId() }}">{{ $profesional->getNombreCompletoyProfesion() }} - {{ $profesional->profesion }}</option>@endforeach</select>{!! $errors->first("profesional_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="mostrarInicio form-group" {{ $errors->has("datos_profesional_interviene_desde[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_desde">A 9.2 Interviene desde:</label><input type="date" class="form-control desde'+clicks+'" name="datos_profesional_interviene_desde[]" id="datos_profesional_interviene_desde" value="" required date>{!! $errors->first("datos_profesional_interviene_desde.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group" {{ $errors->has("profesionalactualmente_id[]") ? "has-error" : ""}}><label for="profesionalactualmente_id">A 9.3 Actualmente Interviene:</label><select class="form-control actualmente'+clicks+'" name="profesionalactualmente_id[]" id="profesionalactualmente_id[]" ><option value="1" selected="selected">Si</option></select>{!! $errors->first("profesionalactualmente_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div>';
 
-                    var divProfesionales = document.querySelector('.padre');
-                    divProfesionales.insertAdjacentHTML('beforeend', divClickProfesional);
+            var divProfesionales = document.querySelector('.padre');
+            divProfesionales.insertAdjacentHTML('beforeend', divClickProfesional);
 
                     //le agrego las funcionalidades para cada caso
-                        var e= '<?php echo $i;?>'
-                        var actualmenteN = document.querySelector('.actualmente'+e);
-                        var finalN = document.querySelector('.mostrarFinal'+e);
-
+                    
+                        var actualmenteN = document.querySelector('.actualmente');
+                        var finalN = document.querySelector('.mostrarFinal');                          
+     
                         actualmenteN.addEventListener('change', function(){
-                            if (this.value == "1") {
+                            if (actualmenteN.value == "1") {                        
                                 finalN.style.display = 'none';
-                            }else if(this.value == "2"){
+                            }else if(actualmenteN.value == "2"){                   
                                 finalN.style.display = 'block';
                             }else{
                                 finalN.style.display = 'none';
@@ -556,9 +566,8 @@
 
                     //fin funcionalidades
                 });
-    </script>
 
-    <script>
+
         var nueva_entrada = $('.padre').html();
 
                 $("#anadir").click(function(){
@@ -566,9 +575,23 @@
                 });
 
              function borra() {
-                 $('.hijo').first().remove();
+                 $('.mostrarFinal<?=$i?>').remove();
                  swal('Se borro un profesional');
              }
+             //le agrego las funcionalidades para cada caso
+
+            function changeVal(a){
+            var actualmenteN = document.querySelector('.actualmente'+a);
+            var finalN = document.querySelector('.mostrarFinal'+a);
+                    if (actualmenteN.value == "1") {
+                        finalN.style.display = 'none';
+                    }else if(actualmenteN.value == "2"){
+                        finalN.style.display = 'block';                        
+                    }else{
+                        finalN.style.display = 'none';
+                    }
+            }
+                        
     </script>
 </body>
 

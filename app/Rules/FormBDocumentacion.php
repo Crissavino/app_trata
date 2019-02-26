@@ -28,6 +28,9 @@ class FormBDocumentacion implements Rule
      */
     public function passes($attribute, $value)
     {
+        if ($this->is_input){
+            $value = strlen($value);
+        }
         switch ($this->external_attribute) {
             case 1:
             case 2:

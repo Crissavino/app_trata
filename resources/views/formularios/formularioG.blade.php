@@ -509,50 +509,11 @@
                 {{-- Fin Articulación con organismos --}}
 
                 {{-- AGREGAR INTERVENCIÓN --}}
+
+                    <div id="intervenciones" class="form-group"></div>
+                    
                     <input type="button" class="btn btn-outline-success agregarIntervencion col-xl" value="Agregar Intervención" name=""><br><br>
                     <input type="button" class=" btn btn-outline-danger borrarIntervencion col-xl" value="Borrar Intervención" name=""><br><br>
-
-                    <div id="intervenciones" class="form-group">
-                    {{-- todo esto no va --}}
-                        {{-- <div id="intervencion" class="form-group intervencion" style="display: none;"> --}}
-                        {{-- <div class="form-group">
-                            <label for="" class="">Fecha</label>
-                            <input type="date" class="form-control fechaInput" name="fechaIntervencion">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="" class="">Tema</label>
-                            <select class="form-control temaSelect" name="temaIntervencion_id">
-                                <option value="">Seleccioná un tema</option>
-                                @foreach ($temaIntervencion as $tema)
-                                    <option value="{{ $tema->id }}">{{ $tema->nombre }}</option>
-                                @endforeach
-                            </select>
-
-                            <div id="temaCual" style="display: none;">
-                                <label for="">Cual?</label>
-                                <input type="text" class="form-control  temaCualInput" name="temaOtro"><br>
-                            </div>
-                        </div>
-
-                        <div class="form-group datosIntervencion" style="display: none;">
-                            <div class="form-group">
-                                <label for="">Nombre de contacto:</label>
-                                <input type="text" class="form-control" name="nombreContacto">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="">Teléfono de contacto:</label>
-                                <input type="text" class="form-control" name="telefonoContacto">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="">Descripción de la intervención:</label>
-                                <input type="text" class="form-control" name="descripcionIntervencion">
-                            </div>
-                        </div> --}}
-                    {{-- hasta aca --}}
-                    </div>
                 {{-- Fin AGREGAR INTERVENCIÓN --}}
                 <button type="submit" class="btn btn-primary col-xl btnEnviarForm">Guardar</button>
             </form>

@@ -136,18 +136,45 @@ window.onload =function (){
 
 	// pregunta 7
 		var paisNacimiento = document.querySelector('.countries');
+		var provinciaNacimiento = document.querySelector('.states');
+		var ciudadNacimiento = document.querySelector('.cities');
 		var desconocePaisNacimiento = document.querySelector('#desconocePaisNacimiento');
+		var desconoceProvinciaNacimiento = document.querySelector('#desconoceProvinciaNacimiento');
+		var desconoceCiudadNacimiento = document.querySelector('#desconoceCiudadNacimiento');
 
 		desconocePaisNacimiento.addEventListener('click', function() {
 			if (this.checked) {
-				var option = document.createElement("option");
-	    		option.text = "Se desconoce";
-	    		paisNacimiento.add(option);
+				var option1 = document.createElement("option");
+				var option2 = document.createElement("option");
+				var option3 = document.createElement("option");
+				option1.text = "Se desconoce";
+				option2.text = "Se desconoce";
+				option3.text = "Se desconoce";
+				
+	    		paisNacimiento.add(option1);
 	    		paisNacimiento.value = 'Se desconoce';
 				paisNacimiento.setAttribute("readonly", "readonly");
+
+				provinciaNacimiento.add(option2);
+				provinciaNacimiento.value = 'Se desconoce';
+				provinciaNacimiento.setAttribute("readonly", "readonly");
+				desconoceProvinciaNacimiento.checked = true;
+
+				ciudadNacimiento.add(option3);
+				ciudadNacimiento.value = 'Se desconoce';
+				ciudadNacimiento.setAttribute("readonly", "readonly");
+				desconoceCiudadNacimiento.checked = true;
 			}else{
 				paisNacimiento.value = '';
 				paisNacimiento.removeAttribute('readonly');
+
+				provinciaNacimiento.value = '';
+				provinciaNacimiento.removeAttribute('readonly');
+				desconoceProvinciaNacimiento.checked = false;
+
+				ciudadNacimiento.value = '';
+				ciudadNacimiento.removeAttribute('readonly');
+				desconoceCiudadNacimiento.checked = false;
 			}
 		});
 	// fin pregunta 7

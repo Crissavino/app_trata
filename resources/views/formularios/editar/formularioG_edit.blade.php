@@ -567,55 +567,74 @@
                 {{-- Fin Articulación con organismos --}}
 
                 {{-- AGREGAR INTERVENCIÓN --}}
-                    <input type="button" class="btn btn-outline-success agregarIntervencion col-xl" value="Agregar Intervención" name=""><br><br>
-                    {{-- <input type="button" class=" btn btn-outline-danger borrarIntervencion" value="Borrar Intervención" name=""><br><br> --}}
-
                     <div class="intervenciones-anteriores form-group">
                         @php $i = 1; @endphp
+                        <input type="text" name="idsEliminados" id="idsEliminados" value=""  style="display: none;">
                         @foreach ($intervenciones as $intervencion)
-                            <h3><?=$i?>° Intervención</h3></h3>
-                            <div class="form-group">
-                                <label for="" class="">Fecha</label>
-                                <input type="date" class="form-control fechaInput" name="fechaIntervencion[]" value="{{ $intervencion->fechaIntervencion }}" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="" class="">Tema</label>
-                                <select class="form-control temaSelect" name="temaIntervencion_id[]" required id="temaSelectInput">
-                                    {{-- <option value="">Seleccioná un tema</option> --}}
-                                    @foreach ($temaIntervencion as $tema)
-                                        <option value="{{ $tema->id }}" {{ $tema->id == $intervencion->temaIntervencion_id ? 'selected' : '' }}>{{ $tema->nombre }}</option>
-                                    @endforeach
-                                </select><br>
-                                @if ($intervencion->temaOtro)
-                                    <div class="temaCual" id="temaCualInputx">
+                            <div class="intervencionAnterior{{ $intervencion->id }}">
+                                <h3><a onclick="borrarIntervencionAnterior({{ $intervencion->id }})" class="btn float-right" class="borrarIntervencionAnterior"><i class="far fa-trash-alt fa-2x" style="color: red;"></i></a><?php echo $i?>° Intervención</h3></h3>
+                                <div class="form-group">
+                                    <label for="" class="">Fecha</label>
+                                    <input type="date" class="form-control fechaInput" name="fechaIntervencion_viejo[]" value="{{ $intervencion->fechaIntervencion }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="" class="">Tema</label>
+                                    <select class="form-control temaSelect<?php echo $i?>" name="temaIntervencion_id_viejo[]" required id="temaSelectInput">
+                                        {{-- <option value="">Seleccioná un tema</option> --}}
+                                        @foreach ($temaIntervencion as $tema)
+                                            <option value="{{ $tema->id }}" {{ $tema->id == $intervencion->temaIntervencion_id ? 'selected' : '' }}>{{ $tema->nombre }}</option>
+                                        @endforeach
+                                    </select>
+                                    {{-- @if ($intervencion->temaOtro) --}}
+                                        <div class="temaCual<?php echo $i?> mt-2 mb-2" id="temaCualInputx" style="display: none;">
+                                            <label for="">Cual?</label>
+                                            <input type="text" class="form-control  temaCualInput" name="temaOtro_viejo[]" value="{{ $intervencion->temaOtro }}" id="temaOtroInput">
+                                        </div>
+                                    {{-- @else
+                                    <div class="temaCual" id="temaCualInputx"  style="display:none;">
                                         <label for="">Cual?</label>
                                         <input type="text" class="form-control  temaCualInput" name="temaOtro[]" value="{{ $intervencion->temaOtro }}" id="temaOtroInput" required>
-                                        <br></div>
+                                        <br> --}}
+                                    {{-- @endif --}}
+                                </div>
+                                    
+                                <div class="form-group datosIntervencion">
+                                    <div class="form-group mt-2">
+                                        <label for="">Nombre de contacto:</label>
+                                        <input type="text" class="form-control" name="nombreContacto_viejo[]" value="{{ $intervencion->nombreContacto }}" required>
                                     </div>
-                                @else
-                                <div class="temaCual" id="temaCualInputx"  style="display:none;">
-                                    <label for="">Cual?</label>
-                                    <input type="text" class="form-control  temaCualInput" name="temaOtro[]" value="{{ $intervencion->temaOtro }}" id="temaOtroInput" required>
-                                    <br>
-                                </div>   
-                                @endif
+                                    <div class="form-group">
+                                        <label for="">Teléfono de contacto:</label>
+                                        <input type="text" class="form-control" name="telefonoContacto_viejo[]" value="{{ $intervencion->telefonoContacto }}" required pattern="[\+]{0,1}[0-9]+">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Descripción de la intervención:</label><input type="text" class="form-control" name="descripcionIntervencion_viejo[]" value="{{ $intervencion->descripcionIntervencion }}" required>
+                                    </div>
+                                </div>
+                            <script>
+                                var temaSelect = document.querySelector('.temaSelect'+<?php echo $i?>);
+                                var temaCual = document.querySelector('.temaCual'+<?php echo $i?>);
+
+                                temaSelect.addEventListener('change', function(){
+                                    if (this.value == 9) {
+                                        temaCual.style.display = '';
+                                    }else{
+                                        temaCual.style.display = 'none';
+                                        temaCual.value = '';
+                                    }
+                                });
                                 
-                            <div class="form-group datosIntervencion">
-                                <div class="form-group">
-                                    <label for="">Nombre de contacto:</label>
-                                    <input type="text" class="form-control" name="nombreContacto[]" value="{{ $intervencion->nombreContacto }}" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Teléfono de contacto:</label>
-                                    <input type="text" class="form-control" name="telefonoContacto[]" value="{{ $intervencion->telefonoContacto }}" required pattern="[\+]{0,1}[0-9]+">
-                                </div>
-                                <div class="form-group">
-                                    <label for="">Descripción de la intervención:</label><input type="text" class="form-control" name="descripcionIntervencion[]" value="{{ $intervencion->descripcionIntervencion }}" required>
-                                </div>
+                                if (temaSelect.value == 9) {
+                                    temaCual.style.display = '';
+                                }
+                            </script>
                             </div>
                             @php $i++; @endphp
                         @endforeach
                     </div>
+
+                    <input type="button" class="btn btn-outline-success agregarIntervencion col-xl" value="Agregar Intervención" name=""><br><br>
+                    <input type="button" class=" btn btn-outline-danger borrarIntervencion col-xl" value="Borrar Intervención" name=""><br><br>
 
                     <div id="intervenciones" class="form-group">
                     </div>
@@ -996,10 +1015,12 @@
                                             $orgJudicialesActualmenteIds = $formF->orgjudicialactualmentes->pluck('id')->toArray();
                                             $checked = (in_array($orgJudicialesActualmente->id, $orgJudicialesActualmenteIds)) ? 'checked' : ''
                                         @endphp
+                                        @if($checked=='checked')
                                         <div class="ml-3">
                                             <label for="{{ $orgJudicialesActualmente->id }}">{{ $orgJudicialesActualmente->nombre }}</label>
                                             <input disabled {{ $checked }} type="checkbox" id="{{ $orgJudicialesActualmente->id }}" value="{{ $orgJudicialesActualmente->id }}" name="orgjudicialactualmentes_id[]">
                                         </div>
+                                        @endif
                                     @endforeach
                                 </div>
 
@@ -1012,6 +1033,7 @@
                                                 $progNacionalesActualmenteIds = $formF->orgprognacionalactualmentes->pluck('id')->toArray();
                                                 $checked = (in_array($progNacionalesActualmente->id, $progNacionalesActualmenteIds)) ? 'checked' : ''
                                             @endphp
+                                            @if($checked=='checked')
                                             <div class="ml-3">
                                                 @if ($progNacionalesActualmente->nombre == 'Otro')
                                                     <label for="{{ $progNacionalesActualmente->id }}">{{ $progNacionalesActualmente->nombre }}</label>
@@ -1021,6 +1043,7 @@
                                                     <input disabled {{ $checked }} type="checkbox" id="{{ $progNacionalesActualmente->id }}" value="{{ $progNacionalesActualmente->id }}" name="orgprognacionalactualmente_id[]">
                                                 @endif  
                                             </div>
+                                            @endif
                                         @endforeach     
 
                                     <div class="form-group orgprognacionalActualmenteCual" style="display: none;">
@@ -1060,10 +1083,12 @@
                                             $policiaActualmenteIds = $formF->policiaactualmentes->pluck('id')->toArray();
                                             $checked = (in_array($policiaActualmente->id, $policiaActualmenteIds)) ? 'checked' : ''
                                         @endphp
+                                        @if($checked=='checked')
                                         <div class="ml-3">
                                             <label for="{{ $policiaActualmente->id }}">{{ $policiaActualmente->nombre }}</label>
                                             <input disabled {{ $checked }} type="checkbox" id="{{ $policiaActualmente->id }}" value="{{ $policiaActualmente->id }}" name="policiaactualmentes_id[]">
                                         </div>
+                                        @endif
                                     @endforeach
                                 </div>
 
@@ -1491,124 +1516,112 @@
             {{-- Fin introduccion --}}
 
             {{-- Articulación con organismos --}}
-                @foreach ($formulariosF as $formF)
-                    @if ($formF->numeroCarpeta === $formularioG->numeroCarpeta)
-                        <h2 class="text-center m-5">Articulación con organismos</h2>
-                        <div class="form-group">
+                    @foreach ($formulariosF as $formF)
+                        @if ($formF->numeroCarpeta === $formularioG->numeroCarpeta)
+                            <h2 class="text-center m-5">Articulación con organismos</h2>
                             <div class="form-group">
-                                <label for="">F 3 Organismos con los que se articula actualmente:</label>
-                            </div>
+                                <div class="form-group">
+                                    <label for="">E 3 Organismos con los que se articula actualmente:</label>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="">F 3 I. Organismos Judiciales:
-                                    <span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
-                                </label><br>
-                                @foreach ($datosOrgJudicialesActualmente as $orgJudicialesActualmente)
-                                    @php
-                                        $orgJudicialesActualmenteIds = $formF->orgjudicialactualmentes->pluck('id')->toArray();
-                                        $checked = (in_array($orgJudicialesActualmente->id, $orgJudicialesActualmenteIds)) ? 'checked' : ''
-                                    @endphp
-                                    @if($checked=='checked')
-                                    <div class="">
-                                        <label for="{{ $orgJudicialesActualmente->id }}">{{ $orgJudicialesActualmente->nombre }}</label>
-                                        <input {{ $checked }} disabled type="checkbox" id="{{ $orgJudicialesActualmente->id }}" value="{{ $orgJudicialesActualmente->id }}" name="orgjudicialactualmentes_id[]">
-                                    </div>
-                                    @endif
-                                @endforeach
-                            </div>
-
-                            <div class="form-group">
-                                <label for="">F 3 II. Organismos/Programas Nacionales:
-                                    <span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
-                                </label><br>
-                                    @foreach ($datosProgNacionalesActualmente as $progNacionalesActualmente)
+                                <div class="form-group">
+                                    <label for="">E 3 I. Organismos Judiciales:
+                                        <span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
+                                    </label><br>
+                                    @foreach ($datosOrgJudicialesActualmente as $orgJudicialesActualmente)
                                         @php
-                                            $progNacionalesActualmenteIds = $formF->orgprognacionalactualmentes->pluck('id')->toArray();
-                                            $checked = (in_array($progNacionalesActualmente->id, $progNacionalesActualmenteIds)) ? 'checked' : ''
+                                            $orgJudicialesActualmenteIds = $formF->orgjudicialactualmentes->pluck('id')->toArray();
+                                            $checked = (in_array($orgJudicialesActualmente->id, $orgJudicialesActualmenteIds)) ? 'checked' : ''
                                         @endphp
                                         @if($checked=='checked')
-                                        <div class="">
-                                            @if ($progNacionalesActualmente->nombre == 'Otro')
-                                                <label for="{{ $progNacionalesActualmente->id }}">{{ $progNacionalesActualmente->nombre }}</label>
-                                                <input {{ $checked }} disabled type="checkbox" id="{{ $progNacionalesActualmente->id }}" value="{{ $progNacionalesActualmente->id }}" name="orgprognacionalactualmente_id[]" class="orgProgNacionalActualmenteOtro">
-                                            @else
-                                                <label for="{{ $progNacionalesActualmente->id }}">{{ $progNacionalesActualmente->nombre }}</label>
-                                                <input {{ $checked }} disabled type="checkbox" id="{{ $progNacionalesActualmente->id }}" value="{{ $progNacionalesActualmente->id }}" name="orgprognacionalactualmente_id[]">
-                                            @endif  
+                                        <div class="ml-3">
+                                            <label for="{{ $orgJudicialesActualmente->id }}">{{ $orgJudicialesActualmente->nombre }}</label>
+                                            <input disabled {{ $checked }} type="checkbox" id="{{ $orgJudicialesActualmente->id }}" value="{{ $orgJudicialesActualmente->id }}" name="orgjudicialactualmentes_id[]">
                                         </div>
-                                        @endif
-                                    @endforeach     
-
-                                <div class="form-group orgprognacionalActualmenteCual" style="display: none;">
-                                    @foreach ($orgProgNacionalActualmenteOtro as $progNacionalOtro)
-                                        @if ($progNacionalOtro->fformulario_id === $formF->id)
-                                            <label for="">Cual?(Cargado Anteriormente)</label>
-                                            <input type="text" class="form-control " value="{{ $progNacionalOtro->nombreOrganismo }}" readonly="readonly"><br>
                                         @endif
                                     @endforeach
                                 </div>
 
-                                <script>
-                                    var orgProgNacionalActualmenteOtro = document.querySelector('.orgProgNacionalActualmenteOtro');
-                                    var orgprognacionalActualmenteCual = document.querySelector('.orgprognacionalActualmenteCual');
+                                <div class="form-group">
+                                    <label for="">E 3 II. Organismos/Programas Nacionales:
+                                        <span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
+                                    </label><br>
+                                        @foreach ($datosProgNacionalesActualmente as $progNacionalesActualmente)
+                                            @php
+                                                $progNacionalesActualmenteIds = $formF->orgprognacionalactualmentes->pluck('id')->toArray();
+                                                $checked = (in_array($progNacionalesActualmente->id, $progNacionalesActualmenteIds)) ? 'checked' : ''
+                                            @endphp
+                                            @if($checked=='checked')
+                                            <div class="ml-3">
+                                                @if ($progNacionalesActualmente->nombre == 'Otro')
+                                                    <label for="{{ $progNacionalesActualmente->id }}">{{ $progNacionalesActualmente->nombre }}</label>
+                                                    <input disabled {{ $checked }} type="checkbox" id="{{ $progNacionalesActualmente->id }}" value="{{ $progNacionalesActualmente->id }}" name="orgprognacionalactualmente_id[]" class="orgProgNacionalActualmenteOtro">
+                                                @else
+                                                    <label for="{{ $progNacionalesActualmente->id }}">{{ $progNacionalesActualmente->nombre }}</label>
+                                                    <input disabled {{ $checked }} type="checkbox" id="{{ $progNacionalesActualmente->id }}" value="{{ $progNacionalesActualmente->id }}" name="orgprognacionalactualmente_id[]">
+                                                @endif  
+                                            </div>
+                                            @endif
+                                        @endforeach     
 
-                                    if (orgProgNacionalActualmenteOtro.checked) {
-                                        orgprognacionalActualmenteCual.style.display = '';
-                                    }else{
-                                        orgprognacionalActualmenteCual.style.display = 'none';
-                                    }
-                                </script>
-                            </div>
-
-
-                            <div class="form-group orgProgProvincialesActualmente">
-                                @foreach ($orgProgProvincialesAlactualmente as $provActualmente)
-                                    @if ($provActualmente->fformulario_id === $formF->id)
-                                        <label for="">F 3 III. Organismos/Programas Provinciales:</label>
-                                        <input type="text" class="form-control  mb-3" value="{{ $provActualmente->nombreOrganismo }}" readonly="readonly">
-                                    @endif
-                                @endforeach
-                            </div>
-
-                            <div class="form-group orgProgMunicipalesActualmente">
-                                @foreach ($orgProgMunipalesActualmente as $muniActualmente)
-                                    @if ($muniActualmente->fformulario_id === $formF->id)
-                                        <label for="">F 3 IV. Organismos/Programas Municipales:</label>
-                                        <input type="text" class="form-control  mb-3" value="{{ $muniActualmente->nombreOrganismo }}" readonly="readonly">
-                                    @endif
-                                @endforeach
-                            </div>
-
-                            <div class="form-group">
-                                <label for="">F 3 V. Policía:
-                                    <span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
-                                </label>
-                                @foreach ($datosPoliciaActualmente as $policiaActualmente)
-                                    @php
-                                        $policiaActualmenteIds = $formF->policiaactualmentes->pluck('id')->toArray();
-                                        $checked = (in_array($policiaActualmente->id, $policiaActualmenteIds)) ? 'checked' : ''
-                                    @endphp
-                                    @if($checked=='checked')
-                                    <div class="">
-                                        <label for="{{ $policiaActualmente->id }}">{{ $policiaActualmente->nombre }}</label>
-                                        <input {{ $checked }} disabled type="checkbox" id="{{ $policiaActualmente->id }}" value="{{ $policiaActualmente->id }}" name="policiaactualmentes_id[]" >
+                                    <div class="form-group orgprognacionalActualmenteCual" style="display: none;">
+                                        @foreach ($orgProgNacionalActualmenteOtro as $progNacionalOtro)
+                                            @if ($progNacionalOtro->fformulario_id === $formF->id)
+                                                <label for="">Cual?(Cargado Anteriormente)</label>
+                                                <input type="text" class="form-control ml-3" value="{{ $progNacionalOtro->nombreOrganismo }}" readonly="readonly"><br>
+                                            @endif
+                                        @endforeach
                                     </div>
-                                    @endif
-                                @endforeach
-                            </div>
+                                </div>
 
-                            <div class="form-group orgSocCivilActualmente">
-                                @foreach ($orgSocCivilActualmente as $socCivilActualmente)
-                                    @if ($socCivilActualmente->fformulario_id === $formF->id)
-                                        <label for="">F 3 VI. Organizaciones de la Sociedad Civil:</label>
-                                        <input type="text" class="form-control  mb-3" value="{{ $socCivilActualmente->nombreOrganismo }}" readonly="readonly">
-                                    @endif
-                                @endforeach
+                                <div class="form-group orgProgProvincialesActualmente">
+                                    @foreach ($orgProgProvincialesAlactualmente as $provActualmente)
+                                        @if ($provActualmente->fformulario_id === $formF->id)
+                                            <label for="">E 3 III. Organismos/Programas Provinciales Cargados Anteriormente:</label>
+                                            <input type="text" class="form-control ml-3 mb-3" value="{{ $provActualmente->nombreOrganismo }}" readonly="readonly">
+                                        @endif
+                                    @endforeach
+                                </div>
+
+                                <div class="form-group orgProgMunicipalesActualmente">
+                                    @foreach ($orgProgMunipalesActualmente as $muniActualmente)
+                                        @if ($muniActualmente->fformulario_id === $formF->id)
+                                            <label for="">E 3 IV. Organismos/Programas Municipales Cargados Anteriormente:</label>
+                                            <input type="text" class="form-control ml-3 mb-3" value="{{ $muniActualmente->nombreOrganismo }}" readonly="readonly">
+                                        @endif
+                                    @endforeach
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">E 3 V. Policía:
+                                        <span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
+                                    </label>
+                                    @foreach ($datosPoliciaActualmente as $policiaActualmente)
+                                        @php
+                                            $policiaActualmenteIds = $formF->policiaactualmentes->pluck('id')->toArray();
+                                            $checked = (in_array($policiaActualmente->id, $policiaActualmenteIds)) ? 'checked' : ''
+                                        @endphp
+                                        @if($checked=='checked')
+                                        <div class="ml-3">
+                                            <label for="{{ $policiaActualmente->id }}">{{ $policiaActualmente->nombre }}</label>
+                                            <input disabled {{ $checked }} type="checkbox" id="{{ $policiaActualmente->id }}" value="{{ $policiaActualmente->id }}" name="policiaactualmentes_id[]">
+                                        </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+
+                                <div class="form-group orgSocCivilActualmente">
+                                    @foreach ($orgSocCivilActualmente as $socCivilActualmente)
+                                        @if ($socCivilActualmente->fformulario_id === $formF->id)
+                                            <label for="">E 3 VI. Organizaciones de la Sociedad Civil Cargadas Anteriormente:</label>
+                                            <input type="text" class="form-control ml-3 mb-3" value="{{ $socCivilActualmente->nombreOrganismo }}" readonly="readonly">
+                                        @endif
+                                    @endforeach
+                                </div>
                             </div>
-                        </div>
-                    @endif
-                @endforeach
-            {{-- Fin Articulación con organismos --}}
+                        @endif
+                    @endforeach
+                {{-- Fin Articulación con organismos --}}
 
                 <div class="intervenciones-anteriores form-group">
                     @php $i = 1; @endphp
@@ -1621,7 +1634,6 @@
                         <div class="form-group">
                             <label for="" class="">Tema</label>
                             <select disabled class="form-control temaSelect" name="temaIntervencion_id[]">
-                                {{-- <option value="">Seleccioná un tema</option> --}}
                                 @foreach ($temaIntervencion as $tema)
                                     <option value="{{ $tema->id }}" {{ $tema->id == $intervencion->temaIntervencion_id ? 'selected' : '' }}>{{ $tema->nombre }}</option>
                                 @endforeach

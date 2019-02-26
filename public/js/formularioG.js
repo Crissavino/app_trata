@@ -1,18 +1,24 @@
-// //imprimir pantalla
-// 		var imprimir = document.querySelector('.imprimir');
+//borrado referenteAnterior individual
+var ids = [];
 
-// 		imprimir.addEventListener('click', function(){
-//      		var contenidoImprimible = document.getElementById('imprimible').innerHTML;
-//      		var contendioOriginal = document.body.innerHTML;
-     		
-//      		document.body.innerHTML = contenidoImprimible;
+function borrarIntervencionAnterior(id) {
+    ids.push(id);
 
-// 			window.print()
+    $('#idsEliminados').val(ids);
 
-//      		document.body.innerHTML = contendioOriginal;
+    $('.intervencionAnterior' + id).html(" ");
 
-// 		});
-// 	//fin imprimir pantalla
+}
+//fin
+
+//borrar intervencion
+var btnBorrarIntervencion = document.querySelector('.borrarIntervencion');
+
+btnBorrarIntervencion.addEventListener('click', function () {
+    var divIntervenciones = document.getElementById('intervenciones');
+    divIntervenciones.removeChild(divIntervenciones.lastChild)
+});
+//fin
 
 window.onload =function (){
 	//de la docInterna

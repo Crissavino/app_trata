@@ -17,8 +17,9 @@ class RequiredConditional implements Rule
     private $max;
     private $message;
     private $is_input;
+    private $current_value;
 
-    public function __construct($external_attribute, $required_values, $min, $max, $own_message, $is_input = false)
+    public function __construct($external_attribute, $required_values, $min, $max, $own_message, $is_input = false, $current_value = -1)
     {
         $this->external_attribute = $external_attribute;
         $this->required_values = $required_values; 
@@ -26,6 +27,7 @@ class RequiredConditional implements Rule
         $this->max = $max;
         $this->message = $own_message;
         $this->is_input = $is_input;
+        $this->current_value = $current_value;
     }
 
     /**
@@ -36,7 +38,7 @@ class RequiredConditional implements Rule
      * @return bool
      */
     public function passes($attribute, $value)
-    { 
+    {
         if (is_null($value)) {
             if(in_array($this->external_attribute,$this->required_values)){
                 $this->message = 'Este campo es obligatorio';
@@ -47,13 +49,17 @@ class RequiredConditional implements Rule
         } elseif (in_array($this->external_attribute,$this->required_values)) {
             if ($this->is_input){
                 $value = strlen($value);
+                $this->message = 'Este campo es obligatorio, maximo 255 caracteres';
+            } else {
+                $this->message = 'La opci&oacute;n seleccionada no es v&aacute;lida';
             }
             if (($value > $this->min) && ($value <= $this->max)) {
                 return true;
             } else {
-                $this->message = 'La opci&oacute;n seleccionada no es v&aacute;lida';
                 return false;
             }            
+        } elseif ($this->current_value == $value) {
+            return true;   
         } else {
             return false;
         }

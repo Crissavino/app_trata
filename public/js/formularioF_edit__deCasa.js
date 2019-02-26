@@ -1,3 +1,91 @@
+//JS para el EDIT
+
+	//pregunta de F 1
+    var intervinieronOrganismos = document.querySelector('.intervinieronOrganismos_id');
+    var organismoDerivo = document.querySelector('.organismoDerivo');
+    var intervinieron = document.querySelector('.intervinieron');
+
+    if (intervinieronOrganismos.value === 'Intervinieron más organismos') {
+        organismoDerivo.style.display = '';
+        intervinieron.style.display = '';
+    }else if (intervinieronOrganismos.value === 'Intervino solo el organismo que derivó') {
+        organismoDerivo.style.display = '';
+        intervinieron.style.display = 'none';
+    }else if(intervinieronOrganismos.value === 'No'){
+        organismoDerivo.style.display = 'none';
+        intervinieron.style.display = 'none';
+    }
+//fin
+
+// pregunta 1.2
+    var orgProgNacionalOtro = document.querySelector('.orgProgNacionalOtro');
+    var orgProgNacionalCual = document.querySelector('.orgProgNacionalCual');
+
+    if (orgProgNacionalOtro.checked) {
+        orgProgNacionalCual.style.display = '';
+    }else{
+        orgProgNacionalCual.style.display = 'none';
+    }
+// fin pregunta 1.2
+
+// pregunta 2.2
+    var socioEconomicaCheckbox = document.querySelector('.socioEconomicaCheckbox');
+    var socioEconomica = document.querySelector('.socioEconomica');
+    var deSocioEconomica = document.querySelectorAll('input[name="socioeconomic_id[]"]');
+    var socioEconomicaCual = document.querySelector('.socioEconomicaCual');
+    var socioEconomicaCualInput = document.querySelector('.socioEconomicaCualInput');
+
+    if (socioEconomicaCheckbox.checked) {
+        socioEconomica.style.display = '';
+        socioEconomicaCheckbox.addEventListener('click', function(){
+            if (this.checked) {
+                socioEconomica.style.display = '';
+            }else{
+                socioEconomica.style.display = 'none';
+                socioEconomicaCual.style.display = 'none';
+                socioEconomicaCualInput.value = '';
+                deSocioEconomica.forEach(function(element){
+                    element.checked = false
+                });
+            }
+        });
+        if (deSocioEconomica[6].checked) {
+            socioEconomicaCual.style.display = '';
+            deSocioEconomica[6].addEventListener('click', function(){
+                if (this.checked) {
+                socioEconomicaCual.style.display = '';
+                }else{
+                    socioEconomicaCual.style.display = 'none';
+                    socioEconomicaCualInput.value = '';
+                }
+            });
+        }
+    }
+// fin pregunta 2.2
+
+//pregunta de F 3
+    var intervinieronOrganismosActualmente = document.querySelector('.intervinieronOrganismosActualmente_id');
+    console.log(intervinieronOrganismosActualmente);
+    var intervinieronActualmente = document.querySelector('.intervinieronActualmente');
+    if (intervinieronOrganismosActualmente.value === 'Si') {
+        intervinieronActualmente.style.display = '';
+    }else{
+        intervinieronActualmente.style.display = 'none';
+    }
+//fin
+
+// pregunta 3.2
+    var orgProgNacionalActualmenteOtro = document.querySelector('.orgProgNacionalActualmenteOtro');
+    var orgprognacionalActualmenteCual = document.querySelector('.orgprognacionalActualmenteCual');
+
+    if (orgProgNacionalActualmenteOtro.checked) {
+        orgprognacionalActualmenteCual.style.display = '';
+    }else{
+        orgprognacionalActualmenteCual.style.display = 'none';
+    }
+// fin pregunta 3.2
+
+
 window.onload =function (){
 
 	//pregunta de F 1
@@ -6,14 +94,14 @@ window.onload =function (){
 		var organismoDerivo = document.querySelector('.organismoDerivo');
 
 		intervinieronOrganismos.addEventListener('change', function(){
-
-			if (intervinieronOrganismos.value == 3) {
+			console.log(intervinieronOrganismos.value);
+			if (intervinieronOrganismos.value === 'Intervinieron más organismos') {
 				organismoDerivo.style.display = '';
 				intervinieron.style.display = '';
-			}else if (intervinieronOrganismos.value == 2) {
+			}else if (intervinieronOrganismos.value === 'Intervino solo el organismo que derivó') {
 				organismoDerivo.style.display = '';
 				intervinieron.style.display = 'none';
-			}else if(intervinieronOrganismos.value == 1){
+			}else if(intervinieronOrganismos.value === 'No'){
 				organismoDerivo.style.display = 'none';
 				intervinieron.style.display = 'none';
 			}
@@ -63,6 +151,7 @@ window.onload =function (){
 			var divCual = document.getElementById('orgProgProvinciales');
 			divCual.insertAdjacentHTML('beforeend', '<div><label for="">Organismos/Programas Provinciales Otro:</label><input type="text" class="form-control ml-3 required" title="Este campo es obligatorio" name="orgProgProvinciales['+numberIncr_orgProgProvinciales+']"></div>');
 			numberIncr_orgProgProvinciales++;
+			$("#formularioF").validate();
 		});
 
 		btnOrgProgProvincialesBorrarOtro.addEventListener('click', function(){
@@ -144,7 +233,7 @@ window.onload =function (){
 		var intervinieronActualmente = document.querySelector('.intervinieronActualmente');
 
 		intervinieronOrganismosActualmente.addEventListener('change', function(){
-			if (intervinieronOrganismosActualmente.value == 1) {
+			if (intervinieronOrganismosActualmente.value === 'Si') {
 				intervinieronActualmente.style.display = '';
 			}else{
 				intervinieronActualmente.style.display = 'none';
@@ -381,4 +470,6 @@ $("#formularioF").validate({ //se definen las opciones de validaciÃ³n para el 
 
 	   }
    });
+
+
 

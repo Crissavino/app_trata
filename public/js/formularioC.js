@@ -3,9 +3,12 @@
 	console.log(borrarConviviente);
 
 	borrarConviviente.addEventListener('click', function(){
-        var divConvivientes = document.querySelector('.referentes');
+		var divConvivientes = document.querySelector('.referentes');
+		
         divConvivientes.removeChild(divConvivientes.lastChild)
 		swal('Se borro un referente')
+		console.log($("[name^=referentedinamico]"));
+		
 		if($("[name^=referentedinamico]").length==0){
 				
 			var convivientes = document.querySelector('.referentes');
