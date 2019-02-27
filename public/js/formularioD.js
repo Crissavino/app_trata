@@ -9,24 +9,29 @@
 		var provinciaCaptacionViejo = document.querySelector('.provinciaCaptacion_viejo');
 		var ciudadCaptacionViejo = document.querySelector('.ciudadCaptacion_viejo');
 
-		var optionPaisCaptacionAnterior = document.createElement("option");
-		optionPaisCaptacionAnterior.id = "paisCaptacionViejo";
-		optionPaisCaptacionAnterior.text = paisCaptacionViejo.value;
-		selectPaisCaptacion.add(optionPaisCaptacionAnterior);
+		if (paisCaptacionViejo) {
+			var optionPaisCaptacionAnterior = document.createElement("option");
+			optionPaisCaptacionAnterior.id = "paisCaptacionViejo";
+			optionPaisCaptacionAnterior.text = paisCaptacionViejo.value;
+			selectPaisCaptacion.add(optionPaisCaptacionAnterior);
+			optionPaisCaptacionAnterior.selected = true;
+		}
+		
+		if (provinciaCaptacionViejo) {
+			var optionProvinciaCaptacionAnterior = document.createElement("option");
+			optionProvinciaCaptacionAnterior.id = "provinciaCaptacionViejo";
+			optionProvinciaCaptacionAnterior.text = paisCaptacionViejo.value;
+			selectProvinciaCaptacion.add(optionProvinciaCaptacionAnterior);
+			optionProvinciaCaptacionAnterior.selected = true;
+		}
 
-		var optionProvinciaCaptacionAnterior = document.createElement("option");
-		optionProvinciaCaptacionAnterior.id = "provinciaCaptacionViejo";
-		optionProvinciaCaptacionAnterior.text = paisCaptacionViejo.value;
-		selectProvinciaCaptacion.add(optionProvinciaCaptacionAnterior);
-
-		var optionCiudadCaptacionAnterior = document.createElement("option");
-		optionCiudadCaptacionAnterior.id = "ciudadCaptacionViejo";
-		optionCiudadCaptacionAnterior.text = paisCaptacionViejo.value;
-		selectCiudadCaptacion.add(optionCiudadCaptacionAnterior);
-
-		optionPaisCaptacionAnterior.selected = true;
-		optionProvinciaCaptacionAnterior.selected = true;
-		optionCiudadCaptacionAnterior.selected = true;
+		if (ciudadCaptacionViejo) {
+			var optionCiudadCaptacionAnterior = document.createElement("option");
+			optionCiudadCaptacionAnterior.id = "ciudadCaptacionViejo";
+			optionCiudadCaptacionAnterior.text = paisCaptacionViejo.value;
+			selectCiudadCaptacion.add(optionCiudadCaptacionAnterior);
+			optionCiudadCaptacionAnterior.selected = true;
+		}
 	//fin
 
 	//select de pais/prov/ciud explotacion
@@ -38,24 +43,29 @@
 		var provinciaExplotacionViejo = document.querySelector('.provinciaExplotacion_viejo');
 		var ciudadExplotacionViejo = document.querySelector('.ciudadExplotacion_viejo');
 
-		var optionPaisExplotacionAnterior = document.createElement("option");
-		optionPaisExplotacionAnterior.id = "paisExplotacionViejo";
-		optionPaisExplotacionAnterior.text = paisExplotacionViejo.value;
-		selectPaisExplotacion.add(optionPaisExplotacionAnterior);
+		if (paisExplotacionViejo) {
+			var optionPaisExplotacionAnterior = document.createElement("option");
+			optionPaisExplotacionAnterior.id = "paisExplotacionViejo";
+			optionPaisExplotacionAnterior.text = paisExplotacionViejo.value;
+			selectPaisExplotacion.add(optionPaisExplotacionAnterior);
+			optionPaisExplotacionAnterior.selected = true;
+		}
+		
+		if (provinciaExplotacionViejo) {
+			var optionProvinciaExplotacionAnterior = document.createElement("option");
+			optionProvinciaExplotacionAnterior.id = "provinciaExplotacionViejo";
+			optionProvinciaExplotacionAnterior.text = paisExplotacionViejo.value;
+			selectProvinciaExplotacion.add(optionProvinciaExplotacionAnterior);
+			optionProvinciaExplotacionAnterior.selected = true;
+		}
 
-		var optionProvinciaExplotacionAnterior = document.createElement("option");
-		optionProvinciaExplotacionAnterior.id = "provinciaExplotacionViejo";
-		optionProvinciaExplotacionAnterior.text = paisExplotacionViejo.value;
-		selectProvinciaExplotacion.add(optionProvinciaExplotacionAnterior);
-
-		var optionCiudadExplotacionAnterior = document.createElement("option");
-		optionCiudadExplotacionAnterior.id = "ciudadExplotacionViejo";
-		optionCiudadExplotacionAnterior.text = paisExplotacionViejo.value;
-		selectCiudadExplotacion.add(optionCiudadExplotacionAnterior);
-
-		optionPaisExplotacionAnterior.selected = true;
-		optionProvinciaExplotacionAnterior.selected = true;
-		optionCiudadExplotacionAnterior.selected = true;
+		if (ciudadExplotacionViejo) {
+			var optionCiudadExplotacionAnterior = document.createElement("option");
+			optionCiudadExplotacionAnterior.id = "ciudadExplotacionViejo";
+			optionCiudadExplotacionAnterior.text = paisExplotacionViejo.value;
+			selectCiudadExplotacion.add(optionCiudadExplotacionAnterior);
+			optionCiudadExplotacionAnterior.selected = true;
+		}
 	//fin
 
 	//pregunta 1

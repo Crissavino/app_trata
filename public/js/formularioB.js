@@ -25,24 +25,29 @@
 	var selectProvinciaNacimiento = document.querySelector('.states');
 	var selectCiudadNacimiento = document.querySelector('.cities');
 
-		var optionPaisAnterior = document.createElement("option");
-		optionPaisAnterior.id = 'paisAnterior';
-		var optionProvinciaAnterior = document.createElement("option");
-		optionProvinciaAnterior.id = 'provinciaAnterior';
-		var optionCiudadAnterior = document.createElement("option");
-		optionCiudadAnterior.id = 'ciudadAnterior';
+		if (paisNacimientoViejo) {
+			var optionPaisAnterior = document.createElement("option");
+			optionPaisAnterior.id = 'paisAnterior';
+			optionPaisAnterior.text = paisNacimientoViejo.value;
+			selectPaisNacimiento.add(optionPaisAnterior);
+			optionPaisAnterior.selected = true;
+		}
 
-		optionPaisAnterior.text = paisNacimientoViejo.value;
-		optionProvinciaAnterior.text = provinciaNacimientoViejo.value;
-		optionCiudadAnterior.text = ciudadNacimientoViejo.value;			
-		
-		selectPaisNacimiento.add(optionPaisAnterior);
-		selectProvinciaNacimiento.add(optionProvinciaAnterior);
-		selectCiudadNacimiento.add(optionCiudadAnterior);
+		if (provinciaNacimientoViejo) {
+			var optionProvinciaAnterior = document.createElement("option");
+			optionProvinciaAnterior.id = 'provinciaAnterior';
+			optionProvinciaAnterior.text = provinciaNacimientoViejo.value;
+			selectProvinciaNacimiento.add(optionProvinciaAnterior);
+			optionProvinciaAnterior.selected = true;
+		}
 
-		optionPaisAnterior.selected = true;
-		optionProvinciaAnterior.selected = true;
-		optionCiudadAnterior.selected = true;
+		if (ciudadNacimientoViejo) {
+			var optionCiudadAnterior = document.createElement("option");
+			optionCiudadAnterior.id = 'ciudadAnterior';
+			optionCiudadAnterior.text = ciudadNacimientoViejo.value;
+			selectCiudadNacimiento.add(optionCiudadAnterior);
+			optionCiudadAnterior.selected = true;
+		}
 // fin pregunta 7
 
 // pregunta 18
