@@ -512,52 +512,96 @@
 			    		<select class="form-control deuda" name="deuda_id">
 			    			<option value="" disabled selected>Seleccione</option>
 			    			@foreach ($datosDeuda as $deuda)
-			    				<option value="{{ $deuda->getId() }}" {{ $dFormulario->deuda_id == $deuda->getId() ? 'selected' : '' }}>{{ $deuda->getNombre() }}</option>
+								<option value="{{ $deuda->getId() }}" {{ $dFormulario->deuda_id == $deuda->getId() ? 'selected' : '' }}>{{ $deuda->getNombre() }}</option>
+								@if ($dFormulario->deuda_id == $deuda->getId())
+									@php
+										$actual_id_deuda = $dFormulario->deuda_id;
+									@endphp
+								@endif
 			    			@endforeach
 			    		</select>
 		    			{!! $errors->first('deuda_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 		    		</div>
-
-		    		<div style="display: none;" class="deudaSi">
-		    			<label for="">D 24 I. Motivo de la deuda: </label>
-				 		{{-- ver como ponerlo como subtitulo --}}
-				 		<label for="">(En caso de requerir, tildar todas las opciones que considere correspondientes)</label>
-		    	 		<div class="" {{ $errors->has('motivodeuda_id[]') ? 'has-error' : ''}}>
-					 		<div>
-					 			@foreach ($datosMotivoDeuda as $motivoDeuda)
-					 				@php
-										$motivoDeudaIds = $dFormulario->motivodeudas->pluck('id')->toArray();
-										$checked = (in_array($motivoDeuda->id, $motivoDeudaIds)) ? 'checked' : ''
-									@endphp
-					 				@if ($motivoDeuda->getNombre() == 'Otro')
-					 					<label for="" style="margin-left: 15px;">{{ $motivoDeuda->getNombre() }}</label>
-			    	 					<input {{ $checked }} type="checkbox" class="deudaOtro" value="{{ $motivoDeuda->getId() }}" name="motivodeuda_id[]">
-			    	 				@else
-					    				<label for="" style="margin-left: 15px;">{{ $motivoDeuda->getNombre() }}</label>
-				    	 				<input {{ $checked }} type="checkbox" value="{{ $motivoDeuda->getId() }}" name="motivodeuda_id[]">
-					 				@endif
-				    			@endforeach
-		    					{!! $errors->first('motivodeuda_id', '<p class="help-block" style="color:red";>:message</p>') !!}
-		    				</div>
-
-				 			<div style="display: none;" class="deudaCual" {{ $errors->has('motivodeuda_otro') ? 'has-error' : ''}}>
-				    	 		<label for="">Cuál?</label>
-				    	 		<input type="text" class="form-control deudaCualInput" name="motivodeuda_otro" value="{{ $dFormulario->motivodeuda_otro }}">
-				    	 	</div>
-		    				{!! $errors->first('motivodeuda_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
-					 	</div>
-
-		    	 		<div {{ $errors->has('lugardeuda_id') ? 'has-error' : ''}}>
-		    	 			<label for="">D 24 II. Lugar de deuda</label>
-				    		<select class="form-control lugardeuda_id" name="lugardeuda_id">
-				    			<option value="" disabled selected>Seleccione</option>
-				    			@foreach ($datosLugarDeuda as $lugarDeuda)
-				    				<option value="{{ $lugarDeuda->getId() }}" {{ $dFormulario->lugardeuda_id == $lugarDeuda->getId() ? 'selected' : '' }}>{{ $lugarDeuda->getNombre() }}</option>
-				    			@endforeach
-				    		</select>
-		    				{!! $errors->first('lugardeuda_id', '<p class="help-block" style="color:red";>:message</p>') !!}
-		    	 		</div>
-		    	 	</div>
+					@if ($actual_id_deuda == 1)
+					<div style="display: none;" class="deudaSi">
+							<label for="">D 24 I. Motivo de la deuda: </label>
+							 {{-- ver como ponerlo como subtitulo --}}
+							 <label for="">(En caso de requerir, tildar todas las opciones que considere correspondientes)</label>
+							 <div class="" {{ $errors->has('motivodeuda_id[]') ? 'has-error' : ''}}>
+								 <div>
+									 @foreach ($datosMotivoDeuda as $motivoDeuda)
+										 @php
+											$motivoDeudaIds = $dFormulario->motivodeudas->pluck('id')->toArray();
+											$checked = (in_array($motivoDeuda->id, $motivoDeudaIds)) ? 'checked' : ''
+										@endphp
+										 @if ($motivoDeuda->getNombre() == 'Otro')
+											 <label for="" style="margin-left: 15px;">{{ $motivoDeuda->getNombre() }}</label>
+											 <input {{ $checked }} type="checkbox" class="deudaOtro" value="{{ $motivoDeuda->getId() }}" name="motivodeuda_id[]">
+										 @else
+											<label for="" style="margin-left: 15px;">{{ $motivoDeuda->getNombre() }}</label>
+											 <input {{ $checked }} type="checkbox" value="{{ $motivoDeuda->getId() }}" name="motivodeuda_id[]">
+										 @endif
+									@endforeach
+									{!! $errors->first('motivodeuda_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+								</div>
+	
+								 <div style="display: none;" class="deudaCual" {{ $errors->has('motivodeuda_otro') ? 'has-error' : ''}}>
+									 <label for="">Cuál?</label>
+									 <input type="text" class="form-control deudaCualInput" name="motivodeuda_otro" value="{{ $dFormulario->motivodeuda_otro }}">
+								 </div>
+								{!! $errors->first('motivodeuda_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
+							 </div>
+	
+							 <div {{ $errors->has('lugardeuda_id') ? 'has-error' : ''}}>
+								 <label for="">D 24 II. Lugar de deuda</label>
+								<select class="form-control lugardeuda_id" name="lugardeuda_id">
+									<option value="" disabled selected>Seleccione</option>
+									@foreach ($datosLugarDeuda as $lugarDeuda)
+										<option value="{{ $lugarDeuda->getId() }}" {{ $dFormulario->lugardeuda_id == $lugarDeuda->getId() ? 'selected' : '' }}>{{ $lugarDeuda->getNombre() }}</option>
+									@endforeach
+								</select>
+								{!! $errors->first('lugardeuda_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+							 </div>
+						 </div>
+					@else
+					<div style="display: none;" class="deudaSi">
+							<label for="">D 24 I. Motivo de la deuda: </label>
+							 {{-- ver como ponerlo como subtitulo --}}
+							 <label for="">(En caso de requerir, tildar todas las opciones que considere correspondientes)</label>
+							 <div class="" {{ $errors->has('motivodeuda_id[]') ? 'has-error' : ''}}>
+								 <div>
+									 @foreach ($datosMotivoDeuda as $motivoDeuda)
+										 @if ($motivoDeuda->getNombre() == 'Otro')
+											 <label for="" style="margin-left: 15px;">{{ $motivoDeuda->getNombre() }}</label>
+											 <input type="checkbox" class="deudaOtro" value="{{ $motivoDeuda->getId() }}" name="motivodeuda_id[]">
+										 @else
+											<label for="" style="margin-left: 15px;">{{ $motivoDeuda->getNombre() }}</label>
+											 <input type="checkbox" value="{{ $motivoDeuda->getId() }}" name="motivodeuda_id[]">
+										 @endif
+									@endforeach
+									{!! $errors->first('motivodeuda_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+								</div>
+		
+								 <div style="display: none;" class="deudaCual" {{ $errors->has('motivodeuda_otro') ? 'has-error' : ''}}>
+									 <label for="">Cuál?</label>
+									 <input type="text" class="form-control deudaCualInput" name="motivodeuda_otro" value="{{ old('motivodeuda_otro') }}">
+								 </div>
+								{!! $errors->first('motivodeuda_otro', '<p class="help-block" style="color:red";>:message</p>') !!}
+							 </div>
+		
+							 <div {{ $errors->has('lugardeuda_id') ? 'has-error' : ''}}>
+								 <label for="">D 24 II. Lugar de deuda</label>
+								<select class="form-control lugardeuda_id" name="lugardeuda_id">
+									<option value="" disabled selected>Seleccione</option>
+									@foreach ($datosLugarDeuda as $lugarDeuda)
+										<option value="{{ $lugarDeuda->getId() }}" {{ old('lugardeuda_id') == $lugarDeuda->getId() ? 'selected' : '' }}>{{ $lugarDeuda->getNombre() }}</option>
+									@endforeach
+								</select>
+								{!! $errors->first('lugardeuda_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+							 </div>
+						 </div>
+					@endif
+		    		
 		    	</div>
 
 		    	<div class="form-group" {{ $errors->has('permanencia_id') ? 'has-error' : ''}}>

@@ -580,11 +580,11 @@
                         });
                         if (temaSelect.value === '9') {
                             temaCual.style.display = '';
-                            temaCual.getElementsByTagName("input")[0].setAttribute("required","true");
+                            //temaCual.getElementsByTagName("input")[0].setAttribute("required","true");
                         }else{
                             temaCual.style.display = 'none';
                             temaCualInput.value = '';
-                            temaCual.getElementsByTagName("input")[0].setAttribute("required","false");
+                            //temaCual.getElementsByTagName("input")[0].setAttribute("required","false");
                         }
                     });
                 //fin funcionalidades

@@ -97,10 +97,54 @@
 
 	btnBorrarProfesional.addEventListener('click', function(){
         var divProfesionales = document.querySelector('.padre');
-        console.log(divProfesionales.lastChild);
         divProfesionales.removeChild(divProfesionales.lastChild)
-        swal('Se borro un profesional');
-    });
+		swal('Se borro un profesional');
+		
+		if ($("[name^=profesional_id]").length == 0 && $("[name^=profesional_id_viejo]").length == 0) {
+
+		    var btnAnadir = document.querySelector('.anadirProfesional');
+		    var btnBorrar = document.querySelector('.borrarProfesional');
+
+		    swal("Agregá al menos un referente");
+		    btnAnadir.click();
+
+		}
+	});
+	//borrado profesional anterior
+	
+	// var id_profesional = [];
+	// var id_tabla = [];
+
+	// function borrarProfesional(a,e) {
+	// 	id_profesional.push(a);	
+	// 	$('#idsEliminados').val(id_profesional);
+	// 	id_tabla.push(e);
+	// 	$('#idsProf_inter').val(id_tabla);
+	// 	$('.profesionalAnterior' + e).html(" ");
+		
+
+	// }
+	var ids = [];
+
+	function borrarProfesional(id) {
+	    ids.push(id);
+
+	    $('#idsEliminados').val(ids);
+
+		$('.profesional' + id).html(" ");
+
+		if ($("[name^=profesional_id]").length == 0 && $("[name^=profesional_id_viejo]").length == 0) {
+
+			var btnAnadir = document.querySelector('.anadirProfesional');
+			var btnBorrar = document.querySelector('.borrarProfesional');
+
+			swal("Agregá al menos un referente");
+			btnAnadir.click();
+
+		}
+
+	}
+//fin
 
 window.onload =function (){
 
@@ -428,8 +472,20 @@ $("#formularioA").validate({ //se definen las opciones de validaciÃ³n para el 
 			   required:"Este campo es obligatorio",
 		   },
 	   },
+	   submitHandler:function(form){
+			antesSubmit();
+		}
    });
 
+   function antesSubmit(){
+		for(i=0;i<document.getElementsByName("profesional_id[]").length;i++){
+			if((document.getElementsByName("profesional_id[]")[i].value==="") || (document.getElementsByName("datos_profesional_interviene_desde[]")[i].value==="")){
+				alert("Debe completar todos los campos de todos los profesionales agregados");
+				return false;
+			}
+		}
+		document.getElementById("formularioA").submit();
+   }
 
 
 

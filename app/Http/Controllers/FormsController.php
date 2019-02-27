@@ -512,8 +512,7 @@ class FormsController extends Controller
 									->JOIN('profesionalintervinientes', 'aformulario_profesionalinterviniente.profesionalinterviniente_id', '=', 'profesionalintervinientes.id')
 									->JOIN('profesionals', 'profesionalintervinientes.profesional_id', '=', 'profesionals.id')
 									->JOIN('profesionalactualmentes', 'profesionalintervinientes.profesionalactualmente_id', '=', 'profesionalactualmentes.id')
-		                            ->WHERE('profesionalintervinientes.deleted_at', '=', null) //esta se setea para desvincular el eprsonal
-									
+		                            ->WHERE('profesionalintervinientes.deleted_at', '=', null) //esta se setea para desvincular el eprsonal									
 									->get();
 
 		//id de los formularios de una misma carpeta
@@ -580,29 +579,50 @@ class FormsController extends Controller
 		$aFormulario = \App\FormA\Aformulario::find($idFormulario);
 		// dd(request()->all());                       
 		$fecha_hoy = Carbon::now();
+		
 		request()->validate([
+							// input A1 Nombre de referencia 
 							'datos_nombre_referencia' => 'required',
-							//cuando actualizo me dice que ya existe una carpeta con ese valor, le agrego un tercer parametro para que se saltee el userId si
+							// input A2 Numeros de carpeta
 							'datos_numero_carpeta' => 'required|unique:numerocarpetas,numeroCarpeta,'. $idCarpeta,
+							// input_fecha A3 Fecha de ingreso
 							'datos_fecha_ingreso' => 'required|date|before_or_equal:'.$fecha_hoy,
-							'modalidad_id' => 'required',
-							'presentacion_espontanea_id' => 'required_if:modalidad_id,==,3',
-							'derivacion_otro_organismo_id' => 'required_if:modalidad_id,==,5',
-							'derivacion_otro_organismo_cual' => 'required_if:derivacion_otro_organismo_id,==,16',
-							'estadocaso_id' => 'required',
-							'motivocierre_id' => 'required_if:estadocaso_id,==,3',
-							'ambito_id' => 'required',						
-							'departamento_id' => 'required_if:ambito_id,==,2',						
-							'otrasprov_id' => 'required_if:ambito_id,==,3',						
-							'caratulacionjudicial_id' => 'required',
-							'caratulacionjudicial_otro' => 'required_if:caratulacionjudicial_id,==,5',
+							// select A4 Modalidad de ingreso
+							'modalidad_id' => 'required | numeric | min:0 | max:5',
+							// select oculto que se desoculta si A4 es id 3
+							'presentacion_espontanea_id' => [new RequiredConditional(request()->get('modalidad_id'),array('3'),0,2,'Para ingresar un tipo debe seleccionar presentaci&oacute;n espont&aacute;nea')],
+							// select oculto que se desoculta si A4 es id 5
+							'derivacion_otro_organismo_id' => [new RequiredConditional(request()->get('modalidad_id'),array('5'),0,16,'Para ingresar un organismo debe seleccionar derivaci&oacute;n de otro organismo')],
+							// input Introduzca el Organismo, input oculto que se desoculta si derivacion_otro_organismo_id es id 16
+							'derivacion_otro_organismo_cual' => [new RequiredConditional(request()->get('derivacion_otro_organismo_id'),array('16'),0,255,'Para ingresar otro organismo debe seleccionar otro',true)],
+							// select A5 Estado actual
+							'estadocaso_id' => 'required | numeric | min:0 | max:3',
+							// select oculto A5I Motivo de cierre se desoculta si A5 es id 3
+							'motivocierre_id' => [new RequiredConditional(request()->get('estadocaso_id'),array('3'),0,5,'Para ingresar un motivo de cierre el estado dede ser cerrado')],						
+							// select A6 Ambito de competencia 
+							'ambito_id' => 'required | numeric | min:0 | max:3',
+							// select oculto que se desoculta si A6 es id 2
+							'departamento_id' => [new RequiredConditional(request()->get('ambito_id'),array('2'),0,18,'Para ingresar un departamento debe seleccionar provincial')],
+							// select oculto que se desoculta si A6 es id 3
+							'otrasprov_id' => [new RequiredConditional(request()->get('ambito_id'),array('3'),0,23,'Para ingresar una provincia debe seleccionar otra provincia')],
+							// select A7 Caratulacion judicial 
+							'caratulacionjudicial_id' => 'required | numeric | min:0 | max:7',
+							// input oculto Introduzca tipo de caratulacion se desoculta si A7 es id 7
+							'caratulacionjudicial_otro' => [new RequiredConditional(request()->get('caratulacionjudicial_id'),array('7'),0,255,'Para ingresar otra caratulaci&oacute;n judicial debe ingresar otro',true)],
+							// input A8 N° Causa o Id Judicial
 							'datos_nro_causa' => 'required',
-							'profesional_id.*' => 'nullable',
-							'datos_profesional_interviene_desde.*' => 'nullable|date|after_or_equal:datos_fecha_ingreso.*',
-							// 'datos_profesional_interviene_desde.0' => 'required|date|after_or_equal:datos_fecha_ingreso',
-							'datos_profesional_interviene_hasta.*' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.*',
+							// select A9.1 Nombre/Equipo/Profesion 
+							// 'profesional_id' => 'required_without:profesional_id_viejo | array | min:0' ,
+							// 'profesional_id.*' => 'nullable | numeric | min:0 | max:25',						
+							// // input fecha A9.2 Interviene desde 
+							// 'datos_profesional_interviene_desde' => 'required_without:profesional_id_viejo | array | min:0',
+							// 'datos_profesional_interviene_desde.*' => 'nullable|date|after_or_equal:datos_fecha_ingreso',							
+							// // select A9.3 Actualmente interviene
+							// 'profesionalactualmente_id' => 'required_without:profesional_id_viejo | array | min:0' ,							
+							// 'profesionalactualmente_id.*' => 'nullable | numeric | min:0 | max:2',							
+							// // input fecha A9.4 Interviene hasta
+							// 'datos_profesional_interviene_hasta.*' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.*',
 							// 'datos_profesional_interviene_hasta.0' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.0',
-							'profesionalactualmente_id.*' => 'nullable',
 						],
 						[		
 							'datos_nombre_referencia.required' => 'Este campo es obligatorio',
@@ -623,13 +643,29 @@ class FormsController extends Controller
 							'derivacion_otro_organismo_id.required_if' => 'Este campo es obligatorio', 
 							'derivacion_otro_organismo_cual.required_if' => 'Este campo es obligatorio', 
 							'caratulacionjudicial_otro.required_if' => 'Este campo es obligatorio', 
+
+							'profesional_id.required_without' => 'Este campo es obligatorio',
+							'profesional_id.*.numeric' => 'Opci&oacute;n incorrecta',
+							'profesional_id.*.min' => 'Opci&oacute;n incorrecta',
+							'profesional_id.*.max' => 'Opci&oacute;n incorrecta',
+							'datos_profesional_interviene_desde.required_without' => 'Este campo es obligatorio',
+							'datos_profesional_interviene_desde.*.date' => 'Opci&oacute;n incorrecta',
+							'datos_profesional_interviene_desde.*.after_or_equal' => 'Opci&oacute;n incorrecta',
+							'profesionalactualmente_id.required_without' => 'Este campo es obligatorio',
+							'profesionalactualmente_id.*.numeric' => 'Opci&oacute;n incorrecta',
+							'profesionalactualmente_id.*.min' => 'Opci&oacute;n incorrecta',
+							'profesionalactualmente_id.*.max' => 'Opci&oacute;n incorrecta',
+							'datos_profesional_interviene_hasta.*.date' => 'Opci&oacute;n incorrecta',
+							'datos_profesional_interviene_hasta.*.after_or_equal' => 'Opci&oacute;n incorrecta'
 						]);
 
 		$data = request()->all();
+
 		$data['user_id'] = $userId;
 		$aFormulario->update($data);
 		$carpeta=\App\Carpetas\Numerocarpeta::find($idCarpeta);
 		$carpeta->update(['numeroCarpeta'=>$data['datos_numero_carpeta']]);
+		// dd($data, $aFormulario, $carpeta);
 		if($carpeta->bformulario){
 		$carpeta->bformulario->update(['numeroCarpeta'=>$data['datos_numero_carpeta']]);
 		}
@@ -645,45 +681,116 @@ class FormsController extends Controller
 		if($carpeta->gformulario){
 			$carpeta->gformulario->update(['numeroCarpeta'=>$data['datos_numero_carpeta']]);
 		}
+
+
 		//requiero los datos de los profesionales
-		$arrayProfesionales = request()->only(['profesional_id', 'datos_profesional_interviene_desde', 'datos_profesional_interviene_hasta', 'profesionalactualmente_id']);	
+		// $arrayProfesionales = request()->only(['profesional_id', 'datos_profesional_interviene_desde', 'datos_profesional_interviene_hasta', 'profesionalactualmente_id']);	
 
-		if (request()->input('profesional_id') !== null) {
-			//de aca obtengo la cantidad de veces que tengo que iterar para asignarle valores al array
-			$cant = (count(request()->input('profesional_id')));
+		// if (request()->input('profesional_id') !== null) {
+		// 	//de aca obtengo la cantidad de veces que tengo que iterar para asignarle valores al array
+		// 	$cant = (count(request()->input('profesional_id')));
 
-			// HOY 12 DE OCTUBRE ESTA MANERA BORRA TODOS PROFESIONALES ANTERIORES Y SOLO ASIGNA LOS QUE SE UPDETEAN
-			for ($i=0; $i < $cant; $i++) 
-			{ 
-				//asigno manualmente los valores
-				$profesional['profesional_id'] = $data['profesional_id'][$i];
-				$profesional['datos_profesional_interviene_desde'] = $data['datos_profesional_interviene_desde'][$i];
-				$profesional['profesionalactualmente_id'] = $data['profesionalactualmente_id'][$i];
-				if ($profesional['profesionalactualmente_id'] == 1){
-					$profesional['datos_profesional_interviene_hasta'] = null;
-				}else{
-					$profesional['datos_profesional_interviene_hasta'] = $data['datos_profesional_interviene_hasta'][$i];
-				}
-				if (!isset($data['datos_profesional_interviene_hasta'][$i])) {  
-					$profesional['datos_profesional_interviene_hasta'] = null;
-			 }else{
-				 $profesional['datos_profesional_interviene_hasta'] = $data['datos_profesional_interviene_hasta'][$i];
-			 }
-			//  dd($data);
+		// 	// HOY 12 DE OCTUBRE ESTA MANERA BORRA TODOS PROFESIONALES ANTERIORES Y SOLO ASIGNA LOS QUE SE UPDETEAN
+		// 	for ($i=0; $i < $cant; $i++) 
+		// 	{ 
+		// 		//asigno manualmente los valores
+		// 		$profesional['profesional_id'] = $data['profesional_id'][$i];
+		// 		$profesional['datos_profesional_interviene_desde'] = $data['datos_profesional_interviene_desde'][$i];
+		// 		$profesional['profesionalactualmente_id'] = $data['profesionalactualmente_id'][$i];
+		// 		if ($profesional['profesionalactualmente_id'] == 1){
+		// 			$profesional['datos_profesional_interviene_hasta'] = null;
+		// 		}else{
+		// 			$profesional['datos_profesional_interviene_hasta'] = $data['datos_profesional_interviene_hasta'][$i];
+		// 		}
+		// 		if (!isset($data['datos_profesional_interviene_hasta'][$i])) {  
+		// 			$profesional['datos_profesional_interviene_hasta'] = null;
+		// 	 }else{
+		// 		 $profesional['datos_profesional_interviene_hasta'] = $data['datos_profesional_interviene_hasta'][$i];
+		// 	 }
+		// 	//  dd($data);
 				
-				$profesional['user_id'] = $data['user_id'];
-				//una vez ya asignados los valores los guardo en la base, en la tabla que corresponde
-				$guardoProfesionalInterviniente = \App\FormA\Profesionalinterviniente::create($profesional);
-				//de aca obtengo los id de los profesionales guardados
-				$profId[] = $guardoProfesionalInterviniente->id;	
-			}
-			//guardo en la tabla pivot
-			$guardoRelacion = $aFormulario->profesionalintervinientes()->sync($profId);
+		// 		$profesional['user_id'] = $data['user_id'];
+		// 		//una vez ya asignados los valores los guardo en la base, en la tabla que corresponde
+		// 		$guardoProfesionalInterviniente = \App\FormA\Profesionalinterviniente::($profesional);
+		// 		//de aca obtengo los id de los profesionales guardados
+		// 		$profId[] = $guardoProfesionalInterviniente->id;	
+		// 	}
+		// 	//guardo en la tabla pivot
+		// 	$guardoRelacion = $aFormulario->profesionalintervinientes()->sync($profId);
 
-			return redirect('formularios/buscador');
-		}else{
-			return redirect('formularios/buscador');
-		}
+		// 	return redirect('formularios/buscador');
+		// 	}else{
+		// 	return redirect('formularios/buscador');
+		// }
+		
+		$cantidadProfesionalesViejos = false;
+			if (request()->input('profesional_id_viejo')[0]) {
+				$cantidadProfesionalesViejos = (count(request()->input('profesional_id_viejo')));
+			}
+
+			$cantidadProfesionalesNuevos = false;
+			if (request()->input('profesional_id')[0]) {
+				$cantidadProfesionalesNuevos = (count(request()->input('profesional_id')));
+			}
+
+			if (isset($data['idsEliminados'])) {
+				// dd($data);
+				$ids = array_map("intval", explode(',', $data['idsEliminados']));
+				for ($i = 0; $i < count($ids); $i++) {
+
+					\App\FormA\Profesionalinterviniente::find($ids[$i])->aformularios()->detach();
+
+					\App\FormA\Profesionalinterviniente::find($ids[$i])->delete();
+				}
+			}
+
+			$profesionales = $aFormulario->profesionalintervinientes;
+
+			// dd($profesionales);
+
+			if ($cantidadProfesionalesViejos) {
+				foreach ($profesionales as $i => $profesional) {
+					$profesionalCargado = \App\FormA\Profesionalinterviniente::find($profesional->id);
+					$profesionalViejo = [
+											'profesional_id' => $data['profesional_id_viejo'][$i],
+											'datos_profesional_interviene_desde' => $data['datos_profesional_interviene_desde_viejo'][$i],
+											'profesionalactualmente_id' => $data['profesionalactualmente_id_viejo'][$i],
+											'user_id' => $data['user_id']
+										];
+					if (isset($data['datos_profesional_interviene_hasta_viejo'][$i])) {
+						$profesionalViejo['datos_profesional_interviene_hasta'] = $data['datos_profesional_interviene_hasta_viejo'][$i];
+					}
+					// dd($profesionalViejo);
+					$actualizoProfesionalCargado = $profesionalCargado->update($profesionalViejo);
+
+					$profesionalIds[] = $profesional->id;
+				}
+			}
+
+			if ($cantidadProfesionalesNuevos) {
+				for ($i = 0; $i < $cantidadProfesionalesNuevos ; $i++) { 
+					
+					$profesional = [
+											'profesional_id' => $data['profesional_id'][$i],
+											'datos_profesional_interviene_desde' => $data['datos_profesional_interviene_desde'][$i],
+											'profesionalactualmente_id' => $data['profesionalactualmente_id'][$i],
+											'user_id' => $data['user_id']
+										];
+					if (isset($data['datos_profesional_interviene_hasta'][$i])) {
+						$profesional['datos_profesional_interviene_hasta'] = $data['datos_profesional_interviene_hasta'][$i];
+					}
+
+					$profesionalNuevo = \App\FormA\Profesionalinterviniente::create($profesional);
+
+					$profesionalIds[] = $profesionalNuevo->id;
+
+				}
+
+				$guardoRelacion = $aFormulario->profesionalintervinientes()->sync($profesionalIds);
+			}
+		// fin intervencion
+		return redirect('formularios/buscador');
+
 	}
 	
 	public function destroyA($id)
@@ -847,8 +954,11 @@ class FormsController extends Controller
 			// select B5 Tipo de documentacion si B4 es id 3 o 6 se oculta
 			'tipodocumento_id' => [new FormBDocumentacion(request()->get('tienedoc_id'),0,9)],
 			// select B6 Nro documento si B4 es id 3 o 6 se oculta
-			'victima_documento' => [new FormBDocumentacion(request()->get('tienedoc_id'),0,9, true)],
-			// ---FALTAN VALIDACIONES DEL PAIS, PROVINCIA Y LOCALIDAD DE NACIMIENTO--- 
+			'victima_documento' => [new FormBDocumentacion(request()->get('tienedoc_id'),0,255, true)],
+			// select B7 B8 B9 nacimiento
+			'paisNacimiento' => 'required',
+			'provinciaNacimiento' => 'required',
+			'ciudadNacimiento' => 'required',
 			// input fecha B10 Fecha de nacimiento
 			'victima_fecha_nacimiento' => 'required',
 			// input B11 Edad
@@ -1078,43 +1188,61 @@ class FormsController extends Controller
 	public function updateB($idCarpeta,$idFormulario)
 	{
 		request()->validate([
-			'victima_nombre_y_apellido' => 'required',
-			//'victima_nombre_y_apellido_desconoce' => 'required',
-			'victima_apodo' => 'required',
-			//'victima_apodo_desconoce' => 'required',
-			'genero_id' => 'required',
-			//'victima_genero_otro' => 'required',
-			'tienedoc_id' => 'required',
-			'tipodocumento_id' => 'required',
-			//'victima_tipo_documento_otro' => 'required',
-			'victima_documento' => 'required',
-			'paisNacimiento' => 'required',
-			'provinciaNacimiento' => 'required',
-			'ciudadNacimiento' => 'required',
-			//'victima_documento_se_desconoce' => 'required',
-			// 'pais_id' => 'required',
-			//'argprovincia' => 'required',
-			//'brestado' => 'required',
-			'victima_fecha_nacimiento' => 'required',
-			'victima_edad' => 'required',
-			//'victima_edad_desconoce' => 'required',
-			'franjaetaria_id' => 'required',
-			'embarazorelevamiento_id' => 'required',
-			'embarazoprevio_id' => 'required',
-			'hijosembarazo_id' => 'required',
-			'bajoefecto_id' => 'required',
-			'tienelesion_id' => 'required',
-			//'victima_lesion' => 'required',
-			//'lesionconstatada_id' => 'required',
-			//'victima_lesion_organismo' => 'required',
-			'enfermedadcronica_id' => 'required',
-			//'victima_tipo_enfermedad_cronica' => 'required',
-			//'victima_limitacion_otra' => 'required',
-			'niveleducativo_id' => 'required',
-			'oficio_id' => 'required',
-			//'victima_oficio_cual' => 'required',
-			'discapacidad_id' => 'required',
-			'limitacion_id' => 'required',
+// input B1 Nombre y apellido
+'victima_nombre_y_apellido' => 'required',
+// input B2 Apodo
+'victima_apodo' => 'required',
+// select B3 Genero
+'genero_id' => 'required | numeric | min:0 | max:6',
+// select B4 Documentacion
+'tienedoc_id' => 'required | numeric | min:0 | max:6',
+// select B5 Tipo de documentacion si B4 es id 3 o 6 se oculta
+'tipodocumento_id' => [new FormBDocumentacion(request()->get('tienedoc_id'),0,9)],
+// select B6 Nro documento si B4 es id 3 o 6 se oculta
+'victima_documento' => [new FormBDocumentacion(request()->get('tienedoc_id'),0,255, true)],
+// select B7 B8 B9 nacimiento
+'paisNacimiento' => 'required',
+'provinciaNacimiento' => 'required',
+'ciudadNacimiento' => 'required',
+// input fecha B10 Fecha de nacimiento
+'victima_fecha_nacimiento' => 'required',
+// input B11 Edad
+'victima_edad' => 'required',
+// select B12 Franja Etaria
+'franjaetaria_id' => 'required | numeric | min:0 | max:7',
+// select B13 Embarazo al momento del relevamineto 
+'embarazorelevamiento_id' => 'required | numeric | min:0 | max:3',
+// select B14 Embarazo previo
+'embarazoprevio_id' => 'required | numeric | min:0 | max:3',
+// select B15 Embarazo hijos anterior
+'hijosembarazo_id' => 'required | numeric | min:0 | max:3',
+// select B16 Bajo efectos de estupefacientes
+'bajoefecto_id' => 'required | numeric | min:0 | max:3',
+// checkbox B17 Discapacidad
+'discapacidad_id' => [new RequiredCheckbox('Si ingres&oacute; No o Se Desconoce no puede seleccionar otra opci&oacute;n', array('5','6'), 0, 6)],
+// select B18 Lesion visible
+'tienelesion_id' => 'required | numeric | min:0 | max:3',
+// input oculto B18I se desoculta si B18 es id 1
+'victima_lesion' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un tipo debe seleccionar si',true)],
+// select oculto B18II se desoculta si B18 es id 1
+'lesionconstatada_id' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,3,'Para ingresar si fue constatada debe seleccionar si',false,2)],
+// input oculto B18III se desoculta si B18II es id 1
+'victima_lesion_organismo' => [new RequiredConditional(request()->get('lesionconstatada_id'),array('1'),0,255,'Para ingresar un organismo debe seleccionar si',true)],
+// select B19 Enfermedad cronica
+'enfermedadcronica_id' => 'required | numeric | min:0 | max:3',
+// input oculto B19I se desoculta si B19 es id 1
+'victima_tipo_enfermedad_cronica' => [new RequiredConditional(request()->get('enfermedadcronica_id'),array('1'),0,255,'Para ingresar un tipo debe seleccionar si',true)],
+// checkbox B20 limitacion para comunicarse
+'limitacion_id' => [new RequiredCheckbox('Si ingres&oacute; No no puede seleccionar otra opci&oacute;n', array('4'), 0, 5)],
+// input oculto "cual?" se desoculta si B20I contiene id 5
+'victima_limitacion_otra' => [new RequiredCheckbox('Debe seleccionar la opcion otra para ingresar una nueva limitacion', 5, 0, 255,true,request()->get('limitacion_id'))],
+// select B21 nivel educativo
+'niveleducativo_id' => 'required | numeric | min:0 | max:8',
+// select B22 oficio
+'oficio_id' => 'required | numeric | min:0 | max:3',
+// input oculto "cual?" si B22 es id 1
+'victima_oficio_cual' => [new RequiredConditional(request()->get('oficio_id'),array('1'),0,255,'Para ingresar un oficio debe seleccionar si',true)],
+
 		], 
 		[
 			'victima_nombre_y_apellido.required' => 'Este campo es obligatorio',
@@ -1265,19 +1393,19 @@ class FormsController extends Controller
 				'otraspersonas_id' => 'required | numeric | min:0 | max:3',
 				// DATOS DEL REFERENTE QUE SE DESOCULTA SI C1 ES ID 3
 				// input C2 nombre y apellido
-				'nombre_apellido' => 'required|array|min:0',
+				'nombre_apellido' => 'required_if:otraspersonas_id,1|array|min:0',
 				'nombre_apellido.*' => [new RequiredConditional(request()->get('otraspersonas_id'),array('1'),0,255,'Para ingresar nombre y apellido debe seleccionar si',true)],
 				// input C3 edad
-				'edad' => 'required|array|min:0',
+				'edad' => 'required_if:otraspersonas_id,1|array|min:0',
 				'edad.*' => [new RequiredConditional(request()->get('otraspersonas_id'),array('1'),0,255,'Para ingresar edad debe seleccionar si',true)],
 				// select C4 viculo
-				'vinculo_id' => 'required|array|min:0',			
+				'vinculo_id' => 'required_if:otraspersonas_id,1|array|min:0',			
 				'vinculo_id.*' => [new RequiredConditional(request()->get('otraspersonas_id'),array('1'),0,6,'Para ingresar vinculo debe seleccionar si')],			
 				// input oculto "cual?" que se desoculta si C4 es id 1
 				'vinculo_otro.0' => 'required_if:vinculo_id.0,1',
 				'vinculo_otro.*' => 'required_if:vinculo_id.*,1',
 				// input C5 contacto referente
-				'referenteContacto' => 'required|array|min:0',
+				'referenteContacto' => 'required_if:otraspersonas_id,1|array|min:0',
 				'referenteContacto.*' => [new RequiredConditional(request()->get('otraspersonas_id'),array('1'),0,255,'Para ingresar contacto debe seleccionar si',true)],
 		],
 		[
@@ -1414,16 +1542,24 @@ class FormsController extends Controller
 		//diferenciar los referentes cargados anteriormente
 
 		request()->validate([
-			'nombre_apellido.*' => 'nullable',
-			// 'nombre_apellido.0' => 'required',
-			'edad.*' => 'nullable',
-			// 'edad.0' => 'required',
-			// 'genero_id.*' => 'nullable',
-			// 'genero_id.0' => 'required',
-			'vinculo_id.*' => 'nullable',
-			// 'vinculo_id.0' => 'required',
-			'referenteContacto.*' => 'nullable',
-			// 'referenteContacto.0' => 'required_if:otraspersonas_id,==,1',
+			// select C1 referente
+			'otraspersonas_id' => 'required | numeric | min:0 | max:3',
+			// DATOS DEL REFERENTE QUE SE DESOCULTA SI C1 ES ID 3
+			// input C2 nombre y apellido
+			'nombre_apellido' => 'nullable',
+			'nombre_apellido.*' => [new RequiredConditional(request()->get('otraspersonas_id'),array('1'),0,255,'Para ingresar nombre y apellido debe seleccionar si',true)],
+			// input C3 edad
+			'edad' => 'nullable',
+			'edad.*' => [new RequiredConditional(request()->get('otraspersonas_id'),array('1'),0,255,'Para ingresar edad debe seleccionar si',true)],
+			// select C4 viculo
+			'vinculo_id' => 'nullable',			
+			'vinculo_id.*' => [new RequiredConditional(request()->get('otraspersonas_id'),array('1'),0,6,'Para ingresar vinculo debe seleccionar si')],			
+			// input oculto "cual?" que se desoculta si C4 es id 1
+			'vinculo_otro.0' => 'required_if:vinculo_id.0,1',
+			'vinculo_otro.*' => 'required_if:vinculo_id.*,1',
+			// input C5 contacto referente
+			'referenteContacto' => 'nullable',
+			'referenteContacto.*' => [new RequiredConditional(request()->get('otraspersonas_id'),array('1'),0,255,'Para ingresar contacto debe seleccionar si',true)],
 		],
 		[
 			'nombre_apellido.*.required' => 'Este campo es obligatorio',
@@ -2031,64 +2167,118 @@ class FormsController extends Controller
 
 		request()->validate(
 			[
-				'calificaciongeneral_id' => 'required',
-				'calificaciongeneral_otra' => 'required_if:calificaciongeneral_id,==,8',
-				'calificacionespecifica_id' => 'required',
-				'finalidad_id' => 'required',
-				'finalidad_otra' => 'required_if:finalidad_id,==,5',
-				'actividad_id' => 'required',
-				'actividad_otra' => 'required_if:actividad_id,==,6',
-				'privado_id' => 'required_if:actividad_id,==,3',
-				'privado_otra' => 'required_if:privado_id,==,8',
-				'rural_id' => 'required_if:actividad_id,==,1',
-				'domicilioVenta' => 'required_if:actividad_id,==,1',
-				'rural_otra' => 'required_if:rural_id,==,6',
-				'textil_id' => 'required_if:actividad_id,==,6',
-				'marcaTextil' => 'required_if:actividad_id,==,6',
-				'textil_otra' => 'required_if:textil_id,==,6',
-				'contactoexplotacion_id' => 'required',
-				'contactoexplotacion_otro' => 'required_if:contactoexplotacion_id,==,6',
-				'viajo_id' => 'required',
-				'acompanado_id' => 'required_if:viajo_id,==,2',
-				'acompanadored_id' => 'required_if:viajo_id,==,2',
-				'domicilio' => 'required',
-				'residelugar_id' => 'required',
-				'engano_id' => 'required',
-				'haypersona_id' => 'required',
-				'tipovictima_id' => 'required',
-				'tarea' => 'required',
-				'horasTarea' => 'required',
-				'frecuenciapago_id' => 'required',
-				'modalidadpagos_id' => 'required',
-				'especiaconcepto_id' => 'required_if:modalidadpagos_id,==,4',
-				'especiaconceptos_otro' => 'required_if:especiaconcepto_id,==,5',
-				'montoPago' => 'required',
-				'deuda_id' => 'required',
-				'motivodeuda_id' => 'required_if:deuda_id,==,1',
-				'lugardeuda_id' => 'required_if:deuda_id,==,1',
-				'motivodeuda_otro' => 'required_if:motivodeuda_id,==,5',
-				'permanencia_id' => 'required',
-				'testigo_id' => 'required',
-				'coordinadorPTN' => 'required_if:testigo_id,==,1',
-				'coordinadorPTN_otro' => 'required_if:testigo_id,==,1',
-				'haycorriente_id' => 'required',
-				'haygas_id' => 'required',
-				'haymedida_id' => 'required',
-				'haymedidas_otro' => 'required_if:haymedida_id,==,6',
-				'hayhacinamiento_id' => 'required',
-				'hayagua_id' => 'required',
-				'haybano_id' => 'required',
-				'cuantosbano_id' => 'required',
-				'material_id' => 'required',
-				'material_otro' => 'required_if:material_id,==,7',
-				'elementotrabajo_id' => 'required',
-				'elementoseguridad_id' => 'required',
+				// select D1 calificacion general
+				'calificaciongeneral_id' => 'required | numeric | min:0 | max:8',
+				// input oculta "cual?" que se desoculta si D1 es id 8
+				'calificaciongeneral_otra' => [new RequiredConditional(request()->get('calificaciongeneral_id'),array('8'),0,255,'Para ingresar una nueva calificaci&oacute;n debe seleccionar otro',true)],
+				// select D2 calificacion especifica
+				'calificacionespecifica_id' => 'required | numeric | min:0 | max:22',
+				// select D3 finalidad
+				'finalidad_id' => 'required | numeric | min:0 | max:5',
+				// input oculto "cual?" que se desoculta si D3 es id 5
+				'finalidad_otra' => [new RequiredConditional(request()->get('finalidad_id'),array('5'),0,255,'Para ingresar una nueva finalidad debe seleccionar otro',true)],
+				// select D4 actividad
+				'actividad_id' => 'required | numeric | min:0 | max:6',
+				// checkbox oculto D5Ia tipo de negocio se desoculta si D4 es id 1 o 2
+				'rural_id' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('5'), 0, 6, false,request()->get('actividad_id'), true, array('1','2'))],
+				// input oculto se "cual?" se desoculta si D5Ia se selecciona 6
+				'rural_otra' => [new RequiredCheckbox('Se debe seleccionar Otro para ingresar un nuevo tipo de negocio', 6, 0, 255, true, request()->get('rural_id'))],
+				// input oculto D5Ib domicilio se desoculta si D4 es id 1 o 2
+				'domicilioVenta' => [new RequiredConditional(request()->get('actividad_id'),array('1','2'),0,255,'Para ingresar un domicilio debe seleccionar la actividad rural o manufacturaci&oacute;n',true)],
+				// checkbox oculto D5II lugar se desoculta si D4 es id 3 o 4
+				'privado_id' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('7'), 0, 8, false,request()->get('actividad_id'), true, array('3','4'))],
+				// input oculto "cual?" se desoculta si D5II se selecciona id 8
+				'privado_otra' => [new RequiredCheckbox('Se debe seleccionar Otro para ingresar un nuevo lugar', 8, 0, 255, true, request()->get('privado_id'))],
+				// input oculto D5IIIa Nombre de marca se desoculta si D4 es id 5
+				'marcaTextil' => [new RequiredConditional(request()->get('actividad_id'),array('5'),0,255,'Para ingresar una marca debe seleccionar porducci&oacute;n textil',true)],
+				// checkbox oculto D5IIIb lugar se desoculta si D4 es id 5
+				'textil_id' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('5'), 0, 7, false,request()->get('actividad_id'), true, array('5'))],
+				// input oculto "cual?" se desoculta si D5IIIb se selecciona id 6
+				'textil_otra' => [new RequiredCheckbox('Se debe seleccionar Otro para ingresar un nuevo lugar', 6, 0, 255, true, request()->get('textil_id'))],
+				// input oculto "cual?" se desoculta si D4 es id 6
+				'actividad_otra' => [new RequiredConditional(request()->get('actividad_id'),array('6'),0,255,'Para ingresar una nueva actividad debe seleccionar otro',true)],				
+				// select D6 pais
 				'paisCaptacion' => 'required',
+				// select D7 provincia
 				'provinciaCaptacion' => 'required',
+				// select D8 ciudad
 				'ciudadCaptacion' => 'required',
+				// select D9 modo de contacto				
+				'contactoexplotacion_id' => 'required | numeric | min:0 | max:7 ',
+				// input oculto "cual?" se desoculta si D9 es id 6
+				'contactoexplotacion_otro' => [new RequiredConditional(request()->get('contactoexplotacion_id'),array('6'),0,255,'Para ingresar un contacto debe seleccionar otro',true)],
+				// select D10 viajo
+				'viajo_id' => 'required | numeric | min:0 | max:4',
+				// select oculto D10I acompañado se desoculta si D10 es id 2
+				'acompanado_id' => [new RequiredConditional(request()->get('viajo_id'),array('2'),0,4,'Para ingresar un acompa&ntilde;ante debe seleccionar acompa&ntilde;o')],
+				// select oculto D10II acompañante relacionado se desoculta si D10 es id 2
+				'acompanadored_id' => [new RequiredConditional(request()->get('viajo_id'),array('2'),0,3,'Para ingresar un acompa&ntilde;ante debe seleccionar acompa&ntilde;o')],
+				// select D11 pais
 				'paisExplotacion' => 'required',
+				// select D12 provincia
 				'provinciaExplotacion' => 'required',
+				// select D13 ciudad
 				'ciudadExplotacion' => 'required',
+				// input D14 domicilio
+				'domicilio' => 'required',
+				// select D15 reside lugar
+				'residelugar_id' => 'required | numeric | min:0 | max:3',
+				// select D16 engaño
+				'engano_id' => 'required | numeric | min:0 | max:3',
+				// select D17 otras personas
+				'haypersona_id' => 'required | numeric | min:0 | max:3',
+				// select D18 tipo victima
+				'tipovictima_id' => 'required | numeric | min:0 | max:4',
+				// input D19 tarea
+				'tarea' => 'required',
+				// input D20 horas ralizadas
+				'horasTarea' => 'required',
+				// select D21 frecuencia pago
+				'frecuenciapago_id' => 'required | numeric | min:0 | max:5',
+				// select D22 modalidad
+				'modalidadpagos_id' => 'required | numeric | min:0 | max:6',
+				// input D23 monto
+				'montoPago' => 'required',
+				// select D24 deuda
+				'deuda_id' => 'required | numeric | min:0 | max:3',
+				// checkbox oculto D24I motivo se desoculta si D24 es 1
+				'motivodeuda_id' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('-1'), 0, 5, false,request()->get('deuda_id'), true, array('1'))],
+				// input oculto "cual?" se desoculta si D24I se selecciona id 5
+				'motivodeuda_otro' => [new RequiredCheckbox('Se debe seleccionar Otro para ingresar un nuevo motivo', 5, 0, 255, true, request()->get('motivodeuda_id'))],
+				// select oculto D24II lugar se desoculta si D24 es 1
+				'lugardeuda_id' => [new RequiredConditional(request()->get('deuda_id'),array('1'),0,3,'Para ingresar un lugar de deuda seleccionar si')], 
+				// select D25 permanencia 
+				'permanencia_id' => 'required | numeric | min:0 | max:6',
+				// select D26 testigo
+				'testigo_id' => 'required | numeric | min:0 | max:2',
+				// input oculto D26 PNT se desoculta si D26 es id 1
+				'coordinadorPTN' => [new RequiredConditional(request()->get('testigo_id'),array('1'),0,255,'Para ingresar este campo debe seleccionar si',true)],
+				// input oculto D26 PNT otros se desoculta si D26 es id 1
+				'coordinadorPTN_otro' => [new RequiredConditional(request()->get('testigo_id'),array('1'),0,255,'Para ingresar este campo debe seleccionar si',true)],
+				// select D27 corriente
+				'haycorriente_id' => 'required | numeric | min:0 | max:3',
+				// select D28 gas
+				'haygas_id' => 'required | numeric | min:0 | max:3',
+				// checkbox D29 medidas de control
+				'haymedida_id' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('5'), 0, 6)],
+				// input oculto "cual?" se desoculta si D29 se selecciona 6
+				'haymedidas_otro' => [new RequiredCheckbox('Se debe seleccionar Otro para ingresar un nuevo motivo', 6, 0, 255, true, request()->get('haymedida_id'))],
+				// select D30 hacinamiento
+				'hayhacinamiento_id' => 'required | numeric | min:0 | max:3',	
+				// select D31 agua
+				'hayagua_id' => 'required | numeric | min:0 | max:3',
+				// select D32 baño
+				'haybano_id' => 'required | numeric | min:0 | max:4',
+				// select D33 cantidad baños
+				'cuantosbano_id' => 'required | numeric | min:0 | max:3',
+				// select D34 material
+				'material_id' => 'required | numeric | min:0 | max:7',
+				// input oculto "cual?" se desoculta si D34 id es 7
+				'material_otro' => [new RequiredConditional(request()->get('material_id'),array('7'),0,255,'Para ingresar este campo debe seleccionar otro',true)],
+				// select D35 elementos trabajo
+				'elementotrabajo_id' => 'required | numeric | min:0 | max:3',
+				// select D36 elementos trabajo proveedor 
+				'elementoseguridad_id' => 'required | numeric | min:0 | max:3',
 			],
 			[
 				'calificaciongeneral_id.required' => 'Este campo es obligatorio',
@@ -2491,25 +2681,27 @@ class FormsController extends Controller
 	{
 		request()->validate(
 			[
-				'intervinieronOrganismos_id' => 'required | numeric | min:0 | max:3',
-				'orgjudicials_id.*' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('-1'), 0, 2, false,request()->get('intervinieronOrganismos_id'), true, array('3'))],
-				'orgprognacionals_id.*' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('-1'), 0, 9, false,request()->get('intervinieronOrganismos_id'), true, array('3'))],
-				'orgprognacionalOtro.*' => [new RequiredCheckbox('Se debe seleccionar intervinieron mas organismos', 3, 0, 255, true, request()->get('orgprognacionals_id.*'))],
-				'orgProgProvinciales.*' => [new RequiredConditional(request()->get('intervinieronOrganismos_id'),array('3'),0,255,'Para ingresar un nuevo organismo debe seleccionar intervinieron mas organismos',true)],
-				'orgProgMunicipales.*' => [new RequiredConditional(request()->get('intervinieronOrganismos_id'),array('3'),0,255,'Para ingresar un nuevo organismo debe seleccionar intervinieron mas organismos',true)],
-				'policias_id.*' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('-1'), 0, 5, false,request()->get('intervinieronOrganismos_id'), true, array('3'))],
-				'orgSocCivil.*' => [new RequiredCheckbox('Se debe seleccionar intervinieron mas organismos', 3, 0, 255, true, request()->get('orgprognacionals_id'))],
-				'asistencia_id.*' => 'required | numeric | min:0 | max:3',
-				'socioeconomic_id.0' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('-1'), 0, 7, false,request()->get('intervinieronOrganismosActualmente_id'), true, array('3'))],
-				'socioeconomicaCual.0' => [new RequiredCheckbox('Se debe seleccionar otro', 7, 0, 255, true, request()->get('socioeconomic_id'))],
-				'intervinieronOrganismosActualmente_id' => 'required | numeric | min:0 | max:3',
-				'orgjudicialactualmentes_id.*' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('-1'), 0, 2, false,request()->get('intervinieronOrganismosActualmente_id'), true, array('3'))],
-				'orgprognacionalactualmente_id.*' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('-1'), 0, 9, false,request()->get('intervinieronOrganismosActualmente_id'), true, array('3'))],
-				'orgprognacionalActualmenteOtro.*' => [new RequiredCheckbox('Se debe seleccionar intervinieron mas organismos', 3, 0, 255, true, request()->get('intervinieronOrganismosActualmente_id.*'))],
-				'orgProgProvincialesActualmente.*' => [new RequiredConditional(request()->get('intervinieronOrganismosActualmente_id'),array('3'),0,255,'Para ingresar un nuevo organismo debe seleccionar intervinieron mas organismos',true)],
-				'orgProgMunicipalesActualmente.*' => [new RequiredConditional(request()->get('intervinieronOrganismosActualmente_id'),array('3'),0,255,'Para ingresar un nuevo organismo debe seleccionar intervinieron mas organismos',true)],
-				'policiaactualmentes_id.*' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('-1'), 0, 5, false,request()->get('intervinieronOrganismosActualmente_id'), true, array('3'))],
-				'orgSocCivilActualmente.*' => [new RequiredCheckbox('Se debe seleccionar intervinieron mas organismos', 3, 0, 255, true, request()->get('intervinieronOrganismosActualmente_id.*'))],
+				'intervinieronOrganismos_id' => 'required',
+				'intervinieronOrganismosActualmente_id' => 'required',
+				// 'intervinieronOrganismos_id' => 'required | numeric | min:0 | max:3',
+				// 'orgjudicials_id.*' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('-1'), 0, 2, false,request()->get('intervinieronOrganismos_id'), true, array('3'))],
+				// 'orgprognacionals_id.*' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('-1'), 0, 9, false,request()->get('intervinieronOrganismos_id'), true, array('3'))],
+				// 'orgprognacionalOtro.*' => [new RequiredCheckbox('Se debe seleccionar intervinieron mas organismos', 3, 0, 255, true, request()->get('orgprognacionals_id.*'))],
+				// 'orgProgProvinciales.*' => [new RequiredConditional(request()->get('intervinieronOrganismos_id'),array('3'),0,255,'Para ingresar un nuevo organismo debe seleccionar intervinieron mas organismos',true)],
+				// 'orgProgMunicipales.*' => [new RequiredConditional(request()->get('intervinieronOrganismos_id'),array('3'),0,255,'Para ingresar un nuevo organismo debe seleccionar intervinieron mas organismos',true)],
+				// 'policias_id.*' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('-1'), 0, 5, false,request()->get('intervinieronOrganismos_id'), true, array('3'))],
+				// 'orgSocCivil.*' => [new RequiredCheckbox('Se debe seleccionar intervinieron mas organismos', 3, 0, 255, true, request()->get('orgprognacionals_id'))],
+				// 'asistencia_id.*' => 'required | numeric | min:0 | max:3',
+				// 'socioeconomic_id.0' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('-1'), 0, 7, false,request()->get('intervinieronOrganismosActualmente_id'), true, array('3'))],
+				// 'socioeconomicaCual.0' => [new RequiredCheckbox('Se debe seleccionar otro', 7, 0, 255, true, request()->get('socioeconomic_id'))],
+				// 'intervinieronOrganismosActualmente_id' => 'required | numeric | min:0 | max:3',
+				// 'orgjudicialactualmentes_id.*' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('-1'), 0, 2, false,request()->get('intervinieronOrganismosActualmente_id'), true, array('3'))],
+				// 'orgprognacionalactualmente_id.*' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('-1'), 0, 9, false,request()->get('intervinieronOrganismosActualmente_id'), true, array('3'))],
+				// 'orgprognacionalActualmenteOtro.*' => [new RequiredCheckbox('Se debe seleccionar intervinieron mas organismos', 3, 0, 255, true, request()->get('intervinieronOrganismosActualmente_id.*'))],
+				// 'orgProgProvincialesActualmente.*' => [new RequiredConditional(request()->get('intervinieronOrganismosActualmente_id'),array('3'),0,255,'Para ingresar un nuevo organismo debe seleccionar intervinieron mas organismos',true)],
+				// 'orgProgMunicipalesActualmente.*' => [new RequiredConditional(request()->get('intervinieronOrganismosActualmente_id'),array('3'),0,255,'Para ingresar un nuevo organismo debe seleccionar intervinieron mas organismos',true)],
+				// 'policiaactualmentes_id.*' => [new RequiredCheckbox('Si ingres&oacute; Se desconoce no puede seleccionar otra opci&oacute;n', array('-1'), 0, 5, false,request()->get('intervinieronOrganismosActualmente_id'), true, array('3'))],
+				// 'orgSocCivilActualmente.*' => [new RequiredCheckbox('Se debe seleccionar intervinieron mas organismos', 3, 0, 255, true, request()->get('intervinieronOrganismosActualmente_id.*'))],
 
 			],
 			[
@@ -2785,8 +2977,6 @@ class FormsController extends Controller
 		$data = request()->all();
 		$data['user_id'] = $userId;
 
-		// dd($data);
-
 		// $guardoFormularioF = \App\FormF\Fformulario::create($data);
 		$formularioF = \App\FormF\Fformulario::find($idFormulario);
 
@@ -2879,11 +3069,13 @@ class FormsController extends Controller
 				if ($cantidadOrgProgNacionalOtroNuevos) {
 					for ($i = 0; $i < $cantidadOrgProgNacionalOtroNuevos ; $i++) { 
 
-						$datos = ['nombreOrganismo' => $data['orgprognacionalOtro'][$i], 'fformulario_id' => $idFormulario];
+						if($data['orgprognacionalOtro'][$i] !== null){
+							$datos = ['nombreOrganismo' => $data['orgprognacionalOtro'][$i], 'fformulario_id' => $idFormulario];
 
-						$orgNacionalNuevo = \App\FormF\Orgprognacionalotro::create($datos);
+							$orgNacionalNuevo = \App\FormF\Orgprognacionalotro::create($datos);
 
-						$orgProgNacionalOtroIds[] = $orgNacionalNuevo->id;
+							$orgProgNacionalOtroIds[] = $orgNacionalNuevo->id;
+						}
 
 					}
 				}
@@ -2929,11 +3121,13 @@ class FormsController extends Controller
 				if ($cantidadOrgProgProvincialNuevos) {
 					for ($i = 0; $i < $cantidadOrgProgProvincialNuevos ; $i++) { 
 
-						$datos = ['nombreOrganismo' => $data['orgProgProvinciales'][$i], 'fformulario_id' => $idFormulario];
+						if($data['orgProgProvinciales'][$i] !== null){
+							$datos = ['nombreOrganismo' => $data['orgProgProvinciales'][$i], 'fformulario_id' => $idFormulario];
 
-						$orgNacionalNuevo = \App\FormF\Orgprogprovincial::create($datos);
+							$orgNacionalNuevo = \App\FormF\Orgprogprovincial::create($datos);
 
-						$orgNacionalIds[] = $orgNacionalNuevo->id;
+							$orgNacionalIds[] = $orgNacionalNuevo->id;
+						}
 
 					}
 				}
@@ -2978,11 +3172,13 @@ class FormsController extends Controller
 				if ($cantidadOrgProgMunicipalesNuevos) {
 					for ($i = 0; $i < $cantidadOrgProgMunicipalesNuevos ; $i++) { 
 
-						$datos = ['nombreOrganismo' => $data['orgProgMunicipales'][$i], 'fformulario_id' => $idFormulario];
+						if($data['orgProgMunicipales'][$i] !== null){
+							$datos = ['nombreOrganismo' => $data['orgProgMunicipales'][$i], 'fformulario_id' => $idFormulario];
 
-						$orgProgMunicipalNuevo = \App\FormF\Orgprogmunicipal::create($datos);
+							$orgProgMunicipalNuevo = \App\FormF\Orgprogmunicipal::create($datos);
 
-						$orgProgMunicipalIds[] = $orgProgMunicipalNuevo->id;
+							$orgProgMunicipalIds[] = $orgProgMunicipalNuevo->id;
+						}
 
 					}
 				}
@@ -3027,11 +3223,13 @@ class FormsController extends Controller
 				if ($cantidadOrgSocCivilNuevos) {
 					for ($i = 0; $i < $cantidadOrgSocCivilNuevos ; $i++) { 
 
-						$datos = ['nombreOrganismo' => $data['orgSocCivil'][$i], 'fformulario_id' => $idFormulario];
+						if($data['orgSocCivil'][$i] !== null){
+							$datos = ['nombreOrganismo' => $data['orgSocCivil'][$i], 'fformulario_id' => $idFormulario];
 
-						$orgSocCivilNuevo = \App\FormF\Orgsoccivil::create($datos);
+							$orgSocCivilNuevo = \App\FormF\Orgsoccivil::create($datos);
 
-						$orgSocCivilIds[] = $orgSocCivilNuevo->id;
+							$orgSocCivilIds[] = $orgSocCivilNuevo->id;
+						}
 
 					}
 				}
@@ -3077,11 +3275,13 @@ class FormsController extends Controller
 					if ($cantidadOrgProgNacionalOtroActualmenteNuevos) {
 						for ($i = 0; $i < $cantidadOrgProgNacionalOtroActualmenteNuevos ; $i++) { 
 
-							$datos = ['nombreOrganismo' => $data['orgprognacionalActualmenteOtro'][$i], 'fformulario_id' => $idFormulario];
+							if($data['orgprognacionalActualmenteOtro'][$i] !== null){
+								$datos = ['nombreOrganismo' => $data['orgprognacionalActualmenteOtro'][$i], 'fformulario_id' => $idFormulario];
 
-							$orgNacionalActualmenteNuevo = \App\FormF\Orgprognacionalactualmenteotro::create($datos);
+								$orgNacionalActualmenteNuevo = \App\FormF\Orgprognacionalactualmenteotro::create($datos);
 
-							$orgProgNacionalActualmenteOtroIds[] = $orgNacionalActualmenteNuevo->id;
+								$orgProgNacionalActualmenteOtroIds[] = $orgNacionalActualmenteNuevo->id;
+							}
 
 						}
 					}
@@ -3127,11 +3327,13 @@ class FormsController extends Controller
 					if ($cantidadOrgProgProvincialesActualmenteNuevos) {
 						for ($i = 0; $i < $cantidadOrgProgProvincialesActualmenteNuevos ; $i++) { 
 
-							$datos = ['nombreOrganismo' => $data['orgProgProvincialesActualmente'][$i], 'fformulario_id' => $idFormulario];
+							if($data['orgProgProvincialesActualmente'][$i] !== null){
+								$datos = ['nombreOrganismo' => $data['orgProgProvincialesActualmente'][$i], 'fformulario_id' => $idFormulario];
 
-							$orgProvincialNuevo = \App\FormF\Orgprogprovincialesactualmente::create($datos);
+								$orgProvincialNuevo = \App\FormF\Orgprogprovincialesactualmente::create($datos);
 
-							$orgProgProvincialesActualmenteIds[] = $orgProvincialNuevo->id;
+								$orgProgProvincialesActualmenteIds[] = $orgProvincialNuevo->id;
+							}
 
 						}
 					}
@@ -3176,11 +3378,13 @@ class FormsController extends Controller
 					if ($cantidadOrgProgMunicipalesActualmenteNuevos) {
 						for ($i = 0; $i < $cantidadOrgProgMunicipalesActualmenteNuevos ; $i++) { 
 
-							$datos = ['nombreOrganismo' => $data['orgProgMunicipalesActualmente'][$i], 'fformulario_id' => $idFormulario];
+							if($data['orgProgMunicipalesActualmente'][$i] !== null){
+								$datos = ['nombreOrganismo' => $data['orgProgMunicipalesActualmente'][$i], 'fformulario_id' => $idFormulario];
 
-							$orgProgMunipalesActualmenteNuevo = \App\FormF\Orgprogmunicipalesactualmente::create($datos);
+								$orgProgMunipalesActualmenteNuevo = \App\FormF\Orgprogmunicipalesactualmente::create($datos);
 
-							$orgProgMunipalesActualmenteIds[] = $orgProgMunipalesActualmenteNuevo->id;
+								$orgProgMunipalesActualmenteIds[] = $orgProgMunipalesActualmenteNuevo->id;
+							}
 
 						}
 					}
@@ -3225,11 +3429,13 @@ class FormsController extends Controller
 					if ($cantidadOrgSocCivilActualmenteNuevos) {
 						for ($i = 0; $i < $cantidadOrgSocCivilActualmenteNuevos ; $i++) { 
 
-							$datos = ['nombreOrganismo' => $data['orgSocCivilActualmente'][$i], 'fformulario_id' => $idFormulario];
+							if($data['orgSocCivilActualmente'][$i] !== null){
+								$datos = ['nombreOrganismo' => $data['orgSocCivilActualmente'][$i], 'fformulario_id' => $idFormulario];
 
-							$orgSocCivilActualmenteNuevo = \App\FormF\Orgsoccivilactualmente::create($datos);
+								$orgSocCivilActualmenteNuevo = \App\FormF\Orgsoccivilactualmente::create($datos);
 
-							$orgSocCivilActualmenteIds[] = $orgSocCivilActualmenteNuevo->id;
+								$orgSocCivilActualmenteIds[] = $orgSocCivilActualmenteNuevo->id;
+							}
 
 						}
 					}
@@ -3292,7 +3498,6 @@ class FormsController extends Controller
 			//
 
 		//FIN NUEVO
-		
 
 		return redirect('formularios/buscador');
 	}
@@ -3796,11 +4001,11 @@ class FormsController extends Controller
 
 		request()->validate(
 			[	'introduccion' => 'required',
-		// 		'docInterna.0' => 'required|max:10000',
-		// 		'docExterna.0' => 'required|max:10000',
-		// 		'notRelacionadas.0' => 'required|max:10000',
-		// 		'intervencionEstrategias.0' => 'required|max:10000',
-		// 		'infoSocioambiental.0' => 'required|max:10000',
+				'docInterna' => 'max:8192',
+				'docExterna' => 'max:8192',
+				'notRelacionadas' => 'max:8192',
+				'intervencionEstrategias' => 'max:8192',
+				'infoSocioambiental' => 'max:8192',
 
 			],
 			[	'introduccion.required' => 'Debes completar la introduccion',
@@ -3809,11 +4014,11 @@ class FormsController extends Controller
 		// 		'notRelacionadas.*.required' => 'Subi un archivo, dale!',
 		// 		'intervencionEstrategias.*.required' => 'Subi un archivo, dale!',
 		// 		'infoSocioambiental.*.required' => 'Subi un archivo, dale!',
-		// 		'docInterna.*.max' => 'El tamaño del archivo supera el límite permitido',
-		// 		'docExterna.*.max' => 'El tamaño del archivo supera el límite permitido',
-		// 		'notRelacionadas.*.max' => 'El tamaño del archivo supera el límite permitido',
-		// 		'intervencionEstrategias.*.max' => 'El tamaño del archivo supera el límite permitido',
-		// 		'infoSocioambiental.*.max' => 'El tamaño del archivo supera el límite permitido',
+				'docInterna.max' => 'El tamaño del archivo supera el límite permitido',
+				'docExterna.max' => 'El tamaño del archivo supera el límite permitido',
+				'notRelacionadas.max' => 'El tamaño del archivo supera el límite permitido',
+				'intervencionEstrategias.max' => 'El tamaño del archivo supera el límite permitido',
+				'infoSocioambiental.max' => 'El tamaño del archivo supera el límite permitido',
 			]);
 
 		$data = request()->all();
@@ -3933,32 +4138,6 @@ class FormsController extends Controller
 			}
         }
 
-        // if (isset($data['fechaIntervencion'])) {
-		// 	$cant = (count(request()->input('fechaIntervencion')));
-
-		// 	for ($i=0; $i < $cant; $i++) {
-
-		// 		$intervencion['fechaIntervencion'] = $data['fechaIntervencion'][$i];
-		// 		$intervencion['temaIntervencion_id'] = $data['temaIntervencion_id'][$i];
-		// 		if (isset($data['temaOtro'][$i])) {
-		// 			$intervencion['temaOtro'] = $data['temaOtro'][$i];
-		// 		}
-		// 		// $intervencion['temaOtro'] = $data['temaOtro'][$i];
-		// 		$intervencion['nombreContacto'] = $data['nombreContacto'][$i]; 
-		// 		$intervencion['telefonoContacto'] = $data['telefonoContacto'][$i]; 
-		// 		$intervencion['descripcionIntervencion'] = $data['descripcionIntervencion'][$i];
-		// 		$intervencion['user_id'] = $data['user_id'];
-
-		// 		$guardoIntervencion = \App\FormG\Intervencion::create($intervencion);
-
-		// 		$intervencionId[] = $guardoIntervencion->id;
-		// 	}
-
-		// 	$gFormulario = \App\FormG\Gformulario::find($idFormulario);
-
-		// 	$guardoRelacion = $gFormulario->intervencions()->sync($intervencionId);
-		// }
-
 		// intervencionesViejas
 			$cantidadIntervencionesViejas = false;
 			if (request()->input('fechaIntervencion_viejo')[0]) {
@@ -4028,6 +4207,7 @@ class FormsController extends Controller
 				$guardoRelacion = $gFormulario->intervencions()->sync($intervencionIds);
 			}
 		// fin intervencion
+
 		return redirect('formularios/buscador');	
 	}
 

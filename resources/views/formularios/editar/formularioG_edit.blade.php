@@ -78,6 +78,11 @@
     </ul>
 </header>
 <body>
+    @if(session()->has('msg'))
+        <div class="alert alert-danger text-center">
+            {{ session()->get('msg') }}
+        </div>
+    @endif
     <section class="container">
         @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
             <h1 class="text-center" style="padding: 15px;">
@@ -1686,7 +1691,7 @@
                 console.log(click);
                 // var divClick = '<div id="orgProgNacionalCual'+click+'" class="form-group orgProgNacionalCual'+click+'">';
 
-                var divClickIntervencion = '<h3>Nueva intervención</h3></h3><div id="intervencion'+click+'" class="form-group intervencion'+click+'""><div class="form-group"><label for="" class="">Fecha</label><input type="date" class="form-control fechaInput'+click+'" name="fechaIntervencion[]" required></div><div class="form-group"><label for="" class="">Tema</label><select class="form-control temaSelect'+click+'" name="temaIntervencion_id[]" required><option value="" disabled selected>Seleccione</option>@foreach ($temaIntervencion as $tema)<option value="{{ $tema->id }}">{{ $tema->nombre }}</option>@endforeach</select><div class="temaCual'+click+'" style="display: none;"><label for="">Cual?</label><input type="text" class="form-control  temaCualInput'+click+'" name="temaOtro[]"><br></div></div><div class="form-group datosIntervencion'+click+'" style="display: none;"><div class="form-group"><label for="">Nombre de contacto:</label><input type="text" class="form-control" name="nombreContacto[]" required></div><div class="form-group"><label for="">Teléfono de contacto:</label><input type="text" class="form-control" name="telefonoContacto[]" required pattern="[\+]{0,1}[0-9]+"></div><div class="form-group"><label for="">Descripción de la intervención:</label><textarea class="form-control" name="descripcionIntervencion[]" required></textarea></div></div></div>';
+                var divClickIntervencion = '<div id="intervencion'+click+'" class="form-group intervencion'+click+'""><h3>Nueva intervención</h3><div class="form-group"><label for="" class="">Fecha</label><input type="date" class="form-control fechaInput'+click+'" name="fechaIntervencion[]" required></div><div class="form-group"><label for="" class="">Tema</label><select class="form-control temaSelect'+click+'" name="temaIntervencion_id[]" required><option value="" disabled selected>Seleccione</option>@foreach ($temaIntervencion as $tema)<option value="{{ $tema->id }}">{{ $tema->nombre }}</option>@endforeach</select><div class="temaCual'+click+'" style="display: none;"><label for="">Cual?</label><input type="text" class="form-control  temaCualInput'+click+'" name="temaOtro[]"><br></div></div><div class="form-group datosIntervencion'+click+'" style="display: none;"><div class="form-group"><label for="">Nombre de contacto:</label><input type="text" class="form-control" name="nombreContacto[]" required></div><div class="form-group"><label for="">Teléfono de contacto:</label><input type="text" class="form-control" name="telefonoContacto[]" required pattern="[\+]{0,1}[0-9]+"></div><div class="form-group"><label for="">Descripción de la intervención:</label><textarea class="form-control" name="descripcionIntervencion[]" required></textarea></div></div></div>';
 
                 var divIntervenciones = document.getElementById('intervenciones');
                 divIntervenciones.insertAdjacentHTML('beforeend', divClickIntervencion);
@@ -1768,7 +1773,6 @@
 			
     <script src="/js/formularioG.js" type="text/javascript" charset="utf-8" async defer></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
 
 </body>
 </html>

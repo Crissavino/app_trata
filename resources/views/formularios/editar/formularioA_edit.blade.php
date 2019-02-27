@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
     <link rel="stylesheet" href="/css/app.css">
+    @include('partials.head')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>Eje A: Datos institucionales</title>
     <style>
@@ -245,7 +246,10 @@
                             @foreach ($datosEstadoCaso as $estadocaso)
                                 @php
                                     $selected = ($estadocaso->id == $aFormulario->estadocaso_id) ? 'selected' : '';
-                                
+                                    if ($estadocaso->id == $aFormulario->estadocaso_id) {
+                                        $estado_actual_id_original = $estadocaso->id;
+                                    }
+                                    
 
 @endphp
                                 <option value="{{ $estadocaso->id }}" {{ $selected }}>{{$estadocaso->nombre}}</option>
@@ -256,7 +260,9 @@
                             @foreach ($datosEstadoCaso as $estadocaso)
                                 @php
                                     $selected = ($estadocaso->id == $aFormulario->estadocaso_id) ? 'selected' : '';
-                                
+                                    if ($estadocaso->id == $aFormulario->estadocaso_id) {
+                                        $estado_actual_id_original = $estadocaso->id;
+                                    }
 
 @endphp
                                 <option value="{{ $estadocaso->id }}" {{ $selected }}>{{$estadocaso->nombre}}</option>
@@ -264,7 +270,7 @@
                         </select> @endif {!! $errors->first('estadocaso_id', '
                 <p class="help-block" style="color:red" ;>:message</p>') !!}
             </div>
-
+            @if ($estado_actual_id_original == 3)
             @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
             <div class="form-group divMotivoCierre" style="display: none;">
                 <label for="">A 5 I. Motivo de cierre</label>
@@ -293,7 +299,21 @@
                             @endforeach
                         </select>
             </div>
-            @endif {{-- FIN QUINTA PREGUNTA --}} {{-- INICIO SEXTA PREGUNTA --}} @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta
+            @endif 
+                
+            @else
+            <div class="form-group divMotivoCierre" style="display: none;" {{ $errors->has('motivocierre_id') ? 'has-error' : ''}}>
+                    <label for="">A 5 I. Motivo de cierre</label>
+                    <select class="form-control selectMotivoCierre" name="motivocierre_id" id="motivocierre_id">
+                        <option value="" disabled selected>Seleccione el Motivo</option>
+                        @foreach ($datosMotivoCierre as $motivoCierre)
+                            <option value="{{ $motivoCierre->id }}">{{ $motivoCierre->nombre }}</option>
+                        @endforeach
+                    </select>
+                    {!! $errors->first('motivocierre_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+                </div>
+            @endif
+{{-- FIN QUINTA PREGUNTA --}} {{-- INICIO SEXTA PREGUNTA --}} @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta
             == auth()->user()->id)
             <div class="form-group" {{ $errors->has('ambito_id') ? 'has-error' : ''}}>
                 <label for="">A 6. Ámbito de competencia</label>
@@ -446,77 +466,79 @@
                 <p class="help-block" style="color:red" ;>:message</p>') !!}
             </div>
             {{-- FIN OCTAVA PREGUNTA --}} {{-- INICIO PROFESIONALES CARGADOS --}}
-            <h3>Profesionales cargados anteriormente:</h3>
-            @php 
-                $i =0;
-            @endphp
-            @foreach ($todo as $todosLosDatos) 
 
-            {{-- @dd($todo) --}}
-                <div class="form-group">
-                    <label for="profesional_id">A 9.1 Nombre/Equipo/Profesión:</label>
-                    @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                        <select class="form-control profesional_id'+clicks+'" name="profesional_id[]" id="profesional_id">
-                            <option value="{{ $todosLosDatos->profesional_id }}">{{ $todosLosDatos->nombre_apellido_equipo }} - {{ $todosLosDatos->profesion }}</option>                            
-                    @foreach ($datosProfesional as $profesional)
-                        <option value="{{ $profesional->getId() }}">{{ $profesional->getNombreCompletoyProfesion() }} - {{ $profesional->profesion }}</option>
-                    @endforeach
-                        </select>{!! $errors->first("profesional_id.*", '<p class="help-block" style="color:red" ;>:message</p>') !!} 
-                        @else
-                        <select disabled class="form-control">
-                            <option value="{{ $todosLosDatos->profesional_id }}">{{ $todosLosDatos->nombre_apellido_equipo }} - {{ $todosLosDatos->profesion }}</option>
-                        </select>
-                    @endif {!! $errors->first('profesional_id','<p class="help-block" style="color:red" ;>:message</p>') !!}
-                </div>
-                <div class="form-group">
-                    <label for="datos_profesional_interviene_desde">A 9.2 Interviene desde:</label> @if (auth()->user()->isAdmin
-                    !== 2 && $usuarioCarpeta == auth()->user()->id)
-                    <input type="date" class="form-control" value="{{ Carbon\Carbon::parse($todosLosDatos->datos_profesional_interviene_desde)->format('Y-m-d')}}"
-                        name="datos_profesional_interviene_desde[]"> @else
-                    <input readonly type="date" class="form-control" value="{{ Carbon\Carbon::parse($todosLosDatos->datos_profesional_interviene_desde)->format('Y-m-d')}}">                @endif {!! $errors->first('datos_profesional_interviene_desde','
-                    <p class="help-block" style="color:red" ;>:message</p>') !!}
-                </div>
-{{-- actualmente interviene --}}
-
-{{-- @dump($todosLosDatos) --}}
-                <div class="form-group" >
-                    <label for="profesionalactualmente_id">A 9.3 Actualmente Interviene:</label> 
-                    @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                        <select class="form-control actualmente<?=$i?>" name="profesionalactualmente_id[]" id="profesionalactualmente_id[]" onChange="changeVal(<?=$i?>)">
-                            <option value="{{ $todosLosDatos->profesionalactualmente_id }}">{{ $todosLosDatos->nombre }}</option>
-                            @foreach ($datosIntervieneActualmente as $profesionalInterviene)
-                                <option value="{{ $profesionalInterviene->getId() }}">{{ $profesionalInterviene->getNombre() }}</option>
+            <div class="profesionalesAnteriores" name="profesionalesAnteriores">
+                @php $i = 1; @endphp
+                <input type="text" name="idsEliminados" id="idsEliminados" value="" style="display: none;">
+                @foreach($profesionalIntervinientes as $profesional)
+                    <div class="profesional{{ $profesional->id }}">
+                        <h5><?php echo $i?>° Profesional cargado<a onclick="borrarProfesional({{ $profesional->id }})" class="btn float-right" class="borrarProfesional"><i class="far fa-trash-alt fa-2x" style="color: red;"></i></a></h5>
+                        <div class="form-group">
+                            <label for="profesional_id">A 9.1 Nombre/Equipo/Profesión:</label>
+                            @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
+                                <select class="form-control profesional_id'+clicks+'" name="profesional_id_viejo[]" id="profesional_id">
+                            @foreach ($datosProfesional as $profesionalTabla)
+                                @php
+                                    $selected = ($profesionalTabla->id == $profesional->profesional_id) ? 'selected' : '';
+                                @endphp
+                                <option value="{{ $profesionalTabla->getId() }}"{{$selected}}>{{ $profesionalTabla->getNombreCompletoyProfesion() }} - {{ $profesionalTabla->profesion }}</option>
                             @endforeach
-                        </select>
-                    @else
-                        <select disabled class="form-control">
-                            <option value="{{ $todosLosDatos->profesionalactualmente_id }}">{{ $todosLosDatos->nombre }}</option>
-                        </select>
-                    @endif
-                        {!!$errors->first("profesionalactualmente_id.*", '<p class="help-block" style="color:red" ;>:message</p>') !!}
-                </div>
-                {{-- @dd($todo) --}}
-        {{-- interviene hasta  --}}
+                                </select>{!! $errors->first("profesional_id.*", '<p class="help-block" style="color:red" ;>:message</p>') !!} 
+                                @else
+                                <select disabled class="form-control">
+                                    <option value="{{ $profesional->profesional_id }}">{{ $profesional->nombre_apellido_equipo }} - {{ $profesional->profesion }}</option>
+                                </select>
+                            @endif {!! $errors->first('profesional_id','<p class="help-block" style="color:red" ;>:message</p>') !!}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="datos_profesional_interviene_desde">A 9.2 Interviene desde:</label> @if (auth()->user()->isAdmin
+                            !== 2 && $usuarioCarpeta == auth()->user()->id)
+                            <input type="date" class="form-control" value="{{ Carbon\Carbon::parse($profesional->datos_profesional_interviene_desde)->format('Y-m-d')}}"
+                                name="datos_profesional_interviene_desde_viejo[]"> @else
+                            <input readonly type="date" class="form-control" value="{{ Carbon\Carbon::parse($profesional->datos_profesional_interviene_desde)->format('Y-m-d')}}">                @endif {!! $errors->first('datos_profesional_interviene_desde','
+                            <p class="help-block" style="color:red" ;>:message</p>') !!}
+                        </div>
+
+                        <div class="form-group" >
+                            <label for="profesionalactualmente_id">A 9.3 Actualmente Interviene:</label> 
+                            @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
+                                <select class="form-control actualmente<?=$i?>" name="profesionalactualmente_id_viejo[]" id="profesionalactualmente_id[]" onChange="changeVal(<?=$i?>)">
+                                    <option value="{{ $profesional->profesionalactualmente_id }}">{{ $profesional->nombre }}</option>
+                                    @foreach ($datosIntervieneActualmente as $profesionalInterviene)
+                                        @php
+                                            $selected = ($profesionalInterviene->id == $profesional->profesionalactualmente_id) ? 'selected' : '';
+                                        @endphp
+                                        <option value="{{ $profesionalInterviene->getId() }}"{{$selected}}>{{ $profesionalInterviene->getNombre() }}</option>
+                                    @endforeach
+                                </select>
+                            @else
+                                <select disabled class="form-control">
+                                    <option value="{{ $profesional->profesionalactualmente_id }}">{{ $profesional->nombre }}</option>
+                                </select>
+                            @endif
+                                {!!$errors->first("profesionalactualmente_id.*", '<p class="help-block" style="color:red" ;>:message</p>') !!}
+                        </div>
+
+                        @if($profesional->profesionalactualmente_id == 2)               
+                            <div style="display: block;" class="form-group mostrarFinal<?=$i?>" name="intervieneHasta">
+                        @elseif($profesional->profesionalactualmente_id == 1)
+                            <div style="display: none;" class="form-group mostrarFinal<?=$i?>" name="intervieneHasta">
+                        @endif                    
+                            <label for="datos_profesional_interviene_hasta">A 9.4 Interviene hasta:</label> 
+                            @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
+                            <input type="date" class="form-control" value="{{ Carbon\Carbon::parse($profesional->datos_profesional_interviene_hasta)->format('Y-m-d') }}"
+                                name="datos_profesional_interviene_hasta_viejo[]"> @else
+                            <input readonly type="date" class="form-control" value="{{ Carbon\Carbon::parse($profesional->datos_profesional_interviene_hasta)->format('Y-m-d') }}">           
+                                @endif {!! $errors->first('profesionalactualmente_id','<p class="help-block" style="color:red" ;>:message</p>') !!}
+                            </div>             
+                        @php $i = $i + 1; @endphp
+                    </div>
+                @endforeach
         
-            @if($todosLosDatos->profesionalactualmente_id == 2)               
-                <div style="display: block;" class="form-group mostrarFinal<?=$i?>" name="intervieneHasta">
-            @elseif($todosLosDatos->profesionalactualmente_id == 1)
-                <div style="display: none;" class="form-group mostrarFinal<?=$i?>" name="intervieneHasta">
-            @endif                    
-                <label for="datos_profesional_interviene_hasta">A 9.4 Interviene hasta:</label> 
-                @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
-                <input type="date" class="form-control" value="{{ Carbon\Carbon::parse($todosLosDatos->datos_profesional_interviene_hasta)->format('Y-m-d') }}"
-                    name="datos_profesional_interviene_hasta[]"> @else
-                <input readonly type="date" class="form-control" value="{{ Carbon\Carbon::parse($todosLosDatos->datos_profesional_interviene_hasta)->format('Y-m-d') }}">           
-                     @endif {!! $errors->first('profesionalactualmente_id','<p class="help-block" style="color:red" ;>:message</p>') !!}
-            </div>             
-            @php $i = $i + 1; 
-            @endphp    
-            
-            <hr style="border: 2px solid grey">       
-            @endforeach 
             {{-- FIN PROFESIONALES CARGADOS --}}
-             {{-- INICIO AGREGAR PROFESIONAL PREGUNTA --}}
+            
+            {{-- INICIO AGREGAR PROFESIONAL PREGUNTA --}}
             <div class="padre"></div>
             @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
             <button id="anadir" class="btn btn-outline-primary col-xl anadirProfesional" type="button"> Agregar profesional </button><br><br>
@@ -543,7 +565,7 @@
                     clicks++
 
             var divClickProfesional = 
-                    '<div class="hijo"><h3>A 9. Profesional Interviniente:</h3><div class="form-group" {{ $errors->has("profesional_id[]") ? "has-error" : ""}}><label for="profesional_id">A 9.1 Nombre/Equipo/Profesión: </label><select class="form-control profesional_id'+clicks+'" name="profesional_id[]" id="profesional_id" required><option value="" disabled selected>Seleccione</option>@foreach ($datosProfesional as $profesional)<option value="{{ $profesional->getId() }}">{{ $profesional->getNombreCompletoyProfesion() }} - {{ $profesional->profesion }}</option>@endforeach</select>{!! $errors->first("profesional_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="mostrarInicio form-group" {{ $errors->has("datos_profesional_interviene_desde[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_desde">A 9.2 Interviene desde:</label><input type="date" class="form-control desde'+clicks+'" name="datos_profesional_interviene_desde[]" id="datos_profesional_interviene_desde" value="" required date>{!! $errors->first("datos_profesional_interviene_desde.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group" {{ $errors->has("profesionalactualmente_id[]") ? "has-error" : ""}}><label for="profesionalactualmente_id">A 9.3 Actualmente Interviene:</label><select class="form-control actualmente'+clicks+'" name="profesionalactualmente_id[]" id="profesionalactualmente_id[]" ><option value="1" selected="selected">Si</option></select>{!! $errors->first("profesionalactualmente_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div>';
+                    '<div class="hijo" name="profesionalDinamico"><h3>A 9. Profesional Interviniente:</h3><div class="form-group" {{ $errors->has("profesional_id[]") ? "has-error" : ""}}><label for="profesional_id">A 9.1 Nombre/Equipo/Profesión: </label><select class="form-control profesional_id'+clicks+'" name="profesional_id[]" id="profesional_id" required><option value="" disabled selected>Seleccione</option>@foreach ($datosProfesional as $profesional)<option value="{{ $profesional->getId() }}">{{ $profesional->getNombreCompletoyProfesion() }} - {{ $profesional->profesion }}</option>@endforeach</select>{!! $errors->first("profesional_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="mostrarInicio form-group" {{ $errors->has("datos_profesional_interviene_desde[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_desde">A 9.2 Interviene desde:</label><input type="date" class="form-control desde'+clicks+'" name="datos_profesional_interviene_desde[]" id="datos_profesional_interviene_desde" value="" required date>{!! $errors->first("datos_profesional_interviene_desde.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group" {{ $errors->has("profesionalactualmente_id[]") ? "has-error" : ""}} style="display:none"><label for="profesionalactualmente_id">A 9.3 Actualmente Interviene:</label><select class="form-control actualmente'+clicks+'" name="profesionalactualmente_id[]" id="profesionalactualmente_id[]" ><option value="1" selected="selected">Si</option></select>{!! $errors->first("profesionalactualmente_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div>';
 
             var divProfesionales = document.querySelector('.padre');
             divProfesionales.insertAdjacentHTML('beforeend', divClickProfesional);
@@ -590,6 +612,10 @@
                     }else{
                         finalN.style.display = 'none';
                     }
+            }
+            function ocultar(e){
+                var divOculto = document.querySelector('.' + e); 
+                divOculto.style.display = 'none';
             }
                         
     </script>

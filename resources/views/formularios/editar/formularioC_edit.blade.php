@@ -237,7 +237,7 @@
                         @foreach ($referentes as $referente)
                             {{-- @dd($referentes) --}}
                             <div class="referenteAnterior{{ $referente->id }}"  name="referenteAnterior{{ $referente->id }}">
-                                <h3><?php echo $i?>° Referente</h3>
+                                <h3><?php echo $i?>° Profesional</h3>
 
 
                                 <div class="form-group" {{ $errors->has('nombre_apellido_viejo[]') ? 'has-error' : ''}}>

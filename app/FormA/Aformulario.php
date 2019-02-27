@@ -10,7 +10,8 @@ class Aformulario extends Model
 {
 	use SoftDeletes;
 	
-    protected $fillable = ['datos_nombre_referencia',
+    protected $fillable = [	'id',
+							'datos_nombre_referencia',
 							'datos_numero_carpeta',
 							'datos_fecha_ingreso',
 							'modalidad_id',

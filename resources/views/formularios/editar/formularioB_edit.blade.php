@@ -345,7 +345,7 @@
                     @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
                     <div {{ $errors->has('paisNacimiento') ? 'has-error' : ''}}>
                         <label for="countryId">B 7. País de Nacimiento: </label>
-                        <input readonly type="text" value="{{ $Bformulario->paisNacimiento }}" class="form-control mb-2" name="">
+                        <input readonly type="text" value="{{ $Bformulario->paisNacimiento }}" class="form-control mb-2 paisNacimiento_viejo" name="" style="display: none;">
                         <select name="paisNacimiento"  class="countries order-alpha form-control" id="countryId">
                             <option value="">Seleccioná pais de nacimiento</option>
                         </select>
@@ -357,7 +357,7 @@
 
                     <div {{ $errors->has('provinciaNacimiento') ? 'has-error' : ''}}>
                         <label for="stateId">B 8. Provincia de nacimiento: </label>
-                        <input readonly type="text" value="{{ $Bformulario->provinciaNacimiento }}" class="form-control mb-2" name="">
+                        <input readonly type="text" value="{{ $Bformulario->provinciaNacimiento }}" class="form-control mb-2 provinciaNacimiento_viejo" name="" style="display: none;">
                         <select name="provinciaNacimiento"  class="states order-alpha form-control" id="stateId">
                             <option value="">Seleccioná provincia de nacimiento</option>
                         </select>
@@ -369,7 +369,7 @@
 
                     <div {{ $errors->has('ciudadNacimiento') ? 'has-error' : ''}}>
                         <label for="cityId">B 9. Localidad de nacimiento: </label>
-                        <input readonly type="text" value="{{ $Bformulario->ciudadNacimiento }}" class="form-control mb-2" name="">
+                        <input readonly type="text" value="{{ $Bformulario->ciudadNacimiento }}" class="form-control mb-2 ciudadNacimiento_viejo" name="" style="display: none;">
                         <select name="ciudadNacimiento"  class="cities order-alpha form-control" id="cityId">
                             <option value="">Seleccioná ciudad de nacimiento</option>
                         </select>

@@ -818,8 +818,9 @@
         @endif
     	
     </section>
-	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"  type="text/javascript"></script>
-    <script src="/js/formularioF_edit.js" type="text/javascript" charset="utf-8" async defer></script>
+	{{-- <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"  type="text/javascript"></script> --}}
+    <script src="/js/jqueryValidate.js" type="text/javascript" charset="utf-8" async defer></script>
+    <script src="/js/formularioF.js" type="text/javascript" charset="utf-8" async defer></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 </body>

@@ -494,7 +494,7 @@ window.onload =function (){
                 alert("Debe agregar al menos una descripción");
             }
             else{
-                var divCual = document.getElementById('orgProgMunicipalesActualmente');
+                var divCual = document.getElementById('container_orgProgMunicipalesActualmente');
                 divCual.removeChild(divCual.lastChild)
                 numberIncr_orgProgMunicipalesActualmente--;
                 alert('Se borro una entrada')
@@ -537,12 +537,12 @@ $("#formularioF").validate({ //se definen las opciones de validaciÃ³n para el 
 		intervinieronOrganismos_id: {
 				   required:true
 			   },
-		'asistencia_id[]': {
+		/*'asistencia_id[]': {
 			required:true
-		},
-		"orgjudicials_id[]": {
+		},*/
+		/*"orgjudicials_id[]": {
 			required:true
-		}, 
+		}, */
 		"orgprognacionals_id[]": {
 			required:true
 		},
@@ -564,18 +564,18 @@ $("#formularioF").validate({ //se definen las opciones de validaciÃ³n para el 
         'orgProgMunicipales_viejo[]' : {
 			required:true
 		}, 
-		"policias_id[]": {
+	/*	"policias_id[]": {
 			required:true
-        }, 
+        }, */
         "orgSocCivil_viejo[]": {
 			required:true
 		}, 
 		"orgSocCivil[]": {
 			required:true
 		}, 
-		"asistencia_id[]": {
+	/*	"asistencia_id[]": {
 			required:true
-		},
+		},*/
 		"socioeconomic_id[]": {
 			required:true
 		},
@@ -585,9 +585,9 @@ $("#formularioF").validate({ //se definen las opciones de validaciÃ³n para el 
 		intervinieronOrganismosActualmente_id: {
 			required:true
 		},
-		'orgjudicialactualmentes_id[]': {
+		/*'orgjudicialactualmentes_id[]': {
 			required:true
-		},
+		},*/
 		"orgprognacionalactualmente_id[]": {
 			required:true
 		},
@@ -606,9 +606,9 @@ $("#formularioF").validate({ //se definen las opciones de validaciÃ³n para el 
         "orgProgMunicipalesActualmente_viejo[]": {
 			required:true
 		},
-		"policiaactualmentes_id[]": {
+	/*	"policiaactualmentes_id[]": {
 			required:true
-		},
+		},*/
 		"orgSocCivilActualmente[]": {
 			required:true
         },
@@ -621,12 +621,12 @@ $("#formularioF").validate({ //se definen las opciones de validaciÃ³n para el 
 		intervinieronOrganismos_id:{
 			   required:"Este campo es obligatorio",
 		   },
-		   'asistencia_id[]': {
+		/*   'asistencia_id[]': {
 			required:"Seleccione alguna de las opciones",
-		},
-		"orgjudicials_id[]": {
+		},*/
+	/*	"orgjudicials_id[]": {
 			required:"Seleccione alguna de las opciones",
-		},
+		},*/
 		"orgprognacionals_id[]": {
 			required:"Seleccione alguna de las opciones",
 		},  
@@ -649,18 +649,18 @@ $("#formularioF").validate({ //se definen las opciones de validaciÃ³n para el 
         'orgProgMunicipales_viejo[]' : {
 			required:"Este campo es obligatorio",
 		},
-		"policias_id[]": {
+	/*	"policias_id[]": {
 			required:"Seleccione alguna de las opciones",
-        }, 
+        }, */
         "orgSocCivil_viejo[]": {
 			required:"Este campo es obligatorio",
 		}, 
 		"orgSocCivil[]": {
 			required:"Este campo es obligatorio",
 		}, 
-		"asistencia_id[]": {
+	/*	"asistencia_id[]": {
 			required:"Seleccione alguna de las opciones",
-		}, 
+		}, */
 		"socioeconomic_id[]": {
 			required:"Seleccione alguna de las opciones",
 		}, 
@@ -670,9 +670,9 @@ $("#formularioF").validate({ //se definen las opciones de validaciÃ³n para el 
 		intervinieronOrganismosActualmente_id: {
 			required:"Este campo es obligatorio",
 		},
-		'orgjudicialactualmentes_id[]': {
+	/*	'orgjudicialactualmentes_id[]': {
 			required:"Seleccione alguna de las opciones",
-		},
+		},*/
 		"orgprognacionalactualmente_id[]": {
 			required:"Seleccione alguna de las opciones",
 		},
@@ -691,9 +691,9 @@ $("#formularioF").validate({ //se definen las opciones de validaciÃ³n para el 
         "orgProgMunicipalesActualmente_viejo[]": {
 			required:"Este campo es obligatorio",
 		},
-		"policiaactualmentes_id[]": {
+	/*	"policiaactualmentes_id[]": {
 			required:"Seleccione alguna de las opciones",
-		},
+		},*/
 		"orgSocCivilActualmente[]": {
 			required:"Este campo es obligatorio",
         },
