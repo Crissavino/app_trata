@@ -795,30 +795,33 @@ class FormsController extends Controller
 
 	}
 	
-	public function destroyA($id)
+	public function destroyA($idCarpeta)
 	{
 		$fecha_hoy = Carbon::now();
-		$carpeta = \App\Carpetas\Numerocarpeta::find($id);
+		$carpeta = \App\Carpetas\Numerocarpeta::find($idCarpeta);
 		// $aFormulario = \App\FormA\Aformulario::find($id);
-		$carpetaFormA = \App\Carpetas\Numerocarpeta::where('aformulario_id', '=', $id);
-		// dd($carpeta->bformulario);
+		// $carpetaFormA = \App\Carpetas\Numerocarpeta::where('aformulario_id', '=', $idCarpeta);
+		// dd($carpetaFormA);
 		
+		if ($carpeta->aformulario !== null) {
+			$carpeta->aformulario()->delete();
+		}
 		if ($carpeta->bformulario !== null) {
 			$carpeta->bformulario()->delete();
-			}
-			if($carpeta->cformulario !== null){
-				$carpeta->cformulario()->delete();
-			}
-			if($carpeta->dformulario !== null){
-				$carpeta->dformulario()->delete();
-			}
-			if($carpeta->fformulario !== null){				
-				$carpeta->fformulario()->delete();
-			}
-			if($carpeta->gformulario !== null){
-				$carpeta->gformulario()->delete();
-			}
-			$carpetaFormA->update([ 'deleted_at' => $fecha_hoy]);
+		}
+		if($carpeta->cformulario !== null){
+			$carpeta->cformulario()->delete();
+		}
+		if($carpeta->dformulario !== null){
+			$carpeta->dformulario()->delete();
+		}
+		if($carpeta->fformulario !== null){				
+			$carpeta->fformulario()->delete();
+		}
+		if($carpeta->gformulario !== null){
+			$carpeta->gformulario()->delete();
+		}
+		$carpeta->delete();
 
 			// $carpetaFormA->update([ 'deleted_at' => $fecha_hoy]);
 			// $carpeta->aformulario->update([ 'deleted_at' => $fecha_hoy]);
