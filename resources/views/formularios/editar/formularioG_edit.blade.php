@@ -654,7 +654,7 @@
             </form>
         @else
             <h1 class="text-center" style="padding: 15px;">
-                Eje G: Detalle de intervención
+                Eje F: Detalle de intervención
                 <h5 class=" mb-5" style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $formularioG->numeroCarpeta }}</h5>
             </h1>
             <form action="" method="POST" accept-charset="utf-8" enctype='multipart/form-data'>
@@ -1685,79 +1685,83 @@
 
             var click = 0;
 
-            btnAgregarIntervencion.addEventListener('click', function(){
-                click++
-                // divIntervencion.style.display = ''
-                console.log(click);
-                // var divClick = '<div id="orgProgNacionalCual'+click+'" class="form-group orgProgNacionalCual'+click+'">';
+            if (btnAgregarIntervencion) {
+                btnAgregarIntervencion.addEventListener('click', function(){
+                    click++
+                    // divIntervencion.style.display = ''
+                    console.log(click);
+                    // var divClick = '<div id="orgProgNacionalCual'+click+'" class="form-group orgProgNacionalCual'+click+'">';
 
-                var divClickIntervencion = '<div id="intervencion'+click+'" class="form-group intervencion'+click+'""><h3>Nueva intervención</h3><div class="form-group"><label for="" class="">Fecha</label><input type="date" class="form-control fechaInput'+click+'" name="fechaIntervencion[]" required></div><div class="form-group"><label for="" class="">Tema</label><select class="form-control temaSelect'+click+'" name="temaIntervencion_id[]" required><option value="" disabled selected>Seleccione</option>@foreach ($temaIntervencion as $tema)<option value="{{ $tema->id }}">{{ $tema->nombre }}</option>@endforeach</select><div class="temaCual'+click+'" style="display: none;"><label for="">Cual?</label><input type="text" class="form-control  temaCualInput'+click+'" name="temaOtro[]"><br></div></div><div class="form-group datosIntervencion'+click+'" style="display: none;"><div class="form-group"><label for="">Nombre de contacto:</label><input type="text" class="form-control" name="nombreContacto[]" required></div><div class="form-group"><label for="">Teléfono de contacto:</label><input type="text" class="form-control" name="telefonoContacto[]" required pattern="[\+]{0,1}[0-9]+"></div><div class="form-group"><label for="">Descripción de la intervención:</label><textarea class="form-control" name="descripcionIntervencion[]" required></textarea></div></div></div>';
+                    var divClickIntervencion = '<div id="intervencion'+click+'" class="form-group intervencion'+click+'""><h3>Nueva intervención</h3><div class="form-group"><label for="" class="">Fecha</label><input type="date" class="form-control fechaInput'+click+'" name="fechaIntervencion[]" required></div><div class="form-group"><label for="" class="">Tema</label><select class="form-control temaSelect'+click+'" name="temaIntervencion_id[]" required><option value="" disabled selected>Seleccione</option>@foreach ($temaIntervencion as $tema)<option value="{{ $tema->id }}">{{ $tema->nombre }}</option>@endforeach</select><div class="temaCual'+click+'" style="display: none;"><label for="">Cual?</label><input type="text" class="form-control  temaCualInput'+click+'" name="temaOtro[]"><br></div></div><div class="form-group datosIntervencion'+click+'" style="display: none;"><div class="form-group"><label for="">Nombre de contacto:</label><input type="text" class="form-control" name="nombreContacto[]" required></div><div class="form-group"><label for="">Teléfono de contacto:</label><input type="text" class="form-control" name="telefonoContacto[]" required pattern="[\+]{0,1}[0-9]+"></div><div class="form-group"><label for="">Descripción de la intervención:</label><textarea class="form-control" name="descripcionIntervencion[]" required></textarea></div></div></div>';
 
-                var divIntervenciones = document.getElementById('intervenciones');
-                divIntervenciones.insertAdjacentHTML('beforeend', divClickIntervencion);
+                    var divIntervenciones = document.getElementById('intervenciones');
+                    divIntervenciones.insertAdjacentHTML('beforeend', divClickIntervencion);
 
-                //le agrego las funcionalidades para cada caso
-                    var fechaInput = document.querySelector('.fechaInput'+click);
-                    var temaSelect = document.querySelector('.temaSelect'+click);
-                    var temaCual = document.querySelector('.temaCual'+click);
-                    var temaCualInput = document.querySelector('.temaCualInput'+click);
-                    var datosIntervencion = document.querySelector('.datosIntervencion'+click);
-                    // console.log(fechaInput, temaSelect, datosIntervencion);
+                    //le agrego las funcionalidades para cada caso
+                        var fechaInput = document.querySelector('.fechaInput'+click);
+                        var temaSelect = document.querySelector('.temaSelect'+click);
+                        var temaCual = document.querySelector('.temaCual'+click);
+                        var temaCualInput = document.querySelector('.temaCualInput'+click);
+                        var datosIntervencion = document.querySelector('.datosIntervencion'+click);
+                        // console.log(fechaInput, temaSelect, datosIntervencion);
 
-                    fechaInput.addEventListener('change', function(){
-                        if (temaSelect.value !== '') {
-                            datosIntervencion.style.display = '';
-                        }else{
-                            datosIntervencion.style.display = 'none';
-                        }
-                        temaSelect.addEventListener('change', function(){
+                        fechaInput.addEventListener('change', function(){
                             if (temaSelect.value !== '') {
                                 datosIntervencion.style.display = '';
                             }else{
                                 datosIntervencion.style.display = 'none';
                             }
+                            temaSelect.addEventListener('change', function(){
+                                if (temaSelect.value !== '') {
+                                    datosIntervencion.style.display = '';
+                                }else{
+                                    datosIntervencion.style.display = 'none';
+                                }
+                            });
                         });
-                    });
 
-                    temaSelect.addEventListener('change', function(){
-                        if (fechaInput.value !== '') {
-                            datosIntervencion.style.display = '';
-                        }else{
-                            datosIntervencion.style.display = 'none';
-                        }
-                        fechaInput.addEventListener('change', function(){
+                        temaSelect.addEventListener('change', function(){
                             if (fechaInput.value !== '') {
                                 datosIntervencion.style.display = '';
                             }else{
                                 datosIntervencion.style.display = 'none';
                             }
+                            fechaInput.addEventListener('change', function(){
+                                if (fechaInput.value !== '') {
+                                    datosIntervencion.style.display = '';
+                                }else{
+                                    datosIntervencion.style.display = 'none';
+                                }
+                            });
+                            if (temaSelect.value === '9') {
+                                temaCual.style.display = '';
+                                temaCual.getElementsByTagName("input")[0].setAttribute("required","true");
+                            }else{
+                                temaCual.style.display = 'none';
+                                temaCualInput.value = '';
+                                temaCual.getElementsByTagName("input")[0].removeAttribute("required");
+                            }
                         });
-                        if (temaSelect.value === '9') {
-                            temaCual.style.display = '';
-                            temaCual.getElementsByTagName("input")[0].setAttribute("required","true");
-                        }else{
-                            temaCual.style.display = 'none';
-                            temaCualInput.value = '';
-                            temaCual.getElementsByTagName("input")[0].removeAttribute("required");
-                        }
-                    });
-                //fin funcionalidades
-            });
-
+                    //fin funcionalidades
+                });
+            }
 
             ///controla el combo del primeri intervinente que viene cargado.
             temaSelectInput=document.getElementById("temaSelectInput");
-            temaSelectInput.addEventListener('change', function(){
-                temaCualInput=document.getElementById("temaCualInputx").getElementsByTagName("input")[0];   
-                if (temaSelectInput.value === '9') {
-                   $("#temaCualInputx").show();
-                    temaCualInput.setAttribute("required","true");
-                        }else{
-                            $("#temaCualInputx").hide();
-                            temaCualInput.value = '';
-                            temaCualInput.removeAttribute("required");
-                        }
-            });
+            if (temaSelectInput) {
+                temaSelectInput.addEventListener('change', function(){
+                    temaCualInput=document.getElementById("temaCualInputx").getElementsByTagName("input")[0];   
+                    if (temaSelectInput.value === '9') {
+                    $("#temaCualInputx").show();
+                        temaCualInput.setAttribute("required","true");
+                            }else{
+                                $("#temaCualInputx").hide();
+                                temaCualInput.value = '';
+                                temaCualInput.removeAttribute("required");
+                            }
+                });
+            }
+
             
 
 

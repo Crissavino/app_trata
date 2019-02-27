@@ -14,10 +14,14 @@ function borrarIntervencionAnterior(id) {
 //borrar intervencion
 var btnBorrarIntervencion = document.querySelector('.borrarIntervencion');
 
-btnBorrarIntervencion.addEventListener('click', function () {
-    var divIntervenciones = document.getElementById('intervenciones');
-    divIntervenciones.removeChild(divIntervenciones.lastChild)
-});
+if (btnBorrarIntervencion) {
+	btnBorrarIntervencion.addEventListener('click', function () {
+		var divIntervenciones = document.getElementById('intervenciones');
+		divIntervenciones.removeChild(divIntervenciones.lastChild)
+	});
+}
+
+
 //fin
 
 window.onload =function (){
@@ -31,45 +35,59 @@ window.onload =function (){
 	var docInternaLabel = document.querySelector('.docInterna');
 	var docInternaInput = document.querySelector('.docInterna-input');
 
-	docInternaInput.addEventListener('change', function(){
-		docInternaLabel.innerText = 'Estas agregando '+docInternaInput.files.length+' archivos';
-	});
+	if (docInternaInput) {
+		docInternaInput.addEventListener('change', function () {
+		    docInternaLabel.innerText = 'Estas agregando ' + docInternaInput.files.length + ' archivos';
+		});
+	}
+	
 	//fin documentacion interna
 
 	//documentacion externa
 	var docExternaLabel = document.querySelector('.docExterna');
 	var docExternaInput = document.querySelector('.docExterna-input');
 	
-	docExternaInput.addEventListener('change', function(){
-		docExternaLabel.innerText = 'Estas agregando '+docExternaInput.files.length+' archivos';
-	});
+	if (docExternaInput) {
+		docExternaInput.addEventListener('change', function () {
+		    docExternaLabel.innerText = 'Estas agregando ' + docExternaInput.files.length + ' archivos';
+		});
+	}
+	
 	//fin documentacion externa
 
 	//noticias Relacionadas
 	var notRelacionadasLabel = document.querySelector('.notRelacionadas');
 	var notRelacionadasInput = document.querySelector('.notRelacionadas-input');
 	
-	notRelacionadasInput.addEventListener('change', function(){
-		notRelacionadasLabel.innerText = 'Estas agregando '+notRelacionadasInput.files.length+' archivos';
-	});
+	if (notRelacionadasInput) {
+		notRelacionadasInput.addEventListener('change', function () {
+		    notRelacionadasLabel.innerText = 'Estas agregando ' + notRelacionadasInput.files.length + ' archivos';
+		});
+	}
+	
 	//fin noticias Relacionadas
 
 	//Plan de Intervención/Estrategias de abordaje
 	var intervencionEstrategiasLabel = document.querySelector('.intervencionEstrategias');
 	var intervencionEstrategiasInput = document.querySelector('.intervencionEstrategias-input');
 	
-	intervencionEstrategiasInput.addEventListener('change', function(){
-		intervencionEstrategiasLabel.innerText = 'Estas agregando '+intervencionEstrategiasInput.files.length+' archivos';
-	});
+	if (intervencionEstrategiasInput) {
+		intervencionEstrategiasInput.addEventListener('change', function () {
+		    intervencionEstrategiasLabel.innerText = 'Estas agregando ' + intervencionEstrategiasInput.files.length + ' archivos';
+		});
+	}
+	
 	//fin Plan de Intervención/Estrategias de abordaje
 
 	//Informe Socioambiental
 	var infoSocioambientalLabel = document.querySelector('.infoSocioambiental');
 	var infoSocioambientalInput = document.querySelector('.infoSocioambiental-input');
 	
-	infoSocioambientalInput.addEventListener('change', function(){
-		infoSocioambientalLabel.innerText = 'Estas agregando '+infoSocioambientalInput.files.length+' archivos';
-	});
+	if (infoSocioambientalInput) {
+		infoSocioambientalInput.addEventListener('change', function () {
+			infoSocioambientalLabel.innerText = 'Estas agregando ' + infoSocioambientalInput.files.length + ' archivos';
+		});
+	}
 	//fin Informe Socioambiental
 
 

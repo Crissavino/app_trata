@@ -37,9 +37,9 @@
         {{--
         <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
         <li class="nav-item cerrarSesion"> <a class="nav-link " href="/logout">Cerrar sesión</a> </li>
-        <li class="nav-item active"> <a class="nav-link active" href="/formularios/buscador">Buscador por número</a> </li>
-        <li class="nav-item"> <a class="nav-link" href="/formularios/buscadorNombre">Buscador por nombre</a> </li>
-        <li class="nav-item "> <a class="nav-link " href="/formularios/buscadorVictima">Buscador por victima</a> </li>
+        <li class="nav-item active"> <a class="nav-link active" href="/formularios/buscador">Buscador por carpeta</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="/formularios/buscadorNombre">Buscador por referencia</a> </li>
+        <li class="nav-item "> <a class="nav-link " href="/formularios/buscadorVictima">Buscador por víctima</a> </li>
     </ul>
 </header>
 
@@ -52,7 +52,7 @@
 
     <section class="container">
         <h1 class="text-center" style="padding: 15px;">
-            Buscador de formularios
+            Buscador por carpeta
         </h1>
 
         <form action="/formularios/buscador" class="navbar-form" method="get" accept-charset="utf-8">

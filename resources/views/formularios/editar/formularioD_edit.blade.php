@@ -256,7 +256,7 @@
 			 		<!-- {{-- PAISES --}} -->
 			 		{{-- ver como hacer para los casos en que se desconozca --}}
 			 			<label for="countryId">D 6. País de captación:</label>
-			 			<input readonly type="text" value="{{ $dFormulario->paisCaptacion }}" class="form-control mb-2" name="">
+			 			<input readonly type="text" value="{{ $dFormulario->paisCaptacion }}" class="form-control mb-2 paisCaptacion_viejo" style="display: none;" name="">
 				        <select name="paisCaptacion" class="countries order-alpha form-control" id="countryId" required title="Este campo es obligatorio" >
 						    <option value="" disabled selected>Seleccione</option>
 						</select>
@@ -265,7 +265,7 @@
 						<input type="checkbox" name="" id="desconocePaisCaptacion" value="Se desconoce"><br>
 
 						<label for="stateId">D 7. Provincia de captación:</label>
-						<input readonly type="text" value="{{ $dFormulario->provinciaCaptacion }}" class="form-control mb-2" name="" >
+						<input readonly type="text" value="{{ $dFormulario->provinciaCaptacion }}" class="form-control mb-2 provinciaCaptacion_viejo" style="display: none;"  name="" >
 				        <select name="provinciaCaptacion" class="states order-alpha form-control" id="stateId" required title="Este campo es obligatorio">
 				            <option value="" disabled selected>Seleccione</option>
 				        </select>
@@ -274,7 +274,7 @@
 						<input type="checkbox" name="" id="desconoceProvinciaCaptacion" value="Se desconoce"><br>
 
 				        <label for="cityId">D 8. Localidad de captación:</label>
-				        <input readonly type="text" value="{{ $dFormulario->ciudadCaptacion }}" class="form-control mb-2" name="">
+				        <input readonly type="text" value="{{ $dFormulario->ciudadCaptacion }}" class="form-control mb-2 ciudadCaptacion_viejo" style="display: none;" name="">
 				        <select name="ciudadCaptacion" class="cities order-alpha form-control" id="cityId" required title="Este campo es obligatorio">
 				            <option value="" disabled selected>Seleccione</option>
 				        </select>
@@ -342,7 +342,7 @@
 			 		{{-- ver como hacer para los casos en que se desconozca --}}
 
 			 			<label for="countryId2">D 11. País de explotación:</label>
-			 			<input readonly type="text" value="{{ $dFormulario->paisExplotacion }}" class="form-control mb-2" name="">
+			 			<input readonly type="text" value="{{ $dFormulario->paisExplotacion }}" class="form-control mb-2 paisExplotacion_viejo" style="display: none;" name="">
 				        <select name="paisExplotacion" class="countries2 order-alpha form-control" id="countryId2" required title="Este campo es obligatorio">
 				            <option value="" disabled selected>Seleccione</option>
 				        </select>
@@ -351,7 +351,7 @@
 						<input type="checkbox" name="" id="desconocePaisExplotacion" value="Se desconoce"><br>
 
 				        <label for="stateId2">D 12. Provincia de explotación:</label>
-				        <input readonly type="text" value="{{ $dFormulario->provinciaExplotacion }}" class="form-control mb-2" name="">
+				        <input readonly type="text" value="{{ $dFormulario->provinciaExplotacion }}" class="form-control mb-2 provinciaExplotacion_viejo" style="display: none;" name="">
 				        <select name="provinciaExplotacion" class="states2 order-alpha form-control" id="stateId2" required title="Este campo es obligatorio">
 				            <option value="" disabled selected>Seleccione</option>
 				        </select>
@@ -360,7 +360,7 @@
 						<input type="checkbox" name="" id="desconoceProvinciaExplotacion" value="Se desconoce"><br>
 
 				        <label for="cityId2">D 13. Localidad de explotación:</label>
-				        <input readonly type="text" value="{{ $dFormulario->ciudadExplotacion }}" class="form-control mb-2" name="">
+				        <input readonly type="text" value="{{ $dFormulario->ciudadExplotacion }}" class="form-control mb-2 ciudadExplotacion_viejo" style="display: none;" name="">
 				        <select name="ciudadExplotacion" class="cities2 order-alpha form-control" id="cityId2" required title="Este campo es obligatorio">
 				            <option value="" disabled selected>Seleccione</option>
 				        </select>

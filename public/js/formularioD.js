@@ -1,4 +1,63 @@
 //----------edicion--------
+
+	//select de pais/prov/ciud captacion
+		var selectPaisCaptacion = document.querySelector('.countries');
+		var selectProvinciaCaptacion = document.querySelector('.states');
+		var selectCiudadCaptacion = document.querySelector('.cities');
+
+		var paisCaptacionViejo = document.querySelector('.paisCaptacion_viejo');
+		var provinciaCaptacionViejo = document.querySelector('.provinciaCaptacion_viejo');
+		var ciudadCaptacionViejo = document.querySelector('.ciudadCaptacion_viejo');
+
+		var optionPaisCaptacionAnterior = document.createElement("option");
+		optionPaisCaptacionAnterior.id = "paisCaptacionViejo";
+		optionPaisCaptacionAnterior.text = paisCaptacionViejo.value;
+		selectPaisCaptacion.add(optionPaisCaptacionAnterior);
+
+		var optionProvinciaCaptacionAnterior = document.createElement("option");
+		optionProvinciaCaptacionAnterior.id = "provinciaCaptacionViejo";
+		optionProvinciaCaptacionAnterior.text = paisCaptacionViejo.value;
+		selectProvinciaCaptacion.add(optionProvinciaCaptacionAnterior);
+
+		var optionCiudadCaptacionAnterior = document.createElement("option");
+		optionCiudadCaptacionAnterior.id = "ciudadCaptacionViejo";
+		optionCiudadCaptacionAnterior.text = paisCaptacionViejo.value;
+		selectCiudadCaptacion.add(optionCiudadCaptacionAnterior);
+
+		optionPaisCaptacionAnterior.selected = true;
+		optionProvinciaCaptacionAnterior.selected = true;
+		optionCiudadCaptacionAnterior.selected = true;
+	//fin
+
+	//select de pais/prov/ciud explotacion
+		var selectPaisExplotacion = document.querySelector('.countries2');
+		var selectProvinciaExplotacion = document.querySelector('.states2');
+		var selectCiudadExplotacion = document.querySelector('.cities2');
+
+		var paisExplotacionViejo = document.querySelector('.paisExplotacion_viejo');
+		var provinciaExplotacionViejo = document.querySelector('.provinciaExplotacion_viejo');
+		var ciudadExplotacionViejo = document.querySelector('.ciudadExplotacion_viejo');
+
+		var optionPaisExplotacionAnterior = document.createElement("option");
+		optionPaisExplotacionAnterior.id = "paisExplotacionViejo";
+		optionPaisExplotacionAnterior.text = paisExplotacionViejo.value;
+		selectPaisExplotacion.add(optionPaisExplotacionAnterior);
+
+		var optionProvinciaExplotacionAnterior = document.createElement("option");
+		optionProvinciaExplotacionAnterior.id = "provinciaExplotacionViejo";
+		optionProvinciaExplotacionAnterior.text = paisExplotacionViejo.value;
+		selectProvinciaExplotacion.add(optionProvinciaExplotacionAnterior);
+
+		var optionCiudadExplotacionAnterior = document.createElement("option");
+		optionCiudadExplotacionAnterior.id = "ciudadExplotacionViejo";
+		optionCiudadExplotacionAnterior.text = paisExplotacionViejo.value;
+		selectCiudadExplotacion.add(optionCiudadExplotacionAnterior);
+
+		optionPaisExplotacionAnterior.selected = true;
+		optionProvinciaExplotacionAnterior.selected = true;
+		optionCiudadExplotacionAnterior.selected = true;
+	//fin
+
 	//pregunta 1
 
 		var calificacionGeneral = document.querySelector('.calificacionGeneral');
@@ -766,7 +825,7 @@ window.onload = function (){
 				});
 			}
 		});
-
+		
 	//pregunta 6
 		var paisCaptacion = document.querySelector('.countries');
 		var desconocePaisCaptacion = document.querySelector('#desconocePaisCaptacion');

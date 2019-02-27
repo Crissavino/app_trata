@@ -226,10 +226,11 @@ class FormsController extends Controller
 		$formsA = \App\FormA\Aformulario::orderBy('datos_numero_carpeta', 'DESC')
 			->select('numerocarpetas.id as numerocarpetasId','aformularios.*')
 			->join('numerocarpetas','numerocarpetas.numeroCarpeta','=','aformularios.datos_numero_carpeta')
+			->where('numerocarpetas.deleted_at', '=', null)
 			->nombreRef($nombreReferencia)
 			->numeroCausa($numeroCausa)
 			->paginate(5);
-
+		// dd($formsA);
 		return view('formularios.buscadorNombre', 
 										[
 											'userId' => $userId,
@@ -252,6 +253,7 @@ class FormsController extends Controller
 		$formsB = \App\FormB\Bformulario::orderBy('numeroCarpeta', 'DESC')
 			->select('numerocarpetas.id as numerocarpetasId','bformularios.*')
 			->join('numerocarpetas','numerocarpetas.numeroCarpeta','=','bformularios.numeroCarpeta')
+			->where('numerocarpetas.deleted_at', '=', null)
 			->nombApe($nombreApellido)
 			->DNI($dni)
 			->paginate(5);

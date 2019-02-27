@@ -17,30 +17,32 @@
 	}
 //fin pregunta 5
 
-// pregunta 7
+// pregunta 7 (le agrego la opcion seleccionada en la carga)
 	var paisNacimientoViejo = document.querySelector('.paisNacimiento_viejo');
 	var provinciaNacimientoViejo = document.querySelector('.provinciaNacimiento_viejo');
 	var ciudadNacimientoViejo = document.querySelector('.ciudadNacimiento_viejo');
-	var paisNacimiento = document.querySelector('.countries');
-	var provinciaNacimiento = document.querySelector('.states');
-	var ciudadNacimiento = document.querySelector('.cities');
+	var selectPaisNacimiento = document.querySelector('.countries');
+	var selectProvinciaNacimiento = document.querySelector('.states');
+	var selectCiudadNacimiento = document.querySelector('.cities');
 
-	// desconocePaisNacimiento.addEventListener('click', function () {
-		// if (this.checked) {
-			var optionPaisAnterior = document.createElement("option");
-			var optionProvinciaAnterior = document.createElement("option");
-			var optionCiudadAnterior = document.createElement("option");
-			optionPaisAnterior.text = paisNacimientoViejo.value;
-			optionProvinciaAnterior.text = provinciaNacimientoViejo.value;
-			optionCiudadAnterior.text = ciudadNacimientoViejo.value;
-			
-			paisNacimiento.add(optionPaisAnterior);
+		var optionPaisAnterior = document.createElement("option");
+		optionPaisAnterior.id = 'paisAnterior';
+		var optionProvinciaAnterior = document.createElement("option");
+		optionProvinciaAnterior.id = 'provinciaAnterior';
+		var optionCiudadAnterior = document.createElement("option");
+		optionCiudadAnterior.id = 'ciudadAnterior';
 
-			provinciaNacimiento.add(option2);
-
-			ciudadNacimiento.add(option3);
+		optionPaisAnterior.text = paisNacimientoViejo.value;
+		optionProvinciaAnterior.text = provinciaNacimientoViejo.value;
+		optionCiudadAnterior.text = ciudadNacimientoViejo.value;			
 		
-	});
+		selectPaisNacimiento.add(optionPaisAnterior);
+		selectProvinciaNacimiento.add(optionProvinciaAnterior);
+		selectCiudadNacimiento.add(optionCiudadAnterior);
+
+		optionPaisAnterior.selected = true;
+		optionProvinciaAnterior.selected = true;
+		optionCiudadAnterior.selected = true;
 // fin pregunta 7
 
 // pregunta 18

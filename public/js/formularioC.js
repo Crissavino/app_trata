@@ -1,28 +1,25 @@
 	var borrarConviviente = document.querySelector('.clickBorrar');
 
-	console.log(borrarConviviente);
-
-		console.log($("[name^=referentedinamico]"));
 	borrarConviviente.addEventListener('click', function(){
 		var divConvivientes = document.querySelector('.referentes');
 		
         divConvivientes.removeChild(divConvivientes.lastChild)
 		swal('Se borro un referente')
 		
-		// if($("[name^=referentedinamico]").length>0){
+		if ($("[name^=nombre_apellido_viejo]").length == 0 && $("[name^=nombre_apellido]").length == 0) {
 				
-		// 	var convivientes = document.querySelector('.referentes');
-		// 	convivientes.style.display = "";
-		// 	var btnAnadir = document.querySelector('.clickAnadir');
-		// 	var btnBorrar = document.querySelector('.clickBorrar');
-		// 	btnAnadir.removeAttribute('disabled', 'disabled');
-		// 	btnBorrar.removeAttribute('disabled', 'disabled');
-		// 	swal("Agregá al menos un referente");
-		// 	btnAnadir.click();
+			var convivientes = document.querySelector('.referentes');
+			convivientes.style.display = "";
+			var btnAnadir = document.querySelector('.clickAnadir');
+			var btnBorrar = document.querySelector('.clickBorrar');
+			btnAnadir.removeAttribute('disabled', 'disabled');
+			btnBorrar.removeAttribute('disabled', 'disabled');
+			swal("Agregá al menos un referente");
+			btnAnadir.click();
 
 
 
-		// }
+		}
 	});
 
 	// var btnBorrarIntervencion = document.querySelector('.borrarIntervencion');
@@ -74,7 +71,7 @@
 
 			$('.referenteAnterior'+id).remove();
 			
-			if($("[name^=referenteAnterior]").length==0){
+			if ($("[name^=nombre_apellido_viejo]").length == 0 && $("[name^=nombre_apellido]").length == 0) {
 				
 				var convivientes = document.querySelector('.referentes');
 				convivientes.style.display = "";
