@@ -66,7 +66,7 @@
 </header>
 <body>
         <section class="container">
-            @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
+            @if (auth()->user()->isAdmin !== 2)
                 <form class="" id="ejeC"  action="{{$cFormulario->id}}" method="post">
                     {{ csrf_field() }}
                     @method('PUT')
@@ -156,7 +156,7 @@
                                     inputNomApCheckN.addEventListener('click', function () {
                                         if (inputNomApCheckN.checked) {
                                             // console.log('hola');
-                                            inputNomApTextN.value = 'Se desconoce'
+                                            inputNomApTextN.value = 'SE DESCONOCE'
                                             inputNomApTextN.setAttribute("readonly", "readonly")
                                         }else{
                                             inputNomApTextN.value = ''
@@ -170,7 +170,7 @@
 
                                     inputEdadCheckN.addEventListener('click', function () {
                                         if (inputEdadCheckN.checked) {
-                                            inputEdadTextN.value = 'Se desconoce'
+                                            inputEdadTextN.value = 'SE DESCONOCE'
                                             inputEdadTextN.setAttribute("readonly", "readonly")
                                         }else{
                                             inputEdadTextN.value = ''
@@ -182,6 +182,15 @@
                                     var divOtroVinculoN = $('.otro_vinculoAnt'+<?php echo $i?>);
                                     // console.log(selectVinculoN.val());
                                     var inputOtroVinculoN = $('.vinculo_otroAnt'+<?php echo $i?>);
+
+                                    if (selectVinculoN.val() == '6') {
+                                        divOtroVinculoN.css('display', 'block');
+                                        // divOtroVinculoN.style.display = ""
+                                    }else{
+                                        // divOtroVinculoN.style.display = "none"
+                                        divOtroVinculoN.css('display', 'none');
+                                        inputOtroVinculoN.val(' ')
+                                    }
 
                                     selectVinculoN.change(function () {
                                         if (selectVinculoN.val() == '6') {
@@ -237,7 +246,7 @@
                         @foreach ($referentes as $referente)
                             {{-- @dd($referentes) --}}
                             <div class="referenteAnterior{{ $referente->id }}"  name="referenteAnterior{{ $referente->id }}">
-                                <h3><?php echo $i?>° Profesional</h3>
+                                <h3><?php echo $i?>° Referente</h3>
 
 
                                 <div class="form-group" {{ $errors->has('nombre_apellido_viejo[]') ? 'has-error' : ''}}>
@@ -322,7 +331,7 @@
                     inputNomApCheckN.addEventListener('click', function () {
                         if (inputNomApCheckN.checked) {
                             // console.log('hola');
-                            inputNomApTextN.value = 'Se desconoce'
+                            inputNomApTextN.value = 'SE DESCONOCE'
                             inputNomApTextN.setAttribute("readonly", "readonly")
                         }else{
                             inputNomApTextN.value = ''
@@ -336,7 +345,7 @@
 
                     inputEdadCheckN.addEventListener('click', function () {
                         if (inputEdadCheckN.checked) {
-                            inputEdadTextN.value = 'Se desconoce'
+                            inputEdadTextN.value = 'SE DESCONOCE'
                             inputEdadTextN.setAttribute("readonly", "readonly")
                         }else{
                             inputEdadTextN.value = ''
@@ -356,6 +365,29 @@
                             inputOtroVinculoN.value = '';
                         }
                     })
+                    function onlyText() {
+                        //elimina el copy paste
+                        $(':input').bind('copy paste cut',function(e) {
+                            e.preventDefault(); //disable cut,copy,paste.                    
+                        });
+                        //convierte las letras ingresadas en todos los input a mayuscula
+                        $(':input').keyup(function(){
+                            this.value = this.value.toUpperCase();
+                        });
+                        //solo se permite numeros y letras en todos los input
+                        $(':input').keypress(function (e) {
+                            var theEvent = e || window.event;
+                            var key = theEvent.keyCode || theEvent.which;
+                            if (key === 8) { return; }
+                            key = String.fromCharCode(key);
+                            var regex = /^[0-9a-zñA-ZÑ\s]*$/;
+                            if (!regex.test(key)) {
+                                theEvent.returnValue = false;
+                                if (theEvent.preventDefault) theEvent.preventDefault();
+                            }
+                        });
+                    }
+                    onlyText();
                 //fin funcionalidades
             });
 

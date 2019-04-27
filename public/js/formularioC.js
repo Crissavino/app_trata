@@ -1,3 +1,25 @@
+function onlyText() {
+	//elimina el copy paste
+	$(':input').bind('copy paste cut',function(e) {
+		e.preventDefault(); //disable cut,copy,paste.                    
+	});
+	//convierte las letras ingresadas en todos los input a mayuscula
+	$(':input').keyup(function(){
+		this.value = this.value.toUpperCase();
+	});
+	//solo se permite numeros y letras en todos los input
+	$(':input').keypress(function (e) {
+		var theEvent = e || window.event;
+		var key = theEvent.keyCode || theEvent.which;
+		if (key === 8) { return; }
+		key = String.fromCharCode(key);
+		var regex = /^[0-9a-zñA-ZÑ\s]*$/;
+		if (!regex.test(key)) {
+			theEvent.returnValue = false;
+			if (theEvent.preventDefault) theEvent.preventDefault();
+		}
+	});
+}
 	var borrarConviviente = document.querySelector('.clickBorrar');
 
 	borrarConviviente.addEventListener('click', function(){
@@ -43,6 +65,7 @@
 		var btnBorrar = document.querySelector('.clickBorrar');
 		btnAnadir.removeAttribute('disabled', 'disabled');
 		btnBorrar.removeAttribute('disabled', 'disabled');
+		onlyText();
 		// swal("Agregá al menos un conviviente");
 	}else{
 		var convivientes = document.querySelector('.referentes');
@@ -56,6 +79,7 @@
 
 			if (noPersonas.value == 1) {
 				$('#botones').show()
+				onlyText();
 			}else{
 				$('#botones').hide()
 			}
@@ -81,7 +105,7 @@
 				btnBorrar.removeAttribute('disabled', 'disabled');
 				swal("Agregá al menos un referente");
 				btnAnadir.click();
-
+				btnAnadir
 
 
 			}
@@ -114,6 +138,7 @@ window.onload =function (){
 			btnAnadir.removeAttribute('disabled', 'disabled');
 			btnBorrar.removeAttribute('disabled', 'disabled');
 			swal("Agregá al menos un referente");
+			onlyText();
  		}else{
  			var convivientes = document.querySelector('.referentes');
  			convivientes.style.display = "";
@@ -132,6 +157,7 @@ window.onload =function (){
 		if (this.value !== 1) {
 			referentesAnteriores.html(" ");
 			referentes.html(" ");
+			onlyText();
 		}
 	});
 //fin
@@ -143,11 +169,14 @@ window.onload =function (){
 		if (this.value == 1) {
 			$('#anadir').click();
 			$('#botones').show()
+			onlyText();
 		}else{
 			$('#botones').hide()
 		}
 	});
 //fin
+
+onlyText();
 
 //de esta forma agrego otro conviviente
 
@@ -189,7 +218,7 @@ window.onload =function (){
 
 	// 	inputNomApCheck.addEventListener('click', function () {
 	// 			if (inputNomApCheckN.checked) {
-	// 			inputNomApTextN.value = 'Se desconoce'
+	// 			inputNomApTextN.value = 'SE DESCONOCE'
 	// 			inputNomApTextN.setAttribute("readonly", "readonly")
 	// 		}else{
 	// 			inputNomApTextN.value = ''
@@ -220,7 +249,7 @@ window.onload =function (){
 
 	// 	inputEdadCheckN.addEventListener('click', function () {
 	// 			if (inputEdadCheckN.checked) {
-	// 				inputEdadTextN.value = 'Se desconoce'
+	// 				inputEdadTextN.value = 'SE DESCONOCE'
 	// 				inputEdadTextN.setAttribute("readonly", "readonly")
 	// 			}else{
 	// 				inputEdadTextN.value = ''
@@ -313,7 +342,7 @@ window.onload =function (){
             //     // console.log(inputNomApCheckNAnt[index]);
             //     inputNomApCheckNAnt[index].addEventListener('click', function () {
             //         if (inputNomApCheckNAnt[index].checked) {
-            //             inputNomApTextNAnt[index].value = 'Se desconoce'
+            //             inputNomApTextNAnt[index].value = 'SE DESCONOCE'
             //             inputNomApTextNAnt[index].setAttribute("readonly", "readonly")
             //         }else{
             //             inputNomApTextNAnt[index].value = ''
@@ -329,7 +358,7 @@ window.onload =function (){
 
             // inputNomApCheckNAnt.addEventListener('click', function () {
             //     if (inputNomApCheckNAnt.checked) {
-            //         inputNomApTextNAnt.value = 'Se desconoce'
+            //         inputNomApTextNAnt.value = 'SE DESCONOCE'
             //         inputNomApTextNAnt.setAttribute("readonly", "readonly")
             //     }else{
             //         inputNomApTextNAnt.value = ''
@@ -343,7 +372,7 @@ window.onload =function (){
 
             // inputEdadCheckNAnt.addEventListener('click', function () {
             //     if (inputEdadCheckNAnt.checked) {
-            //         inputEdadTextNAnt.value = 'Se desconoce'
+            //         inputEdadTextNAnt.value = 'SE DESCONOCE'
             //         inputEdadTextNAnt.setAttribute("readonly", "readonly")
             //     }else{
             //         inputEdadTextNAnt.value = ''

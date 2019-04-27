@@ -17,9 +17,11 @@ class NoHayCarpeta
      */
     public function handle($request, Closure $next)
     {   
-        $hayFormA = DB::table('aformularios')->WHERE('user_id', '=', Auth::id())
+        $hayFormA = DB::table('aformularios')->WHERE('deleted_at', '=', NULL)
                                              ->ORDERBY('updated_at')
                                              ->get();
+      
+
         if ($hayFormA->count() === 0) {
             return redirect('formularios/A')->with('alert', 'Primero tenes que completar el Eje A!');
             // dd('Hola');

@@ -27,6 +27,8 @@ class SocioeconomicsTableSeeder extends Seeder
 
             ['nombre' => 'Refugio'],
 
+            ['nombre' => 'Alimentos'],
+
             ['nombre' => 'Otro']
         ]);
     }

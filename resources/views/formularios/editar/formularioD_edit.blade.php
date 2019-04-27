@@ -62,7 +62,7 @@
 	
 
     <section class="container">
-    	@if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
+    	@if (auth()->user()->isAdmin !== 2)
     		<form action="" id="formularioD" class="form-group formDedit" method="POST">
 		    	{{ csrf_field() }}
 		    	@method('PUT')
@@ -278,10 +278,9 @@
 				        <select name="ciudadCaptacion" class="cities order-alpha form-control" id="cityId" required title="Este campo es obligatorio">
 				            <option value="" disabled selected>Seleccione</option>
 				        </select>
-
+						{{-- @dd($dFormulario->ciudadCaptacion); --}}
 				        <label for="desconoceCiudadCaptacion">Se desconoce</label>
 						<input type="checkbox" name="" id="desconoceCiudadCaptacion" value="Se desconoce"><br>
-
 				    <!-- {{-- FIN PAISES --}} -->
 			 	</div>
 
@@ -380,7 +379,25 @@
 
 			 		<label for="">Se desconoce</label>
 			 		<input {{ $dFormulario->domicilio == 'Se desconoce' ? 'checked' : '' }} type="checkbox" class="domicilioDesconoce" name="">
-			 	</div>
+				</div>
+
+				<div class="form-group">
+					<div {{ $errors->has('otrolugarexplotacion') ? 'has-error' : ''}}>
+						<label for="">D 14 I. ¿Pasó por otros lugares de explotación previamente?</label>
+						<select class="form-control otroLugarExplotacionSelect" name="otrolugarexplotacion_id">
+							<option value="" disabled selected>Seleccione</option>
+							@foreach ($datosLugarExplotacion as $lugarExplotacion)
+								<option value="{{ $lugarExplotacion->id }}" {{ $dFormulario->otrolugarexplotacion_id == $lugarExplotacion->id ? 'selected' : '' }}>{{ $lugarExplotacion->nombre }}</option>
+							@endforeach
+						</select>
+					</div>
+					{!! $errors->first('otrolugarexplotacion', '<p class="help-block" style="color:red";>:message</p>') !!}
+
+					<div class="form-group lugarexplotacionCual" style="display: none;">
+						<label for="">Cuál/es?</label>
+						<input type="text" class="form-control lugarexplotacionCualInput" name="lugarexplotacionCual" value="{{ $dFormulario->lugarexplotacionCual }}">
+					</div>
+				</div>
 
 			 	<div class="form-group" {{ $errors->has('residelugar_id') ? 'has-error' : ''}}>
 		    		<label for="">D 15. Reside en el lugar de explotación u otro espacio perteneciente a los tratantes?</label>
@@ -968,7 +985,6 @@
 		    			{!! $errors->first('domicilioVenta', '<p class="help-block" style="color:red";>:message</p>') !!}
 		    	 	</div>
 		    	</div>
-
 		    	<div class="form-group">
 			 		<!-- {{-- PAISES --}} -->
 			 		{{-- ver como hacer para los casos en que se desconozca --}}
@@ -980,7 +996,7 @@
 
 				        <label for="cityId">D 8. Localidad de captación:</label>
                         <input readonly type="text" value="{{ $dFormulario->ciudadCaptacion }}" class="form-control mb-2" name="">
-
+				
 				    <!-- {{-- FIN PAISES --}} -->
 			 	</div>
 
@@ -1415,10 +1431,107 @@
     	
     </section>
 	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"  type="text/javascript"></script>
-    <script src="/js/paises.js" type="text/javascript"></script>
-	<script src="/js/paises2.js" type="text/javascript"></script>
+    <script src="/js/paises.js" type="text/javascript" charset="utf-8" async defer></script>
+	<script src="/js/paises2.js" type="text/javascript" charset="utf-8" async defer></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="/js/formularioD.js" type="text/javascript" charset="utf-8" async defer></script>
+<script>
+	    function onlyText() {
+            //elimina el copy paste
+            $(':input').bind('copy paste cut',function(e) {
+                e.preventDefault(); //disable cut,copy,paste.                    
+            });
+            //convierte las letras ingresadas en todos los input a mayuscula
+            $(':input').keyup(function(){
+                this.value = this.value.toUpperCase();
+            });
+            //solo se permite numeros y letras en todos los input
+            $(':input').keypress(function (e) {
+                var theEvent = e || window.event;
+                var key = theEvent.keyCode || theEvent.which;
+                if (key === 8) { return; }
+                key = String.fromCharCode(key);
+                var regex = /^[0-9a-zñA-ZÑ\s]*$/;
+                if (!regex.test(key)) {
+                    theEvent.returnValue = false;
+                    if (theEvent.preventDefault) theEvent.preventDefault();
+                }
+            });
+        }
+        onlyText();
+	// var seDesconoce = document.createElement("option");
+	// seDesconoce.text = "se desconoce"; 
+	// seDesconoce.value = "Se desconoce";
+	// var divProfesionales = document.querySelector('.padre'); divProfesionales.insertAdjacentHTML('beforeend', divClickProfesional);
+		// $(function() { 
+		// 	// console.log(document.getElementById('cityId').value);
+		// 	// alert(document.querySelector('#stateId').va())
+		// 	// var seDesconoce = document.createElement("option"); seDesconoce.text = "se desconoce"; seDesconoce.value = "Se desconoce";
+		// 		$('#desconocePaisCaptacion').change(function(){ 				
+		// 			if($("#desconocePaisCaptacion").is(':checked')) {
 
+		// 			$('#desconocePaisCaptacion').attr('checked', true);
+		// 			$('input[id="desconocePaisCaptacion"]').attr('checked','checked');
+		// 			$('#countryId').attr("disabled", true); 
+		// 			$('#countryId').attr('readonly',	true);
+		// 			// $('input[name="inputPaisCaptacion"][value='{{ $dFormulario->paisCaptacion }}']').attr('checked','checked');
+		// 			//  $('#'{{ $dFormulario->paisCaptacion }}'').attr('checked',true);
+
+		// 			$('#desconoceProvinciaCaptacion').attr("checked", true);
+		// 			$('input[id="desconoceProvinciaCaptacion"]').attr('checked','checked');
+
+		// 			$('#stateId').attr("disabled", true);
+		// 			$('#stateId').attr('readonly', true);
+		// 			$('#stateId ').append("<option value='' selected>Se desconoce</option>");	
+
+		// 			// $("#stateId option[value='Se desconoce']").prop('selected', true);
+		// 			$('#desconoceCiudadCaptacion').attr("checked", true);
+		// 			$('input[id="desconoceCiudadCaptacion"]').attr('checked','checked');
+		// 			$('#cityId').attr("disabled", true);
+		// 			$('#cityId').attr('readonly', true);
+		// 			$('#cityId').append("<option value='' selected>Se desconoce</option>");											
+		// 			// $("#cityId option[value='Se desconoce']").prop('selected', true);
+		// 			// console.log(document.getElementById('cityId').value);
+		// 			}else{
+		// 			$('#desconocePaisCaptacion').attr("checked", false);
+		// 			$('#countryId').attr("disabled", false); 
+		// 			$('#countryId').attr('readonly', false);
+		// 			$('#desconoceProvinciaCaptacion').attr("checked", false);
+		// 			$('#stateId').attr("disabled", false);
+		// 			$('#stateId').attr('readonly', false);					
+		// 			$('#desconoceCiudadCaptacion').attr("checked", false);	
+		// 			$('#cityId').attr("disabled", false);
+		// 			$('#cityId').attr('readonly', false);				
+
+		// 			}
+		// 		}); 
+		// 		$('#desconocePaisExplotacion').change(function(){ 
+		// 			if($("#desconocePaisExplotacion").is(':checked')) {
+		// 			$('#desconocePaisExplotacion').attr("checked", true);
+		// 			$('#countryId2').attr("disabled", true); 
+		// 			$('#countryId2').attr('readonly', true);
+		// 			$('#desconoceProvinciaExplotacion').attr("checked", true);
+		// 			$('#stateId2').attr("disabled", true); 
+		// 			$('#stateId2').attr('readonly', true);
+		// 			$('#stateId2').append("<option value='Se desconoce' selected>Se desconoce</option>");		
+		// 			$('#desconoceCiudadExplotacion').attr("checked", true);
+		// 			$('#cityId2').attr("disabled", true); 
+		// 			$('#cityId2').attr('readonly', true);
+		// 			$('#cityId2 ').append("<option value='Se desconoce' selected>Se desconoce</option>");					
+		// 			// console.log(document.getElementById('cityId').value);
+		// 			}else{
+		// 			$('#desconocePaisExplotacion').attr("checked", false);
+		// 			$('#countryId2').attr("disabled", false); 
+		// 			$('#countryId2').attr('readonly', false);
+		// 			$('#desconoceProvinciaExplotacion').attr("checked", false);
+		// 			$('#stateId2').attr("disabled", false); 
+		// 			$('#stateId2').attr('readonly', false);
+		// 			$('#desconoceCiudadExplotacion').attr("checked", false);
+		// 			$('#cityId2').attr("disabled", false); 
+		// 			$('#cityId2').attr('readonly', false);
+		// 			}
+		// 		}); 
+		// 	});
+	</script>
 </body>
 </html>

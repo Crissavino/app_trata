@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     @include('partials.head')
-    <title>Buscador</title>
+    <title>Buscador por nombre de referencia del caso</title>
     <style>
         .encabezado{
             color: blue;
@@ -30,9 +30,12 @@
         <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
         <li class="nav-item cerrarSesion"> <a class="nav-link " href="/logout">Cerrar sesión</a> </li>
-        <li class="nav-item"> <a class="nav-link" href="/formularios/buscador">Buscador por carpeta</a> </li>
-        <li class="nav-item active"> <a class="nav-link active" href="/formularios/buscadorNombre">Buscador por referencia</a> </li>
-        <li class="nav-item "> <a class="nav-link " href="/formularios/buscadorVictima">Buscador por víctima</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="/formularios/buscador">Buscador por número de carpeta</a> </li>
+        <li class="nav-item active"> <a class="nav-link active" href="/formularios/buscadorNombre">Buscador por nombre de referencia</a> </li>
+        <li class="nav-item "> <a class="nav-link" href="/formularios/buscadorNumero">Buscador por número de causa</a> </li>
+        <li class="nav-item "> <a class="nav-link" href="/formularios/buscadorFiscalia">Buscador por fiscalía/juzgado interviniente</a> </li>
+        <li class="nav-item "> <a class="nav-link " href="/formularios/buscadorVictima">Buscador por datos de la víctima</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="/formularios/buscadorAmbito">Buscador por ámbito de competencia</a> </li>
     </ul>
 </header>
 <body>
@@ -44,7 +47,7 @@
 
     <section class="container">
         <h1 class="text-center" style="padding: 15px;">
-            Buscador por referencia del caso y causa judicial
+            Buscador por nombre de referencia del caso
         </h1>
 
         
@@ -63,29 +66,20 @@
             </div> 
         </form>
 
-        <form action="/formularios/buscadorNombre" class="navbar-form" method="get" accept-charset="utf-8">
-            {{ csrf_field() }}
-            <div class="form-group">
-                <div class="input-group mb-2 mr-sm-2">
-                    <div class="input-group-prepend">
-                        <div class="input-group-text"><i class="fas fa-search"></i></div>
-                    </div>
-                    <input type="text" class="form-control form-control-lg" id="inlineFormInputGroupUsername2" placeholder="Número de causa judicial" name="numeroCausa">
-                </div>
-            </div> 
-        </form>
+
 
         <div class="mt-5 busqueda-formA">
             <table class="mb-5 table table-hover table-striped">
                 <thead>
-                    <h2>Resultado busqueda por nombre de referencia y/o causa judicial</h2>
+                    <h2>Resultado busqueda por nombre de referencia</h2>
                 </thead>
                 <tbody>
                     <tr class="encabezado">
-                        <th class="w-25">Número de carpeta</th>
-                        <th class="w-25">Nombre de referencia</th>
-                        <th class="w-25">Número de causa judicial</th>
-                        <th class="w-25"></th>
+                        <th class="w-20">Número de carpeta</th>
+                        <th class="w-20">Nombre de referencia</th>
+                        <th class="w-20">Número de causa judicial</th>
+                        <th class="w-20"></th>
+                        <th class="w-20"></th>
                     </tr>
                     
                     @foreach ($formsA as $formA)
@@ -94,6 +88,7 @@
                             <td>{{ $formA->datos_nombre_referencia }}</td>
                             <td>{{ $formA->datos_nro_causa }}</td>
                             <td><a href="/formularios/edicion/A/{{ $formA->numerocarpetasId }}/{{$formA->id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i>  @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br></td>
+                            <td><a href="/resumen/{{ $formA->numerocarpetasId }}" class="btn btn-success float-left"><i class="far fa-file mr-2"></i>Resumen</a><br><br></td>
                         </tr>
                     @endforeach
                 </tbody>

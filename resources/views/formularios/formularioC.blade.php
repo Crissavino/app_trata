@@ -130,6 +130,29 @@
         </script> --}}
 
         <script>
+            function onlyText() {
+                //elimina el copy paste
+                $(':input').bind('copy paste cut',function(e) {
+                    e.preventDefault(); //disable cut,copy,paste.                    
+                });
+                //convierte las letras ingresadas en todos los input a mayuscula
+                $(':input').keyup(function(){
+                    this.value = this.value.toUpperCase();
+                });
+                //solo se permite numeros y letras en todos los input
+                $(':input').keypress(function (e) {
+                    var theEvent = e || window.event;
+                    var key = theEvent.keyCode || theEvent.which;
+                    if (key === 8) { return; }
+                    key = String.fromCharCode(key);
+                    var regex = /^[0-9a-zñA-ZÑ\s]*$/;
+                    if (!regex.test(key)) {
+                        theEvent.returnValue = false;
+                        if (theEvent.preventDefault) theEvent.preventDefault();
+                    }
+                });
+            }
+            onlyText();
             var btnAgregarReferente = document.querySelector('.clickAnadir');
 
             var clicks = 0;
@@ -150,7 +173,7 @@
                     inputNomApCheckN.addEventListener('click', function () {
                         if (inputNomApCheckN.checked) {
                             // console.log('hola');
-                            inputNomApTextN.value = 'Se desconoce'
+                            inputNomApTextN.value = 'SE DESCONOCE'
                             inputNomApTextN.setAttribute("readonly", "readonly")
                         }else{
                             inputNomApTextN.value = ''
@@ -164,7 +187,7 @@
 
                     inputEdadCheckN.addEventListener('click', function () {
                         if (inputEdadCheckN.checked) {
-                            inputEdadTextN.value = 'Se desconoce'
+                            inputEdadTextN.value = 'SE DESCONOCE'
                             inputEdadTextN.setAttribute("readonly", "readonly")
                         }else{
                             inputEdadTextN.value = ''
@@ -187,6 +210,7 @@
                         }
                     })
                 //fin funcionalidades
+                onlyText();
             });
         </script>
 

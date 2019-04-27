@@ -18,7 +18,7 @@
 	var numeroDocumento = document.querySelector('.numeroDocumento');
 	var checkDocSeDesconoce = document.querySelector('.docSeDesconoce');
 
-	if (numeroDocumento.value === 'Se desconoce') {
+	if (numeroDocumento.value === 'SE DESCONOCE') {
 		numeroDocumento.setAttribute('readonly', 'readonly');
 		checkDocSeDesconoce.checked = true;
 	}else{
@@ -30,7 +30,7 @@
 	var edad = document.querySelector('.edad');
 	var checkEdadSeDesconoce = document.querySelector('.edadSeDesconoce');
 
-	if (edad.value === 'Se desconoce') {
+	if (edad.value === 'SE DESCONOCE') {
 		edad.setAttribute('readonly', 'readonly');
 		checkEdadSeDesconoce.checked = true;
 	}else{
@@ -78,7 +78,7 @@ window.onload = function(){
 		nomSeDesconoce.addEventListener('click', function(){
 			if (this.checked) {
 				nombreApellido.setAttribute('readonly', 'readonly');
-				nombreApellido.value = 'Se desconoce';
+				nombreApellido.value = 'SE DESCONOCE';
 			}else{
 				nombreApellido.removeAttribute('readonly');
 				nombreApellido.value = '';
@@ -106,7 +106,7 @@ window.onload = function(){
 		docSeDesconoce.addEventListener('click', function(){
 			if (this.checked) {
 				numeroDocumento.setAttribute('readonly', 'readonly');
-				numeroDocumento.value = 'Se desconoce';
+				numeroDocumento.value = 'SE DESCONOCE';
 			}else{
 				numeroDocumento.removeAttribute('readonly');
 				numeroDocumento.value = '';
@@ -120,7 +120,7 @@ window.onload = function(){
 		edadSeDesconoce.addEventListener('click', function(){
 			if (this.checked) {
 				edad.setAttribute('readonly', 'readonly');
-				edad.value = 'Se desconoce';
+				edad.value = 'SE DESCONOCE';
 			}else{
 				edad.removeAttribute('readonly');
 				edad.value = '';

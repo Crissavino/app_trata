@@ -477,7 +477,7 @@
                                     @endforeach
                                 </div>
 
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="">E 3 V. Policía:
                                         <span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
                                     </label>
@@ -493,7 +493,7 @@
                                         </div>
                                         @endif
                                     @endforeach
-                                </div>
+                                </div> --}}
 
                                 <div class="form-group orgSocCivilActualmente">
                                     @foreach ($orgSocCivilActualmente as $socCivilActualmente)
@@ -509,6 +509,8 @@
                 {{-- Fin Articulación con organismos --}}
 
                 {{-- AGREGAR INTERVENCIÓN --}}
+
+              
 
                     <div id="intervenciones" class="form-group"></div>
                     
@@ -537,7 +539,9 @@
                 // console.log(click);
                 // var divClick = '<div id="orgProgNacionalCual'+click+'" class="form-group orgProgNacionalCual'+click+'">';
 
-                var divClickIntervencion = '<div id="intervencion'+click+'" class="form-group intervencion'+click+'""><div class="form-group"><label for="" class="">Fecha</label><input type="date" class="form-control fechaInput'+click+'" name="fechaIntervencion[]" required ></div><div class="form-group"><label for="" class="">Tema</label><select class="form-control temaSelect'+click+'" name="temaIntervencion_id[]" required><option value="">Seleccioná un tema</option>@foreach ($temaIntervencion as $tema)<option value="{{ $tema->id }}">{{ $tema->nombre }}</option>@endforeach</select><br><div class="temaCual'+click+'" style="display: none;"><label for="">Cual?</label><input type="text" class="form-control  temaCualInput'+click+'" name="temaOtro[]"><br></div></div><div class="form-group datosIntervencion'+click+'" style="display: none;"><div class="form-group"><label for="">Nombre de contacto:</label><input type="text" class="form-control" name="nombreContacto[]" required></div><div class="form-group"><label for="">Teléfono de contacto:</label><input type="text" class="form-control" name="telefonoContacto[]" required pattern="[\+]{0,1}[0-9]+"></div><div class="form-group"><label for="">Descripción de la intervención:</label><textarea class="form-control" name="descripcionIntervencion[]" required></textarea></div></div></div>'
+                var divClickIntervencion = '<div id="intervencion'+click+'" class="form-group intervencion'+click+'""><div class="form-group"><label for="" class="">Fecha</label><input type="date" class="form-control fechaInput'+click+'" name="fechaIntervencion[]" required ></div><div class="form-group"><label for="" class="">Tema</label><select class="form-control temaSelect'+click+'" name="temaIntervencion_id[]" required><option value="">Seleccioná un tema</option>@foreach ($temaIntervencion as $tema)<option value="{{ $tema->id }}">{{ $tema->nombre }}</option>@endforeach</select><br><div class="form-group"><label for="contactoDirecto_id"> ¿Esta intervención incluye el contacto directo con la víctima? </label><select class="form-control noPersonas" name="contactoDirecto_id" required title="Este campo es obligatorio" {{ $errors->has('contactoDirecto_id') ? 'has-error' : ''}}><option value="" disabled selected>Seleccione</option>@foreach ($datosContactoDirecto as $contactoDirecto)<option value="{{ $contactoDirecto->getId() }}">{{ $contactoDirecto->getNombre() }}</option>@endforeach</select></div><div class="temaCual'+click+'" style="display: none;"><label for="">Cual?</label><input type="text" class="form-control  temaCualInput'+click+'" name="temaOtro[]"><br></div></div><div class="form-group datosIntervencion'+click+'" style="display: none;"><div class="form-group"><label for="">Nombre de contacto:</label><input type="text" class="form-control" name="nombreContacto[]" required></div><div class="form-group"><label for="">Teléfono de contacto:</label><input type="text" class="form-control" name="telefonoContacto[]" required pattern="[\+]{0,1}[0-9]+"></div><div class="form-group"><label for="">Descripción de la intervención:</label><textarea class="form-control" name="descripcionIntervencion[]" required></textarea></div></div></div>'
+
+                var divContactoDirecto= '';
 
                 var divIntervenciones = document.getElementById('intervenciones');
                 divIntervenciones.insertAdjacentHTML('beforeend', divClickIntervencion);

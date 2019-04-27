@@ -1,4 +1,5 @@
 //borrado referenteAnterior individual
+
 var ids = [];
 
 function borrarIntervencionAnterior(id) {
@@ -97,10 +98,14 @@ window.onload =function (){
 		$("#noimprimir").hide();
 		$("#imprimible").show();
 		$("#imprimirbtn").hide();
+		$("#descargarbtn").hide();
+		$(".logo").show();
 		window.print();
 		$("#imprimible").hide();
 		$("#noimprimir").show();
 		$("#imprimirbtn").show();
+		$("#descargarbtn").show();
+		$(".logo").hide();
 		// $("#noimprimir").html(noprint);
 	});
 	//imprimir pantalla solo es para el edit

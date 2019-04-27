@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'sistemassaj@mjus.gba.gob.ar'),
+        'name' => env('MAIL_FROM_NAME', 'Sistema Web de Acceso a la Justicia: Trata'),
     ],
 
     /*

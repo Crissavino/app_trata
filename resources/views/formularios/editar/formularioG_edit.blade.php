@@ -2,7 +2,7 @@
 <html>
 <head>
 	@include('partials.head')
-	<title>Eje F: Detalle de intervención</title>
+	<title>Eje F: Informe de seguimiento</title>
     <style>
         .cerrarSesion{
             position: absolute;
@@ -12,7 +12,7 @@
 
         .botones{
             display: inline-block;
-            width: 100%;
+            width: 25%;
             position: fixed;
             bottom: 40px;
         }
@@ -30,6 +30,7 @@
     </style>
 </head>
 <div id="noimprimir" > 
+
 <header>
     <ul class="nav nav-tabs">
         <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
@@ -83,8 +84,8 @@
             {{ session()->get('msg') }}
         </div>
     @endif
-    <section class="container">
-        @if (auth()->user()->isAdmin !== 2 && $usuarioCarpeta == auth()->user()->id)
+    <section class="container">        
+        @if (auth()->user()->isAdmin !== 2)
             <h1 class="text-center" style="padding: 15px;">
                 Eje F: Detalle de intervención
                 <h5 class=" mb-5" style="text-align: center;">Estás trabajando sobre la carpeta n° {{ $formularioG->numeroCarpeta }}</h5>
@@ -98,8 +99,9 @@
                     <ul class="container mt-0 mb-3">
                         @if ($docInterna->count() !== 0)
                              @foreach($docInterna as $doc)
-                                <li class="list-group-item text-center"><label for="">{{$doc->nombreArchivo}}</label>
+                                <li class="list-group-item text-center" id="docInterna{{ $doc->id }}"><label for="">{{$doc->nombreArchivo}}</label>
                                     <a href="{{ asset($doc->path) }}" download="{{$doc->nombreArchivo}}" class="btn btn-success ml-5"><i class="far fa-arrow-alt-circle-down"></i> Descargar</a>
+                                    <a href="javascript:eliminarArchivoDocInterna('docInterna{{ $doc->id }}',{{ $doc->id }});" class="btn btn-danger ml-5 btnEliminar"><i class="far "></i> ELIMINAR</a>
                                 </li>
                             @endforeach
                         @else
@@ -117,8 +119,9 @@
                     <ul class="container mt-0 mb-3"> 
                         @if ($docExterna->count() !== 0)
                             @foreach($docExterna as $doc)
-                                <li class="list-group-item text-center"><label for="">{{$doc->nombreArchivo}}</label>
+                                <li class="list-group-item text-center" id="docExterna{{ $doc->id }}"><label for="">{{$doc->nombreArchivo}}</label>
                                     <a href="{{ asset($doc->path) }}" download="{{$doc->nombreArchivo}}" class="btn btn-success ml-5"><i class="far fa-arrow-alt-circle-down"></i> Descargar</a>
+                                    <a href="javascript:eliminarArchivoDocExterna('docExterna{{ $doc->id }}',{{ $doc->id }});" class="btn btn-danger ml-5 btnEliminar"><i class="far "></i> ELIMINAR</a>
                                 </li>
                             @endforeach
                         @else
@@ -134,10 +137,11 @@
 
                 <label for="" class="">Fondo rotativo guardado anteriormente</label>
                     <ul class="container mt-0 mb-3">
-                        @if ($infoSocioambiental->count() !== 0)
-                            @foreach($infoSocioambiental as $doc)
-                                <li class="list-group-item text-center"><label for="">{{$doc->nombreArchivo}}</label>
+                        @if ($notRelacionadas->count() !== 0)
+                            @foreach($notRelacionadas as $doc)
+                                <li class="list-group-item text-center" id="fondoRotativo{{ $doc->id }}"><label for="">{{$doc->nombreArchivo}}</label>
                                     <a href="{{ asset($doc->path) }}" download="{{$doc->nombreArchivo}}" class="btn btn-success ml-5"><i class="far fa-arrow-alt-circle-down"></i> Descargar</a>
+                                    <a href="javascript:eliminarArchivoFondoRotativo('fondoRotativo{{ $doc->id }}',{{ $doc->id }});" class="btn btn-danger ml-5 btnEliminar"><i class="far "></i> ELIMINAR</a>
                                 </li>
                             @endforeach
                         @else
@@ -155,8 +159,9 @@
                     <ul class="container mt-0 mb-3">
                         @if ($intervencionEstrategias->count() !== 0)
                             @foreach($intervencionEstrategias as $doc)
-                                <li class="list-group-item text-center"><label for="">{{$doc->nombreArchivo}}</label>
+                                <li class="list-group-item text-center" id="intervencionEstrategias{{ $doc->id }}"><label for="">{{$doc->nombreArchivo}}</label>
                                     <a href="{{ asset($doc->path) }}" download="{{$doc->nombreArchivo}}" class="btn btn-success ml-5"><i class="far fa-arrow-alt-circle-down"></i> Descargar</a>
+                                    <a href="javascript:eliminarArchivoIntervencionEstrategias('intervencionEstrategias{{ $doc->id }}',{{ $doc->id }});" class="btn btn-danger ml-5 btnEliminar"><i class="far "></i> ELIMINAR</a>
                                 </li>
                             @endforeach
                         @else
@@ -174,8 +179,9 @@
                     <ul class="container mt-0 mb-3">
                         @if ($infoSocioambiental->count() !== 0)
                             @foreach($infoSocioambiental as $doc)
-                                <li class="list-group-item text-center"><label for="">{{$doc->nombreArchivo}}</label>
+                                <li class="list-group-item text-center" id="infoSocioambiental{{ $doc->id }}"><label for="">{{$doc->nombreArchivo}}</label>
                                     <a href="{{ asset($doc->path) }}" download="{{$doc->nombreArchivo}}" class="btn btn-success ml-5"><i class="far fa-arrow-alt-circle-down"></i> Descargar</a>
+                                    <a href="javascript:eliminarArchivoInfoSocioambiental('infoSocioambiental{{ $doc->id }}',{{ $doc->id }});" class="btn btn-danger ml-5 btnEliminar"><i class="far "></i> ELIMINAR</a>
                                 </li>
                             @endforeach
                         @else
@@ -465,62 +471,65 @@
 
                 {{-- Articulación con organismos --}}
                     @foreach ($formulariosF as $formF)
+                    @if ($formF->intervinieronOrganismosActualmente_id==1)
                         @if ($formF->numeroCarpeta === $formularioG->numeroCarpeta)
                             <h2 class="text-center m-5">Articulación con organismos</h2>
                             <div class="form-group">
                                 <div class="form-group">
                                     <label for="">E 3 Organismos con los que se articula actualmente:</label>
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="">E 3 I. Organismos Judiciales:
-                                        <span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
-                                    </label><br>
-                                    @foreach ($datosOrgJudicialesActualmente as $orgJudicialesActualmente)
-                                        @php
-                                            $orgJudicialesActualmenteIds = $formF->orgjudicialactualmentes->pluck('id')->toArray();
-                                            $checked = (in_array($orgJudicialesActualmente->id, $orgJudicialesActualmenteIds)) ? 'checked' : ''
-                                        @endphp
-                                        @if($checked=='checked')
-                                        <div class="ml-3">
-                                            <label for="{{ $orgJudicialesActualmente->id }}">{{ $orgJudicialesActualmente->nombre }}</label>
-                                            <input disabled {{ $checked }} type="checkbox" id="{{ $orgJudicialesActualmente->id }}" value="{{ $orgJudicialesActualmente->id }}" name="orgjudicialactualmentes_id[]">
-                                        </div>
-                                        @endif
-                                    @endforeach
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="">E 3 II. Organismos/Programas Nacionales:
-                                        <span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
-                                    </label><br>
-                                        @foreach ($datosProgNacionalesActualmente as $progNacionalesActualmente)
+                                
+                                @if($formF->orgjudicialactualmentes->count()>0)
+                                    <div class="form-group">
+                                        <label for="">E 3 I. Organismos Judiciales:
+                                        </label><br>
+                                        @foreach ($datosOrgJudicialesActualmente as $orgJudicialesActualmente)
                                             @php
-                                                $progNacionalesActualmenteIds = $formF->orgprognacionalactualmentes->pluck('id')->toArray();
-                                                $checked = (in_array($progNacionalesActualmente->id, $progNacionalesActualmenteIds)) ? 'checked' : ''
+                                                $orgJudicialesActualmenteIds = $formF->orgjudicialactualmentes->pluck('id')->toArray();
+                                                $checked = (in_array($orgJudicialesActualmente->id, $orgJudicialesActualmenteIds)) ? 'checked' : ''
                                             @endphp
                                             @if($checked=='checked')
                                             <div class="ml-3">
-                                                @if ($progNacionalesActualmente->nombre == 'Otro')
-                                                    <label for="{{ $progNacionalesActualmente->id }}">{{ $progNacionalesActualmente->nombre }}</label>
-                                                    <input disabled {{ $checked }} type="checkbox" id="{{ $progNacionalesActualmente->id }}" value="{{ $progNacionalesActualmente->id }}" name="orgprognacionalactualmente_id[]" class="orgProgNacionalActualmenteOtro">
-                                                @else
-                                                    <label for="{{ $progNacionalesActualmente->id }}">{{ $progNacionalesActualmente->nombre }}</label>
-                                                    <input disabled {{ $checked }} type="checkbox" id="{{ $progNacionalesActualmente->id }}" value="{{ $progNacionalesActualmente->id }}" name="orgprognacionalactualmente_id[]">
-                                                @endif  
+                                                <label for="{{ $orgJudicialesActualmente->id }}">{{ $orgJudicialesActualmente->nombre }}</label>
+                                                <input disabled {{ $checked }} type="checkbox" id="{{ $orgJudicialesActualmente->id }}" value="{{ $orgJudicialesActualmente->id }}" name="orgjudicialactualmentes_id[]">
                                             </div>
-                                            @endif
-                                        @endforeach     
-
-                                    <div class="form-group orgprognacionalActualmenteCual" style="display: none;">
-                                        @foreach ($orgProgNacionalActualmenteOtro as $progNacionalOtro)
-                                            @if ($progNacionalOtro->fformulario_id === $formF->id)
-                                                <label for="">Cual?(Cargado Anteriormente)</label>
-                                                <input type="text" class="form-control ml-3" value="{{ $progNacionalOtro->nombreOrganismo }}" readonly="readonly"><br>
                                             @endif
                                         @endforeach
                                     </div>
-                                </div>
+                                @endif
+
+                                @if($formF->orgprognacionalactualmentes->count()>0)
+                                    <div class="form-group">
+                                        <label for="">E 3 II. Organismos/Programas Nacionales:
+                                        </label><br>
+                                            @foreach ($datosProgNacionalesActualmente as $progNacionalesActualmente)
+                                                @php
+                                                    $progNacionalesActualmenteIds = $formF->orgprognacionalactualmentes->pluck('id')->toArray();
+                                                    $checked = (in_array($progNacionalesActualmente->id, $progNacionalesActualmenteIds)) ? 'checked' : ''
+                                                @endphp
+                                                @if($checked=='checked')
+                                                <div class="ml-3">
+                                                    @if ($progNacionalesActualmente->nombre == 'Otro')
+                                                        <label for="{{ $progNacionalesActualmente->id }}">{{ $progNacionalesActualmente->nombre }}</label>
+                                                        <input disabled {{ $checked }} type="checkbox" id="{{ $progNacionalesActualmente->id }}" value="{{ $progNacionalesActualmente->id }}" name="orgprognacionalactualmente_id[]" class="orgProgNacionalActualmenteOtro">
+                                                    @else
+                                                        <label for="{{ $progNacionalesActualmente->id }}">{{ $progNacionalesActualmente->nombre }}</label>
+                                                        <input disabled {{ $checked }} type="checkbox" id="{{ $progNacionalesActualmente->id }}" value="{{ $progNacionalesActualmente->id }}" name="orgprognacionalactualmente_id[]">
+                                                    @endif  
+                                                </div>
+                                                @endif
+                                            @endforeach     
+
+                                        <div class="form-group orgprognacionalActualmenteCual" style="display: none;">
+                                            @foreach ($orgProgNacionalActualmenteOtro as $progNacionalOtro)
+                                                @if ($progNacionalOtro->fformulario_id === $formF->id)
+                                                    <label for="">Cual?(Cargado Anteriormente)</label>
+                                                    <input type="text" class="form-control ml-3" value="{{ $progNacionalOtro->nombreOrganismo }}" readonly="readonly"><br>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
 
                                 <div class="form-group orgProgProvincialesActualmente">
                                     @foreach ($orgProgProvincialesAlactualmente as $provActualmente)
@@ -539,24 +548,25 @@
                                         @endif
                                     @endforeach
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="">E 3 V. Policía:
-                                        <span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
-                                    </label>
-                                    @foreach ($datosPoliciaActualmente as $policiaActualmente)
-                                        @php
-                                            $policiaActualmenteIds = $formF->policiaactualmentes->pluck('id')->toArray();
-                                            $checked = (in_array($policiaActualmente->id, $policiaActualmenteIds)) ? 'checked' : ''
-                                        @endphp
-                                        @if($checked=='checked')
-                                        <div class="ml-3">
-                                            <label for="{{ $policiaActualmente->id }}">{{ $policiaActualmente->nombre }}</label>
-                                            <input disabled {{ $checked }} type="checkbox" id="{{ $policiaActualmente->id }}" value="{{ $policiaActualmente->id }}" name="policiaactualmentes_id[]">
-                                        </div>
-                                        @endif
-                                    @endforeach
-                                </div>
+                                
+                                @if($formF->policiaactualmentes->count()>0)
+                                    <div class="form-group">
+                                        <label for="">E 3 V. Policía:
+                                        </label>
+                                        @foreach ($datosPoliciaActualmente as $policiaActualmente)
+                                            @php
+                                                $policiaActualmenteIds = $formF->policiaactualmentes->pluck('id')->toArray();
+                                                $checked = (in_array($policiaActualmente->id, $policiaActualmenteIds)) ? 'checked' : ''
+                                            @endphp
+                                            @if($checked=='checked')
+                                            <div class="ml-3">
+                                                <label for="{{ $policiaActualmente->id }}">{{ $policiaActualmente->nombre }}</label>
+                                                <input disabled {{ $checked }} type="checkbox" id="{{ $policiaActualmente->id }}" value="{{ $policiaActualmente->id }}" name="policiaactualmentes_id[]">
+                                            </div>
+                                            @endif
+                                        @endforeach
+                                    </div> 
+                                @endif
 
                                 <div class="form-group orgSocCivilActualmente">
                                     @foreach ($orgSocCivilActualmente as $socCivilActualmente)
@@ -567,6 +577,7 @@
                                     @endforeach
                                 </div>
                             </div>
+                        @endif
                         @endif
                     @endforeach
                 {{-- Fin Articulación con organismos --}}
@@ -602,6 +613,26 @@
                                         <br> --}}
                                     {{-- @endif --}}
                                 </div>
+
+                                <div class="form-group">
+                                
+                                    <label for="contactoDirecto_id">¿Esta intervención incluye el contacto directo con la víctima? </label>
+                               
+                                    <select class="form-control noPersonas" name="contactoDirecto_id" {{ $errors->has('contactoDirecto_id') ? 'has-error' : ''}}>
+                                        <option value="">Seleccioná una opción</option>
+                                        
+                                        @foreach($intervenciones as $intervencion)
+                                        @foreach ($datosContactoDirecto as $contactoDirecto)
+                                        
+                                            @php
+                                                $selected = ($contactoDirecto->id == $intervencion->contactoDirecto_id) ? 'selected' : '';
+                                            @endphp
+                                            <option value="{{ $contactoDirecto->id }}" {{ $selected }}>{{ $contactoDirecto->nombre }}</option>
+                                        @endforeach
+                                        @endforeach
+                                    </select>
+                                    {!! $errors->first('contactoDirecto_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+                                </div>  
                                     
                                 <div class="form-group datosIntervencion">
                                     <div class="form-group mt-2">
@@ -654,7 +685,7 @@
             </form>
         @else
             <h1 class="text-center" style="padding: 15px;">
-                Eje F: Detalle de intervención
+                Eje F: Informe de Seguimiento
                 <h5 class=" mb-5" style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $formularioG->numeroCarpeta }}</h5>
             </h1>
             <form action="" method="POST" accept-charset="utf-8" enctype='multipart/form-data'>
@@ -1004,6 +1035,7 @@
 
                 {{-- Articulación con organismos --}}
                     @foreach ($formulariosF as $formF)
+                    @if ($formF->intervinieronOrganismosActualmente_id==1)
                         @if ($formF->numeroCarpeta === $formularioG->numeroCarpeta)
                             <h2 class="text-center m-5">Articulación con organismos</h2>
                             <div class="form-group">
@@ -1013,7 +1045,6 @@
 
                                 <div class="form-group">
                                     <label for="">E 3 I. Organismos Judiciales:
-                                        <span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
                                     </label><br>
                                     @foreach ($datosOrgJudicialesActualmente as $orgJudicialesActualmente)
                                         @php
@@ -1031,7 +1062,6 @@
 
                                 <div class="form-group">
                                     <label for="">E 3 II. Organismos/Programas Nacionales:
-                                        <span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
                                     </label><br>
                                         @foreach ($datosProgNacionalesActualmente as $progNacionalesActualmente)
                                             @php
@@ -1081,7 +1111,6 @@
 
                                 <div class="form-group">
                                     <label for="">E 3 V. Policía:
-                                        <span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
                                     </label>
                                     @foreach ($datosPoliciaActualmente as $policiaActualmente)
                                         @php
@@ -1106,6 +1135,7 @@
                                     @endforeach
                                 </div>
                             </div>
+                            @endif
                         @endif
                     @endforeach
                 {{-- Fin Articulación con organismos --}}
@@ -1172,79 +1202,16 @@
     </div>
 
     <div id="imprimible" style="display: none;">
+        <img class="logo" style="width:160px;height:50px;display:none;" src="{{ URL::to('/')}}/img/logoprovincia.png">
+        
         <h1 class="text-center" style="padding: 15px;">
-            Eje G: Detalle de intervención
-            <h5 class=" mb-5" style="text-align: center;">Estas trabajando sobre el número de carpeta {{ $formularioG->numeroCarpeta }}</h5>
+            Informe de seguimiento
+            
         </h1>
         <form action="" method="POST" accept-charset="utf-8" enctype='multipart/form-data'>
             {{ csrf_field() }}
             @method('PUT')
             <input type="text" name="numeroCarpeta" value="{{ $formularioG->numeroCarpeta }}" style="display: none;">
-
-            <label for="" class="">Documentación interna guardada anteriormente</label>
-                <ul class="container mt-0 mb-3">
-                    @if ($docInterna->count() !== 0)
-                         @foreach($docInterna as $doc)
-                            <li class="list-group-item text-center"><label for="">{{$doc->nombreArchivo}}</label>
-                                <a href="{{ asset($doc->path) }}" download="{{$doc->nombreArchivo}}" class="btn btn-success ml-5"><i class="far fa-arrow-alt-circle-down"></i> Descargar</a>
-                            </li>
-                        @endforeach
-                    @else
-                        No se cargó ningun archivo anteriormente
-                    @endif
-                </ul>
-
-            <label for="" class="">Documentación externa guardada anteriormente</label>
-                <ul class="container mt-0 mb-3"> 
-                    @if ($docExterna->count() !== 0)
-                        @foreach($docExterna as $doc)
-                            <li class="list-group-item text-center"><label for="">{{$doc->nombreArchivo}}</label>
-                                <a href="{{ asset($doc->path) }}" download="{{$doc->nombreArchivo}}" class="btn btn-success ml-5"><i class="far fa-arrow-alt-circle-down"></i> Descargar</a>
-                            </li>
-                        @endforeach
-                    @else
-                        No se cargó ningun archivo anteriormente
-                    @endif
-                </ul>
-
-            <label for="" class="">Noticias realacionadas guardadas anteriormente</label>
-                <ul class="container mt-0 mb-3">
-                    @if ($infoSocioambiental->count() !== 0)
-                        @foreach($infoSocioambiental as $doc)
-                            <li class="list-group-item text-center"><label for="">{{$doc->nombreArchivo}}</label>
-                                <a href="{{ asset($doc->path) }}" download="{{$doc->nombreArchivo}}" class="btn btn-success ml-5"><i class="far fa-arrow-alt-circle-down"></i> Descargar</a>
-                            </li>
-                        @endforeach
-                    @else
-                        No se cargó ningun archivo anteriormente
-                    @endif
-                </ul>
-
-            <label for="" class="">Plan de Intervención/Estrategias de abordaje  guardada anteriormente</label>
-                <ul class="container mt-0 mb-3">
-                    @if ($intervencionEstrategias->count() !== 0)
-                        @foreach($intervencionEstrategias as $doc)
-                            <li class="list-group-item text-center"><label for="">{{$doc->nombreArchivo}}</label>
-                                <a href="{{ asset($doc->path) }}" download="{{$doc->nombreArchivo}}" class="btn btn-success ml-5"><i class="far fa-arrow-alt-circle-down"></i> Descargar</a>
-                            </li>
-                        @endforeach
-                    @else
-                        No se cargó ningun archivo anteriormente
-                    @endif
-                </ul>
-
-            <label for="" class="">Informe Socioambiental  guardado anteriormente</label>
-                <ul class="container mt-0 mb-3">
-                    @if ($infoSocioambiental->count() !== 0)
-                        @foreach($infoSocioambiental as $doc)
-                            <li class="list-group-item text-center"><label for="">{{$doc->nombreArchivo}}</label>
-                                <a href="{{ asset($doc->path) }}" download="{{$doc->nombreArchivo}}" class="btn btn-success ml-5"><i class="far fa-arrow-alt-circle-down"></i> Descargar</a>
-                            </li>
-                        @endforeach
-                    @else
-                        No se cargó ningun archivo anteriormente
-                    @endif
-                </ul>
 
             {{-- Datos del formulario A --}}
                     @foreach ($aFormularios as $formA)
@@ -1522,62 +1489,66 @@
 
             {{-- Articulación con organismos --}}
                     @foreach ($formulariosF as $formF)
+                    @if ($formF->intervinieronOrganismosActualmente_id==1)
                         @if ($formF->numeroCarpeta === $formularioG->numeroCarpeta)
                             <h2 class="text-center m-5">Articulación con organismos</h2>
                             <div class="form-group">
                                 <div class="form-group">
                                     <label for="">E 3 Organismos con los que se articula actualmente:</label>
                                 </div>
+                                 
 
-                                <div class="form-group">
-                                    <label for="">E 3 I. Organismos Judiciales:
-                                        <span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
-                                    </label><br>
-                                    @foreach ($datosOrgJudicialesActualmente as $orgJudicialesActualmente)
-                                        @php
-                                            $orgJudicialesActualmenteIds = $formF->orgjudicialactualmentes->pluck('id')->toArray();
-                                            $checked = (in_array($orgJudicialesActualmente->id, $orgJudicialesActualmenteIds)) ? 'checked' : ''
-                                        @endphp
-                                        @if($checked=='checked')
-                                        <div class="ml-3">
-                                            <label for="{{ $orgJudicialesActualmente->id }}">{{ $orgJudicialesActualmente->nombre }}</label>
-                                            <input disabled {{ $checked }} type="checkbox" id="{{ $orgJudicialesActualmente->id }}" value="{{ $orgJudicialesActualmente->id }}" name="orgjudicialactualmentes_id[]">
-                                        </div>
-                                        @endif
-                                    @endforeach
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="">E 3 II. Organismos/Programas Nacionales:
-                                        <span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
-                                    </label><br>
-                                        @foreach ($datosProgNacionalesActualmente as $progNacionalesActualmente)
+                                @if($formF->orgjudicialactualmentes->count()>0)
+                                    <div class="form-group">
+                                        <label for="">E 3 I. Organismos Judiciales:
+                                        </label><br>
+                                        @foreach ($datosOrgJudicialesActualmente as $orgJudicialesActualmente)
                                             @php
-                                                $progNacionalesActualmenteIds = $formF->orgprognacionalactualmentes->pluck('id')->toArray();
-                                                $checked = (in_array($progNacionalesActualmente->id, $progNacionalesActualmenteIds)) ? 'checked' : ''
+                                                $orgJudicialesActualmenteIds = $formF->orgjudicialactualmentes->pluck('id')->toArray();
+                                                $checked = (in_array($orgJudicialesActualmente->id, $orgJudicialesActualmenteIds)) ? 'checked' : ''
                                             @endphp
                                             @if($checked=='checked')
                                             <div class="ml-3">
-                                                @if ($progNacionalesActualmente->nombre == 'Otro')
-                                                    <label for="{{ $progNacionalesActualmente->id }}">{{ $progNacionalesActualmente->nombre }}</label>
-                                                    <input disabled {{ $checked }} type="checkbox" id="{{ $progNacionalesActualmente->id }}" value="{{ $progNacionalesActualmente->id }}" name="orgprognacionalactualmente_id[]" class="orgProgNacionalActualmenteOtro">
-                                                @else
-                                                    <label for="{{ $progNacionalesActualmente->id }}">{{ $progNacionalesActualmente->nombre }}</label>
-                                                    <input disabled {{ $checked }} type="checkbox" id="{{ $progNacionalesActualmente->id }}" value="{{ $progNacionalesActualmente->id }}" name="orgprognacionalactualmente_id[]">
-                                                @endif  
+                                                <label for="{{ $orgJudicialesActualmente->id }}">{{ $orgJudicialesActualmente->nombre }}</label>
+                                                <input disabled {{ $checked }} type="checkbox" id="{{ $orgJudicialesActualmente->id }}" value="{{ $orgJudicialesActualmente->id }}" name="orgjudicialactualmentes_id[]">
                                             </div>
-                                            @endif
-                                        @endforeach     
-
-                                    <div class="form-group orgprognacionalActualmenteCual" style="display: none;">
-                                        @foreach ($orgProgNacionalActualmenteOtro as $progNacionalOtro)
-                                            @if ($progNacionalOtro->fformulario_id === $formF->id)
-                                                <label for="">Cual?(Cargado Anteriormente)</label>
-                                                <input type="text" class="form-control ml-3" value="{{ $progNacionalOtro->nombreOrganismo }}" readonly="readonly"><br>
                                             @endif
                                         @endforeach
                                     </div>
-                                </div>
+                                @endif
+
+                                @if($formF->orgprognacionalactualmentes->count()>0)
+                                    <div class="form-group">
+                                        <label for="">E 3 II. Organismos/Programas Nacionales:
+                                        </label><br>
+                                            @foreach ($datosProgNacionalesActualmente as $progNacionalesActualmente)
+                                                @php
+                                                    $progNacionalesActualmenteIds = $formF->orgprognacionalactualmentes->pluck('id')->toArray();
+                                                    $checked = (in_array($progNacionalesActualmente->id, $progNacionalesActualmenteIds)) ? 'checked' : ''
+                                                @endphp
+                                                @if($checked=='checked')
+                                                <div class="ml-3">
+                                                    @if ($progNacionalesActualmente->nombre == 'Otro')
+                                                        <label for="{{ $progNacionalesActualmente->id }}">{{ $progNacionalesActualmente->nombre }}</label>
+                                                        <input disabled {{ $checked }} type="checkbox" id="{{ $progNacionalesActualmente->id }}" value="{{ $progNacionalesActualmente->id }}" name="orgprognacionalactualmente_id[]" class="orgProgNacionalActualmenteOtro">
+                                                    @else
+                                                        <label for="{{ $progNacionalesActualmente->id }}">{{ $progNacionalesActualmente->nombre }}</label>
+                                                        <input disabled {{ $checked }} type="checkbox" id="{{ $progNacionalesActualmente->id }}" value="{{ $progNacionalesActualmente->id }}" name="orgprognacionalactualmente_id[]">
+                                                    @endif  
+                                                </div>
+                                                @endif
+                                            @endforeach     
+
+                                        <div class="form-group orgprognacionalActualmenteCual" style="display: none;">
+                                            @foreach ($orgProgNacionalActualmenteOtro as $progNacionalOtro)
+                                                @if ($progNacionalOtro->fformulario_id === $formF->id)
+                                                    <label for="">Cual?(Cargado Anteriormente)</label>
+                                                    <input type="text" class="form-control ml-3" value="{{ $progNacionalOtro->nombreOrganismo }}" readonly="readonly"><br>
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
 
                                 <div class="form-group orgProgProvincialesActualmente">
                                     @foreach ($orgProgProvincialesAlactualmente as $provActualmente)
@@ -1597,23 +1568,24 @@
                                     @endforeach
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="">E 3 V. Policía:
-                                        <span>(En caso de requerir, tildar todas las opciones que considere correspondientes)</span>
-                                    </label>
-                                    @foreach ($datosPoliciaActualmente as $policiaActualmente)
-                                        @php
-                                            $policiaActualmenteIds = $formF->policiaactualmentes->pluck('id')->toArray();
-                                            $checked = (in_array($policiaActualmente->id, $policiaActualmenteIds)) ? 'checked' : ''
-                                        @endphp
-                                        @if($checked=='checked')
-                                        <div class="ml-3">
-                                            <label for="{{ $policiaActualmente->id }}">{{ $policiaActualmente->nombre }}</label>
-                                            <input disabled {{ $checked }} type="checkbox" id="{{ $policiaActualmente->id }}" value="{{ $policiaActualmente->id }}" name="policiaactualmentes_id[]">
-                                        </div>
-                                        @endif
-                                    @endforeach
-                                </div>
+                                @if($formF->policiaactualmentes->count()>0)
+                                    <div class="form-group">
+                                        <label for="">E 3 V. Policía:
+                                        </label>
+                                        @foreach ($datosPoliciaActualmente as $policiaActualmente)
+                                            @php
+                                                $policiaActualmenteIds = $formF->policiaactualmentes->pluck('id')->toArray();
+                                                $checked = (in_array($policiaActualmente->id, $policiaActualmenteIds)) ? 'checked' : ''
+                                            @endphp
+                                            @if($checked=='checked')
+                                            <div class="ml-3">
+                                                <label for="{{ $policiaActualmente->id }}">{{ $policiaActualmente->nombre }}</label>
+                                                <input disabled {{ $checked }} type="checkbox" id="{{ $policiaActualmente->id }}" value="{{ $policiaActualmente->id }}" name="policiaactualmentes_id[]">
+                                            </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                @endif
 
                                 <div class="form-group orgSocCivilActualmente">
                                     @foreach ($orgSocCivilActualmente as $socCivilActualmente)
@@ -1624,6 +1596,7 @@
                                     @endforeach
                                 </div>
                             </div>
+                        @endif
                         @endif
                     @endforeach
                 {{-- Fin Articulación con organismos --}}
@@ -1651,6 +1624,26 @@
                                 </div>
                             @endif
                         </div>
+
+                        <div class="form-group">
+                                
+                                    <label for="contactoDirecto_id">¿Esta intervención incluye el contacto directo con la víctima? </label>
+                               
+                                    <select class="form-control noPersonas" name="contactoDirecto_id" {{ $errors->has('contactoDirecto_id') ? 'has-error' : ''}}>
+                                        <option value="">Seleccioná una opción</option>
+                                        
+                                        @foreach($intervenciones as $intervencion)
+                                        @foreach ($datosContactoDirecto as $contactoDirecto)
+                                        
+                                            @php
+                                                $selected = ($contactoDirecto->id == $intervencion->contactoDirecto_id) ? 'selected' : '';
+                                            @endphp
+                                            <option value="{{ $contactoDirecto->id }}" {{ $selected }}>{{ $contactoDirecto->nombre }}</option>
+                                        @endforeach
+                                        @endforeach
+                                    </select>
+                                    {!! $errors->first('contactoDirecto_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+                                </div>  
                             
                         <div class="form-group datosIntervencion">
                             <div class="form-group">
@@ -1674,7 +1667,12 @@
 
     <div class="botones">
         {{-- <a href="/pdf/{{ $formularioG->id }}" title=""><input type="button" name="descargar" id="descargar" class="btn btn-dark descargar ml-4 mb-2" value="Descargar"></a> --}}
-        <input type="button" id="imprimirbtn" name="imprimir" class="btn btn-dark imprimir ml-4" value="Imprimir">
+        <input type="button" id="imprimirbtn" name="imprimir" class="mb-3 btn btn-dark imprimir ml-4" style="width:100px" value="Imprimir">
+        <a href="/formularios/crearPdfG/{{ $idCarpeta }}/{{ $idFormG }}" id="descargarbtn" style="width:100px" name="descargar" class="btn btn-dark descargar ml-4">Descargar</a>
+
+    </div>
+
+    <div class="botones">
     </div>
 
     <script>
@@ -1692,7 +1690,7 @@
                     console.log(click);
                     // var divClick = '<div id="orgProgNacionalCual'+click+'" class="form-group orgProgNacionalCual'+click+'">';
 
-                    var divClickIntervencion = '<div id="intervencion'+click+'" class="form-group intervencion'+click+'""><h3>Nueva intervención</h3><div class="form-group"><label for="" class="">Fecha</label><input type="date" class="form-control fechaInput'+click+'" name="fechaIntervencion[]" required></div><div class="form-group"><label for="" class="">Tema</label><select class="form-control temaSelect'+click+'" name="temaIntervencion_id[]" required><option value="" disabled selected>Seleccione</option>@foreach ($temaIntervencion as $tema)<option value="{{ $tema->id }}">{{ $tema->nombre }}</option>@endforeach</select><div class="temaCual'+click+'" style="display: none;"><label for="">Cual?</label><input type="text" class="form-control  temaCualInput'+click+'" name="temaOtro[]"><br></div></div><div class="form-group datosIntervencion'+click+'" style="display: none;"><div class="form-group"><label for="">Nombre de contacto:</label><input type="text" class="form-control" name="nombreContacto[]" required></div><div class="form-group"><label for="">Teléfono de contacto:</label><input type="text" class="form-control" name="telefonoContacto[]" required pattern="[\+]{0,1}[0-9]+"></div><div class="form-group"><label for="">Descripción de la intervención:</label><textarea class="form-control" name="descripcionIntervencion[]" required></textarea></div></div></div>';
+                    var divClickIntervencion = '<div id="intervencion'+click+'" class="form-group intervencion'+click+'""><h3>Nueva intervención</h3><div class="form-group"><label for="" class="">Fecha</label><input type="date" class="form-control fechaInput'+click+'" name="fechaIntervencion[]" required></div><div class="form-group"><label for="" class="">Tema</label><select class="form-control temaSelect'+click+'" name="temaIntervencion_id[]" required><option value="" disabled selected>Seleccione</option>@foreach ($temaIntervencion as $tema)<option value="{{ $tema->id }}">{{ $tema->nombre }}</option>@endforeach</select><div class="form-group"><label for="contactoDirecto_id"> ¿Esta intervención incluye el contacto directo con la víctima? </label><select class="form-control noPersonas" name="contactoDirecto_id" required title="Este campo es obligatorio" {{ $errors->has('contactoDirecto_id') ? 'has-error' : ''}}><option value="" disabled selected>Seleccione</option>@foreach ($datosContactoDirecto as $contactoDirecto)<option value="{{ $contactoDirecto->getId() }}">{{ $contactoDirecto->getNombre() }}</option>@endforeach</select></div><div class="temaCual'+click+'" style="display: none;"><label for="">Cual?</label><input type="text" class="form-control  temaCualInput'+click+'" name="temaOtro[]"><br></div></div><div class="form-group datosIntervencion'+click+'" style="display: none;"><div class="form-group"><label for="">Nombre de contacto:</label><input type="text" class="form-control" name="nombreContacto[]" required></div><div class="form-group"><label for="">Teléfono de contacto:</label><input type="text" class="form-control" name="telefonoContacto[]" required pattern="[\+]{0,1}[0-9]+"></div><div class="form-group"><label for="">Descripción de la intervención:</label><textarea class="form-control" name="descripcionIntervencion[]" required></textarea></div></div></div>';
 
                     var divIntervenciones = document.getElementById('intervenciones');
                     divIntervenciones.insertAdjacentHTML('beforeend', divClickIntervencion);
@@ -1744,6 +1742,7 @@
                         });
                     //fin funcionalidades
                 });
+                
             }
 
             ///controla el combo del primeri intervinente que viene cargado.
@@ -1766,10 +1765,157 @@
 
 
 
+function eliminarArchivoDocInterna(item,archivo){
+    $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+			$.ajax({
+				url: "/formularios/edicion/G/eliminarDocInterno",
+				type: "POST",
+				data: {'archivo' : archivo},
+				beforeSend:function(){
+                    if(!window.confirm("¿Está seguro de que desea el archivo?. Esta operación es irreversible.")){
+                        return false;
+                    }
+				},
+				success:function(res){
+                    //res = jQuery.parseJSON(res);
+					if(res==='1'){
+                        $("#"+item ).remove();
+						alert("Archivo eliminado correctamente.");
+					}
+					else{
+						alert("NO SE LOGRÓ ELIMINAR EL ARCHIVO.")
+					}
+				}
+			});
+		
+};
+
+function eliminarArchivoDocExterna(item,archivo){
+    $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+			$.ajax({
+				url: "/formularios/edicion/G/eliminarDocExterno",
+				type: "POST",
+				data: {'archivo' : archivo},
+				beforeSend:function(){
+                    if(!window.confirm("¿Está seguro de que desea el archivo?. Esta operación es irreversible.")){
+                        return false;
+                    }
+				},
+				success:function(res){
+                    //res = jQuery.parseJSON(res);
+					if(res==='1'){
+                        $("#"+item ).remove();
+						alert("Archivo eliminado correctamente.");
+					}
+					else{
+						alert("NO SE LOGRÓ ELIMINAR EL ARCHIVO.")
+					}
+				}
+			});
+		
+};
 
 
 
 
+
+
+function eliminarArchivoFondoRotativo(item,archivo){
+    $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+			$.ajax({
+				url: "/formularios/edicion/G/eliminarFondoRotativo",
+				type: "POST",
+				data: {'archivo' : archivo},
+				beforeSend:function(){
+                    if(!window.confirm("¿Está seguro de que desea el archivo?. Esta operación es irreversible.")){
+                        return false;
+                    }
+				},
+				success:function(res){
+                    //res = jQuery.parseJSON(res);
+					if(res==='1'){
+                        $("#"+item ).remove();
+						alert("Archivo eliminado correctamente.");
+					}
+					else{
+						alert("NO SE LOGRÓ ELIMINAR EL ARCHIVO.")
+					}
+				}
+			});
+		
+};
+
+
+function eliminarArchivoIntervencionEstrategias(item,archivo){
+    $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+			$.ajax({
+				url: "/formularios/edicion/G/eliminarIntervencionEstrategias",
+				type: "POST",
+				data: {'archivo' : archivo},
+				beforeSend:function(){
+                    if(!window.confirm("¿Está seguro de que desea el archivo?. Esta operación es irreversible.")){
+                        return false;
+                    }
+				},
+				success:function(res){
+                    //res = jQuery.parseJSON(res);
+					if(res==='1'){
+                        $("#"+item ).remove();
+						alert("Archivo eliminado correctamente.");
+					}
+					else{
+						alert("NO SE LOGRÓ ELIMINAR EL ARCHIVO.")
+					}
+				}
+			});
+		
+};
+
+
+function eliminarArchivoInfoSocioambiental(item,archivo){
+    $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+			$.ajax({
+				url: "/formularios/edicion/G/eliminarInfoSocioambiental",
+				type: "POST",
+				data: {'archivo' : archivo},
+				beforeSend:function(){
+                    if(!window.confirm("¿Está seguro de que desea el archivo?. Esta operación es irreversible.")){
+                        return false;
+                    }
+				},
+				success:function(res){
+                    //res = jQuery.parseJSON(res);
+					if(res==='1'){
+                        $("#"+item ).remove();
+						alert("Archivo eliminado correctamente.");
+					}
+					else{
+						alert("NO SE LOGRÓ ELIMINAR EL ARCHIVO.")
+					}
+				}
+			});
+		
+};
 
 
         //fin agregar intervencion

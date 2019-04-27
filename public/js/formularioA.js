@@ -381,6 +381,9 @@ $("#formularioA").validate({ //se definen las opciones de validaciÃ³n para el 
 			   ambito_id:{
 				   required: true,
 			   },
+			   fiscalia_juzgado: {
+				   required: true
+			   },
 			   departamento_id:{
 				   required: true,
 			   },
@@ -441,6 +444,9 @@ $("#formularioA").validate({ //se definen las opciones de validaciÃ³n para el 
 			   required:"Este campo es obligatorio",
 		   },
 		   ambito_id:{
+			   required:"Este campo es obligatorio",
+		   },
+		   fiscalia_juzgado:{
 			   required:"Este campo es obligatorio",
 		   },
 		   departamento_id:{

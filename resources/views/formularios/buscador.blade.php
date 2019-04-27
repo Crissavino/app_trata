@@ -37,9 +37,12 @@
         {{--
         <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
         <li class="nav-item cerrarSesion"> <a class="nav-link " href="/logout">Cerrar sesión</a> </li>
-        <li class="nav-item active"> <a class="nav-link active" href="/formularios/buscador">Buscador por carpeta</a> </li>
-        <li class="nav-item"> <a class="nav-link" href="/formularios/buscadorNombre">Buscador por referencia</a> </li>
-        <li class="nav-item "> <a class="nav-link " href="/formularios/buscadorVictima">Buscador por víctima</a> </li>
+        <li class="nav-item active"> <a class="nav-link active" href="/formularios/buscador">Buscador por número de carpeta</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="/formularios/buscadorNombre">Buscador por nombre de referencia</a> </li>
+        <li class="nav-item "> <a class="nav-link" href="/formularios/buscadorNumero">Buscador por número de causa</a> </li>
+        <li class="nav-item "> <a class="nav-link" href="/formularios/buscadorFiscalia">Buscador por fiscalía/juzgado interviniente</a> </li>
+        <li class="nav-item "> <a class="nav-link " href="/formularios/buscadorVictima">Buscador por datos de la víctima</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="/formularios/buscadorAmbito">Buscador por ámbito de competencia</a> </li>
     </ul>
 </header>
 
@@ -52,7 +55,7 @@
 
     <section class="container">
         <h1 class="text-center" style="padding: 15px;">
-            Buscador por carpeta
+            Buscador de formularios
         </h1>
 
         <form action="/formularios/buscador" class="navbar-form" method="get" accept-charset="utf-8">
@@ -88,98 +91,127 @@
                     </tr>
 
 
-                    @foreach ($carpetas as $carpeta) {{-- @dd($carpeta->aformulario->deleted_at == null) --}}
-                    <tr>
-                        <td class="text-center align-middle">
-                            <h4><a name="{{ $carpeta->numeroCarpeta }}" title="">{{ $carpeta->numeroCarpeta }}</a></h4>
-                        </td>
-                        <td>
-                            @if ($carpeta->aformulario_id) {{-- nuevo --}}
-                            <a href="/formularios/edicion/A/{{ $carpeta->id }}/{{ $carpeta->aformulario_id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>                            {{-- <a href="/formularios/edicion/A/{{$carpeta->aformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>                            --}} @if (auth()->user()->isAdmin === 1)
-                            <form action="/formularios/edicion/A/{{$carpeta->id}}" class="" method="post" id="form{{$carpeta->id}}" data-id="form{{ $carpeta->id }}">
-                                @method('DELETE') @csrf
+                    @foreach($carpetas as $carpeta)
+                        <tr>
+                            <td class="text-center align-middle">
+                                <h4 class="mt-1"><a name="{{ $carpeta->numeroCarpeta }}" title="">{{ $carpeta->numeroCarpeta }}</a></h4>
+                                <a href="/resumen/{{ $carpeta->id }}" class="btn btn-success"><i class="far fa-file mr-2"></i>Resumen</a><br><br>
+                            </td>
+                            
+                            <td>
+                                @if ($carpeta->aformulario_id)
+                                    <a href="/formularios/edicion/A/{{ $carpeta->id }}/{{ $carpeta->aformulario_id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>
+                                    @if (auth()->user()->isAdmin === 1)
+                                        <form action="/formularios/edicion/A/{{$carpeta->id}}" class="" method="post" id="form{{$carpeta->id}}" data-id="form{{ $carpeta->id }}">
+                                            @method('DELETE') @csrf
+                                            <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)"><i class="far fa-trash-alt"></i> Borrar </span></button>
+                                        </form>
+                                    @endif 
+                                @elseif(!($carpeta->aformulario_id) && ($carpeta->user_id == auth()->user()->id))
+                                    <a href="/formularios/A" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Completar carga </a><br><br>
+                                @endif
+                            </td>
+                            
+                            <td>
+                                @if ($carpeta->aformulario_id && $carpeta->bformulario_id)
+                                    <a href="/formularios/edicion/B/{{ $carpeta->id }}/{{ $carpeta->bformulario_id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>
+                                    @if (auth()->user()->isAdmin === 1)
+                                        <form action="/formularios/edicion/B/{{$carpeta->id}}" class="" method="post" id="form">
+                                            @method('DELETE') @csrf
+                                            <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)"><i class="far fa-trash-alt"></i> Borrar </span></button>
+                                        </form>
+                                    @endif 
+                                @elseif($carpeta->aformulario_id && !($carpeta->bformulario_id) && ($carpeta->user_id == auth()->user()->id))
+                                    <a href="/formularios/B/{{ $carpeta->id }}" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Completar carga </a><br><br>
+                                @endif
+                            </td>
 
-                                <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)">
-                                                <i class="far fa-trash-alt"></i> Borrar </span>
-                                            </button>
+                            @foreach ($aFormularios as $aForm)
+                                @if (($carpeta->aformulario_id == $aForm->id) && ($aForm->tipovictima_id == 1))
+                                    <td>
+                                        @if (($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id))
+                                            <a href="/formularios/edicion/C/{{ $carpeta->id }}/{{$carpeta->cformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>
+                                            @if (auth()->user()->isAdmin === 1)
+                                                <form action="/formularios/edicion/C/{{$carpeta->id}}" class="" method="post" id="form">
+                                                    @method('DELETE') @csrf
+                                                    <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)"><i class="far fa-trash-alt"></i> Borrar </span></button>
+                                                </form>
+                                            @endif 
+                                        @elseif($carpeta->aformulario_id && ($carpeta->bformulario_id) && !($carpeta->cformulario_id) && ($carpeta->user_id == auth()->user()->id))
+                                            <a href="/formularios/C/{{ $carpeta->id }}" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Completar carga </a><br><br>
+                                        @endif
+                                    </td>
+                                    
+                                    <td>
+                                        @if ($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id)
+                                            <a href="/formularios/edicion/D/{{ $carpeta->id }}/{{$carpeta->dformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>
+                                            @if (auth()->user()->isAdmin === 1)
+                                                <form action="/formularios/edicion/D/{{ $carpeta->id }}" class="" method="post" id="form">
+                                                    @method('DELETE') @csrf
+                                                    <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)">
+                                                                                                    <i class="far fa-trash-alt"></i> Borrar </span>
+                                                                                                </button>
+                                                </form>
+                                            @endif 
+                                        @elseif($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id && !($carpeta->dformulario_id) && ($carpeta->user_id == auth()->user()->id))
+                                            <a href="/formularios/D/{{ $carpeta->id }}" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Completar carga </a><br><br>
+                                        @endif
+                                    </td>
+                                    
+                                    <td>
+                                        @if ($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->fformulario_id)
+                                            <a href="/formularios/edicion/F/{{ $carpeta->id }}/{{$carpeta->fformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i>@if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>
+                                            @if (auth()->user()->isAdmin === 1)
+                                                <form action="/formularios/edicion/F/{{$carpeta->id}}" class="" method="post">
+                                                    @method('DELETE') @csrf
+                                                    <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)"><i class="far fa-trash-alt"></i> Borrar </span></button>
+                                                </form>
+                                            @endif 
+                                        @elseif($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && !($carpeta->fformulario_id) && ($carpeta->user_id == auth()->user()->id))
+                                            <a href="/formularios/F/{{ $carpeta->id }}" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Completar carga </a><br><br>
+                                        @endif
+                                    </td>
+                                    
+                                    <td>
+                                        @if ($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->fformulario_id && $carpeta->gformulario_id)
+                                            <a href="/formularios/edicion/G/{{ $carpeta->id }}/{{$carpeta->gformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>                            
+                                            @if (auth()->user()->isAdmin === 1)
+                                            <form action="/formularios/edicion/G/{{$carpeta->id}}" class="" method="post" id="form">
+                                                @method('DELETE') @csrf
+                                                <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)"><i class="far fa-trash-alt"></i> Borrar </span></button>
+                                            </form>
+                                            @endif
+                                        @elseif($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->fformulario_id && !($carpeta->gformulario_id) && ($carpeta->user_id == auth()->user()->id))
+                                            <a href="/formularios/G/{{ $carpeta->id }}" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Completar carga </a><br><br>
+                                        @endif
+                                    </td>
+                                @elseif(($carpeta->aformulario_id == $aForm->id) && ($aForm->tipovictima_id == 2))
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                @elseif(($carpeta->aformulario_id == $aForm->id) && ($aForm->tipovictima_id == 3))
+                                    
+                                    <td>
+                                        @if (($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id))
+                                            <a href="/formularios/edicion/C/{{ $carpeta->id }}/{{$carpeta->cformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>
+                                            @if (auth()->user()->isAdmin === 1)
+                                                <form action="/formularios/edicion/C/{{$carpeta->id}}" class="" method="post" id="form">
+                                                    @method('DELETE') @csrf
+                                                    <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)"><i class="far fa-trash-alt"></i> Borrar </span></button>
+                                                </form>
+                                            @endif 
+                                        @elseif($carpeta->aformulario_id && ($carpeta->bformulario_id) && !($carpeta->cformulario_id) && ($carpeta->user_id == auth()->user()->id))
+                                            <a href="/formularios/C/{{ $carpeta->id }}" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Completar carga </a><br><br>
+                                        @endif
+                                    </td>
 
-
-                            </form>
-                            @endif @elseif(!($carpeta->aformulario_id) && ($carpeta->user_id == auth()->user()->id))
-                            <a href="/formularios/A" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Completar carga </a><br><br>                            @endif
-                        </td>
-                        <td>
-                            {{-- @if ($carpeta->bformulario_id) --}} @if ($carpeta->aformulario_id && $carpeta->bformulario_id) {{-- nuevo --}}
-                            <a href="/formularios/edicion/B/{{ $carpeta->id }}/{{ $carpeta->bformulario_id }}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>                            {{-- <a href="/formularios/edicion/B/{{$carpeta->bformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>                            --}} @if (auth()->user()->isAdmin === 1)
-                            <form action="/formularios/edicion/B/{{$carpeta->id}}" class="" method="post" id="form">
-                                @method('DELETE') @csrf
-
-                                <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)">
-                                                                                <i class="far fa-trash-alt"></i> Borrar </span>
-                                                                            </button>
-                            </form>
-                            @endif @elseif($carpeta->aformulario_id && !($carpeta->bformulario_id) && ($carpeta->user_id == auth()->user()->id)) {{--
-                            nuevo --}}
-                            <a href="/formularios/B/{{ $carpeta->id }}" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Completar carga </a><br><br>                            @endif
-                        </td>
-                        <td>
-                            {{-- @if ($carpeta->cformulario_id) --}} @if (($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id))
-                            <a href="/formularios/edicion/C/{{ $carpeta->id }}/{{$carpeta->cformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>                            @if (auth()->user()->isAdmin === 1)
-                            <form action="/formularios/edicion/C/{{$carpeta->id}}" class="" method="post" id="form">
-                                @method('DELETE') @csrf
-                                <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)">
-                                                                                <i class="far fa-trash-alt"></i> Borrar </span>
-                                                                            </button>
-                            </form>
-                            @endif @elseif($carpeta->aformulario_id && ($carpeta->bformulario_id) && !($carpeta->cformulario_id) && ($carpeta->user_id
-                            == auth()->user()->id))
-                            <a href="/formularios/C/{{ $carpeta->id }}" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Completar carga </a><br><br>                            @endif
-                        </td>
-                        <td>
-                            {{-- @if ($carpeta->dformulario_id) --}} @if ($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id
-                            && $carpeta->dformulario_id)
-                            <a href="/formularios/edicion/D/{{ $carpeta->id }}/{{$carpeta->dformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>                            @if (auth()->user()->isAdmin === 1)
-                            <form action="/formularios/edicion/D/{{ $carpeta->id }}" class="" method="post" id="form">
-                                @method('DELETE') @csrf
-                                <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)">
-                                                                                <i class="far fa-trash-alt"></i> Borrar </span>
-                                                                            </button>
-                            </form>
-                            @endif @elseif($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id && !($carpeta->dformulario_id)
-                            && ($carpeta->user_id == auth()->user()->id))
-                            <a href="/formularios/D/{{ $carpeta->id }}" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Completar carga </a><br><br>                            @endif
-                        </td>
-                        <td>
-                            @if ($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id && $carpeta->fformulario_id)
-                            <a href="/formularios/edicion/F/{{ $carpeta->id }}/{{$carpeta->fformulario_id}}" class="btn btn-primary float-left">
-                                <i class="far fa-edit"></i>@if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br> @if (auth()->user()->isAdmin
-                            === 1)
-                            <form action="/formularios/edicion/F/{{$carpeta->id}}" class="" method="post">
-                                @method('DELETE') @csrf
-                                <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)">
-                                                                                <i class="far fa-trash-alt"></i> Borrar </span>
-                                                                            </button>
-                            </form>
-                            @endif @elseif($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id && $carpeta->dformulario_id
-                            && !($carpeta->fformulario_id) && ($carpeta->user_id == auth()->user()->id))
-                            <a href="/formularios/F/{{ $carpeta->id }}" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Completar carga </a><br><br>                            @endif
-                        </td>
-                        <td>
-                            {{-- @if ($carpeta->gformulario_id) --}} @if ($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id
-                            && $carpeta->dformulario_id && $carpeta->fformulario_id && $carpeta->gformulario_id)
-                            <a href="/formularios/edicion/G/{{ $carpeta->id }}/{{$carpeta->gformulario_id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i> @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br>                            @if (auth()->user()->isAdmin === 1)
-                            <form action="/formularios/edicion/G/{{$carpeta->id}}" class="" method="post" id="form">
-                                @method('DELETE') @csrf
-                                <button type="button" class="btn btn-danger" id="form{{ $carpeta->id }}" onClick="preSubmit(this.id)">
-                                                                                <i class="far fa-trash-alt"></i> Borrar </span>
-                                                                            </button>
-                            </form>
-                            @endif {{-- @elseif(!($carpeta->gformulario_id)) --}} @elseif($carpeta->aformulario_id && $carpeta->bformulario_id && $carpeta->cformulario_id
-                            && $carpeta->dformulario_id && $carpeta->fformulario_id && !($carpeta->gformulario_id) && ($carpeta->user_id
-                            == auth()->user()->id))
-                            <a href="/formularios/G/{{ $carpeta->id }}" class="btn btn-success float-left"><i class="fas fa-redo-alt"></i> Completar carga </a><br><br>                            @endif
-                        </td>
-                    </tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                @endif
+                            @endforeach
+                        </tr>
                     @endforeach
                 </tbody>
                          

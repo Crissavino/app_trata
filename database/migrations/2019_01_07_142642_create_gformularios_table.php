@@ -82,6 +82,7 @@ class CreateGformulariosTable extends Migration
             $table->string('nombreContacto')->nullable();
             $table->string('telefonoContacto')->nullable();
             $table->string('descripcionIntervencion')->nullable();
+            $table->string('contactoDirecto_id')->nullable();
             $table->integer('user_id')->unsigned();
             $table->softDeletesTz();
             $table->timestampsTz();
@@ -93,6 +94,13 @@ class CreateGformulariosTable extends Migration
             $table->integer('intervencion_id')->unsigned();
             $table->softDeletesTz();
             $table->timestampsTz();
+        });
+
+        Schema::create('contactodirectos', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->softDeletes();
+            $table->timestamps();
         });
 
     }
@@ -113,5 +121,6 @@ class CreateGformulariosTable extends Migration
         Schema::dropIfExists('temaintervencions');
         Schema::dropIfExists('intervencions');
         Schema::dropIfExists('gformulario_intervencion');
+        Schema::dropIfExists('contactodirectos');
     }
 }

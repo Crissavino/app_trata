@@ -28,6 +28,8 @@ class Aformulario extends Model
 							'ambito_id',
 							'departamento_id',
 							'otrasprov_id',
+							'fiscalia_juzgado',
+							'tipovictima_id',
 							'user_id',
 						];
 
@@ -73,6 +75,19 @@ class Aformulario extends Model
 	{
 		if ($numeroCausa) {
 			return $query->WHERE('datos_nro_causa', 'LIKE', "%$numeroCausa%");
+		}
+	}
+
+	public function scopeAmbitoCompetencia($query, $ambitoCompetencia)
+	{
+		if ($ambitoCompetencia) {
+			return $query->WHERE('ambito_id', 'LIKE', "%$ambitoCompetencia%");
+		}
+	}
+	public function scopeJuzgado($query, $fiscaliaJuzgado)
+	{
+		if ($fiscaliaJuzgado) {
+			return $query->WHERE('fiscalia_juzgado', 'LIKE', "%$fiscaliaJuzgado%");
 		}
 	}
 }

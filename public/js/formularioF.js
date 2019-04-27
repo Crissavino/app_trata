@@ -1,5 +1,27 @@
 //JS para el EDIT
-
+function onlyText() {
+	//elimina el copy paste
+	$(':input').bind('copy paste cut',function(e) {
+		e.preventDefault(); //disable cut,copy,paste.                    
+	});
+	//convierte las letras ingresadas en todos los input a mayuscula
+	$(':input').keyup(function(){
+		this.value = this.value.toUpperCase();
+	});
+	//solo se permite numeros y letras en todos los input
+	$(':input').keypress(function (e) {
+		var theEvent = e || window.event;
+		var key = theEvent.keyCode || theEvent.which;
+		if (key === 8) { return; }
+		key = String.fromCharCode(key);
+		var regex = /^[0-9a-zñA-ZÑ\s]*$/;
+		if (!regex.test(key)) {
+			theEvent.returnValue = false;
+			if (theEvent.preventDefault) theEvent.preventDefault();
+		}
+	});
+}
+onlyText();
 	//pregunta de F 1
 		var intervinieronOrganismos = document.querySelector('.intervinieronOrganismos_id');
 		var organismoDerivo = document.querySelector('.organismoDerivo');
@@ -48,9 +70,9 @@
 					});
 				}
 			});
-			if (deSocioEconomica[6].checked) {
+			if (deSocioEconomica[7].checked) {
 				socioEconomicaCual.style.display = '';
-				deSocioEconomica[6].addEventListener('click', function(){
+				deSocioEconomica[7].addEventListener('click', function(){
 					if (this.checked) {
 					socioEconomicaCual.style.display = '';
 					}else{
@@ -233,7 +255,7 @@ window.onload =function (){
 		btnOrgProgNacionalAgregarOtro.addEventListener('click', function(){
 			var divCual = document.getElementById('orgProgNacionalCual');
 			divCual.insertAdjacentHTML('beforeend', '<div id="orgProgNacionalCual" class="form-group orgProgNacionalCual"><label for="">Cual?</label><input type="text" class="form-control ml-3 orgProgNacionalCualInput" name="orgprognacionalOtro[]"></div>');
-
+			onlyText();
 		});
 
 		btnOrgProgNacionalBorrarOtro.addEventListener('click', function(){
@@ -249,6 +271,7 @@ window.onload =function (){
 		btnOrgProgProvincialesOtro.addEventListener('click', function(){
 			var divCual = document.getElementById('orgProgProvinciales');
 			divCual.insertAdjacentHTML('beforeend', '<div id="orgProgProvinciales" class="form-group"><label for="">Organismos/Programas Provinciales Otro:</label><input type="text" class="form-control ml-3" name="orgProgProvinciales[]"></div>');
+			onlyText();
 		});
 
 		btnOrgProgProvincialesBorrarOtro.addEventListener('click', function(){
@@ -264,6 +287,7 @@ window.onload =function (){
 		btnOrgProgMunicipalesAgregarOtro.addEventListener('click', function(){
 			var divCual = document.getElementById('orgProgMunicipales');
 			divCual.insertAdjacentHTML('beforeend', '<div id="orgProgMunicipales" class="form-group"><label for="">Organismos/Programas Provinciales Otro:</label><input type="text" class="form-control ml-3" name="orgProgMunicipales[]"></div>');
+			onlyText();
 		});
 
 		btnOrgProgMunicipalesBorrarOtro.addEventListener('click', function(){
@@ -279,6 +303,7 @@ window.onload =function (){
 		btnOrgSocCivilAgregarOtro.addEventListener('click', function(){
 			var divCual = document.getElementById('orgSocCivil');
 			divCual.insertAdjacentHTML('beforeend', '<div id="orgSocCivil" class="form-group"><label for="">Organizaciones de la Sociedad Civil Otro:</label><input type="text" class="form-control ml-3" name="orgSocCivil[]"></div>');
+			onlyText();
 		});
 
 		btnOrgSocCivilBorrarOtro.addEventListener('click', function(){
@@ -297,7 +322,7 @@ window.onload =function (){
 		socioEconomicaCheckbox.addEventListener('click', function(){
 			if (socioEconomicaCheckbox.checked) {
 				socioEconomica.style.display = '';
-				deSocioEconomica[6].addEventListener('click', function(){
+				deSocioEconomica[7].addEventListener('click', function(){
 					if (this.checked) {
 					socioEconomicaCual.style.display = '';
 					}else{
@@ -353,6 +378,7 @@ window.onload =function (){
 		btnOrgprognacionalActualmenteAgregarOtro.addEventListener('click', function(){
 			var divCual = document.getElementById('orgprognacionalActualmenteCual');
 			divCual.insertAdjacentHTML('beforeend', '<div id="orgprognacionalActualmenteCual" class="form-group orgprognacionalActualmenteCual"><label for="">Cual?</label><input type="text" class="form-control ml-3 orgProgNacionalActualmenteCualInput" name="orgprognacionalActualmenteOtro[]"></div>');
+			onlyText();
 
 		});
 
@@ -369,6 +395,7 @@ window.onload =function (){
 		btnOrgProgProvincialesActualmenteAgregarOtro.addEventListener('click', function(){
 			var divCual = document.getElementById('orgProgProvincialesActualmente');
 			divCual.insertAdjacentHTML('beforeend', '<div id="orgProgProvincialesActualmente" class="form-group"><label for="">Organismos/Programas Provinciales Otro:</label><input type="text" class="form-control ml-3" name="orgProgProvincialesActualmente[]"></div>');
+			onlyText();
 		});
 
 		btnOrgProgProvincialesActualmenteBorrarOtro.addEventListener('click', function(){
@@ -384,6 +411,7 @@ window.onload =function (){
 		btnOrgProgMunicipalesActualmenteAgregarOtro.addEventListener('click', function(){
 			var divCual = document.getElementById('orgProgMunicipalesActualmente');
 			divCual.insertAdjacentHTML('beforeend', '<div id="orgProgMunicipalesActualmente" class="form-group"><label for="">Organismos/Programas Provinciales Otro:</label><input type="text" class="form-control ml-3" name="orgProgMunicipalesActualmente[]"></div>');
+			onlyText();
 		});
 
 		btnOrgProgMunicipalesActualmenteBorrarOtro.addEventListener('click', function(){
@@ -399,6 +427,7 @@ window.onload =function (){
 		btnOrgSocCivilActualmenteAgregarOtro.addEventListener('click', function(){
 			var divCual = document.getElementById('orgSocCivilActualmente');
 			divCual.insertAdjacentHTML('beforeend', '<div id="orgSocCivilActualmente" class="form-group"><label for="">Organizaciones de la Sociedad Civil Otro:</label><input type="text" class="form-control ml-3" name="orgSocCivilActualmente[]"></div>');
+			onlyText();
 		});
 
 		btnOrgSocCivilActualmenteBorrarOtro.addEventListener('click', function(){

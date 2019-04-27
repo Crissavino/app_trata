@@ -64,7 +64,7 @@
             {{-- INICIO TERCERA PREGUNTA --}}
                 <div class="form-group {{ $errors->has('datos_fecha_ingreso') ? 'has-error' : ''}}">
                     <label for="datos_fecha_ingreso">A 3. Fecha de Ingreso:</label>
-                    <input type="date" class="form-control" name="datos_fecha_ingreso" id="datos_fecha_ingreso" value="{{old('datos_fecha_ingreso')}}">
+                    <input type="date" class="form-control date" name="datos_fecha_ingreso" id="datos_fecha_ingreso" value="{{old('datos_fecha_ingreso')}}">
                     {!! $errors->first('datos_fecha_ingreso', '<p class="help-block" style="color:red";>:message</p>') !!}
                 </div>
             {{-- FIN TERCERA PREGUNTA --}}
@@ -233,8 +233,16 @@
             {{-- FIN SEXTA PREGUNTA --}}
 
             {{-- INICIO SEPTIMA PREGUNTA --}}
+                <div class="form-group {{ $errors->has('fiscalia_juzgado') ? 'has-error' : ''}}">
+                    <label for="fiscalia_juzgado">A 7. Fiscalía/Juzgado Interviniente:</label>
+                    <input type="text" class="form-control" name="fiscalia_juzgado" id="fiscalia_juzgado" value="{{old('fiscalia_juzgado')}}">
+                    {!! $errors->first('fiscalia_juzgado', '<p class="help-block" style="color:red";>:message</p>') !!}
+                </div>
+            {{-- FIN SEPTIMA PREGUNTA --}}
+
+            {{-- INICIO OCTAVA PREGUNTA --}}
                 <div class="form-group {{ $errors->has('caratulacionjudicial_id') ? 'has-error' : ''}}">
-                    <label for="caratulacionjudicial_id">A 7. Caratulación Judicial:</label>
+                    <label for="caratulacionjudicial_id">A 8. Caratulación Judicial:</label>
                     <select class="form-control caratulacionjudicial" name="caratulacionjudicial_id" id="caratulacionjudicial_id">
                         <option value="" disabled selected>Seleccione</option>
                         @foreach ($datosCaratulacion as $caratulacion)
@@ -252,69 +260,34 @@
                     </div>
                 </div>
 
-               {{--  <script>
-                    function selectOnChange(sel) {
-                        if (sel.value=="7"){
-                            divC = document.getElementById("cual");
-                            divC.style.display = "";
-                        }else{
-                            divC = document.getElementById("cual");
-                            $('#caratulacionjudicial_otro').val('');
-                            divC.style.display="none";
-                        }
-                    }
-                </script> --}}
-            {{-- FIN SEPTIMA PREGUNTA --}}
+            {{-- FIN OCTAVA PREGUNTA --}}
 
-            {{-- INICIO OCTAVA PREGUNTA --}}
+            {{-- INICIO NOVENA PREGUNTA --}}
                 <div class="form-group {{ $errors->has('datos_nro_causa') ? 'has-error' : ''}}">
-                    <label for="datos_nro_causa">A 8. N° Causa o Id Judicial:</label>
+                    <label for="datos_nro_causa">A 9. N° Causa o Id Judicial:</label>
                     <input type="text" class="form-control" name="datos_nro_causa" id="datos_nro_causa" value="{{old('datos_nro_causa')}}">
                     {!! $errors->first('datos_nro_causa', '<p class="help-block" style="color:red";>:message</p>') !!}
                 </div>
-            {{-- FIN OCTAVA PREGUNTA --}}
+            {{-- FIN NOVENA PREGUNTA --}}
+
+            {{-- INICIO DECIMA PREGUNTA --}}
+                <div class="form-group" {{ $errors->has('tipovictima_id') ? 'has-error' : ''}}>
+                    <label for="">A 10. Tipo de víctima:</label>
+                    <select class="form-control" name="tipovictima_id">
+                        <option value="" disabled selected>Seleccione</option>
+                        @foreach ($datosTipoVictima as $tipoVictima)
+                            <option value="{{ $tipoVictima->getId() }}" {{ old('tipovictima_id') == $tipoVictima->getId() ? 'selected' : '' }}>{{ $tipoVictima->getNombre() }}</option>
+                        @endforeach
+                    </select>
+                </div>
+	    	    {!! $errors->first('tipovictima_id', '<p class="help-block" style="color:red";>:message</p>') !!}
+            {{-- FIN DECIMA PREGUNTA --}}
 
             {{-- INICIO AGREGAR PROFESIONAL PREGUNTA --}}
                 <div class="padre"></div>
-                {{-- <div class="hijo" style="display: none;">
-                        <h3>A 9. Profesional Interviniente:</h3>
-                        <div class="form-group" {{ $errors->has('profesional_id[]') ? 'has-error' : ''}}>
-                            <label for="profesional_id">A 9.1 Nombre/Equipo/Profesión: </label>
-                            <select class="form-control profesional_id" id="profesional_id">
-                                <option value="" disabled selected>Seleccione</option>
-                                @foreach ($datosProfesional as $profesional)
-                                    <option value="{{ $profesional->getId() }}">{{ $profesional->getNombreCompletoyProfesion() }}</option>
-                                @endforeach
-                            </select>
-                            {!! $errors->first('profesional_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-                        </div>
-
-                        <div class="mostrarInicio form-group {{ $errors->has('datos_profesional_interviene_desde[]') ? 'has-error' : ''}}">
-                            <label for="datos_profesional_interviene_desde">A 9.2 Interviene desde:</label>
-                            <input type="date" class="form-control desde" id="datos_profesional_interviene_desde" value="">
-                            {!! $errors->first('datos_profesional_interviene_desde.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-                        </div>
-
-                        <div class="form-group {{ $errors->has('profesionalactualmente_id[]') ? 'has-error' : ''}}">
-                            <label for="profesionalactualmente_id">A 9.3 Actualmente Interviene:</label>
-                            <select class="form-control actualmente" id="profesionalactualmente_id">
-                                <option value="" disabled selected >Seleccione</option>
-                                @foreach ($datosIntervieneActualmente as $profesionalInterviene)
-                                    <option value="{{ $profesionalInterviene->getId() }}">{{ $profesionalInterviene->getNombre() }}</option>
-                                @endforeach
-                            </select>
-                            {!! $errors->first('profesionalactualmente_id.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-                        </div>
-
-                        <div style="display: none;" class="mostrarFinal form-group {{ $errors->has('datos_profesional_interviene_hasta[]') ? 'has-error' : ''}}">
-                            <label for="datos_profesional_interviene_hasta">A 9.4 Interviene hasta:</label>
-                            <input type="date" class="form-control hasta" id="datos_profesional_interviene_hasta" value="">
-                            {!! $errors->first('datos_profesional_interviene_hasta.*', '<p class="help-block" style="color:red";>:message</p>') !!}
-                        </div>
-                </div> --}}
+                
                 <button id="anadir" class="btn btn-outline-primary col-xl anadirProfesional" type="button"> Agregar profesional </button><br><br>
                 <button id="borra" class="btn btn-outline-danger col-xl borrarProfesional" type="button">Borrar profesional</button><br><br>
-                {{-- <button id="borra" class="btn btn-outline-danger col-xl" type="button" onclick="borra()">Borrar profesional</button><br><br> --}}
             {{-- FIN AGREGAR PROFESIONAL PREGUNTA --}}
 
                 <button type="submit" onclick="javascript:otraFuncion();" class="btn btn-primary col-xl" name="button">Guardar</button><br><br>
@@ -338,7 +311,7 @@
                 btnAgregarProfesional.addEventListener('click', function(){
                     clicks++
 
-                    var divClickProfesional = '<div class="hijo" name="profesionalDinamico"><h3>A 9. Profesional Interviniente:</h3><div class="form-group" {{ $errors->has("profesional_id[]") ? "has-error" : ""}}><label for="profesional_id">A 9.1 Nombre/Equipo/Profesión: </label><select class="form-control profesional_id'+clicks+'" name="profesional_id[]" id="profesional_id"><option value="" disabled selected >Seleccione</option>@foreach ($datosProfesional as $profesional)<option value="{{ $profesional->getId() }}">{{ $profesional->getNombreCompletoyProfesion() }} - {{ $profesional->profesion }}</option>@endforeach</select>{!! $errors->first("profesional_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="mostrarInicio form-group" {{ $errors->has("datos_profesional_interviene_desde[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_desde">A 9.2 Interviene desde:</label><input type="date" class="form-control desde'+clicks+'" name="datos_profesional_interviene_desde[]" id="datos_profesional_interviene_desde" value="">{!! $errors->first("datos_profesional_interviene_desde.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group" {{ $errors->has("profesionalactualmente_id[]") ? "has-error" : ""}}><label for="profesionalactualmente_id">A 9.3 Actualmente Interviene:</label><select class="form-control actualmente'+clicks+'" name="profesionalactualmente_id[]" id="profesionalactualmente_id"><option value="" disabled selected>Seleccione</option>@foreach ($datosIntervieneActualmente as $profesionalInterviene)<option value="{{ $profesionalInterviene->getId() }}">{{ $profesionalInterviene->getNombre() }}</option>@endforeach</select>{!! $errors->first("profesionalactualmente_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div style="display: none;" class="mostrarFinal'+clicks+' form-group" {{ $errors->has("datos_profesional_interviene_hasta[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_hasta">A 9.4 Interviene hasta:</label><input type="date" class="form-control hasta'+clicks+'" name="datos_profesional_interviene_hasta[]" id="datos_profesional_interviene_hasta" value="">{!! $errors->first("datos_profesional_interviene_hasta.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div></div>';
+                    var divClickProfesional = '<div class="hijo" name="profesionalDinamico"><h3>A 10. Profesional Interviniente:</h3><div class="form-group" {{ $errors->has("profesional_id[]") ? "has-error" : ""}}><label for="profesional_id">A 10.1 Nombre/Equipo/Profesión: </label><select class="form-control profesional_id'+clicks+'" name="profesional_id[]" id="profesional_id"><option value="" disabled selected >Seleccione</option>@foreach ($datosProfesional as $profesional)<option value="{{ $profesional->getId() }}">{{ $profesional->getNombreCompletoyProfesion() }} - {{ $profesional->profesion }}</option>@endforeach</select>{!! $errors->first("profesional_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="mostrarInicio form-group" {{ $errors->has("datos_profesional_interviene_desde[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_desde">A 10.2 Interviene desde:</label><input type="date" class="form-control desde'+clicks+'" name="datos_profesional_interviene_desde[]" id="datos_profesional_interviene_desde" value="">{!! $errors->first("datos_profesional_interviene_desde.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div class="form-group" {{ $errors->has("profesionalactualmente_id[]") ? "has-error" : ""}}><label for="profesionalactualmente_id">A 10.3 Actualmente Interviene:</label><select class="form-control actualmente'+clicks+'" name="profesionalactualmente_id[]" id="profesionalactualmente_id"><option value="" disabled selected>Seleccione</option>@foreach ($datosIntervieneActualmente as $profesionalInterviene)<option value="{{ $profesionalInterviene->getId() }}">{{ $profesionalInterviene->getNombre() }}</option>@endforeach</select>{!! $errors->first("profesionalactualmente_id.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div><div style="display: none;" class="mostrarFinal'+clicks+' form-group" {{ $errors->has("datos_profesional_interviene_hasta[]") ? "has-error" : ""}}><label for="datos_profesional_interviene_hasta">A 10.4 Interviene hasta:</label><input type="date" class="form-control hasta'+clicks+'" name="datos_profesional_interviene_hasta[]" id="datos_profesional_interviene_hasta" value="">{!! $errors->first("datos_profesional_interviene_hasta.*", '<p class="help-block" style="color:red";>:message</p>') !!}</div></div>';
 
                     var divProfesionales = document.querySelector('.padre');
                     divProfesionales.insertAdjacentHTML('beforeend', divClickProfesional);
@@ -385,6 +358,29 @@
                 if(exist){
                   swal(msg);
                 }
+                function onlyText() {
+                //elimina el copy paste
+                $(':input').not('.date').bind('copy paste cut',function(e) {
+                    e.preventDefault(); //disable cut,copy,paste.                    
+                });
+                //convierte las letras ingresadas en todos los input a mayuscula
+                $(':input').not('.date').keyup(function(){
+                    this.value = this.value.toUpperCase();
+                });
+                //solo se permite numeros y letras en todos los input
+                $(':input').not('.date').keypress(function (e) {
+                    var theEvent = e || window.event;
+                    var key = theEvent.keyCode || theEvent.which;
+                    if (key === 8) { return; }
+                    key = String.fromCharCode(key);
+                    var regex = /^[0-9a-zñA-ZÑ\s]*$/;
+                    if (!regex.test(key)) {
+                        theEvent.returnValue = false;
+                        if (theEvent.preventDefault) theEvent.preventDefault();
+                    }
+                });
+            }
+            onlyText();
             </script>
             {{-- FIN SCRIPT --}}
 {{-- @else

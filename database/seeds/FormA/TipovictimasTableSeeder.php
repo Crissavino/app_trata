@@ -16,11 +16,9 @@ class TipovictimasTableSeeder extends Seeder
 
             ['nombre' => 'Directa'],
 
-            ['nombre' => 'Indirecta'],
-
             ['nombre' => 'No es víctima'],
 
-            ['nombre' => 'Se desconoce']
+            ['nombre' => 'Se desconoce'],
         ]);
     }
 }

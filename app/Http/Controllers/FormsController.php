@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use PDF;
 use Maatwebsite\Excel\Facades\Excel;
@@ -18,6 +19,7 @@ use App\Exports\FormGExport;
 use App\Rules\RequiredConditional;
 use App\Rules\FormBDocumentacion;
 use App\Rules\RequiredCheckbox;
+use App\Exceptions\Handler;
 
 class FormsController extends Controller
 {
@@ -50,13 +52,6 @@ class FormsController extends Controller
 												->ORDERBY('updated_at')
 												->get();
 
-		// $cFormPorId = DB::table('cformularios')
-		// 									->WHERE('cformularios.user_id', '=', $userId)
-		// // 									->WHERE('cformularios.deleted_at', '=', null)
-		// 									// ->JOIN('cformulario_conviviente', 'cformularios.id', '=', 'cformulario_conviviente.cformulario_id')
-		// 									// ->JOIN('convivientes', 'cformulario_conviviente.conviviente_id', '=', 'convivientes.id')
-		// // 									->ORDERBY('convivientes.updated_at', 'desc')
-		// 									->get();
 
 
 		//hasta aca
@@ -66,11 +61,7 @@ class FormsController extends Controller
 											->ORDERBY('updated_at')
 											->get();
 											
-		// $eFormPorId = DB::table('eformularios')
-		// 									->WHERE('user_id', '=', $userId)
-		// 									->WHERE('eformularios.deleted_at', '=', null)
-		// 									->ORDERBY('updated_at')
-		// 									->get();
+
 		$fFormPorId = DB::table('fformularios')
 											->WHERE('user_id', '=', $userId)
 											->WHERE('fformularios.deleted_at', '=', null)
@@ -89,97 +80,7 @@ class FormsController extends Controller
 											->ORDERBY('updated_at')
 											->get();
 
-		// $carpetas = \App\Carpetas\Numerocarpeta::all();
-
-		// $guardoNumeroCarpeta = \App\Carpetas\Numerocarpeta::create(['numeroCarpeta' => $formA->datos_numero_carpeta, 'aformulario_id' => $formA->id, 'bformulario_id' => $formB->id, 'cformulario_id' => $formC->id, 'user_id' => $userId]);
-
-
-
-
-		// if (\App\Carpetas\Numerocarpeta::where('numeroCarpeta', '=', Input::get('email'))->exists()) {
-		//    // user found
-		// }
-
-
-		//PREUBA PARA IR GUARDANDO A MEDIDA QUE SE VAN CREANDO NO CUANDO ESTAN TODOS CREADOS
-			// foreach ($tablaCarpetas as $carpeta) {
-			// 	foreach ($aFormPorId as $formA) {
-			// 		if (!($carpeta->where('numeroCarpeta', '=', $formA->datos_numero_carpeta)->exists())) {
-			// 			echo "<pre>";
-			// 			var_dump($formA->datos_numero_carpeta);
-			// 			var_dump($carpeta->numeroCarpeta);
-			// 			var_dump($formA->datos_numero_carpeta !== $carpeta->numeroCarpeta );
-			// 			var_dump('otra');
-			// 			if ($formA->datos_numero_carpeta !== $carpeta->numeroCarpeta ) {
-			// 				\App\Carpetas\Numerocarpeta::where('numeroCarpeta', '=', $carpeta->numeroCarpeta)->create(['numeroCarpeta' => $carpeta->numeroCarpeta, 'aformulario_id' => $formA->id, 'user_id' => $userId]);
-			// 			}else{
-			// 				foreach ($bFormPorId as $formB) {
-			// 					if ($formA->datos_numero_carpeta == $carpeta->numeroCarpeta && $formB->numeroCarpeta !== $carpeta->numeroCarpeta) {
-			// 						dd('hola');
-			// 						\App\Carpetas\Numerocarpeta::where('numeroCarpeta', '=', $carpeta->numeroCarpeta)->update(['numeroCarpeta' => $carpeta->numeroCarpeta, 'aformulario_id' => $formA->id, 'bformulario_id' => $formB->id, 'user_id' => $userId]);
-			// 					}else{
-			// 						foreach ($cFormPorId as $formC) {
-			// 							if ($formA->datos_numero_carpeta == $carpeta->numeroCarpeta && $formB->numeroCarpeta == $carpeta->numeroCarpeta && $formC->numeroCarpeta !== $carpeta->numeroCarpeta) {
-			// 								\App\Carpetas\Numerocarpeta::where('numeroCarpeta', '=', $carpeta->numeroCarpeta)->update(['numeroCarpeta' => $carpeta->numeroCarpeta, 'aformulario_id' => $formA->id, 'bformulario_id' => $formB->id, 'cformulario_id' => $formC->id, 'user_id' => $userId]);
-			// 							}else{
-			// 								foreach ($dFormPorId as $formD) {
-			// 									if ($formA->datos_numero_carpeta == $carpeta->numeroCarpeta && $formB->numeroCarpeta == $carpeta->numeroCarpeta && $formC->numeroCarpeta == $carpeta->numeroCarpeta && $formD->numeroCarpeta !== $carpeta->numeroCarpeta) {
-			// 										\App\Carpetas\Numerocarpeta::where('numeroCarpeta', '=', $carpeta->numeroCarpeta)->update(['numeroCarpeta' => $carpeta->numeroCarpeta, 'aformulario_id' => $formA->id, 'bformulario_id' => $formB->id, 'cformulario_id' => $formC->id, 'dformulario_id' => $formD->id, 'user_id' => $userId]);
-			// 									}else{
-			// 										foreach ($eFormPorId as $formE) {
-			// 											if ($formA->datos_numero_carpeta == $carpeta->numeroCarpeta && $formB->numeroCarpeta == $carpeta->numeroCarpeta && $formC->numeroCarpeta == $carpeta->numeroCarpeta && $formD->numeroCarpeta == $carpeta->numeroCarpeta && $formE->numeroCarpeta !== $carpeta->numeroCarpeta) {
-			// 												\App\Carpetas\Numerocarpeta::where('numeroCarpeta', '=', $carpeta->numeroCarpeta)->update(['numeroCarpeta' => $carpeta->numeroCarpeta, 'aformulario_id' => $formA->id, 'bformulario_id' => $formB->id, 'cformulario_id' => $formC->id, 'dformulario_id' => $formD->id, 'eformulario_id' => $formE->id, 'user_id' => $userId]);
-			// 											}else{
-			// 												foreach ($fFormPorId as $formF) {
-			// 													if ($formA->datos_numero_carpeta == $carpeta->numeroCarpeta && $formB->numeroCarpeta == $carpeta->numeroCarpeta && $formC->numeroCarpeta == $carpeta->numeroCarpeta && $formD->numeroCarpeta == $carpeta->numeroCarpeta && $formE->numeroCarpeta == $carpeta->numeroCarpeta && $formF->numeroCarpeta !== $carpeta->numeroCarpeta) {
-			// 														\App\Carpetas\Numerocarpeta::where('numeroCarpeta', '=', $carpeta->numeroCarpeta)->update(['numeroCarpeta' => $carpeta->numeroCarpeta, 'aformulario_id' => $formA->id, 'bformulario_id' => $formB->id, 'cformulario_id' => $formC->id, 'dformulario_id' => $formD->id, 'eformulario_id' => $formE->id, 'fformulario_id' => $formF->id, 'user_id' => $userId]);
-			// 													}else{
-			// 														foreach ($gFormPorId as $formG) {
-			// 															if ($formA->datos_numero_carpeta == $carpeta->numeroCarpeta && $formB->numeroCarpeta == $carpeta->numeroCarpeta && $formC->numeroCarpeta == $carpeta->numeroCarpeta && $formD->numeroCarpeta == $carpeta->numeroCarpeta && $formE->numeroCarpeta == $carpeta->numeroCarpeta && $formF->numeroCarpeta == $carpeta->numeroCarpeta && $formG->numeroCarpeta !== $carpeta->numeroCarpeta) {
-			// 																\App\Carpetas\Numerocarpeta::where('numeroCarpeta', '=', $carpeta->numeroCarpeta)->update(['numeroCarpeta' => $carpeta->numeroCarpeta, 'aformulario_id' => $formA->id, 'bformulario_id' => $formB->id, 'cformulario_id' => $formC->id, 'dformulario_id' => $formD->id, 'eformulario_id' => $formE->id, 'fformulario_id' => $formF->id, 'gformulario_id' => $formG->id, 'user_id' => $userId]);
-			// 															}
-			// 														}
-			// 													}
-			// 												}
-			// 											}
-			// 										}
-			// 									}
-			// 								}
-			// 							}
-			// 						}
-			// 					}
-			// 				}
-			// 			}
-			// 		}
-			// 	}		
-			// }
-		//FIN PRUEBA
-
-		// foreach ($tablaCarpetas as $carpeta) {
-		// 	foreach ($aFormPorId as $formA) {
-		// 		if (!($carpeta->where('numeroCarpeta', '=', $formA->datos_numero_carpeta)->exists())) {
-		// 			if ($formA->datos_numero_carpeta !== $carpeta->numeroCarpeta ) {
-		// 				foreach ($bFormPorId as $formB) {
-		// 					foreach ($cFormPorId as $formC) {
-		// 						foreach ($dFormPorId as $formD) {
-		// 							foreach ($eFormPorId as $formE) {
-		// 								foreach ($fFormPorId as $formF) {
-		// 									foreach ($gFormPorId as $formG) {
-		// 										if ($formA->datos_numero_carpeta == $formB->numeroCarpeta && $formA->datos_numero_carpeta == $formC->numeroCarpeta && $formA->datos_numero_carpeta == $formD->numeroCarpeta && $formA->datos_numero_carpeta == $formE->numeroCarpeta && $formA->datos_numero_carpeta == $formF->numeroCarpeta && $formA->datos_numero_carpeta == $formG->numeroCarpeta) {
-		// 											$guardoNumeroCarpeta = \App\Carpetas\Numerocarpeta::create(['numeroCarpeta' => $formA->datos_numero_carpeta, 'aformulario_id' => $formA->id, 'bformulario_id' => $formB->id, 'cformulario_id' => $formC->id, 'dformulario_id' => $formD->id, 'eformulario_id' => $formE->id, 'fformulario_id' => $formF->id, 'gformulario_id' => $formG->id, 'user_id' => $userId]);
-		// 										}
-		// 									}
-		// 								}
-		// 							}
-		// 						}
-		// 					}
-		// 				}
-		// 			}
-		// 		}
-				
-		// 	}
-		// }
-
+		
 		return view('formularios.formularios', ['userName' => $userName,
 												'bFormPorId' => $bFormPorId,
 												'aFormPorId' => $aFormPorId,
@@ -199,7 +100,8 @@ class FormsController extends Controller
 
 		$numeroCarpeta    = $request->get('numeroCarpeta');
 	
-
+		$aFormularios = \App\FormA\Aformulario::where('deleted_at', '=', null)->get();
+		
 		$carpetas = \App\Carpetas\Numerocarpeta::orderBy('numeroCarpeta', 'DESC')
 			->carpeta($numeroCarpeta)
 			->paginate(5);
@@ -208,6 +110,7 @@ class FormsController extends Controller
 										[
 											'userId' => $userId,
 											'userName' => $userName,
+											'aFormularios' => $aFormularios,
 											'carpetas' => $carpetas
 										]);
 
@@ -216,27 +119,51 @@ class FormsController extends Controller
 
 	public function searchName(Request $request)
 	{
+
+
 		$userId = auth()->user()->id;
 		$userName = auth()->user()->name;
 
 
 		$nombreReferencia = $request->get('nombreReferencia');
-		$numeroCausa      = $request->get('numeroCausa');
+		
 
 		$formsA = \App\FormA\Aformulario::orderBy('datos_numero_carpeta', 'DESC')
 			->select('numerocarpetas.id as numerocarpetasId','aformularios.*')
 			->join('numerocarpetas','numerocarpetas.numeroCarpeta','=','aformularios.datos_numero_carpeta')
 			->where('numerocarpetas.deleted_at', '=', null)
 			->nombreRef($nombreReferencia)
-			->numeroCausa($numeroCausa)
 			->paginate(5);
-		// dd($formsA);
 		return view('formularios.buscadorNombre', 
 										[
 											'userId' => $userId,
 											'userName' => $userName,
 											'formsA' => $formsA,
-											'nombreReferencia' => $nombreReferencia,
+											'nombreReferencia' => $nombreReferencia
+											
+										]);
+	}
+
+	public function searchNumber(Request $request)
+	{
+		$userId = auth()->user()->id;
+		$userName = auth()->user()->name;
+
+
+		$numeroCausa      = $request->get('numeroCausa');
+
+		$formsA = \App\FormA\Aformulario::orderBy('datos_numero_carpeta', 'DESC')
+			->select('numerocarpetas.id as numerocarpetasId','aformularios.*')
+			->join('numerocarpetas','numerocarpetas.numeroCarpeta','=','aformularios.datos_numero_carpeta')
+			->where('numerocarpetas.deleted_at', '=', null)
+			->numeroCausa($numeroCausa)
+			->paginate(5);
+
+		return view('formularios.buscadorNumero', 
+										[
+											'userId' => $userId,
+											'userName' => $userName,
+											'formsA' => $formsA,
 											'numeroCausa' => $numeroCausa
 										]);
 	}
@@ -268,6 +195,315 @@ class FormsController extends Controller
 										]);
 	}
 
+	public function searchAmbit(Request $request)
+	{
+		$userId = auth()->user()->id;
+		$userName = auth()->user()->name;
+
+		$datosAmbito = \App\FormA\Ambito::all();
+
+		$ambitoCompetencia = $request->get('ambitoCompetencia');
+		
+		$formsA = \App\FormA\Aformulario::orderBy('datos_numero_carpeta', 'DESC')
+			->select('numerocarpetas.id as numerocarpetasId','aformularios.*')
+			->join('numerocarpetas','numerocarpetas.numeroCarpeta','=','aformularios.datos_numero_carpeta')
+			->where('numerocarpetas.deleted_at', '=', null)
+			->ambitoCompetencia($ambitoCompetencia)
+			->paginate(5);
+	
+
+		session()->put('forms.ambito', $request->get('ambitoCompetencia'));
+
+		return view('formularios.buscadorAmbito', 
+										[
+											'userId' => $userId,
+											'userName' => $userName,
+											'formsA' => $formsA,
+											'ambitoCompetencia' => $ambitoCompetencia,
+											'datosAmbito' => $datosAmbito
+										]);
+	}
+
+	public function searchFiscalia(Request $request)
+	{
+		$userId = auth()->user()->id;
+		$userName = auth()->user()->name;
+		
+		$fiscaliaJuzgado = $request->get('fiscaliaJuzgado');
+
+		$formsA = \App\FormA\Aformulario::orderBy('datos_numero_carpeta', 'DESC')
+			->select('numerocarpetas.id as numerocarpetasId', 'aformularios.*')
+			->join('numerocarpetas', 'numerocarpetas.numeroCarpeta', '=', 'aformularios.datos_numero_carpeta')
+			->where('numerocarpetas.deleted_at', '=', null)
+			->juzgado($fiscaliaJuzgado)
+			->paginate(5);
+
+		return view('formularios.buscadorFiscalia',
+			[
+				'userId' => $userId,
+				'userName' => $userName,
+				'formsA' => $formsA,
+				'fiscaliaJuzgado' => $fiscaliaJuzgado,
+			]);
+	}
+
+	public function showResumen($idCarpeta)
+	{
+		$carpeta = \App\Carpetas\Numerocarpeta::find($idCarpeta);
+		$data = [];
+		$data['carpeta'] = $carpeta;
+
+		$formA = \App\FormA\Aformulario::find($carpeta->aformulario_id);
+		$datosModalidad = \App\FormA\Modalidad::all();
+		$datosEstadoCaso = \App\FormA\Estadocaso::all();
+		$datosMotivoCierre = \App\FormA\Motivocierre::all();
+		$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
+		$datosProfesional = \App\FormA\Profesional::all();
+		$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
+		$datosPresentacion = \App\FormA\Presentacionespontanea::all();
+		$datosOrganismo = \App\FormA\Otrosorganismo::all();
+		$datosAmbito = \App\FormA\Ambito::all();
+		$datosDepartamento = \App\FormA\Departamento::all();
+		$datosOtrasProv = \App\FormA\Otrasprov::all();
+		$arrayFormA = [
+						'datosModalidad' => $datosModalidad,
+						'datosEstadoCaso' => $datosEstadoCaso,
+						'datosMotivoCierre' => $datosMotivoCierre,
+						'datosCaratulacion' => $datosCaratulacion,
+						'datosProfesional' => $datosProfesional,
+						'datosIntervieneActualmente' => $datosIntervieneActualmente,
+						'datosPresentacion' => $datosPresentacion,
+						'datosOrganismo' => $datosOrganismo,
+						'datosAmbito' => $datosAmbito,
+						'datosDepartamento' => $datosDepartamento,
+						'datosOtrasProv' => $datosOtrasProv
+		];
+
+		$data['formA'] = $formA;
+		$data['arrayFormA'] = $arrayFormA;
+
+		$formB = \App\FormB\Bformulario::find($carpeta->bformulario_id);
+		
+		if($formB !== null){
+			$datosGenero = \App\FormB\Genero::all();
+			$datosDocumento = \App\FormB\Tienedoc::all();
+			$datosTipoDocumento = \App\FormB\Tipodocumento::all();
+			$datosFranjaEtaria = \App\FormB\Franjaetaria::all();
+			$datosEmbarazadaRelevamiento = \App\FormB\Embarazorelevamiento::all();
+			$datosEmbarazoPrevio = \App\FormB\Embarazoprevio::all();
+			$datosHijos = \App\FormB\Hijosembarazo::all();
+			$datosBajoEfecto = \App\FormB\Bajoefecto::all();
+			$datosLesion = \App\FormB\Tienelesion::all();
+			$datosLesionConstatada = \App\FormB\Lesionconstatada::all();
+			$datoEnfermedadCronica = \App\FormB\Enfermedadcronica::all();
+			$datosNivelEducativo = \App\FormB\Niveleducativo::all();
+			$datosOficio = \App\FormB\Oficio::all();
+			$datosDiscapacidad = \App\FormB\Discapacidad::all();
+			$datosLimitacion = \App\FormB\Limitacion::all();
+			$datosResidencia = \App\FormB\Residenciaprecaria::all();
+			$arrayFormB = [
+				'datosGenero' => $datosGenero,
+				'datosDocumento' => $datosDocumento,
+				'datosTipoDocumento' => $datosTipoDocumento,
+				'datosFranjaEtaria' => $datosFranjaEtaria,
+				'datosEmbarazadaRelevamiento' => $datosEmbarazadaRelevamiento,
+				'datosEmbarazoPrevio' => $datosEmbarazoPrevio,
+				'datosHijos' => $datosHijos,
+				'datosBajoEfecto' => $datosBajoEfecto,
+				'datosLesion' => $datosLesion,
+				'datosLesionConstatada' => $datosLesionConstatada,
+				'datoEnfermedadCronica' => $datoEnfermedadCronica,
+				'datosNivelEducativo' => $datosNivelEducativo,
+				'datosOficio' => $datosOficio,
+				'datosDiscapacidad' => $datosDiscapacidad,
+				'datosLimitacion' => $datosLimitacion,
+				'datosResidencia' => $datosResidencia,
+			];
+			$data['formB'] = $formB;
+			$data['arrayFormB'] = $arrayFormB;
+		}else{
+			$data['formB'] = null;
+		}
+		
+
+		$formC = \App\FormC\Cformulario::find($carpeta->cformulario_id);
+		if($formC !== null){
+			$datosOtraspersonas = \App\FormC\Otraspersona::all();
+			$datosVinculos = \App\FormC\Vinculo::all();
+			$datosReferentes = \App\FormC\Referente::all();
+			$referentes = $formC->referentes;
+
+			$arrayFormC = [
+				'datosOtraspersonas' => $datosOtraspersonas,
+				'datosVinculos' => $datosVinculos,
+				'datosReferentes' => $datosReferentes,
+				'referentes' => $referentes,
+			];
+			$data['formC'] = $formC;
+			$data['arrayFormC'] = $arrayFormC;
+		}else{
+			$data['formC'] = null;
+		}
+
+		$formD = \App\FormD\Dformulario::find($carpeta->dformulario_id);
+		if($formD !== null){
+			$datosAcompanado = \App\FormD\Acompanado::all();
+			$datosAcompanadoRed = \App\FormD\Acompanadored::all();
+			$datosActividad = \App\FormD\Actividad::all();
+			$datosCalificacionEspecifica = \App\FormD\Calificacionespecifica::all();
+			$datosCalificacionGeneral = \App\FormD\Calificaciongeneral::all();
+			$datosContactoExplotacion = \App\FormD\Contactoexplotacion::all();
+			$datosCuantosBano = \App\FormD\Cuantosbano::all();
+			$datosDeuda = \App\FormD\Deuda::all();
+			$datosElementoSeguridad = \App\FormD\Elementoseguridad::all();
+			$datosElementoTrabajo = \App\FormD\Elementotrabajo::all();
+			$datosEngano = \App\FormD\Engano::all();
+			$datosEspeciaConcepto = \App\FormD\Especiaconcepto::all();
+			$datosFinalidad = \App\FormD\Finalidad::all();
+			$datosFrecuenciaPago = \App\FormD\Frecuenciapago::all();
+			$datosHayAgua = \App\FormD\Hayagua::all();
+			$datosHayBano = \App\FormD\Haybano::all();
+			$datosHayCorriente = \App\FormD\Haycorriente::all();
+			$datosHayGas = \App\FormD\Haygas::all();
+			$datosHayHacinamiento = \App\FormD\Hayhacinamiento::all();
+			$datosHayMedida = \App\FormD\Haymedida::all();
+			$datosHayPersona = \App\FormD\Haypersona::all();
+			$datosLugarDeuda = \App\FormD\Lugardeuda::all();
+			$datosMaterial = \App\FormD\Material::all();
+			$datosModalidadPago = \App\FormD\Modalidadpago::all();
+			$datosMotivoDeuda = \App\FormD\Motivodeuda::all();
+			$datosPermanencia = \App\FormD\Permanencia::all();
+			$datosPrivado = \App\FormD\Privado::all();
+			$datosResideLugar = \App\FormD\Residelugar::all();
+			$datosRural = \App\FormD\Rural::all();
+			$datosTestigo = \App\FormD\Testigo::all();
+			$datosTextil = \App\FormD\Textil::all();
+			$datosTipoVictima = \App\FormD\Tipovictima::all();
+			$datosViajo = \App\FormD\Viajo::all();
+			$datosLugarExplotacion = \App\FormD\Otrolugarexplotacion::all();
+
+			$arrayFormD = [
+				'datosAcompanado' => $datosAcompanado,
+				'datosAcompanadoRed' => $datosAcompanadoRed,
+				'datosActividad' => $datosActividad,
+				'datosCalificacionEspecifica' => $datosCalificacionEspecifica,
+				'datosCalificacionGeneral' => $datosCalificacionGeneral,
+				'datosContactoExplotacion' => $datosContactoExplotacion,
+				'datosCuantosBano' => $datosCuantosBano,
+				'datosDeuda' => $datosDeuda,
+				'datosElementoSeguridad' => $datosElementoSeguridad,
+				'datosElementoTrabajo' => $datosElementoTrabajo,
+				'datosEngano' => $datosEngano,
+				'datosEspeciaConcepto' => $datosEspeciaConcepto,
+				'datosFinalidad' => $datosFinalidad,
+				'datosFrecuenciaPago' => $datosFrecuenciaPago,
+				'datosHayAgua' => $datosHayAgua,
+				'datosHayBano' => $datosHayBano,
+				'datosHayCorriente' => $datosHayCorriente,
+				'datosHayGas' => $datosHayGas,
+				'datosHayHacinamiento' => $datosHayHacinamiento,
+				'datosHayMedida' => $datosHayMedida,
+				'datosHayPersona' => $datosHayPersona,
+				'datosLugarDeuda' => $datosLugarDeuda,
+				'datosMaterial' => $datosMaterial,
+				'datosModalidadPago' => $datosModalidadPago,
+				'datosMotivoDeuda' => $datosMotivoDeuda,
+				'datosPermanencia' => $datosPermanencia,
+				'datosPrivado' => $datosPrivado,
+				'datosResideLugar' => $datosResideLugar,
+				'datosRural' => $datosRural,
+				'datosTestigo' => $datosTestigo,
+				'datosTextil' => $datosTextil,
+				'datosTipoVictima' => $datosTipoVictima,
+				'datosViajo' => $datosViajo,
+				'datosLugarExplotacion' => $datosLugarExplotacion,
+			];
+			$data['formD'] = $formD;
+			$data['arrayFormD'] = $arrayFormD;
+		}else{
+			$data['formD'] = null;
+		}
+		
+		$formF = \App\FormF\Fformulario::find($carpeta->fformulario_id);
+		if($formF !== null){
+			$aFormularios = \App\FormA\Aformulario::all();
+			$derivacionOrganismo = DB::table('otrosorganismos')
+				->get();
+			$datosOrgJudiciales = \App\FormF\Orgjudicial::all();
+			$datosProgNacionales = \App\FormF\Orgprognacional::all();
+			$datosPolicia = \App\FormF\Policia::all();
+			$datosAsistencia = \App\FormF\Asistencia::all();
+			$datosSocioeconomica = \App\FormF\Socioeconomic::all();
+			$datosOrgJudicialesActualmente = \App\FormF\Orgjudicialactualmente::all();
+			$datosProgNacionalesActualmente = \App\FormF\Orgprognacionalactualmente::all();
+			$datosPoliciaActualmente = \App\FormF\Policiaactualmente::all();
+			$datosIntervinieronOrganismos = \App\FormF\Intervinieronorganismo::all();
+			$datosIntervinieronOrganismosActualmente = \App\FormF\Intervinieronorganismosactualmente::all();
+			// ---necesarios para el edit
+			$orgProgNacionalOtro = $formF->orgprognacionalotros;
+			$orgProgProvincial = $formF->orgprogprovincials;
+			$orgProgMunipal = $formF->orgprogmunicipals;
+			$orgSocCivil = $formF->orgsoccivils;
+			$orgProgNacionalActualmenteOtro = $formF->orgprognacionalactualmenteotros;
+			$orgProgProvincialesAlactualmente = $formF->orgprogprovincialesactualmentes;
+			$orgProgMunipalesActualmente = $formF->orgprogmunicipalesactualmentes;
+			$orgSocCivilActualmente = $formF->orgsoccivilactualmentes;
+
+			$arrayFormF = [
+				'aFormularios' => $aFormularios,
+				'derivacionOrganismo' => $derivacionOrganismo,
+				'datosOrgJudiciales' => $datosOrgJudiciales,
+				'datosProgNacionales' => $datosProgNacionales,
+				'datosPolicia' => $datosPolicia,
+				'datosAsistencia' => $datosAsistencia,
+				'datosSocioeconomica' => $datosSocioeconomica,
+				'datosOrgJudicialesActualmente' => $datosOrgJudicialesActualmente,
+				'datosProgNacionalesActualmente' => $datosProgNacionalesActualmente,
+				'datosPoliciaActualmente' => $datosPoliciaActualmente,
+				'datosIntervinieronOrganismos' => $datosIntervinieronOrganismos,
+				'datosIntervinieronOrganismosActualmente' => $datosIntervinieronOrganismosActualmente,
+				'orgProgNacionalOtro' => $orgProgNacionalOtro,
+				'orgProgProvincial' => $orgProgProvincial,
+				'orgProgMunipal' => $orgProgMunipal,
+				'orgSocCivil' => $orgSocCivil,
+				'orgProgNacionalActualmenteOtro' => $orgProgNacionalActualmenteOtro,
+				'orgProgProvincialesAlactualmente' => $orgProgProvincialesAlactualmente,
+				'orgProgMunipalesActualmente' => $orgProgMunipalesActualmente,
+				'orgSocCivilActualmente' => $orgSocCivilActualmente,
+			];
+			$data['formF'] = $formF;
+			$data['arrayFormF'] = $arrayFormF;
+		}else{
+			$data['formF'] = null;
+		}
+
+		$formG = \App\FormG\Gformulario::find($carpeta->gformulario_id);
+		if($formG !== null){
+			$temaIntervencion = \App\FormG\Temaintervencion::all();
+			$intervenciones = $formG->intervencions;
+			$docInterna = $formG->docinternas;
+			$docExterna = $formG->docexternas;
+			$infoSocioambiental = $formG->infosocioambientals;
+			$intervencionEstrategias = $formG->intervencionestrategias;
+			$notRelacionadas = $formG->notrelacionadas;
+
+			$arrayFormG = [
+				'temaIntervencion' => $temaIntervencion,
+				'intervenciones' => $intervenciones,
+				'docInterna' => $docInterna,
+				'docExterna' => $docExterna,
+				'infoSocioambiental' => $infoSocioambiental,
+				'intervencionEstrategias' => $intervencionEstrategias,
+				'notRelacionadas' => $notRelacionadas,
+			];
+			$data['formG'] = $formG;
+			$data['arrayFormG'] = $arrayFormG;
+		}else{
+			$data['formG'] = null;
+		}
+
+		return view('formularios.resumen', $data);
+	}
 
 	public function showEstadisticas()
 	{
@@ -283,6 +519,7 @@ class FormsController extends Controller
 		$datosFinalidad = \App\FormD\Finalidad::all();
 		$datosTipoVictima = \App\FormD\Tipovictima::all();
 		$carpetas = \App\Carpetas\Numerocarpeta::all();
+	
 		return view('estadisticas', [
 										'formsA' => $formsA,
 										'datosModalidad' => $datosModalidad,
@@ -299,6 +536,7 @@ class FormsController extends Controller
 									]);
 	}
 
+
 	//funciona perfecto y me descarga el excel
 	public function exportarExcel() 
 	{
@@ -307,11 +545,7 @@ class FormsController extends Controller
         return Excel::download(new EstadisticaExport, 'Estadisticas al '.Carbon::parse($fecha_hoy)->format('d-m-Y').'.xlsx');
 	}
 
-	// public function isDeveloper()
-	// {
-	// 	$data = request()->all();
-	// 	var_dump($data);
-	// }
+
 
 	public function createA()
 	{
@@ -327,13 +561,10 @@ class FormsController extends Controller
 		$datosAmbito = \App\FormA\Ambito::all();
 		$datosDepartamento = \App\FormA\Departamento::all();
 		$datosOtrasProv = \App\FormA\Otrasprov::all();
+		$datosTipoVictima = \App\FormA\Tipovictima::all();
 		// $ultimoNroCarpeta = \App\FormA\Aformulario::orderBy('datos_numero_carpeta', 'desc')->first();
 		$ultimoNroCarpeta = \App\FormA\Aformulario::WHERE('deleted_at', '=', null)->orderBy('datos_numero_carpeta', 'desc')->first();
-		// $ultimoNroCarpeta = DB::table('aformularios')->orderBy('datos_numero_carpeta', 'desc')
-		//                                              ->first()
-		//                                              ->datos_numero_carpeta;
 
-		// dd($ultimoNroCarpeta === null);
 
 		if ($ultimoNroCarpeta !== null) {
 			$ultimoNroCarpeta = $ultimoNroCarpeta->datos_numero_carpeta;
@@ -352,6 +583,7 @@ class FormsController extends Controller
 												'datosAmbito' => $datosAmbito,
 												'datosDepartamento' => $datosDepartamento,
 												'datosOtrasProv' => $datosOtrasProv,
+												'datosTipoVictima' => $datosTipoVictima,
 												'ultimoNroCarpeta' => $ultimoNroCarpeta,
 												]);
 	}
@@ -399,22 +631,24 @@ class FormsController extends Controller
 							'departamento_id' => [new RequiredConditional(request()->get('ambito_id'),array('2'),0,18,'Para ingresar un departamento debe seleccionar provincial')],
 							// select oculto que se desoculta si A6 es id 3
 							'otrasprov_id' => [new RequiredConditional(request()->get('ambito_id'),array('3'),0,23,'Para ingresar una provincia debe seleccionar otra provincia')],
-							// select A7 Caratulacion judicial 
+							// input A7 Fizcalia/Juzgado interviniente
+							'fiscalia_juzgado' => 'required',
+							// select A8 Caratulacion judicial 
 							'caratulacionjudicial_id' => 'required | numeric | min:0 | max:7',
 							// input oculto Introduzca tipo de caratulacion se desoculta si A7 es id 7
 							'caratulacionjudicial_otro' => [new RequiredConditional(request()->get('caratulacionjudicial_id'),array('7'),0,255,'Para ingresar otra caratulaci&oacute;n judicial debe ingresar otro',true)],
-							// input A8 N° Causa o Id Judicial
+							// input A9 N° Causa o Id Judicial
 							'datos_nro_causa' => 'required',
-							// select A9.1 Nombre/Equipo/Profesion 
+							// select A10.1 Nombre/Equipo/Profesion 
 							'profesional_id.*' => 'nullable | numeric | min:0 | max:25',
 							'profesional_id.0' => 'required | numeric | min:0 | max:25',
-							// input fecha A9.2 Interviene desde 
+							// input fecha A10.2 Interviene desde 
 							'datos_profesional_interviene_desde.*' => 'nullable|date|after_or_equal:datos_fecha_ingreso',
 							'datos_profesional_interviene_desde.0' => 'required|date|after_or_equal:datos_fecha_ingreso',
-							// select A9.3 Actualmente interviene
+							// select A10.3 Actualmente interviene
 							'profesionalactualmente_id.*' => 'nullable',
 							'profesionalactualmente_id.0' => 'required | numeric | min:0 | max:2',
-							// input fecha A9.4 Interviene hasta
+							// input fecha A10.4 Interviene hasta
 							'datos_profesional_interviene_hasta.*' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.*',
 							'datos_profesional_interviene_hasta.0' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.0',							
 						],
@@ -437,6 +671,7 @@ class FormsController extends Controller
 							'ambito_id.required' => 'Este campo es obligatorio',
 							'departamento_id.required_if' => 'Este campo es obligatorio',
 							'otrasprov_id.required_if' => 'Este campo es obligatorio',
+							'fiscalia_juzgado.required' => 'Este campo es obligatorio',
 							'caratulacionjudicial_id.required' => 'Este campo es obligatorio',
 							'datos_nro_causa.required' => 'Este campo es obligatorio',
 							'profesional_id.*.required' => 'Este campo es obligatorio',
@@ -453,10 +688,9 @@ class FormsController extends Controller
 						]);
 		$data = request()->all();
 		$data['user_id'] = $userId;
-		// dd($data);
+
 		$guardoAformulario = \App\FormA\Aformulario::create($data);
-		// $guardoAformulario = \App\FormA\Aformulario::create(request()->only(['datos_nombre_referencia', 'datos_numero_carpeta', 'datos_fecha_ingreso', 'modalidad_id', 'estadocaso_id', 'datos_ente_judicial', 'caratulacionjudicial_id', 'datos_nro_causa']));
-		// dd('Hola');
+
 
 		$ultimoId = $guardoAformulario->id;
 		$guardoNumeroCarpeta = \App\Carpetas\Numerocarpeta::create([ 'numeroCarpeta' => $data['datos_numero_carpeta'], 'aformulario_id' => $ultimoId, 'user_id' => $data['user_id']]);
@@ -504,9 +738,10 @@ class FormsController extends Controller
 		$datosAmbito = \App\FormA\Ambito::all();
 		$datosDepartamento = \App\FormA\Departamento::all();
 		$datosOtrasProv = \App\FormA\Otrasprov::all();
+		$datosTipoVictima = \App\FormA\Tipovictima::all();
 		$aFormulario = \App\FormA\Aformulario::find($idFormulario);
 		$userId = auth()->user()->id;
-		// dd($aFormulario->profesionalintervinientes);
+	
 		$profesionalIntervinientes = $aFormulario->profesionalintervinientes;
 		$todo = DB::table('aformularios')
 		                            ->WHERE('aformulario_id', '=', $idFormulario) 
@@ -560,6 +795,7 @@ class FormsController extends Controller
 															'datosAmbito' => $datosAmbito,
 															'datosDepartamento' => $datosDepartamento,
 															'datosOtrasProv' => $datosOtrasProv,
+															'datosTipoVictima' => $datosTipoVictima,
 															'todo' => $todo,
 															'idFormA' => $idFormulario,
 															'idFormB' => $idFormB,
@@ -579,7 +815,7 @@ class FormsController extends Controller
 		$userId = auth()->user()->id;
 		//busco segun el id el formulario deseado
 		$aFormulario = \App\FormA\Aformulario::find($idFormulario);
-		// dd(request()->all());                       
+                     
 		$fecha_hoy = Carbon::now();
 		
 		request()->validate([
@@ -607,22 +843,24 @@ class FormsController extends Controller
 							'departamento_id' => [new RequiredConditional(request()->get('ambito_id'),array('2'),0,18,'Para ingresar un departamento debe seleccionar provincial')],
 							// select oculto que se desoculta si A6 es id 3
 							'otrasprov_id' => [new RequiredConditional(request()->get('ambito_id'),array('3'),0,23,'Para ingresar una provincia debe seleccionar otra provincia')],
-							// select A7 Caratulacion judicial 
+							// input A7 Fizcalia/Juzgado interviniente
+							'fiscalia_juzgado' => 'required',
+							// select A8 Caratulacion judicial 
 							'caratulacionjudicial_id' => 'required | numeric | min:0 | max:7',
 							// input oculto Introduzca tipo de caratulacion se desoculta si A7 es id 7
 							'caratulacionjudicial_otro' => [new RequiredConditional(request()->get('caratulacionjudicial_id'),array('7'),0,255,'Para ingresar otra caratulaci&oacute;n judicial debe ingresar otro',true)],
-							// input A8 N° Causa o Id Judicial
+							// input A9 N° Causa o Id Judicial
 							'datos_nro_causa' => 'required',
-							// select A9.1 Nombre/Equipo/Profesion 
+							// select A10.1 Nombre/Equipo/Profesion 
 							// 'profesional_id' => 'required_without:profesional_id_viejo | array | min:0' ,
 							// 'profesional_id.*' => 'nullable | numeric | min:0 | max:25',						
-							// // input fecha A9.2 Interviene desde 
+							// // input fecha A10.2 Interviene desde 
 							// 'datos_profesional_interviene_desde' => 'required_without:profesional_id_viejo | array | min:0',
 							// 'datos_profesional_interviene_desde.*' => 'nullable|date|after_or_equal:datos_fecha_ingreso',							
-							// // select A9.3 Actualmente interviene
+							// // select A10.3 Actualmente interviene
 							// 'profesionalactualmente_id' => 'required_without:profesional_id_viejo | array | min:0' ,							
 							// 'profesionalactualmente_id.*' => 'nullable | numeric | min:0 | max:2',							
-							// // input fecha A9.4 Interviene hasta
+							// // input fecha A10.4 Interviene hasta
 							// 'datos_profesional_interviene_hasta.*' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.*',
 							// 'datos_profesional_interviene_hasta.0' => 'nullable|date|after_or_equal:datos_profesional_interviene_desde.0',
 						],
@@ -639,6 +877,7 @@ class FormsController extends Controller
 							'ambito_id.required' => 'Este campo es obligatorio',
 							'departamento_id.required' => 'Este campo es obligatorio',
 							'otrasprov_id.required' => 'Este campo es obligatorio',
+							'fiscalia_juzgado.required' => 'Este campo es obligatorio',
 							'caratulacionjudicial_id.required' => 'Este campo es obligatorio',
 							'datos_nro_causa.required' => 'Este campo es obligatorio',
 							'presentacion_espontanea_id.required_if' => 'Este campo es obligatorio', 
@@ -667,7 +906,7 @@ class FormsController extends Controller
 		$aFormulario->update($data);
 		$carpeta=\App\Carpetas\Numerocarpeta::find($idCarpeta);
 		$carpeta->update(['numeroCarpeta'=>$data['datos_numero_carpeta']]);
-		// dd($data, $aFormulario, $carpeta);
+
 		if($carpeta->bformulario){
 		$carpeta->bformulario->update(['numeroCarpeta'=>$data['datos_numero_carpeta']]);
 		}
@@ -685,46 +924,6 @@ class FormsController extends Controller
 		}
 
 
-		//requiero los datos de los profesionales
-		// $arrayProfesionales = request()->only(['profesional_id', 'datos_profesional_interviene_desde', 'datos_profesional_interviene_hasta', 'profesionalactualmente_id']);	
-
-		// if (request()->input('profesional_id') !== null) {
-		// 	//de aca obtengo la cantidad de veces que tengo que iterar para asignarle valores al array
-		// 	$cant = (count(request()->input('profesional_id')));
-
-		// 	// HOY 12 DE OCTUBRE ESTA MANERA BORRA TODOS PROFESIONALES ANTERIORES Y SOLO ASIGNA LOS QUE SE UPDETEAN
-		// 	for ($i=0; $i < $cant; $i++) 
-		// 	{ 
-		// 		//asigno manualmente los valores
-		// 		$profesional['profesional_id'] = $data['profesional_id'][$i];
-		// 		$profesional['datos_profesional_interviene_desde'] = $data['datos_profesional_interviene_desde'][$i];
-		// 		$profesional['profesionalactualmente_id'] = $data['profesionalactualmente_id'][$i];
-		// 		if ($profesional['profesionalactualmente_id'] == 1){
-		// 			$profesional['datos_profesional_interviene_hasta'] = null;
-		// 		}else{
-		// 			$profesional['datos_profesional_interviene_hasta'] = $data['datos_profesional_interviene_hasta'][$i];
-		// 		}
-		// 		if (!isset($data['datos_profesional_interviene_hasta'][$i])) {  
-		// 			$profesional['datos_profesional_interviene_hasta'] = null;
-		// 	 }else{
-		// 		 $profesional['datos_profesional_interviene_hasta'] = $data['datos_profesional_interviene_hasta'][$i];
-		// 	 }
-		// 	//  dd($data);
-				
-		// 		$profesional['user_id'] = $data['user_id'];
-		// 		//una vez ya asignados los valores los guardo en la base, en la tabla que corresponde
-		// 		$guardoProfesionalInterviniente = \App\FormA\Profesionalinterviniente::($profesional);
-		// 		//de aca obtengo los id de los profesionales guardados
-		// 		$profId[] = $guardoProfesionalInterviniente->id;	
-		// 	}
-		// 	//guardo en la tabla pivot
-		// 	$guardoRelacion = $aFormulario->profesionalintervinientes()->sync($profId);
-
-		// 	return redirect('formularios/buscador');
-		// 	}else{
-		// 	return redirect('formularios/buscador');
-		// }
-		
 		$cantidadProfesionalesViejos = false;
 			if (request()->input('profesional_id_viejo')[0]) {
 				$cantidadProfesionalesViejos = (count(request()->input('profesional_id_viejo')));
@@ -736,7 +935,6 @@ class FormsController extends Controller
 			}
 
 			if (isset($data['idsEliminados'])) {
-				// dd($data);
 				$ids = array_map("intval", explode(',', $data['idsEliminados']));
 				for ($i = 0; $i < count($ids); $i++) {
 
@@ -748,7 +946,7 @@ class FormsController extends Controller
 
 			$profesionales = $aFormulario->profesionalintervinientes;
 
-			// dd($profesionales);
+	
 
 			if ($cantidadProfesionalesViejos) {
 				foreach ($profesionales as $i => $profesional) {
@@ -762,7 +960,6 @@ class FormsController extends Controller
 					if (isset($data['datos_profesional_interviene_hasta_viejo'][$i])) {
 						$profesionalViejo['datos_profesional_interviene_hasta'] = $data['datos_profesional_interviene_hasta_viejo'][$i];
 					}
-					// dd($profesionalViejo);
 					$actualizoProfesionalCargado = $profesionalCargado->update($profesionalViejo);
 
 					$profesionalIds[] = $profesional->id;
@@ -799,10 +996,7 @@ class FormsController extends Controller
 	{
 		$fecha_hoy = Carbon::now();
 		$carpeta = \App\Carpetas\Numerocarpeta::find($idCarpeta);
-		// $aFormulario = \App\FormA\Aformulario::find($id);
-		// $carpetaFormA = \App\Carpetas\Numerocarpeta::where('aformulario_id', '=', $idCarpeta);
-		// dd($carpetaFormA);
-		
+	
 		if ($carpeta->aformulario !== null) {
 			$carpeta->aformulario()->delete();
 		}
@@ -821,7 +1015,17 @@ class FormsController extends Controller
 		if($carpeta->gformulario !== null){
 			$carpeta->gformulario()->delete();
 		}
+		
+		$mapaCalor = \App\Mapa\Mapacalor::WHERE('numero_carpeta', '=', $carpeta->numeroCarpeta)->get();
+		if (count($mapaCalor) !== 0) {
+			foreach ($mapaCalor as $mapa) {
+				$mapa->delete();
+			}
+		}
+
 		$carpeta->delete();
+		// $idCarpetaNegativo = $carpeta->numeroCarpeta * -1;
+		// $carpeta->update(['numeroCarpeta' => $idCarpetaNegativo]);
 
 			// $carpetaFormA->update([ 'deleted_at' => $fecha_hoy]);
 			// $carpeta->aformulario->update([ 'deleted_at' => $fecha_hoy]);
@@ -863,12 +1067,7 @@ class FormsController extends Controller
 		$datosGenero = \App\FormB\Genero::all();
 		$datosDocumento = \App\FormB\Tienedoc::all();
 		$datosTipoDocumento = \App\FormB\Tipodocumento::all();
-		// $datosPaises = \App\FormB\Paises::all();
-		// $datosArgProvincias = \App\FormB\Argprovincia::all();
-		// $datosArgCiudades = \App\FormB\Argciudad::all();
-		// $datosUrProvincias = \App\FormB\Urprovincia::all();
-		// $datosChProvincias = \App\FormB\Chprovincia::all();
-		// $datosBrEstados = \App\FormB\Brestado::all();
+		
 		$datosFranjaEtaria = \App\FormB\Franjaetaria::all();
 		$datosEmbarazadaRelevamiento = \App\FormB\Embarazorelevamiento::all();
 		$datosEmbarazoPrevio = \App\FormB\Embarazoprevio::all();
@@ -882,43 +1081,26 @@ class FormsController extends Controller
 		$datosLimitacion = \App\FormB\Limitacion::all();
 		$datosOficio = \App\FormB\Oficio::all();
 		$datosResidencia = \App\FormB\Residenciaprecaria::all();
+		$datosVictimaIndirecta = \App\FormB\Vicindirecta::all();
 		$userId = auth()->user()->id;
+		$aFormId = \App\Carpetas\Numerocarpeta::find($idCarpeta)->aformulario_id;
+	 	$tipoVictima = \App\FormA\Aformulario::find($aFormId)->tipovictima_id;
 
 		$numeroCarpeta = DB::table('numerocarpetas')
-												  ->WHERE('user_id', '=', $userId)
+										//		  ->WHERE('user_id', '=', $userId)
 												  ->WHERE('deleted_at', '=', null)
 												  ->WHERE('id','=',$idCarpeta)
 												  ->first(); 
 
-		/* $numeroCarpeta = DB::table('aformularios')
-											->WHERE('user_id', '=', $userId)
-											->WHERE('deleted_at', '=', null)
-											->ORDERBY('updated_at', 'desc')
-											->first()
-											->datos_numero_carpeta; */
-		// $todoFormA = DB::table('aformularios')
-		// 									->WHERE('user_id', '=', $userId)
-		// 									->ORDERBY('updated_at', 'desc')
-		// 									->get();
+							
 
 		$carpetas = \App\Carpetas\Numerocarpeta::where('aformulario_id', '!=', null)->get();
-
-		// dd($carpetas->id);
-
-		// foreach ($carpetas as $carpeta) {
-		// 	dump($carpeta->aformulario_id);
-		// }
+		
 
 		return view('formularios/formularioB', 
 			['datosGenero' => $datosGenero,
 				'datosDocumento' => $datosDocumento,
-				'datosTipoDocumento' => $datosTipoDocumento,
-				// 'datosPaises' => $datosPaises,
-				// 'datosArgProvincias' => $datosArgProvincias,
-				// 'datosArgCiudades' => $datosArgCiudades,
-				// 'datosUrProvincias' => $datosUrProvincias,
-				// 'datosChProvincias' => $datosChProvincias,
-				// 'datosBrEstados' => $datosBrEstados,
+				'datosTipoDocumento' => $datosTipoDocumento,	
 				'datosFranjaEtaria' => $datosFranjaEtaria,
 				'datosEmbarazadaRelevamiento' => $datosEmbarazadaRelevamiento,
 				'datosEmbarazoPrevio' => $datosEmbarazoPrevio,
@@ -932,7 +1114,8 @@ class FormsController extends Controller
 				'datosLimitacion' => $datosLimitacion,
 				'datosOficio' => $datosOficio,
 				'datosResidencia' => $datosResidencia,
-				// 'todoFormA' => $todoFormA,
+				'datosVictimaIndirecta' => $datosVictimaIndirecta,
+				'tipoVictima' => $tipoVictima,
 				'numeroCarpeta' => $numeroCarpeta->numeroCarpeta,
 				'carpetas' => $carpetas,
 				'userId' => $userId,
@@ -941,117 +1124,161 @@ class FormsController extends Controller
 			]);
 	}
 
-	public function insertB()
+	public function insertB($idCarpeta)
 	{
 		$userId = auth()->user()->id;
+		$aFormId = \App\Carpetas\Numerocarpeta::find($idCarpeta)->aformulario_id;
+		$tipoVictima = \App\FormA\Aformulario::find($aFormId)->tipovictima_id;
 
-		
-		
-		request()->validate([
-			// input B1 Nombre y apellido
-			'victima_nombre_y_apellido' => 'required',
-			// input B2 Apodo
-			'victima_apodo' => 'required',
-			// select B3 Genero
-			'genero_id' => 'required | numeric | min:0 | max:6',
-			// select B4 Documentacion
-			'tienedoc_id' => 'required | numeric | min:0 | max:6',
-			// select B5 Tipo de documentacion si B4 es id 3 o 6 se oculta
-			'tipodocumento_id' => [new FormBDocumentacion(request()->get('tienedoc_id'),0,9)],
-			// select B6 Nro documento si B4 es id 3 o 6 se oculta
-			'victima_documento' => [new FormBDocumentacion(request()->get('tienedoc_id'),0,255, true)],
-			// select B7 B8 B9 nacimiento
-			'paisNacimiento' => 'required',
-			'provinciaNacimiento' => 'required',
-			'ciudadNacimiento' => 'required',
-			// input fecha B10 Fecha de nacimiento
-			'victima_fecha_nacimiento' => 'required',
-			// input B11 Edad
-			'victima_edad' => 'required',
-			// select B12 Franja Etaria
-			'franjaetaria_id' => 'required | numeric | min:0 | max:7',
-			// select B13 Embarazo al momento del relevamineto 
-			'embarazorelevamiento_id' => 'required | numeric | min:0 | max:3',
-			// select B14 Embarazo previo
-			'embarazoprevio_id' => 'required | numeric | min:0 | max:3',
-			// select B15 Embarazo hijos anterior
-			'hijosembarazo_id' => 'required | numeric | min:0 | max:3',
-			// select B16 Bajo efectos de estupefacientes
-			'bajoefecto_id' => 'required | numeric | min:0 | max:3',
-			// checkbox B17 Discapacidad
-			'discapacidad_id' => [new RequiredCheckbox('Si ingres&oacute; No o Se Desconoce no puede seleccionar otra opci&oacute;n', array('5','6'), 0, 6)],
-			// select B18 Lesion visible
-			'tienelesion_id' => 'required | numeric | min:0 | max:3',
-			// input oculto B18I se desoculta si B18 es id 1
-			'victima_lesion' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un tipo debe seleccionar si',true)],
-			// select oculto B18II se desoculta si B18 es id 1
-			'lesionconstatada_id' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,3,'Para ingresar si fue constatada debe seleccionar si',false,2)],
-			// input oculto B18III se desoculta si B18II es id 1
-			'victima_lesion_organismo' => [new RequiredConditional(request()->get('lesionconstatada_id'),array('1'),0,255,'Para ingresar un organismo debe seleccionar si',true)],
-			// select B19 Enfermedad cronica
-			'enfermedadcronica_id' => 'required | numeric | min:0 | max:3',
-			// input oculto B19I se desoculta si B19 es id 1
-			'victima_tipo_enfermedad_cronica' => [new RequiredConditional(request()->get('enfermedadcronica_id'),array('1'),0,255,'Para ingresar un tipo debe seleccionar si',true)],
-			// checkbox B20 limitacion para comunicarse
-			'limitacion_id' => [new RequiredCheckbox('Si ingres&oacute; No no puede seleccionar otra opci&oacute;n', array('4'), 0, 5)],
-			// input oculto "cual?" se desoculta si B20I contiene id 5
-			'victima_limitacion_otra' => [new RequiredCheckbox('Debe seleccionar la opcion otra para ingresar una nueva limitacion', 5, 0, 255,true,request()->get('limitacion_id'))],
-			// select B21 nivel educativo
-			'niveleducativo_id' => 'required | numeric | min:0 | max:8',
-			// select B22 oficio
-			'oficio_id' => 'required | numeric | min:0 | max:3',
-			// input oculto "cual?" si B22 es id 1
-			'victima_oficio_cual' => [new RequiredConditional(request()->get('oficio_id'),array('1'),0,255,'Para ingresar un oficio debe seleccionar si',true)],
-			
-			
-			
-			
+		// de acuerdo al tipo de victima contestado en A valida los campos
+		// si es victima directa (1) valida todo como antes, si no solo hasta el 11
+		if($tipoVictima !== 1){
+			request()->validate([
+				// input B1 Nombre y apellido
+				'victima_nombre_y_apellido' => 'required',
+				// input B2 Apodo
+				'victima_apodo' => 'required',
+				// select B3 Genero
+				'genero_id' => 'required | numeric | min:0 | max:6',
+				// select B4 Documentacion
+				'tienedoc_id' => 'required | numeric | min:0 | max:6',
+				// select B5 Tipo de documentacion si B4 es id 3 o 6 se oculta
+				'tipodocumento_id' => [new FormBDocumentacion(request()->get('tienedoc_id'), 0, 9)],
+				// select B6 Nro documento si B4 es id 3 o 6 se oculta
+				'victima_documento' => [new FormBDocumentacion(request()->get('tienedoc_id'), 0, 255, true)],
+				// select B7 B8 B9 nacimiento
+				'paisNacimiento' => 'required',
+				'provinciaNacimiento' => 'required',
+				'ciudadNacimiento' => 'required',
+				// input fecha B10 Fecha de nacimiento
+				'victima_fecha_nacimiento' => 'required',
+				// input B11 Edad
+				'victima_edad' => 'required',
+			],
+			[
+				'victima_nombre_y_apellido.required' => 'Este campo es obligatorio',
+				//'victima_nombre_y_apellido_desconoce.required' => 'Este campo es obligatorio',
+				'victima_apodo.required' => 'Este campo es obligatorio',
+				//'victima_apodo_desconoce.required' => 'Este campo es obligatorio',
+				'genero_id.required' => 'Este campo es obligatorio',
+				//'victima_genero_otro.required' => 'Este campo es obligatorio',
+				'tienedoc_id.required' => 'Este campo es obligatorio',
+				'tipodocumento_id.required' => 'Este campo es obligatorio',
+				//'victima_tipo_documento_otro.required' => 'Este campo es obligatorio',
+				'victima_documento.required' => 'Este campo es obligatorio',
+				'paisNacimiento.required' => 'Este campo es obligatorio',
+				'provinciaNacimiento.required' => 'Este campo es obligatorio',
+				'ciudadNacimiento.required' => 'Este campo es obligatorio',
+				//'victima_documento_se_desconoce.required' => 'Este campo es obligatorio',
+				// 'pais_id.required' => 'Este campo es obligatorio',
+				//'argprovincia.required' => 'Este campo es obligatorio',
+				//'brestado.required' => 'Este campo es obligatorio',
+				'victima_fecha_nacimiento.required' => 'Este campo es obligatorio',
+				'victima_edad.required' => 'Este campo es obligatorio',
+			]);
+		}else{
+			request()->validate([
+				// input B1 Nombre y apellido
+				'victima_nombre_y_apellido' => 'required',
+				// input B2 Apodo
+				'victima_apodo' => 'required',
+				// select B3 Genero
+				'genero_id' => 'required | numeric | min:0 | max:6',
+				// select B4 Documentacion
+				'tienedoc_id' => 'required | numeric | min:0 | max:6',
+				// select B5 Tipo de documentacion si B4 es id 3 o 6 se oculta
+				'tipodocumento_id' => [new FormBDocumentacion(request()->get('tienedoc_id'), 0, 9)],
+				// select B6 Nro documento si B4 es id 3 o 6 se oculta
+				'victima_documento' => [new FormBDocumentacion(request()->get('tienedoc_id'), 0, 255, true)],
+				// select B7 B8 B9 nacimiento
+				'paisNacimiento' => 'required',
+				'provinciaNacimiento' => 'required',
+				'ciudadNacimiento' => 'required',
+				// input fecha B10 Fecha de nacimiento
+				'victima_fecha_nacimiento' => 'required',
+				// input B11 Edad
+				'victima_edad' => 'required',
+				// select B12 Franja Etaria
+				'franjaetaria_id' => 'required | numeric | min:0 | max:7',
+				// select B13 Embarazo al momento del relevamineto
+				'embarazorelevamiento_id' => 'required | numeric | min:0 | max:3',
+				// select B14 Embarazo previo
+				'embarazoprevio_id' => 'required | numeric | min:0 | max:3',
+				// select B15 Embarazo hijos anterior
+				'hijosembarazo_id' => 'required | numeric | min:0 | max:3',
+				// select B16 Bajo efectos de estupefacientes
+				'bajoefecto_id' => 'required | numeric | min:0 | max:3',
+				// checkbox B17 Discapacidad
+				'discapacidad_id' => [new RequiredCheckbox('Si ingres&oacute; No o Se Desconoce no puede seleccionar otra opci&oacute;n', array('5', '6'), 0, 6)],
+				// select B18 Lesion visible
+				'tienelesion_id' => 'required | numeric | min:0 | max:3',
+				// input oculto B18I se desoculta si B18 es id 1
+				'victima_lesion' => [new RequiredConditional(request()->get('tienelesion_id'), array('1'), 0, 255, 'Para ingresar un tipo debe seleccionar si', true)],
+				// select oculto B18II se desoculta si B18 es id 1
+				'lesionconstatada_id' => [new RequiredConditional(request()->get('tienelesion_id'), array('1'), 0, 3, 'Para ingresar si fue constatada debe seleccionar si', false, 2)],
+				// input oculto B18III se desoculta si B18II es id 1
+				'victima_lesion_organismo' => [new RequiredConditional(request()->get('lesionconstatada_id'), array('1'), 0, 255, 'Para ingresar un organismo debe seleccionar si', true)],
+				// select B19 Enfermedad cronica
+				'enfermedadcronica_id' => 'required | numeric | min:0 | max:3',
+				// input oculto B19I se desoculta si B19 es id 1
+				'victima_tipo_enfermedad_cronica' => [new RequiredConditional(request()->get('enfermedadcronica_id'), array('1'), 0, 255, 'Para ingresar un tipo debe seleccionar si', true)],
+				// checkbox B20 limitacion para comunicarse
+				'limitacion_id' => [new RequiredCheckbox('Si ingres&oacute; No no puede seleccionar otra opci&oacute;n', array('4'), 0, 5)],
+				// input oculto "cual?" se desoculta si B20I contiene id 5
+				'victima_limitacion_otra' => [new RequiredCheckbox('Debe seleccionar la opcion otra para ingresar una nueva limitacion', 5, 0, 255, true, request()->get('limitacion_id'))],
+				// select B21 nivel educativo
+				'niveleducativo_id' => 'required | numeric | min:0 | max:8',
+				// select B22 oficio
+				'oficio_id' => 'required | numeric | min:0 | max:3',
+				// input oculto "cual?" si B22 es id 1
+				'victima_oficio_cual' => [new RequiredConditional(request()->get('oficio_id'), array('1'), 0, 255, 'Para ingresar un oficio debe seleccionar si', true)],
 
-		], 
-		[
-			'victima_nombre_y_apellido.required' => 'Este campo es obligatorio',
-			//'victima_nombre_y_apellido_desconoce.required' => 'Este campo es obligatorio',
-			'victima_apodo.required' => 'Este campo es obligatorio',
-			//'victima_apodo_desconoce.required' => 'Este campo es obligatorio',
-			'genero_id.required' => 'Este campo es obligatorio',
-			//'victima_genero_otro.required' => 'Este campo es obligatorio',
-			'tienedoc_id.required' => 'Este campo es obligatorio',
-			'tipodocumento_id.required' => 'Este campo es obligatorio',
-			//'victima_tipo_documento_otro.required' => 'Este campo es obligatorio',
-			'victima_documento.required' => 'Este campo es obligatorio',
-			'paisNacimiento.required' => 'Este campo es obligatorio',
-			'provinciaNacimiento.required' => 'Este campo es obligatorio',
-			'ciudadNacimiento.required' => 'Este campo es obligatorio',
-			//'victima_documento_se_desconoce.required' => 'Este campo es obligatorio',
-			// 'pais_id.required' => 'Este campo es obligatorio',
-			//'argprovincia.required' => 'Este campo es obligatorio',
-			//'brestado.required' => 'Este campo es obligatorio',
-			'victima_fecha_nacimiento.required' => 'Este campo es obligatorio',
-			'victima_edad.required' => 'Este campo es obligatorio',
-			//'victima_edad_desconoce.required' => 'Este campo es obligatorio',
-			'franjaetaria_id.required' => 'Este campo es obligatorio',
-			'embarazorelevamiento_id.required' => 'Este campo es obligatorio',
-			'embarazoprevio_id.required' => 'Este campo es obligatorio',
-			'hijosembarazo_id.required' => 'Este campo es obligatorio',
-			'bajoefecto_id.required' => 'Este campo es obligatorio',
-			'tienelesion_id.required' => 'Este campo es obligatorio',
-			//'victima_lesion.required' => 'Este campo es obligatorio',
-			//'lesionconstatada_id.required' => 'Este campo es obligatorio',
-			//'victima_lesion_organismo.required' => 'Este campo es obligatorio',
-			'enfermedadcronica_id.required' => 'Este campo es obligatorio',
-			//'victima_tipo_enfermedad_cronica.required' => 'Este campo es obligatorio',
-			//'victima_limitacion_otra.required' => 'Este campo es obligatorio',
-			'niveleducativo_id.required' => 'Este campo es obligatorio',
-			'oficio_id.required' => 'Este campo es obligatorio',
-			//'victima_oficio_cual.required' => 'Este campo es obligatorio',
-			'discapacidad_id.required' => 'Este campo es obligatorio',
-			'limitacion_id.required' => 'Este campo es obligatorio',
+			],
+			[
+				'victima_nombre_y_apellido.required' => 'Este campo es obligatorio',
+				//'victima_nombre_y_apellido_desconoce.required' => 'Este campo es obligatorio',
+				'victima_apodo.required' => 'Este campo es obligatorio',
+				//'victima_apodo_desconoce.required' => 'Este campo es obligatorio',
+				'genero_id.required' => 'Este campo es obligatorio',
+				//'victima_genero_otro.required' => 'Este campo es obligatorio',
+				'tienedoc_id.required' => 'Este campo es obligatorio',
+				'tipodocumento_id.required' => 'Este campo es obligatorio',
+				//'victima_tipo_documento_otro.required' => 'Este campo es obligatorio',
+				'victima_documento.required' => 'Este campo es obligatorio',
+				'paisNacimiento.required' => 'Este campo es obligatorio',
+				'provinciaNacimiento.required' => 'Este campo es obligatorio',
+				'ciudadNacimiento.required' => 'Este campo es obligatorio',
+				//'victima_documento_se_desconoce.required' => 'Este campo es obligatorio',
+				// 'pais_id.required' => 'Este campo es obligatorio',
+				//'argprovincia.required' => 'Este campo es obligatorio',
+				//'brestado.required' => 'Este campo es obligatorio',
+				'victima_fecha_nacimiento.required' => 'Este campo es obligatorio',
+				'victima_edad.required' => 'Este campo es obligatorio',
+				//'victima_edad_desconoce.required' => 'Este campo es obligatorio',
+				'franjaetaria_id.required' => 'Este campo es obligatorio',
+				'embarazorelevamiento_id.required' => 'Este campo es obligatorio',
+				'embarazoprevio_id.required' => 'Este campo es obligatorio',
+				'hijosembarazo_id.required' => 'Este campo es obligatorio',
+				'bajoefecto_id.required' => 'Este campo es obligatorio',
+				'tienelesion_id.required' => 'Este campo es obligatorio',
+				//'victima_lesion.required' => 'Este campo es obligatorio',
+				//'lesionconstatada_id.required' => 'Este campo es obligatorio',
+				//'victima_lesion_organismo.required' => 'Este campo es obligatorio',
+				'enfermedadcronica_id.required' => 'Este campo es obligatorio',
+				//'victima_tipo_enfermedad_cronica.required' => 'Este campo es obligatorio',
+				//'victima_limitacion_otra.required' => 'Este campo es obligatorio',
+				'niveleducativo_id.required' => 'Este campo es obligatorio',
+				'oficio_id.required' => 'Este campo es obligatorio',
+				//'victima_oficio_cual.required' => 'Este campo es obligatorio',
+				'discapacidad_id.required' => 'Este campo es obligatorio',
+				'limitacion_id.required' => 'Este campo es obligatorio',
 
-		]);
+			]);
+
+		}
 
 		$data = request()->all();
 		
-
 		$data['user_id'] = $userId;
 
 		$guardoBformulario = \App\FormB\Bformulario::create($data);
@@ -1067,32 +1294,60 @@ class FormsController extends Controller
 
 		$guardoNumeroCarpeta = \App\Carpetas\Numerocarpeta::where('numeroCarpeta', '=', $data['numeroCarpeta'])->update(['bformulario_id' => $ultimoId]);
 
-		// request()->validate([
-		// 	'discapacidad_id' => 'required'
-		// ],[
-		// 	'discapacidad_id.required' => 'Este campo es obligatorio'
-		// ]);
-
 		$bformulario = \App\FormB\Bformulario::find($ultimoId);
 
 		$arrayDiscapacidades = request()->input('discapacidad_id');
 
 		$guardoDiscapacidades = $bformulario->discapacidads()->sync($arrayDiscapacidades);
 
-		// request()->validate([
-		// 	'limitacion_id' => 'required'
-		// ],[
-		// 	'limitacion_id.required' => 'Este campo es obligatorio'
-		// ]);
-
-		$bformulario = \App\FormB\Bformulario::find($ultimoId);
-
 		$arrayLimitaciones = request()->input('limitacion_id');
 
 		$guardoLimitaciones = $bformulario->limitacions()->sync($arrayLimitaciones);
 
-		$guardoLugarNacimiento = \App\FormB\Lugarnacimiento::create(['bformulario_id' => $ultimoId, 'paisNacimiento' => $data['paisNacimiento'], 'provinciaNacimiento' => $data['provinciaNacimiento'], 'ciudadNacimiento' => $data['ciudadNacimiento']]);
+		$guardoLugarNacimiento = \App\FormB\Lugarnacimiento::create(['bformulario_id' => $ultimoId, 'paisNacimiento' => $data['paisNacimiento'], 'provinciaNacimiento' => $data['provinciaNacimiento'], 'ciudadNacimiento' => $data['ciudadNacimiento']]);					 
 
+		
+
+		$pais = $guardoLugarNacimiento->paisNacimiento;
+		$provincia = $guardoLugarNacimiento->provinciaNacimiento;
+		$ciudad = $guardoLugarNacimiento->ciudadNacimiento;		
+		if ($pais != 'SE DESCONOCE' && $provincia!= 'SE DESCONOCE' && $ciudad != 'SE DESCONOCE'){
+			$searchtext = $pais.','.$provincia.','.$ciudad;
+			$curl = curl_init();
+			curl_setopt_array($curl, array(
+				CURLOPT_URL => "http://geocoder.api.here.com/6.2/geocode.json?searchtext=".$searchtext."&app_id=HkqpXchCOv6VUYhLEIEz&app_code=zl9UxG6jltjRVgHk4SqEaA",
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_ENCODING => "",
+				CURLOPT_PROXY=>config("app.my_proxy"),
+				CURLOPT_PROXYPORT=>config("app.my_proxyport"),
+				CURLOPT_MAXREDIRS => 10,
+				CURLOPT_TIMEOUT => 30,
+				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+				CURLOPT_CUSTOMREQUEST => "GET",
+				CURLOPT_POSTFIELDS => "",
+				CURLOPT_HTTPHEADER => array(
+					"Postman-Token: 035218e3-b1be-492c-90d3-791377e75439",
+					"cache-control: no-cache",
+				),
+			));		
+
+
+			$responseCurl = json_decode(curl_exec($curl));
+			$err = curl_error($curl);		
+//			 dd($responseCurl);
+			// dd($responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Latitude, $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Longitude,$searchtext);		
+			curl_close($curl);
+//dd($responseCurl);
+			if ($err) {
+				echo "cURL Error #:" . $err;
+			}
+			if (empty($responseCurl->Response->View)) {
+				Log::error('Error al guardar latitud o longitud en ' . $pais . ' ' . $provincia . ' ' . $ciudad);
+			} else {
+				\App\Mapa\Mapacalor::CREATE(['numero_carpeta' => $numeroCarpeta, 'nacimiento' => "captacion", 'bformulario_id' => $ultimoId, 'dformulario_id' => null, 'lat' => $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Latitude, 'long' => $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Longitude, 'user_id' => $userId]);
+			}
+		
+		}
 	    return redirect('formularios/C/'.$idCarpeta.'/'.$numeroCarpeta);
 	}
 
@@ -1101,12 +1356,6 @@ class FormsController extends Controller
 		$datosGenero = \App\FormB\Genero::all();
 		$datosDocumento = \App\FormB\Tienedoc::all();
 		$datosTipoDocumento = \App\FormB\Tipodocumento::all();
-		// $datosPaises = \App\FormB\Paises::all();
-		// $datosArgProvincias = \App\FormB\Argprovincia::all();
-		// $datosArgCiudades = \App\FormB\Argciudad::all();
-		// $datosUrProvincias = \App\FormB\Urprovincia::all();
-		// $datosChProvincias = \App\FormB\Chprovincia::all();
-		// $datosBrEstados = \App\FormB\Brestado::all();
 		$datosFranjaEtaria = \App\FormB\Franjaetaria::all();
 		$datosEmbarazadaRelevamiento = \App\FormB\Embarazorelevamiento::all();
 		$datosEmbarazoPrevio = \App\FormB\Embarazoprevio::all();
@@ -1120,8 +1369,11 @@ class FormsController extends Controller
 		$datosDiscapacidad = \App\FormB\Discapacidad::all();
 		$datosLimitacion = \App\FormB\Limitacion::all();
 		$datosResidencia = \App\FormB\Residenciaprecaria::all();
+		$datosVictimaIndirecta = \App\FormB\Vicindirecta::all();
 		$Bformulario = \App\FormB\Bformulario::find($idFormulario);
 		$userId = auth()->user()->id;
+		$aFormId = \App\Carpetas\Numerocarpeta::find($idCarpeta)->aformulario_id;
+		$tipoVictima = \App\FormA\Aformulario::find($aFormId)->tipovictima_id;
 		
 		//id de los formularios de una misma carpeta
 			$idFormA = \App\Carpetas\Numerocarpeta::where('bformulario_id', '=', $idFormulario)
@@ -1177,6 +1429,8 @@ class FormsController extends Controller
 															'datosLimitacion' => $datosLimitacion,
 															'datosOficio' => $datosOficio,
 															'datosResidencia' => $datosResidencia,
+															'datosVictimaIndirecta' => $datosVictimaIndirecta,
+															'tipoVictima' => $tipoVictima,
 															'idFormA' => $idFormA,
 															'idFormB' => $idFormB,
 															'idFormC' => $idFormC,
@@ -1192,104 +1446,156 @@ class FormsController extends Controller
 
 	public function updateB($idCarpeta,$idFormulario)
 	{
-		request()->validate([
-// input B1 Nombre y apellido
-'victima_nombre_y_apellido' => 'required',
-// input B2 Apodo
-'victima_apodo' => 'required',
-// select B3 Genero
-'genero_id' => 'required | numeric | min:0 | max:6',
-// select B4 Documentacion
-'tienedoc_id' => 'required | numeric | min:0 | max:6',
-// select B5 Tipo de documentacion si B4 es id 3 o 6 se oculta
-'tipodocumento_id' => [new FormBDocumentacion(request()->get('tienedoc_id'),0,9)],
-// select B6 Nro documento si B4 es id 3 o 6 se oculta
-'victima_documento' => [new FormBDocumentacion(request()->get('tienedoc_id'),0,255, true)],
-// select B7 B8 B9 nacimiento
-'paisNacimiento' => 'required',
-'provinciaNacimiento' => 'required',
-'ciudadNacimiento' => 'required',
-// input fecha B10 Fecha de nacimiento
-'victima_fecha_nacimiento' => 'required',
-// input B11 Edad
-'victima_edad' => 'required',
-// select B12 Franja Etaria
-'franjaetaria_id' => 'required | numeric | min:0 | max:7',
-// select B13 Embarazo al momento del relevamineto 
-'embarazorelevamiento_id' => 'required | numeric | min:0 | max:3',
-// select B14 Embarazo previo
-'embarazoprevio_id' => 'required | numeric | min:0 | max:3',
-// select B15 Embarazo hijos anterior
-'hijosembarazo_id' => 'required | numeric | min:0 | max:3',
-// select B16 Bajo efectos de estupefacientes
-'bajoefecto_id' => 'required | numeric | min:0 | max:3',
-// checkbox B17 Discapacidad
-'discapacidad_id' => [new RequiredCheckbox('Si ingres&oacute; No o Se Desconoce no puede seleccionar otra opci&oacute;n', array('5','6'), 0, 6)],
-// select B18 Lesion visible
-'tienelesion_id' => 'required | numeric | min:0 | max:3',
-// input oculto B18I se desoculta si B18 es id 1
-'victima_lesion' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,255,'Para ingresar un tipo debe seleccionar si',true)],
-// select oculto B18II se desoculta si B18 es id 1
-'lesionconstatada_id' => [new RequiredConditional(request()->get('tienelesion_id'),array('1'),0,3,'Para ingresar si fue constatada debe seleccionar si',false,2)],
-// input oculto B18III se desoculta si B18II es id 1
-'victima_lesion_organismo' => [new RequiredConditional(request()->get('lesionconstatada_id'),array('1'),0,255,'Para ingresar un organismo debe seleccionar si',true)],
-// select B19 Enfermedad cronica
-'enfermedadcronica_id' => 'required | numeric | min:0 | max:3',
-// input oculto B19I se desoculta si B19 es id 1
-'victima_tipo_enfermedad_cronica' => [new RequiredConditional(request()->get('enfermedadcronica_id'),array('1'),0,255,'Para ingresar un tipo debe seleccionar si',true)],
-// checkbox B20 limitacion para comunicarse
-'limitacion_id' => [new RequiredCheckbox('Si ingres&oacute; No no puede seleccionar otra opci&oacute;n', array('4'), 0, 5)],
-// input oculto "cual?" se desoculta si B20I contiene id 5
-'victima_limitacion_otra' => [new RequiredCheckbox('Debe seleccionar la opcion otra para ingresar una nueva limitacion', 5, 0, 255,true,request()->get('limitacion_id'))],
-// select B21 nivel educativo
-'niveleducativo_id' => 'required | numeric | min:0 | max:8',
-// select B22 oficio
-'oficio_id' => 'required | numeric | min:0 | max:3',
-// input oculto "cual?" si B22 es id 1
-'victima_oficio_cual' => [new RequiredConditional(request()->get('oficio_id'),array('1'),0,255,'Para ingresar un oficio debe seleccionar si',true)],
+		$userId = auth()->user()->id;
+		$numeroCarpeta = \App\Carpetas\Numerocarpeta::find($idCarpeta)->numeroCarpeta;
+		$aFormId = \App\Carpetas\Numerocarpeta::find($idCarpeta)->aformulario_id;
+		$tipoVictima = \App\FormA\Aformulario::find($aFormId)->tipovictima_id;
 
-		], 
-		[
-			'victima_nombre_y_apellido.required' => 'Este campo es obligatorio',
-			//'victima_nombre_y_apellido_desconoce.required' => 'Este campo es obligatorio',
-			'victima_apodo.required' => 'Este campo es obligatorio',
-			//'victima_apodo_desconoce.required' => 'Este campo es obligatorio',
-			'genero_id.required' => 'Este campo es obligatorio',
-			//'victima_genero_otro.required' => 'Este campo es obligatorio',
-			'tienedoc_id.required' => 'Este campo es obligatorio',
-			'tipodocumento_id.required' => 'Este campo es obligatorio',
-			//'victima_tipo_documento_otro.required' => 'Este campo es obligatorio',
-			'victima_documento.required' => 'Este campo es obligatorio',
-			'paisNacimiento.required' => 'Tenes que completar esta campo, si no lo modificaste ingresa el valor anterior',
-			'provinciaNacimiento.required' => 'Tenes que completar esta campo, si no lo modificaste ingresa el valor anterior',
-			'ciudadNacimiento.required' => 'Tenes que completar esta campo, si no lo modificaste ingresa el valor anterior',
-			//'victima_documento_se_desconoce.required' => 'Este campo es obligatorio',
-			// 'pais_id.required' => 'Este campo es obligatorio',
-			//'argprovincia.required' => 'Este campo es obligatorio',
-			//'brestado.required' => 'Este campo es obligatorio',
-			'victima_fecha_nacimiento.required' => 'Este campo es obligatorio',
-			'victima_edad.required' => 'Este campo es obligatorio',
-			//'victima_edad_desconoce.required' => 'Este campo es obligatorio',
-			'franjaetaria_id.required' => 'Este campo es obligatorio',
-			'embarazorelevamiento_id.required' => 'Este campo es obligatorio',
-			'embarazoprevio_id.required' => 'Este campo es obligatorio',
-			'hijosembarazo_id.required' => 'Este campo es obligatorio',
-			'bajoefecto_id.required' => 'Este campo es obligatorio',
-			'tienelesion_id.required' => 'Este campo es obligatorio',
-			//'victima_lesion.required' => 'Este campo es obligatorio',
-			//'lesionconstatada_id.required' => 'Este campo es obligatorio',
-			//'victima_lesion_organismo.required' => 'Este campo es obligatorio',
-			'enfermedadcronica_id.required' => 'Este campo es obligatorio',
-			//'victima_tipo_enfermedad_cronica.required' => 'Este campo es obligatorio',
-			//'victima_limitacion_otra.required' => 'Este campo es obligatorio',
-			'niveleducativo_id.required' => 'Este campo es obligatorio',
-			'oficio_id.required' => 'Este campo es obligatorio',
-			//'victima_oficio_cual.required' => 'Este campo es obligatorio',
-			'discapacidad_id.required' => 'Este campo es obligatorio',
-			'limitacion_id.required' => 'Este campo es obligatorio',
-		]);
+		if($tipoVictima !== 1){
+			request()->validate([
+					// input B1 Nombre y apellido
+					'victima_nombre_y_apellido' => 'required',
+					// input B2 Apodo
+					'victima_apodo' => 'required',
+					// select B3 Genero
+					'genero_id' => 'required | numeric | min:0 | max:6',
+					// select B4 Documentacion
+					'tienedoc_id' => 'required | numeric | min:0 | max:6',
+					// select B5 Tipo de documentacion si B4 es id 3 o 6 se oculta
+					'tipodocumento_id' => [new FormBDocumentacion(request()->get('tienedoc_id'),0,9)],
+					// select B6 Nro documento si B4 es id 3 o 6 se oculta
+					'victima_documento' => [new FormBDocumentacion(request()->get('tienedoc_id'),0,255, true)],
+					// select B7 B8 B9 nacimiento
+					'paisNacimiento' => 'required',
+					'provinciaNacimiento' => 'required',
+					'ciudadNacimiento' => 'required',
+					// input fecha B10 Fecha de nacimiento
+					'victima_fecha_nacimiento' => 'required',
+					// input B11 Edad
+					'victima_edad' => 'required',
+				],
+				[
+					'victima_nombre_y_apellido.required' => 'Este campo es obligatorio',
+					//'victima_nombre_y_apellido_desconoce.required' => 'Este campo es obligatorio',
+					'victima_apodo.required' => 'Este campo es obligatorio',
+					//'victima_apodo_desconoce.required' => 'Este campo es obligatorio',
+					'genero_id.required' => 'Este campo es obligatorio',
+					//'victima_genero_otro.required' => 'Este campo es obligatorio',
+					'tienedoc_id.required' => 'Este campo es obligatorio',
+					'tipodocumento_id.required' => 'Este campo es obligatorio',
+					//'victima_tipo_documento_otro.required' => 'Este campo es obligatorio',
+					'victima_documento.required' => 'Este campo es obligatorio',
+					'paisNacimiento.required' => 'Tenes que completar esta campo, si no lo modificaste ingresa el valor anterior',
+					'provinciaNacimiento.required' => 'Tenes que completar esta campo, si no lo modificaste ingresa el valor anterior',
+					'ciudadNacimiento.required' => 'Tenes que completar esta campo, si no lo modificaste ingresa el valor anterior',
+					//'victima_documento_se_desconoce.required' => 'Este campo es obligatorio',
+					// 'pais_id.required' => 'Este campo es obligatorio',
+					//'argprovincia.required' => 'Este campo es obligatorio',
+					//'brestado.required' => 'Este campo es obligatorio',
+					'victima_fecha_nacimiento.required' => 'Este campo es obligatorio',
+					'victima_edad.required' => 'Este campo es obligatorio',
+				]);
+		}else{
+			request()->validate([
+					// input B1 Nombre y apellido
+					'victima_nombre_y_apellido' => 'required',
+					// input B2 Apodo
+					'victima_apodo' => 'required',
+					// select B3 Genero
+					'genero_id' => 'required | numeric | min:0 | max:6',
+					// select B4 Documentacion
+					'tienedoc_id' => 'required | numeric | min:0 | max:6',
+					// select B5 Tipo de documentacion si B4 es id 3 o 6 se oculta
+					'tipodocumento_id' => [new FormBDocumentacion(request()->get('tienedoc_id'), 0, 9)],
+					// select B6 Nro documento si B4 es id 3 o 6 se oculta
+					'victima_documento' => [new FormBDocumentacion(request()->get('tienedoc_id'), 0, 255, true)],
+					// select B7 B8 B9 nacimiento
+					'paisNacimiento' => 'required',
+					'provinciaNacimiento' => 'required',
+					'ciudadNacimiento' => 'required',
+					// input fecha B10 Fecha de nacimiento
+					'victima_fecha_nacimiento' => 'required',
+					// input B11 Edad
+					'victima_edad' => 'required',
+					// select B12 Franja Etaria
+					'franjaetaria_id' => 'required | numeric | min:0 | max:7',
+					// select B13 Embarazo al momento del relevamineto
+					'embarazorelevamiento_id' => 'required | numeric | min:0 | max:3',
+					// select B14 Embarazo previo
+					'embarazoprevio_id' => 'required | numeric | min:0 | max:3',
+					// select B15 Embarazo hijos anterior
+					'hijosembarazo_id' => 'required | numeric | min:0 | max:3',
+					// select B16 Bajo efectos de estupefacientes
+					'bajoefecto_id' => 'required | numeric | min:0 | max:3',
+					// checkbox B17 Discapacidad
+					'discapacidad_id' => [new RequiredCheckbox('Si ingres&oacute; No o Se Desconoce no puede seleccionar otra opci&oacute;n', array('5', '6'), 0, 6)],
+					// select B18 Lesion visible
+					'tienelesion_id' => 'required | numeric | min:0 | max:3',
+					// input oculto B18I se desoculta si B18 es id 1
+					'victima_lesion' => [new RequiredConditional(request()->get('tienelesion_id'), array('1'), 0, 255, 'Para ingresar un tipo debe seleccionar si', true)],
+					// select oculto B18II se desoculta si B18 es id 1
+					'lesionconstatada_id' => [new RequiredConditional(request()->get('tienelesion_id'), array('1'), 0, 3, 'Para ingresar si fue constatada debe seleccionar si', false, 2)],
+					// input oculto B18III se desoculta si B18II es id 1
+					'victima_lesion_organismo' => [new RequiredConditional(request()->get('lesionconstatada_id'), array('1'), 0, 255, 'Para ingresar un organismo debe seleccionar si', true)],
+					// select B19 Enfermedad cronica
+					'enfermedadcronica_id' => 'required | numeric | min:0 | max:3',
+					// input oculto B19I se desoculta si B19 es id 1
+					'victima_tipo_enfermedad_cronica' => [new RequiredConditional(request()->get('enfermedadcronica_id'), array('1'), 0, 255, 'Para ingresar un tipo debe seleccionar si', true)],
+					// checkbox B20 limitacion para comunicarse
+					'limitacion_id' => [new RequiredCheckbox('Si ingres&oacute; No no puede seleccionar otra opci&oacute;n', array('4'), 0, 5)],
+					// input oculto "cual?" se desoculta si B20I contiene id 5
+					'victima_limitacion_otra' => [new RequiredCheckbox('Debe seleccionar la opcion otra para ingresar una nueva limitacion', 5, 0, 255, true, request()->get('limitacion_id'))],
+					// select B21 nivel educativo
+					'niveleducativo_id' => 'required | numeric | min:0 | max:8',
+					// select B22 oficio
+					'oficio_id' => 'required | numeric | min:0 | max:3',
+					// input oculto "cual?" si B22 es id 1
+					'victima_oficio_cual' => [new RequiredConditional(request()->get('oficio_id'), array('1'), 0, 255, 'Para ingresar un oficio debe seleccionar si', true)],
+				],
+				[
+					'victima_nombre_y_apellido.required' => 'Este campo es obligatorio',
+					//'victima_nombre_y_apellido_desconoce.required' => 'Este campo es obligatorio',
+					'victima_apodo.required' => 'Este campo es obligatorio',
+					//'victima_apodo_desconoce.required' => 'Este campo es obligatorio',
+					'genero_id.required' => 'Este campo es obligatorio',
+					//'victima_genero_otro.required' => 'Este campo es obligatorio',
+					'tienedoc_id.required' => 'Este campo es obligatorio',
+					'tipodocumento_id.required' => 'Este campo es obligatorio',
+					//'victima_tipo_documento_otro.required' => 'Este campo es obligatorio',
+					'victima_documento.required' => 'Este campo es obligatorio',
+					'paisNacimiento.required' => 'Tenes que completar esta campo, si no lo modificaste ingresa el valor anterior',
+					'provinciaNacimiento.required' => 'Tenes que completar esta campo, si no lo modificaste ingresa el valor anterior',
+					'ciudadNacimiento.required' => 'Tenes que completar esta campo, si no lo modificaste ingresa el valor anterior',
+					//'victima_documento_se_desconoce.required' => 'Este campo es obligatorio',
+					// 'pais_id.required' => 'Este campo es obligatorio',
+					//'argprovincia.required' => 'Este campo es obligatorio',
+					//'brestado.required' => 'Este campo es obligatorio',
+					'victima_fecha_nacimiento.required' => 'Este campo es obligatorio',
+					'victima_edad.required' => 'Este campo es obligatorio',
+					//'victima_edad_desconoce.required' => 'Este campo es obligatorio',
+					'franjaetaria_id.required' => 'Este campo es obligatorio',
+					'embarazorelevamiento_id.required' => 'Este campo es obligatorio',
+					'embarazoprevio_id.required' => 'Este campo es obligatorio',
+					'hijosembarazo_id.required' => 'Este campo es obligatorio',
+					'bajoefecto_id.required' => 'Este campo es obligatorio',
+					'tienelesion_id.required' => 'Este campo es obligatorio',
+					//'victima_lesion.required' => 'Este campo es obligatorio',
+					//'lesionconstatada_id.required' => 'Este campo es obligatorio',
+					//'victima_lesion_organismo.required' => 'Este campo es obligatorio',
+					'enfermedadcronica_id.required' => 'Este campo es obligatorio',
+					//'victima_tipo_enfermedad_cronica.required' => 'Este campo es obligatorio',
+					//'victima_limitacion_otra.required' => 'Este campo es obligatorio',
+					'niveleducativo_id.required' => 'Este campo es obligatorio',
+					'oficio_id.required' => 'Este campo es obligatorio',
+					//'victima_oficio_cual.required' => 'Este campo es obligatorio',
+					'discapacidad_id.required' => 'Este campo es obligatorio',
+					'limitacion_id.required' => 'Este campo es obligatorio',
+				]);
+
+		}
 
 		$data = request()->all();
+		$data['user_id'] = $userId;
 	    
 		//busco segun el id el formulario desdeado
 		$Bformulario = \App\FormB\Bformulario::find($idFormulario);
@@ -1307,6 +1613,75 @@ class FormsController extends Controller
 
 		\App\FormB\Lugarnacimiento::WHERE('bformulario_id', '=', $idFormulario)->update(['bformulario_id' => $idFormulario, 'paisNacimiento' => $data['paisNacimiento'], 'provinciaNacimiento' => $data['provinciaNacimiento'], 'ciudadNacimiento' => $data['ciudadNacimiento']]);
 
+		$pais = $data['paisNacimiento'];
+		$provincia = $data['provinciaNacimiento'];
+		$ciudad = $data['ciudadNacimiento'];
+		// dd($idFormulario);
+		// if ($pais != 'Se desconoce'){
+			// $searchtext = $pais; 			
+			// if($ciudad == 'Se desconoce'){
+			// 	if($provincia != 'Se desconoce'){					
+			// 	$searchtext = $pais.','.$provincia;  
+			// 	}
+			// }else{
+			// 	$searchtext = $pais.','.$ciudad; 
+			// 	if($provincia != 'Se desconoce'){
+			// 		$searchtext = $pais.','.$provincia.','.$ciudad; 		
+			// 	}									
+			// }	
+		if ($pais != 'SE DESCONOCE' && $provincia!= 'SE DESCONOCE' && $ciudad != 'SE DESCONOCE'){
+			$searchtext = $pais.','.$provincia.','.$ciudad;
+			$curl = curl_init();
+			curl_setopt_array($curl, array(
+				CURLOPT_URL => "http://geocoder.api.here.com/6.2/geocode.json?searchtext=".$searchtext."&app_id=HkqpXchCOv6VUYhLEIEz&app_code=zl9UxG6jltjRVgHk4SqEaA",
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_ENCODING => "",
+  				CURLOPT_PROXY=>config("app.my_proxy"),
+                                CURLOPT_PROXYPORT=>config("app.my_proxyport"),
+				CURLOPT_MAXREDIRS => 10,
+				CURLOPT_TIMEOUT => 30,
+				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+				CURLOPT_CUSTOMREQUEST => "GET",
+				CURLOPT_POSTFIELDS => "",
+				CURLOPT_HTTPHEADER => array(
+					"Postman-Token: 035218e3-b1be-492c-90d3-791377e75439",
+					"cache-control: no-cache",
+				),
+			));		
+			$responseCurl = json_decode(curl_exec($curl));
+			$err = curl_error($curl);		
+			// dd($responseCurl);
+			// dd($responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Latitude, $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Longitude,$searchtext);
+			curl_close($curl);
+		
+			if ($err) {
+				echo "cURL Error #:" . $err;
+			}
+			
+			if(empty($responseCurl->Response->View)){
+				Log::error('Error al guardar latitud o longitud en ' . $pais . ' ' . $provincia . ' ' . $ciudad);
+
+				if(count(\App\Mapa\Mapacalor::WHERE('bformulario_id', '=', $idFormulario)->get()) !== 0){
+					\App\Mapa\Mapacalor::WHERE('bformulario_id', '=', $idFormulario)->delete();
+				}
+			}else{
+				if(count(\App\Mapa\Mapacalor::WHERE('bformulario_id', '=', $idFormulario)->get()) == 0){
+					\App\Mapa\Mapacalor::CREATE(['numero_carpeta' => $numeroCarpeta, 'nacimiento' => "captacion", 'bformulario_id' => $idFormulario, 'dformulario_id' => null, 'lat' => $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Latitude, 'long' => $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Longitude, 'user_id' => $userId]);
+				}else{
+					\App\Mapa\Mapacalor::WHERE('bformulario_id', '=', $idFormulario)->update(['lat' => $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Latitude, 'long' => $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Longitude, 'user_id' => $userId, 'deleted_at' => null]);
+				}
+			}
+			// $IdformB = \App\FormB\Bformulario::WHERE('numeroCarpeta', '=', $numeroCarpeta)->first()->id;
+		}else{
+			\App\Mapa\Mapacalor::WHERE('bformulario_id', '=', $idFormulario)->delete();
+
+		}
+		// else{
+		// 	// $responseCurl='dasdasdasda';
+		// 	dd($pais);
+
+		// }
+
 		//actualizo todo
 		$Bformulario->update($data);
 
@@ -1319,9 +1694,9 @@ class FormsController extends Controller
 
 		$carpeta = \App\Carpetas\Numerocarpeta::find( $idCarpeta);
 				// $carpetaFormG = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $id);
-		// dd($id);
-		// dd($carpeta->bformulario);
-		
+	
+		\App\Mapa\Mapacalor::WHERE('numero_carpeta', '=', $idCarpeta)->update(['deleted_at' => $fecha_hoy]);
+
 
 		// if ($carpetaFormB->value('aformulario_id') == null && $carpetaFormB->value('cformulario_id') == null && $carpetaFormB->value('dformulario_id') == null && $carpetaFormB->value('fformulario_id') == null && $carpetaFormB->value('gformulario_id') == null) {
 			
@@ -1361,7 +1736,7 @@ class FormsController extends Controller
 		// 									->first()
 		// 									->datos_numero_carpeta;
 		$numeroCarpeta= DB::table('numerocarpetas')
-												  ->WHERE('user_id', '=', $userId)
+											//	  ->WHERE('user_id', '=', $userId)
 												  ->WHERE('deleted_at', '=', null)
 												  ->WHERE('id','=',$idCarpeta)
 												  ->first()
@@ -1370,11 +1745,11 @@ class FormsController extends Controller
 		$carpetas = \App\Carpetas\Numerocarpeta::where('aformulario_id', '!=', null)->where('bformulario_id', '!=', null)->get();
 
 		//Lo que hago aca es asignarle el id al mapa 
-			$IdformB = \App\FormB\Bformulario::WHERE('user_id', '=', $userId)->orderBy('created_at', 'desc')->first()->id;
+			$IdformB = \App\FormB\Bformulario::WHERE('numeroCarpeta', '=', $numeroCarpeta)->first()->id;
 
-			$mapa = \App\FormB\Mapa::WHERE('user_id', '=', $userId)->WHERE('bformulario_id', '=', 0)->update(['bformulario_id' => $IdformB]);
+			$mapa = \App\Mapa\Mapacalor::WHERE('user_id', '=', $userId)->WHERE('bformulario_id', '=', 0)->update(['bformulario_id' => $IdformB]);
 		// fin
-		// dd('...$args');
+
 
 
 		return view('formularios.formularioC', ['datosOtraspersonas' => $datosOtraspersonas,
@@ -1407,8 +1782,8 @@ class FormsController extends Controller
 				'vinculo_id' => 'required_if:otraspersonas_id,1|array|min:0',			
 				'vinculo_id.*' => [new RequiredConditional(request()->get('otraspersonas_id'),array('1'),0,6,'Para ingresar vinculo debe seleccionar si')],			
 				// input oculto "cual?" que se desoculta si C4 es id 1
-				'vinculo_otro.0' => 'required_if:vinculo_id.0,1',
-				'vinculo_otro.*' => 'required_if:vinculo_id.*,1',
+				'vinculo_otro.0' => 'required_if:vinculo_id.0,6',
+				'vinculo_otro.*' => 'required_if:vinculo_id.*,6',
 				// input C5 contacto referente
 				'referenteContacto' => 'required_if:otraspersonas_id,1|array|min:0',
 				'referenteContacto.*' => [new RequiredConditional(request()->get('otraspersonas_id'),array('1'),0,255,'Para ingresar contacto debe seleccionar si',true)],
@@ -1425,10 +1800,10 @@ class FormsController extends Controller
 		]);
 		// ver que hacer si la cantidad que se recibe es 0, osea lo mando de una
 		$data = request()->all();
-		// dd($data);
+
 
 		$data['user_id'] = $userId;
-		// dd(isset($data['nombre_apellido']));
+
 
 		$guardoCformulario = \App\FormC\Cformulario::create($data);
 
@@ -1560,8 +1935,8 @@ class FormsController extends Controller
 			'vinculo_id' => 'nullable',			
 			'vinculo_id.*' => [new RequiredConditional(request()->get('otraspersonas_id'),array('1'),0,6,'Para ingresar vinculo debe seleccionar si')],			
 			// input oculto "cual?" que se desoculta si C4 es id 1
-			'vinculo_otro.0' => 'required_if:vinculo_id.0,1',
-			'vinculo_otro.*' => 'required_if:vinculo_id.*,1',
+			'vinculo_otro.0' => 'required_if:vinculo_id.0,6',
+			'vinculo_otro.*' => 'required_if:vinculo_id.*,6',
 			// input C5 contacto referente
 			'referenteContacto' => 'nullable',
 			'referenteContacto.*' => [new RequiredConditional(request()->get('otraspersonas_id'),array('1'),0,255,'Para ingresar contacto debe seleccionar si',true)],
@@ -1583,7 +1958,7 @@ class FormsController extends Controller
 
 		$referenteId = [];
 
-		// dd((count(request()->input('nombre_apellido_viejo'))));
+
 
 		$cantidadReferentesViejos = false;
 		if (request()->input('nombre_apellido_viejo')) {
@@ -1594,7 +1969,6 @@ class FormsController extends Controller
 		if (request()->input('nombre_apellido')) {
 			$cantidadReferentesNuevos = (count(request()->input('nombre_apellido')));
 		}
-			// dd($cFormulario->referentes()->WHERE('referente_id', '=', $data['idsEliminados']));
 
 		if (isset($data['idsEliminados'])) {
 			$ids = array_map("intval", explode(',', $data['idsEliminados']));
@@ -1649,7 +2023,6 @@ class FormsController extends Controller
 
 		//CAMBIOS
 		if ($data['otraspersonas_id'] == 2 || $data['otraspersonas_id'] == 3) {
-			// dd(count($referentes));
 			foreach ($referentes as $referente) {
 
 				$borroReferente = DB::table('referentes')->where('referentes.id', '=', $referente->id)->update(['updated_at' => $fecha_hoy, 'deleted_at' => $fecha_hoy]);
@@ -1706,7 +2079,7 @@ class FormsController extends Controller
 		// 									->first()
 		// 									->datos_numero_carpeta;
 		$numeroCarpeta = DB::table('numerocarpetas')
-												  ->WHERE('user_id', '=', $userId)
+											//	  ->WHERE('user_id', '=', $userId)
 												  ->WHERE('deleted_at', '=', null)
 												  ->WHERE('id','=',$idCarpeta)
 												  ->first()
@@ -1749,6 +2122,7 @@ class FormsController extends Controller
 		$datosTextil = \App\FormD\Textil::all();
 		$datosTipoVictima = \App\FormD\Tipovictima::all();
 		$datosViajo = \App\FormD\Viajo::all();
+		$datosLugarExplotacion = \App\FormD\Otrolugarexplotacion::all();
 
 		$carpetas = \App\Carpetas\Numerocarpeta::all();
 
@@ -1789,6 +2163,7 @@ class FormsController extends Controller
 												'datosTextil' => $datosTextil,
 												'datosTipoVictima' => $datosTipoVictima,
 												'datosViajo' => $datosViajo,
+												'datosLugarExplotacion' => $datosLugarExplotacion,
 												'idCarpeta' => $idCarpeta
 											]);
 	}
@@ -1797,8 +2172,7 @@ class FormsController extends Controller
 	{
 		//funciona todo 10 puntos
 		$userId = auth()->user()->id;
-			// dd($userId);
-			// var_dump(request()->get('textil_id'));
+
 			// exit;
 		request()->validate(
 			[
@@ -1856,6 +2230,10 @@ class FormsController extends Controller
 				'ciudadExplotacion' => 'required',
 				// input D14 domicilio
 				'domicilio' => 'required',
+				// select D14I domicilio de explotacion
+				'otrolugarexplotacion_id' => 'required | numeric | min:0 | max:2',
+				// input oculto "cual?" se desoculta si D14I es id 1
+				'lugarexplotacionCual' => [new RequiredConditional(request()->get('otrolugarexplotacion_id'),array('1'),0,255,'Para ingresar un nuevo domicilio debe seleccionar Si',true)],				
 				// select D15 reside lugar
 				'residelugar_id' => 'required | numeric | min:0 | max:3',
 				// select D16 engaño
@@ -1981,7 +2359,7 @@ class FormsController extends Controller
 
 		$data['user_id'] = $userId;
 
-		// dd($data);
+
 
 		$guardoDformulario = \App\FormD\Dformulario::create($data);
 
@@ -2019,12 +2397,94 @@ class FormsController extends Controller
 		if (isset($data['haymedida_id'])) {
 			$dFormulario->haymedidas()->sync($data['haymedida_id']);
 		}
+		// dd($data['provinciaCaptacion']);
+		// consulta curl por explotacion
+		$paisExplotacion = $data['paisExplotacion'];
+		$provinciaExplotacion = $data['provinciaExplotacion'];
+		$ciudadExplotacion = $data['ciudadExplotacion'];
+		if ($paisExplotacion != 'SE DESCONOCE' && $provinciaExplotacion != 'SE DESCONOCE' && $ciudadExplotacion != 'SE DESCONOCE') {
+			$searchtext = $paisExplotacion . ',' . $provinciaExplotacion . ',' . $ciudadExplotacion;
+			$curl = curl_init();
+			curl_setopt_array($curl, array(
+				CURLOPT_URL => "http://geocoder.api.here.com/6.2/geocode.json?searchtext=" . $searchtext . "&app_id=HkqpXchCOv6VUYhLEIEz&app_code=zl9UxG6jltjRVgHk4SqEaA",
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_ENCODING => "",
+                                CURLOPT_PROXY=>config("app.my_proxy"),
+                                CURLOPT_PROXYPORT=>config("app.my_proxyport"),
+				CURLOPT_MAXREDIRS => 10,
+				CURLOPT_TIMEOUT => 30,
+				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+				CURLOPT_CUSTOMREQUEST => "GET",
+				CURLOPT_POSTFIELDS => "",
+				CURLOPT_HTTPHEADER => array(
+					"Postman-Token: 035218e3-b1be-492c-90d3-791377e75439",
+					"cache-control: no-cache",
+				),
+			));
+			$responseCurl = json_decode(curl_exec($curl));
+			$err = curl_error($curl);
+			// dd($responseCurl);									
+			curl_close($curl);
+			if ($err) {
+				echo "cURL Error #:" . $err;
+			}
+
+			if (empty($responseCurl->Response->View)) {
+				Log::error('Error al guardar latitud o longitud en ' . $paisExplotacion . ' ' . $provinciaExplotacion . ' ' . $ciudadExplotacion);
+			} else {
+				\App\Mapa\Mapacalor::CREATE(['numero_carpeta' => $numeroCarpeta, 'localidad' => "explotacion", 'bformulario_id' => null, 'dformulario_id' => $dFormulario->id, 'lat' => $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Latitude, 'long' => $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Longitude, 'user_id' => $userId, 'count' => 1]);
+			}
+
+
+		}
+		// curl captacion
+		$paisCaptacion = $data['paisCaptacion'];
+		$provinciaCaptacion = $data['provinciaCaptacion'];
+		$ciudadCaptacion = $data['ciudadCaptacion'];
+		if ($paisCaptacion != 'SE DESCONOCE' && $provinciaCaptacion != 'SE DESCONOCE' && $ciudadCaptacion != 'SE DESCONOCE') {
+			$searchtext = $paisCaptacion . ',' . $provinciaCaptacion . ',' . $ciudadCaptacion;
+			$curl = curl_init();
+			curl_setopt_array($curl, array(
+				CURLOPT_URL => "http://geocoder.api.here.com/6.2/geocode.json?searchtext=" . $searchtext . "&app_id=HkqpXchCOv6VUYhLEIEz&app_code=zl9UxG6jltjRVgHk4SqEaA",
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_ENCODING => "",
+				CURLOPT_PROXY=>config("app.my_proxy"),
+                                CURLOPT_PROXYPORT=>config("app.my_proxyport"),
+				CURLOPT_MAXREDIRS => 10,
+				CURLOPT_TIMEOUT => 30,
+				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+				CURLOPT_CUSTOMREQUEST => "GET",
+				CURLOPT_POSTFIELDS => "",
+				CURLOPT_HTTPHEADER => array(
+					"Postman-Token: 035218e3-b1be-492c-90d3-791377e75439",
+					"cache-control: no-cache",
+				),
+			));
+			$responseCurl = json_decode(curl_exec($curl));
+			$err = curl_error($curl);
+			// dd($responseCurl);
+			// dd($responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Latitude, $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Longitude,$searchtext);
+			if (empty($responseCurl->Response->View)) {
+				Log::error('Error al guardar latitud o longitud en ' . $paisCaptacion . ' ' . $provinciaCaptacion . ' ' . $ciudadCaptacion);
+			} else {
+				\App\Mapa\Mapacalor::CREATE(['numero_carpeta' => $numeroCarpeta, 'localidad' => "captacion", 'bformulario_id' => null, 'dformulario_id' => $dFormulario->id, 'lat' => $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Latitude, 'long' => $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Longitude, 'user_id' => $userId]);
+			}
+
+			curl_close($curl);
+			if ($err) {
+				echo "cURL Error #:" . $err;
+			}
+			
+		}
+
 
 		return redirect('formularios/F/'.$idCarpeta.'/'.$numeroCarpeta);
 	}
 
 	public function editD($idCarpeta,$idFormulario)
 	{
+		$data = request()->all();
+
 		$userId = auth()->user()->id;
 		// $numeroCarpeta = DB::table('aformularios')
 		// 									->WHERE('user_id', '=', $userId)
@@ -2064,6 +2524,7 @@ class FormsController extends Controller
 		$datosTextil = \App\FormD\Textil::all();
 		$datosTipoVictima = \App\FormD\Tipovictima::all();
 		$datosViajo = \App\FormD\Viajo::all();
+		$datosLugarExplotacion = \App\FormD\Otrolugarexplotacion::all();
 		$dFormulario = \App\FormD\Dformulario::find($idFormulario);
 		
 		//id de los formularios de una misma carpeta
@@ -2118,7 +2579,7 @@ class FormsController extends Controller
 								->value('gformulario_id');
 		//fin ids
 			$usuarioCarpeta = \App\Carpetas\Numerocarpeta::WHERE('dformulario_id', '=', $idFormulario)->value('user_id');
-
+		
 		return view('formularios.editar.formularioD_edit', [
 												'datosAcompanado' => $datosAcompanado,
 												'datosAcompanadoRed' => $datosAcompanadoRed,
@@ -2153,6 +2614,7 @@ class FormsController extends Controller
 												'datosTextil' => $datosTextil,
 												'datosTipoVictima' => $datosTipoVictima,
 												'datosViajo' => $datosViajo,
+												'datosLugarExplotacion' => $datosLugarExplotacion,
 												'dFormulario' => $dFormulario,
 												'idFormA' => $idFormA,
 												'idFormB' => $idFormB,
@@ -2169,6 +2631,7 @@ class FormsController extends Controller
 	public function updateD($idCarpeta,$idFormulario)
 	{
 		$userId = auth()->user()->id;
+		$numeroCarpeta = \App\Carpetas\Numerocarpeta::find($idCarpeta)->numeroCarpeta;
 
 		request()->validate(
 			[
@@ -2226,6 +2689,10 @@ class FormsController extends Controller
 				'ciudadExplotacion' => 'required',
 				// input D14 domicilio
 				'domicilio' => 'required',
+				// select D14I domicilio de explotacion
+				'otrolugarexplotacion_id' => 'required | numeric | min:0 | max:2',
+				// input oculto "cual?" se desoculta si D14I es id 1
+				'lugarexplotacionCual' => [new RequiredConditional(request()->get('otrolugarexplotacion_id'),array('1'),0,255,'Para ingresar un nuevo domicilio debe seleccionar Si',true)],				
 				// select D15 reside lugar
 				'residelugar_id' => 'required | numeric | min:0 | max:3',
 				// select D16 engaño
@@ -2408,6 +2875,119 @@ class FormsController extends Controller
 		if (isset($data['haymedida_id'])) {
 			$formularioD->haymedidas()->sync($data['haymedida_id']);
 		}
+		// dd($dFormulario->id);
+// consulta curl por explotacion
+
+$paisExplotacion = $data['paisExplotacion'];
+$provinciaExplotacion = $data['provinciaExplotacion'];
+$ciudadExplotacion = $data['ciudadExplotacion'];
+
+if ($paisExplotacion != 'SE DESCONOCE' && $provinciaExplotacion != 'SE DESCONOCE' && $ciudadExplotacion != 'SE DESCONOCE') {
+    $searchtext = $paisExplotacion . ',' . $provinciaExplotacion . ',' . $ciudadExplotacion;
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => "http://geocoder.api.here.com/6.2/geocode.json?searchtext=" . $searchtext . "&app_id=HkqpXchCOv6VUYhLEIEz&app_code=zl9UxG6jltjRVgHk4SqEaA",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_PROXY=>config("app.my_proxy"),
+        CURLOPT_PROXYPORT=>config("app.my_proxyport"),
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_POSTFIELDS => "",
+        CURLOPT_HTTPHEADER => array(
+            "Postman-Token: 035218e3-b1be-492c-90d3-791377e75439",
+            "cache-control: no-cache",
+        ),
+    ));
+    $responseCurl = json_decode(curl_exec($curl));
+    $err = curl_error($curl);
+    // dd($responseCurl);
+   
+    curl_close($curl);
+    if ($err) {
+        echo "cURL Error #:" . $err;
+	}
+	if (empty($responseCurl->Response->View)) {
+		Log::error('Error al guardar latitud o longitud en ' . $paisExplotacion . ' ' . $provinciaExplotacion . ' ' . $ciudadExplotacion);
+
+		if(count(\App\Mapa\Mapacalor::WHERE('dformulario_id', '=', $idFormulario)->get()) !== 0){
+			\App\Mapa\Mapacalor::WHERE('dformulario_id', '=', $idFormulario)->WHERE('localidad', '=', 'explotacion')->delete();
+		}
+	} else {
+		if (count(\App\Mapa\Mapacalor::WHERE('dformulario_id', '=', $idFormulario)->WHERE('localidad', '=', 'explotacion')->orWhere('dformulario_id', '=', $idFormulario)->WHERE('localidad', '=', 'explotacion')->WHERE('deleted_at', 'not', null)->get()) == 0) {
+			\App\Mapa\Mapacalor::CREATE(['numero_carpeta' => $numeroCarpeta, 'localidad' => "explotacion", 'bformulario_id' => null, 'dformulario_id' => $idFormulario, 'lat' => $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Latitude, 'long' => $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Longitude, 'user_id' => $userId, 'count' => 1]);
+		} else {
+			\App\Mapa\Mapacalor::WHERE('dformulario_id', '=', $idFormulario)->WHERE('localidad', '=', 'explotacion')->update(['lat' => $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Latitude, 'long' => $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Longitude, 'user_id' => $userId, 'deleted_at' => null]);
+		}
+	}
+
+}else{
+			\App\Mapa\Mapacalor::WHERE('dformulario_id', '=', $idFormulario)->WHERE('localidad', '=', 'explotacion')->delete();
+
+		}
+// curl captacion
+$paisCaptacion = $data['paisCaptacion'];
+$provinciaCaptacion = $data['provinciaCaptacion'];
+$ciudadCaptacion = $data['ciudadCaptacion'];
+if ($paisCaptacion != 'SE DESCONOCE' && $provinciaCaptacion != 'SE DESCONOCE' && $ciudadCaptacion != 'SE DESCONOCE') {
+    $searchtext = $paisCaptacion . ',' . $provinciaCaptacion . ',' . $ciudadCaptacion;
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => "http://geocoder.api.here.com/6.2/geocode.json?searchtext=" . $searchtext . "&app_id=HkqpXchCOv6VUYhLEIEz&app_code=zl9UxG6jltjRVgHk4SqEaA",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_PROXY=>config("app.my_proxy"),
+        CURLOPT_PROXYPORT=>config("app.my_proxyport"),
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_POSTFIELDS => "",
+        CURLOPT_HTTPHEADER => array(
+            "Postman-Token: 035218e3-b1be-492c-90d3-791377e75439",
+            "cache-control: no-cache",
+        ),
+    ));
+    $responseCurl = json_decode(curl_exec($curl));
+    $err = curl_error($curl);
+    // dd($responseCurl);
+    // dd($responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Latitude, $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Longitude,$searchtext);
+curl_close($curl);
+if ($err) {
+    echo "cURL Error #:" . $err;
+}
+
+	if (empty($responseCurl->Response->View)) 
+	{
+		
+		Log::error('Error al guardar latitud o longitud en ' . $paisCaptacion . ' ' . $provinciaCaptacion . ' ' . $ciudadCaptacion);
+
+		if(count(\App\Mapa\Mapacalor::WHERE('dformulario_id', '=', $idFormulario)->get()) !== 0){
+			\App\Mapa\Mapacalor::WHERE('dformulario_id', '=', $idFormulario)->WHERE('localidad', '=', 'captacion')->delete();
+		}
+	} else {
+		
+
+		if(count(\App\Mapa\Mapacalor::WHERE('dformulario_id', '=', $idFormulario)->WHERE('localidad', '=', 'captacion')->orWhere('dformulario_id', '=', $idFormulario)->WHERE('localidad', '=', 'captacion')->WHERE('deleted_at', 'not', null)->get()) == 0){
+		
+			\App\Mapa\Mapacalor::CREATE(['numero_carpeta' => $numeroCarpeta, 'localidad' => "captacion", 'bformulario_id' => null, 'dformulario_id' => $idFormulario, 'lat' => $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Latitude, 'long' => $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Longitude, 'user_id' => $userId]);
+		
+
+		}else{
+
+
+		
+			\App\Mapa\Mapacalor::WHERE('dformulario_id', '=', $idFormulario)->WHERE('localidad', '=', 'captacion')->update(['lat' => $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Latitude, 'long' => $responseCurl->Response->View[0]->Result[0]->Location->DisplayPosition->Longitude, 'user_id' => $userId, 'deleted_at' => null]);
+		}
+	}
+
+
+}else{
+			\App\Mapa\Mapacalor::WHERE('dformulario_id', '=', $idFormulario)->WHERE('localidad', '=', 'captacion')->delete();
+
+		}
 
 		return redirect('formularios/buscador');
 	}
@@ -2421,7 +3001,8 @@ class FormsController extends Controller
 		$carpetaFormD = \App\Carpetas\Numerocarpeta::where('dformulario_id', '=', $id);
 
 		// if ($carpetaFormD->value('aformulario_id') == null && $carpetaFormD->value('bformulario_id') == null && $carpetaFormD->value('cformulario_id') == null && $carpetaFormD->value('fformulario_id') == null && $carpetaFormD->value('gformulario_id') == null) {
-			
+			\App\Mapa\Mapacalor::WHERE('bformulario_id', '=', $id)->update(['deleted_at' => $fecha_hoy]);
+
 			$carpetaFormD->update(['deleted_at' => $fecha_hoy]);
 
 		// }elseif ($carpetaFormD->value('aformulario_id') !== null || $carpetaFormD->value('bformulario_id') !== null || $carpetaFormD->value('cformulario_id') !== null || $carpetaFormD->value('fformulario_id') !== null || $carpetaFormD->value('gformulario_id') !== null) {
@@ -2437,189 +3018,7 @@ class FormsController extends Controller
     	return redirect('formularios/buscador');	
 	}
 
-	//QUEDA SUSPENDIDO EL EJE E Y EL EJE F PARA A SER EL NUEVO EJE E
-
-		// public function createE()
-		// {
-		// 	$userId = auth()->user()->id;
-		// 	$numeroCarpeta = DB::table('aformularios')
-		// 										->WHERE('user_id', '=', $userId)
-		// 										->ORDERBY('updated_at', 'desc')
-		// 										->first()
-		// 										->datos_numero_carpeta;
-		// 	// $todoFormA = DB::table('aformularios')
-		// 	// 									->WHERE('user_id', '=', $userId)
-		// 	// 									->ORDERBY('updated_at', 'desc')
-		// 	// 									->get();
-		// 	$documentos = \App\FormE\Edocumento::all();
-		// 	$generos = \App\FormB\Genero::all();
-		// 	$vinculaciones = \App\FormE\Vinculacion::all();
-		// 	$roles = \App\FormE\Roldelito::all();
-
-		// 	$carpetas = \App\Carpetas\Numerocarpeta::all();
-
-		// 	return view('formularios.formularioE', 
-		// 											['carpetas' => $carpetas,
-		// 											// 'todoFormA' => $todoFormA,
-		// 											'numeroCarpeta' => $numeroCarpeta,
-		// 										    'documentos' => $documentos,
-		// 										    'generos' => $generos,
-		// 										    'vinculaciones' => $vinculaciones,
-		// 										    'roles' => $roles]);
-		// }
-
-		// public function insertE()
-		// {
-		// 	$userId = auth()->user()->id;
-			
-		// 	request()->validate(
-		// 		[
-		// 			'nombreApellido' => 'required',
-		// 			'edocumentos_id' => 'required',
-		// 			'documentoCual' => 'required_if:edocumentos_id,==,7',
-		// 			'numeroDocumento' => 'required',
-		// 			'edad' => 'required',
-		// 			'genero_id' => 'required',
-		// 			'generoCual' => 'required_if:genero_id,==,5',
-		// 			'vinculacion_id' => 'required',
-		// 			'vinculacionCual' => 'required_if:vinculacion_id,==,6',
-		// 			'rolDelito_id' => 'required'
-		// 		],
-		// 		[
-		// 			'nombreApellido.required' => 'Este campo es obligatorio',
-		// 			'edocumentos_id.required' => 'Este campo es obligatorio',
-		// 			'documentoCual.required_if' => 'Este campo es obligatorio',
-		// 			'numeroDocumento.required' => 'Este campo es obligatorio',
-		// 			'edad.required' => 'Este campo es obligatorio',
-		// 			'genero_id.required' => 'Este campo es obligatorio',
-		// 			'generoCual.required_if' => 'Este campo es obligatorio',
-		// 			'vinculacion_id.required' => 'Este campo es obligatorio',
-		// 			'vinculacionCual.required_if' => 'Este campo es obligatorio',
-		// 			'rolDelito_id.required' => 'Este campo es obligatorio'
-		// 		]);
-
-		// 	$data = request()->all();
-
-		// 	$data['user_id'] = $userId;
-
-		// 	// dd($data);
-
-		// 	$guardoEformulario = \App\FormE\Eformulario::create($data);
-
-		// 	$ultimoId = $guardoEformulario->id;
-		// 	$guardoNumeroCarpeta = \App\Carpetas\Numerocarpeta::where('numeroCarpeta', '=', $data['numeroCarpeta'])->update(['eformulario_id' => $ultimoId]);
-
-		// 	$eFormulario = \App\FormE\Eformulario::find($ultimoId);
-
-		// 	$eFormulario->roldelitos()->sync($data['rolDelito_id']);
-
-		// 	return redirect('formularios/F');
-		// }
-
-		// public function editE($id)
-		// {
-		// 	$userId = auth()->user()->id;
-		// 	$documentos = \App\FormE\Edocumento::all();
-		// 	$generos = \App\FormB\Genero::all();
-		// 	$vinculaciones = \App\FormE\Vinculacion::all();
-		// 	$roles = \App\FormE\Roldelito::all();
-		// 	$eFormulario = \App\FormE\Eformulario::find($id);
-
-		// 	//id de los formularios de una misma carpeta
-		// 		$idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-		// 						->where('eformulario_id', '=', $id)
-		// 						->value('aformulario_id');
-		// 		$idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-		// 							->where('eformulario_id', '=', $id)
-		// 							->value('bformulario_id');
-		// 		$idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-		// 							->where('eformulario_id', '=', $id)
-		// 							->value('cformulario_id');
-		// 		$idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-		// 							->where('eformulario_id', '=', $id)
-		// 							->value('dformulario_id');
-		// 		$idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-		// 							->where('eformulario_id', '=', $id)
-		// 							->value('eformulario_id');
-		// 		$idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-		// 							->where('eformulario_id', '=', $id)
-		// 							->value('fformulario_id');
-		// 		$idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-		// 							->where('eformulario_id', '=', $id)
-		// 							->value('gformulario_id');
-		// 	//fin ids
-
-		// 	return view('formularios.editar.formularioE_edit', 
-		// 														[
-		// 													    'documentos' => $documentos,
-		// 													    'generos' => $generos,
-		// 													    'vinculaciones' => $vinculaciones,
-		// 													    'roles' => $roles,
-		// 														'eFormulario' => $eFormulario,
-		// 														'idFormA' => $idFormA,
-		// 														'idFormB' => $idFormB,
-		// 														'idFormC' => $idFormC,
-		// 														'idFormD' => $idFormD,
-		// 														'idFormE' => $idFormE,
-		// 														'idFormF' => $idFormF,
-		// 														'idFormG' => $idFormG
-		// 													]);
-		// }
-
-		// public function updateE($id)
-		// {
-		// 	$userId = auth()->user()->id;
-			
-		// 	request()->validate(
-		// 		[
-		// 			'nombreApellido' => 'required',
-		// 			'edocumentos_id' => 'required',
-		// 			'documentoCual' => 'required_if:edocumentos_id,==,7',
-		// 			'numeroDocumento' => 'required',
-		// 			'edad' => 'required',
-		// 			'genero_id' => 'required',
-		// 			'generoCual' => 'required_if:genero_id,==,5',
-		// 			'vinculacion_id' => 'required',
-		// 			'vinculacionCual' => 'required_if:vinculacion_id,==,6',
-		// 			'rolDelito_id' => 'required'
-		// 		],
-		// 		[
-		// 			'nombreApellido.required' => 'Este campo es obligatorio',
-		// 			'edocumentos_id.required' => 'Este campo es obligatorio',
-		// 			'documentoCual.required_if' => 'Este campo es obligatorio',
-		// 			'numeroDocumento.required' => 'Este campo es obligatorio',
-		// 			'edad.required' => 'Este campo es obligatorio',
-		// 			'genero_id.required' => 'Este campo es obligatorio',
-		// 			'generoCual.required_if' => 'Este campo es obligatorio',
-		// 			'vinculacion_id.required' => 'Este campo es obligatorio',
-		// 			'vinculacionCual.required_if' => 'Este campo es obligatorio',
-		// 			'rolDelito_id.required' => 'Este campo es obligatorio'
-		// 		]);
-
-		// 	$data = request()->all();
-
-		// 	$data['user_id'] = $userId;
-
-		// 	$formularioE = \App\FormE\Eformulario::find($id);
-
-		// 	$formularioE->update($data);
-
-		// 	$formularioE->roldelitos()->sync($data['rolDelito_id']);
-
-		// 	return redirect('formularios/buscador');
-		// }
-
-		// public function destroyE($id)
-		// {
-		// 	$Eformulario = \App\FormE\Eformulario::find($id);
-
-		// 	$Eformulario->delete();
-
-	 //    	session()->flash('message', 'El formulario se eliminó con éxito.');
-
-	 //    	return redirect('formularios');	
-		// }
-
+	
 	//NUEVO EJE E
 
 	public function createF($idCarpeta,$idFormulario=null)
@@ -2638,14 +3037,13 @@ class FormsController extends Controller
 		// 									->first()
 		// 									->datos_numero_carpeta;
 		$numeroCarpeta= DB::table('numerocarpetas')
-												  ->WHERE('user_id', '=', $userId)
+												//  ->WHERE('user_id', '=', $userId)
 												  ->WHERE('deleted_at', '=', null)
 												  ->WHERE('id','=',$idCarpeta)
 												  ->first()
 												  ->numeroCarpeta; 
 		$todoFormA = DB::table('aformularios')
-											->WHERE('user_id', '=', $userId)
-											->ORDERBY('updated_at', 'desc')
+											->WHERE('datos_numero_carpeta', '=', $numeroCarpeta)
 											->get();
 		$derivacionOrganismo = DB::table('otrosorganismos')
 											->get();
@@ -3535,9 +3933,9 @@ class FormsController extends Controller
 	public function createG($idCarpeta,$idFormulario=null)
 	{
 		$userId = auth()->user()->id;
-		
+		$datosContactoDirecto = \App\FormG\Contactodirecto::all();
 		$numeroCarpeta= DB::table('numerocarpetas')
-												  ->WHERE('user_id', '=', $userId)
+												//  ->WHERE('user_id', '=', $userId)
 												  ->WHERE('deleted_at', '=', null)
 												  ->WHERE('id','=',$idCarpeta)
 												  ->first()
@@ -3574,16 +3972,7 @@ class FormsController extends Controller
 			$datosOrgJudicialesActualmente = \App\FormF\Orgjudicialactualmente::all();
 			$datosProgNacionalesActualmente = \App\FormF\Orgprognacionalactualmente::all();
 			$datosPoliciaActualmente = \App\FormF\Policiaactualmente::all();
-			// ---necesarios para el edit
-			// dd($numeroCarpeta);
-			// $getIdF = DB::table('fformularios')
-			//                             ->WHERE('numeroCarpeta', '=', $numeroCarpeta)
-			// 							->ORDERBY('created_at', 'desc')
-			// 							// ->get();
-			// 							->first()
-			// 							->id;
-			// 							// dd($getIdF);
-			// $formularioF = \App\FormF\Fformulario::find($getIdF);
+
 			$formulariosF = \App\FormF\Fformulario::all();
 			$orgProgNacionalOtro = \App\FormF\Orgprognacionalotro::all();
 			$orgProgProvincial = \App\FormF\Orgprogprovincial::all();
@@ -3639,6 +4028,7 @@ class FormsController extends Controller
 												'datosAmbito'		=> $datosAmbito,
 												'datosDepartamento'	=> $datosDepartamento,
 												'datosOtrasProv'	=> $datosOtrasProv,
+												'datosContactoDirecto' => $datosContactoDirecto,
 
 												]);
 	}
@@ -3681,8 +4071,7 @@ class FormsController extends Controller
 
 		$guardoNumeroCarpeta = \App\Carpetas\Numerocarpeta::where('numeroCarpeta', '=', $data['numeroCarpeta'])->update(['gformulario_id' => $idGFormularioGuardado]);
 
-		// dd(request()->file('docInterna')[0]);
-
+	
 		if (isset($data['docInterna'])) {
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
 			for ($i=0; $i < count($data['docInterna']); $i++) { 
@@ -3690,7 +4079,7 @@ class FormsController extends Controller
 				// $nombreArchivoCliente = request()->file('docInterna')[$i]->getClientOriginalName();
 				$nombreArchivoCliente = pathinfo(request()->file('docInterna')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
-				$docInterna = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+				$docInterna = $nombreArchivoCliente.' - carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $docInterna = $docInterna.'.'.request()->file('docInterna')[$i]->extension();
 
@@ -3711,7 +4100,7 @@ class FormsController extends Controller
 
 				$nombreArchivoCliente = pathinfo(request()->file('docExterna')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
-				$docExterna = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+				$docExterna = $nombreArchivoCliente.' - carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $docExterna = $docExterna.'.'.request()->file('docExterna')[$i]->extension();
 
@@ -3732,7 +4121,7 @@ class FormsController extends Controller
 
 				$nombreArchivoCliente = pathinfo(request()->file('notRelacionadas')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
-				$notRelacionadas = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+				$notRelacionadas = $nombreArchivoCliente.' - carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $notRelacionadas = $notRelacionadas.'.'.request()->file('notRelacionadas')[$i]->extension();
 
@@ -3753,7 +4142,7 @@ class FormsController extends Controller
 
 				$nombreArchivoCliente = pathinfo(request()->file('intervencionEstrategias')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
-				$intervencionEstrategias = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+				$intervencionEstrategias = $nombreArchivoCliente.' - carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $intervencionEstrategias = $intervencionEstrategias.'.'.request()->file('intervencionEstrategias')[$i]->extension();
 
@@ -3774,7 +4163,7 @@ class FormsController extends Controller
 
 				$nombreArchivoCliente = pathinfo(request()->file('infoSocioambiental')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
-				$infoSocioambiental = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+				$infoSocioambiental = $nombreArchivoCliente.' - carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $infoSocioambiental = $infoSocioambiental.'.'.request()->file('infoSocioambiental')[$i]->extension();
 
@@ -3804,6 +4193,7 @@ class FormsController extends Controller
 				$intervencion['telefonoContacto'] = $data['telefonoContacto'][$i]; 
 				$intervencion['descripcionIntervencion'] = $data['descripcionIntervencion'][$i];
 				$intervencion['user_id'] = $data['user_id'];
+				$intervencion['contactoDirecto_id'] = $data['contactoDirecto_id'];
 
 				$guardoIntervencion = \App\FormG\Intervencion::create($intervencion);
 
@@ -3840,7 +4230,7 @@ class FormsController extends Controller
 			$datosAmbito = \App\FormA\Ambito::all();
 			$datosDepartamento = \App\FormA\Departamento::all();
 			$datosOtrasProv = \App\FormA\Otrasprov::all();
-
+			$datosContactoDirecto = \App\FormG\Contactodirecto::all();
 			// $getIdA = DB::table('aformularios')
 			//                             ->WHERE('datos_numero_carpeta', '=', $numeroCarpeta)
 			// 							->ORDERBY('updated_at', 'desc')
@@ -3860,13 +4250,7 @@ class FormsController extends Controller
 			$datosOrgJudicialesActualmente = \App\FormF\Orgjudicialactualmente::all();
 			$datosProgNacionalesActualmente = \App\FormF\Orgprognacionalactualmente::all();
 			$datosPoliciaActualmente = \App\FormF\Policiaactualmente::all();
-			// ---necesarios para el edit
-			// $getIdF = DB::table('fformularios')
-			//                             ->WHERE('numeroCarpeta', '=', $numeroCarpeta)
-			// 							->ORDERBY('updated_at', 'desc')
-			// 							->first()
-			// 							->id;
-			// 							// dd($getIdF);
+
 			$formulariosF = \App\FormF\Fformulario::all();
 			$orgProgNacionalOtro = \App\FormF\Orgprognacionalotro::all();
 			$orgProgProvincial = \App\FormF\Orgprogprovincial::all();
@@ -3887,33 +4271,10 @@ class FormsController extends Controller
 			$infoSocioambiental = $formularioG->infosocioambientals;
 			$intervencionEstrategias = $formularioG->intervencionestrategias;
 			$notRelacionadas = $formularioG->notrelacionadas;
-			// response()->file($docInterna);
-			// dd($docInterna);
+
 		//Fin datos del G
 
-		//id de los formularios de una misma carpeta
-			// $idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-			// 				->where('gformulario_id', '=', $id)
-			// 				->value('aformulario_id');
-			// $idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-			// 					->where('gformulario_id', '=', $id)
-			// 					->value('bformulario_id');
-			// $idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-			// 					->where('gformulario_id', '=', $id)
-			// 					->value('cformulario_id');
-			// $idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-			// 					->where('gformulario_id', '=', $id)
-			// 					->value('dformulario_id');
-			// $idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-			// 					->where('gformulario_id', '=', $id)
-			// 					->value('eformulario_id');
-			// $idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-			// 					->where('gformulario_id', '=', $id)
-			// 					->value('fformulario_id');
-			// $idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
-			// 					->where('gformulario_id', '=', $id)
-			// 					->value('gformulario_id');
-			// $idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+	
 			$idFormA = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $idFormulario)
 							// ->where('cformulario_id', '=', $id)
 							->value('aformulario_id');
@@ -3996,7 +4357,8 @@ class FormsController extends Controller
 												'idFormF' => $idFormF,
 												'idFormG' => $idFormG,
 												'usuarioCarpeta' => $usuarioCarpeta,
-												'idCarpeta' => $idCarpeta
+												'idCarpeta' => $idCarpeta,
+												'datosContactoDirecto' => $datosContactoDirecto,
 												]);
 	}
 
@@ -4028,16 +4390,13 @@ class FormsController extends Controller
 
 		$data = request()->all();
 
-		// dd($data);
+
 
 		$data['user_id'] = $userId;
 
 		$gFormulario = \App\FormG\Gformulario::find($idFormulario);
 		$actualizoGformulario = $gFormulario->update($data);
 
-		// $idGFormularioGuardado = $gFormularioGuardado->id;
-
-		// dd(request()->file('docInterna')[0]);
 
 		if (isset($data['docInterna'])) {
 			//j sirve para agregarle un indice al archivo y que no arranca en 0
@@ -4045,7 +4404,7 @@ class FormsController extends Controller
 
 				$nombreArchivoCliente = pathinfo(request()->file('docInterna')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
-				$docInterna = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+				$docInterna = $nombreArchivoCliente.' - carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $docInterna = $docInterna.'.'.request()->file('docInterna')[$i]->extension();
 
@@ -4065,7 +4424,7 @@ class FormsController extends Controller
 				
 				$nombreArchivoCliente = pathinfo(request()->file('docExterna')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
-				$docExterna = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+				$docExterna = $nombreArchivoCliente.' - carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $docExterna = $docExterna.'.'.request()->file('docExterna')[$i]->extension();
 
@@ -4086,7 +4445,7 @@ class FormsController extends Controller
 
 				$nombreArchivoCliente = pathinfo(request()->file('notRelacionadas')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
-				$notRelacionadas = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+				$notRelacionadas = $nombreArchivoCliente.' - carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $notRelacionadas = $notRelacionadas.'.'.request()->file('notRelacionadas')[$i]->extension();
 
@@ -4107,7 +4466,7 @@ class FormsController extends Controller
 
 				$nombreArchivoCliente = pathinfo(request()->file('intervencionEstrategias')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
-				$intervencionEstrategias = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+				$intervencionEstrategias = $nombreArchivoCliente.' - carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $intervencionEstrategias = $intervencionEstrategias.'.'.request()->file('intervencionEstrategias')[$i]->extension();
 
@@ -4128,7 +4487,7 @@ class FormsController extends Controller
 
 				$nombreArchivoCliente = pathinfo(request()->file('infoSocioambiental')[$i]->getClientOriginalName(), PATHINFO_FILENAME);
 
-				$infoSocioambiental = $nombreArchivoCliente.' - Número de carpeta '.str_slug($data['numeroCarpeta']);
+				$infoSocioambiental = $nombreArchivoCliente.' - carpeta '.str_slug($data['numeroCarpeta']);
 
 	            $infoSocioambiental = $infoSocioambiental.'.'.request()->file('infoSocioambiental')[$i]->extension();
 
@@ -4176,12 +4535,12 @@ class FormsController extends Controller
 											'nombreContacto' => $data['nombreContacto_viejo'][$i],
 											'telefonoContacto' => $data['telefonoContacto_viejo'][$i],
 											'descripcionIntervencion' => $data['descripcionIntervencion_viejo'][$i],
-											'user_id' => $data['user_id']
+											'user_id' => $data['user_id'],
+											'contactoDirecto_id' => $data['contactoDirecto_id']
 										];
 					if (isset($data['temaOtro_viejo'][$i])) {
 						$intervencionVieja['temaOtro'] = $data['temaOtro_viejo'][$i];
 					}
-					// dd($intervencionVieja);
 					$actualizoIntervencionCargada = $intervencionCargada->update($intervencionVieja);
 
 					$intervencionIds[] = $intervencion->id;
@@ -4197,7 +4556,9 @@ class FormsController extends Controller
 											'nombreContacto' => $data['nombreContacto'][$i],
 											'telefonoContacto' => $data['telefonoContacto'][$i],
 											'descripcionIntervencion' => $data['descripcionIntervencion'][$i],
-											'user_id' => $data['user_id']
+											'user_id' => $data['user_id'],
+											'contactoDirecto_id' => $data['contactoDirecto_id']
+
 										];
 					if (isset($data['temaOtro'][$i])) {
 						$intervencion['temaOtro'] = $data['temaOtro'][$i];
@@ -4241,4 +4602,570 @@ class FormsController extends Controller
     	return redirect('formularios/buscador');	
 	}
 
+
+
+	public function eliminarDocInterno()
+	{
+		$userId = auth()->user()->id;
+		$data = request()->all();
+		/*el siguiente código sirve para borrar físicamente
+
+		$split=explode("/storage",$data["archivo"])[1];
+
+		unlink(storage_path("app/public".$split));
+
+		*/
+		//se actualiza la bd.
+		$guardoDocInterna = \App\FormG\Docinterna::destroy($data["archivo"]);
+
+		
+		return $guardoDocInterna;
+		//storage_path("app/public".$split);
+	}
+
+
+
+	public function eliminarDocExterno()
+	{
+		$userId = auth()->user()->id;
+		$data = request()->all();
+		/*el siguiente código sirve para borrar físicamente
+
+		$split=explode("/storage",$data["archivo"])[1];
+
+		unlink(storage_path("app/public".$split));
+
+		*/
+		//se actualiza la bd.
+		$guardoDocExterno = \App\FormG\Docexterna::destroy($data["archivo"]);
+
+		
+		return $guardoDocExterno;
+		//storage_path("app/public".$split);
+	}
+
+	public function eliminarFondoRotativo()
+	{
+		$userId = auth()->user()->id;
+		$data = request()->all();
+		/*el siguiente código sirve para borrar físicamente
+
+		$split=explode("/storage",$data["archivo"])[1];
+
+		unlink(storage_path("app/public".$split));
+
+		*/
+		//se actualiza la bd.
+		$guardoDocExterno = \App\FormG\Notrelacionada::destroy($data["archivo"]);
+
+		
+		return $guardoDocExterno;
+		//storage_path("app/public".$split);
+	}
+
+	
+
+	public function eliminarIntervencionEstrategias()
+	{
+		$userId = auth()->user()->id;
+		$data = request()->all();
+		/*el siguiente código sirve para borrar físicamente
+
+		$split=explode("/storage",$data["archivo"])[1];
+
+		unlink(storage_path("app/public".$split));
+
+		*/
+		//se actualiza la bd.
+		$guardoDocExterno = \App\FormG\Intervencionestrategia::destroy($data["archivo"]);
+
+		
+		return $guardoDocExterno;
+		//storage_path("app/public".$split);
+	}
+
+
+
+	public function eliminarInfoSocioambiental()
+	{
+		$userId = auth()->user()->id;
+		$data = request()->all();
+		/*el siguiente código sirve para borrar físicamente
+
+		$split=explode("/storage",$data["archivo"])[1];
+
+		unlink(storage_path("app/public".$split));
+
+		*/
+		//se actualiza la bd.
+		$guardoDocExterno = \App\FormG\Infosocioambiental::destroy($data["archivo"]);
+
+		
+		return $guardoDocExterno;
+		//storage_path("app/public".$split);
+	}
+
+	// public function createPdf(){
+	// 	// dd(public_path().'/readme.md');
+	// 	$html="<html></html>";
+	// 	PDF::loadHTML($html)->setPaper('a4', 'landscape')->setWarnings(false)->save('myfile.pdf');
+	// 	return PDF::stream();
+	// 	// return view('formularios.buscador');
+	// }
+
+	public function createPdfG($idCarpeta,$idFormulario){
+		$userId = auth()->user()->id;
+		// $numeroCarpeta = DB::table('aformularios')
+		// 									->WHERE('user_id', '=', $userId)
+		// 									->ORDERBY('updated_at', 'desc')
+		// 									->first()
+		// 									->datos_numero_carpeta;
+		//datos del formulario A
+			$datosModalidad = \App\FormA\Modalidad::all();;
+			$datosEstadoCaso = \App\FormA\Estadocaso::all();
+			$datosMotivoCierre = \App\FormA\Motivocierre::all();
+			$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
+			$datosProfesional = \App\FormA\Profesional::all();
+			$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
+			$datosPresentacion = \App\FormA\Presentacionespontanea::all();
+			$datosOrganismo = \App\FormA\Otrosorganismo::all();
+			$aFormularios = \App\FormA\Aformulario::all();
+			$datosAmbito = \App\FormA\Ambito::all();
+			$datosDepartamento = \App\FormA\Departamento::all();
+			$datosOtrasProv = \App\FormA\Otrasprov::all();
+
+			// $getIdA = DB::table('aformularios')
+			//                             ->WHERE('datos_numero_carpeta', '=', $numeroCarpeta)
+			// 							->ORDERBY('updated_at', 'desc')
+			// 							->first()
+			// 							->id;
+			// $aFormulario = \App\FormA\Aformulario::find($getIdA);
+			// $todo = DB::table('aformularios')
+			//                             ->WHERE('aformulario_id', '=', $getIdA)
+			// 							->JOIN('aformulario_profesionalinterviniente', 'aformularios.id', '=', 'aformulario_profesionalinterviniente.aformulario_id')
+			// 							->JOIN('profesionalintervinientes', 'aformulario_profesionalinterviniente.profesionalinterviniente_id', '=', 'profesionalintervinientes.id')
+			// 							->JOIN('profesionals', 'profesionalintervinientes.profesional_id', '=', 'profesionals.id')
+			// 							->JOIN('profesionalactualmentes', 'profesionalintervinientes.profesionalactualmente_id', '=', 'profesionalactualmentes.id')
+			//                             ->get();
+		//fin datos del formulario A
+
+		//datos del formulario F
+			$datosOrgJudicialesActualmente = \App\FormF\Orgjudicialactualmente::all();
+			$datosProgNacionalesActualmente = \App\FormF\Orgprognacionalactualmente::all();
+			$datosPoliciaActualmente = \App\FormF\Policiaactualmente::all();
+			// ---necesarios para el edit
+			// $getIdF = DB::table('fformularios')
+			//                             ->WHERE('numeroCarpeta', '=', $numeroCarpeta)
+			// 							->ORDERBY('updated_at', 'desc')
+			// 							->first()
+			// 							->id;
+			// 							// dd($getIdF);
+			$formulariosF = \App\FormF\Fformulario::all();
+			$orgProgNacionalOtro = \App\FormF\Orgprognacionalotro::all();
+			$orgProgProvincial = \App\FormF\Orgprogprovincial::all();
+			$orgProgMunipal = \App\FormF\Orgprogmunicipal::all();
+			$orgSocCivil = \App\FormF\Orgsoccivil::all();
+			$orgProgNacionalActualmenteOtro = \App\FormF\Orgprognacionalactualmenteotro::all();
+			$orgProgProvincialesAlactualmente = \App\FormF\Orgprogprovincialesactualmente::all();
+			$orgProgMunipalesActualmente = \App\FormF\Orgprogmunicipalesactualmente::all();
+			$orgSocCivilActualmente = \App\FormF\Orgsoccivilactualmente::all();
+		//fin datos del formulario F
+
+		//datos del G
+			$temaIntervencion = \App\FormG\Temaintervencion::all();
+			$formularioG = \App\FormG\Gformulario::find($idFormulario);
+			$intervenciones = $formularioG->intervencions;
+			$docInterna = $formularioG->docinternas;
+			$docExterna = $formularioG->docexternas;
+			$infoSocioambiental = $formularioG->infosocioambientals;
+			$intervencionEstrategias = $formularioG->intervencionestrategias;
+			$notRelacionadas = $formularioG->notrelacionadas;
+			$datosContactoDirecto = \App\FormG\Contactodirecto::all();
+
+			
+			// response()->file($docInterna);
+			// dd($docInterna);
+		//Fin datos del G
+
+		//id de los formularios de una misma carpeta
+			// $idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 				->where('gformulario_id', '=', $id)
+			// 				->value('aformulario_id');
+			// $idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('gformulario_id', '=', $id)
+			// 					->value('bformulario_id');
+			// $idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('gformulario_id', '=', $id)
+			// 					->value('cformulario_id');
+			// $idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('gformulario_id', '=', $id)
+			// 					->value('dformulario_id');
+			// $idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('gformulario_id', '=', $id)
+			// 					->value('eformulario_id');
+			// $idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('gformulario_id', '=', $id)
+			// 					->value('fformulario_id');
+			// $idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			// 					->where('gformulario_id', '=', $id)
+			// 					->value('gformulario_id');
+			// $idFormA = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormA = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $idFormulario)
+							// ->where('cformulario_id', '=', $id)
+							->value('aformulario_id');
+			// $idFormB = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormB = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $idFormulario)
+								// ->where('cformulario_id', '=', $id)
+								->value('bformulario_id');
+			// $idFormC = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormC = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $idFormulario)
+								// ->where('cformulario_id', '=', $id)
+								->value('cformulario_id');
+			// $idFormD = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormD = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $idFormulario)
+								// ->where('cformulario_id', '=', $id)
+								->value('dformulario_id');
+			// $idFormE = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormE = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $idFormulario)
+								// ->where('cformulario_id', '=', $id)
+								->value('eformulario_id');
+			// $idFormF = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormF = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $idFormulario)
+								// ->where('cformulario_id', '=', $id)
+								->value('fformulario_id');
+			// $idFormG = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)
+			$idFormG = \App\Carpetas\Numerocarpeta::where('gformulario_id', '=', $idFormulario)
+								// ->where('cformulario_id', '=', $id)
+								->value('gformulario_id');
+		//fin ids
+			$usuarioCarpeta = \App\Carpetas\Numerocarpeta::WHERE('gformulario_id', '=', $idFormulario)->value('user_id');
+		
+		   
+		 $pdf = PDF::loadView('formularios.formularioGpdf', [
+			// 'numeroCarpeta' => $numeroCarpeta,
+			'aFormularios' => $aFormularios,
+			//formulario A
+			'datosModalidad' => $datosModalidad,
+			'datosMotivoCierre' => $datosModalidad,
+			'datosEstadoCaso' => $datosEstadoCaso,
+			'datosCaratulacion' => $datosCaratulacion,
+			'datosProfesional' => $datosProfesional,
+			'datosIntervieneActualmente' => $datosIntervieneActualmente,
+			'datosPresentacion' => $datosPresentacion,
+			'datosOrganismo' => $datosOrganismo,
+			'datosAmbito' => $datosAmbito,
+			'datosDepartamento' => $datosDepartamento,
+			'datosOtrasProv' => $datosOtrasProv,
+			// 'todo' => $todo,
+			//fin formulario A
+			//formulario F
+			'datosOrgJudicialesActualmente' => $datosOrgJudicialesActualmente,
+			'datosProgNacionalesActualmente' => $datosProgNacionalesActualmente,
+			'datosPoliciaActualmente' => $datosPoliciaActualmente,
+			// 'datosAsistencia' => $datosAsistencia,
+			// 'datosSocioeconomica' => $datosSocioeconomica,
+			// 'derivacionOrganismo' => $derivacionOrganismo,
+			'formulariosF' => $formulariosF,
+			'orgProgNacionalOtro' => $orgProgNacionalOtro,
+			'orgProgProvincial' => $orgProgProvincial,
+			'orgProgMunipal' => $orgProgMunipal,
+			'orgSocCivil' => $orgSocCivil,
+			'orgProgNacionalActualmenteOtro' => $orgProgNacionalActualmenteOtro,
+			'orgProgProvincialesAlactualmente' => $orgProgProvincialesAlactualmente,
+			'orgProgMunipalesActualmente' => $orgProgMunipalesActualmente,
+			'orgSocCivilActualmente' => $orgSocCivilActualmente,
+			//fin formulario F
+			//formulario F
+			'temaIntervencion' => $temaIntervencion,
+			'intervenciones' => $intervenciones,
+			'docInterna' => $docInterna,
+			'docExterna' => $docExterna,
+			'infoSocioambiental' => $infoSocioambiental,
+			'intervencionEstrategias' => $intervencionEstrategias,
+			'notRelacionadas' => $notRelacionadas,
+			'formularioG' => $formularioG,
+			//fin formulario F
+			'idFormA' => $idFormA,
+			'idFormB' => $idFormB,
+			'idFormC' => $idFormC,
+			'idFormD' => $idFormD,
+			'idFormE' => $idFormE,
+			'idFormF' => $idFormF,
+			'idFormG' => $idFormG,
+			'usuarioCarpeta' => $usuarioCarpeta,
+			'idCarpeta' => $idCarpeta,
+			'datosContactoDirecto' => $datosContactoDirecto,
+			]);
+		 return $pdf->download("EjeF_carpeta".$idCarpeta.".pdf");
+		 //return view('formularios.pdf');
+  
+	  }
+
+	  public function createPdfResumen($idCarpeta)
+	  {
+		$userId = auth()->user()->id;
+		$carpeta = \App\Carpetas\Numerocarpeta::find($idCarpeta);
+		$data = [];
+		$data['carpeta'] = $carpeta;
+
+		$formA = \App\FormA\Aformulario::find($carpeta->aformulario_id);
+		$datosModalidad = \App\FormA\Modalidad::all();
+		$datosEstadoCaso = \App\FormA\Estadocaso::all();
+		$datosMotivoCierre = \App\FormA\Motivocierre::all();
+		$datosCaratulacion = \App\FormA\Caratulacionjudicial::all();
+		$datosProfesional = \App\FormA\Profesional::all();
+		$datosIntervieneActualmente = \App\FormA\Profesionalactualmente::all();
+		$datosPresentacion = \App\FormA\Presentacionespontanea::all();
+		$datosOrganismo = \App\FormA\Otrosorganismo::all();
+		$datosAmbito = \App\FormA\Ambito::all();
+		$datosDepartamento = \App\FormA\Departamento::all();
+		$datosOtrasProv = \App\FormA\Otrasprov::all();
+		$arrayFormA = [
+			'datosModalidad' => $datosModalidad,
+			'datosEstadoCaso' => $datosEstadoCaso,
+			'datosMotivoCierre' => $datosMotivoCierre,
+			'datosCaratulacion' => $datosCaratulacion,
+			'datosProfesional' => $datosProfesional,
+			'datosIntervieneActualmente' => $datosIntervieneActualmente,
+			'datosPresentacion' => $datosPresentacion,
+			'datosOrganismo' => $datosOrganismo,
+			'datosAmbito' => $datosAmbito,
+			'datosDepartamento' => $datosDepartamento,
+			'datosOtrasProv' => $datosOtrasProv,
+		];
+
+		$data['formA'] = $formA;
+		$data['arrayFormA'] = $arrayFormA;
+
+		$formB = \App\FormB\Bformulario::find($carpeta->bformulario_id);
+
+		if ($formB !== null) {
+			$datosGenero = \App\FormB\Genero::all();
+			$datosDocumento = \App\FormB\Tienedoc::all();
+			$datosTipoDocumento = \App\FormB\Tipodocumento::all();
+			$datosFranjaEtaria = \App\FormB\Franjaetaria::all();
+			$datosEmbarazadaRelevamiento = \App\FormB\Embarazorelevamiento::all();
+			$datosEmbarazoPrevio = \App\FormB\Embarazoprevio::all();
+			$datosHijos = \App\FormB\Hijosembarazo::all();
+			$datosBajoEfecto = \App\FormB\Bajoefecto::all();
+			$datosLesion = \App\FormB\Tienelesion::all();
+			$datosLesionConstatada = \App\FormB\Lesionconstatada::all();
+			$datoEnfermedadCronica = \App\FormB\Enfermedadcronica::all();
+			$datosNivelEducativo = \App\FormB\Niveleducativo::all();
+			$datosOficio = \App\FormB\Oficio::all();
+			$datosDiscapacidad = \App\FormB\Discapacidad::all();
+			$datosLimitacion = \App\FormB\Limitacion::all();
+			$datosResidencia = \App\FormB\Residenciaprecaria::all();
+			$arrayFormB = [
+				'datosGenero' => $datosGenero,
+				'datosDocumento' => $datosDocumento,
+				'datosTipoDocumento' => $datosTipoDocumento,
+				'datosFranjaEtaria' => $datosFranjaEtaria,
+				'datosEmbarazadaRelevamiento' => $datosEmbarazadaRelevamiento,
+				'datosEmbarazoPrevio' => $datosEmbarazoPrevio,
+				'datosHijos' => $datosHijos,
+				'datosBajoEfecto' => $datosBajoEfecto,
+				'datosLesion' => $datosLesion,
+				'datosLesionConstatada' => $datosLesionConstatada,
+				'datoEnfermedadCronica' => $datoEnfermedadCronica,
+				'datosNivelEducativo' => $datosNivelEducativo,
+				'datosOficio' => $datosOficio,
+				'datosDiscapacidad' => $datosDiscapacidad,
+				'datosLimitacion' => $datosLimitacion,
+				'datosResidencia' => $datosResidencia,
+			];
+			$data['formB'] = $formB;
+			$data['arrayFormB'] = $arrayFormB;
+		} else {
+			$data['formB'] = null;
+		}
+
+		$formC = \App\FormC\Cformulario::find($carpeta->cformulario_id);
+		if ($formC !== null) {
+			$datosOtraspersonas = \App\FormC\Otraspersona::all();
+			$datosVinculos = \App\FormC\Vinculo::all();
+			$datosReferentes = \App\FormC\Referente::all();
+			$referentes = $formC->referentes;
+
+			$arrayFormC = [
+				'datosOtraspersonas' => $datosOtraspersonas,
+				'datosVinculos' => $datosVinculos,
+				'datosReferentes' => $datosReferentes,
+				'referentes' => $referentes,
+			];
+			$data['formC'] = $formC;
+			$data['arrayFormC'] = $arrayFormC;
+		} else {
+			$data['formC'] = null;
+		}
+
+		$formD = \App\FormD\Dformulario::find($carpeta->dformulario_id);
+		if ($formD !== null) {
+			$datosAcompanado = \App\FormD\Acompanado::all();
+			$datosAcompanadoRed = \App\FormD\Acompanadored::all();
+			$datosActividad = \App\FormD\Actividad::all();
+			$datosCalificacionEspecifica = \App\FormD\Calificacionespecifica::all();
+			$datosCalificacionGeneral = \App\FormD\Calificaciongeneral::all();
+			$datosContactoExplotacion = \App\FormD\Contactoexplotacion::all();
+			$datosCuantosBano = \App\FormD\Cuantosbano::all();
+			$datosDeuda = \App\FormD\Deuda::all();
+			$datosElementoSeguridad = \App\FormD\Elementoseguridad::all();
+			$datosElementoTrabajo = \App\FormD\Elementotrabajo::all();
+			$datosEngano = \App\FormD\Engano::all();
+			$datosEspeciaConcepto = \App\FormD\Especiaconcepto::all();
+			$datosFinalidad = \App\FormD\Finalidad::all();
+			$datosFrecuenciaPago = \App\FormD\Frecuenciapago::all();
+			$datosHayAgua = \App\FormD\Hayagua::all();
+			$datosHayBano = \App\FormD\Haybano::all();
+			$datosHayCorriente = \App\FormD\Haycorriente::all();
+			$datosHayGas = \App\FormD\Haygas::all();
+			$datosHayHacinamiento = \App\FormD\Hayhacinamiento::all();
+			$datosHayMedida = \App\FormD\Haymedida::all();
+			$datosHayPersona = \App\FormD\Haypersona::all();
+			$datosLugarDeuda = \App\FormD\Lugardeuda::all();
+			$datosMaterial = \App\FormD\Material::all();
+			$datosModalidadPago = \App\FormD\Modalidadpago::all();
+			$datosMotivoDeuda = \App\FormD\Motivodeuda::all();
+			$datosPermanencia = \App\FormD\Permanencia::all();
+			$datosPrivado = \App\FormD\Privado::all();
+			$datosResideLugar = \App\FormD\Residelugar::all();
+			$datosRural = \App\FormD\Rural::all();
+			$datosTestigo = \App\FormD\Testigo::all();
+			$datosTextil = \App\FormD\Textil::all();
+			$datosTipoVictima = \App\FormD\Tipovictima::all();
+			$datosViajo = \App\FormD\Viajo::all();
+			$datosLugarExplotacion = \App\FormD\Otrolugarexplotacion::all();
+
+			$arrayFormD = [
+				'datosAcompanado' => $datosAcompanado,
+				'datosAcompanadoRed' => $datosAcompanadoRed,
+				'datosActividad' => $datosActividad,
+				'datosCalificacionEspecifica' => $datosCalificacionEspecifica,
+				'datosCalificacionGeneral' => $datosCalificacionGeneral,
+				'datosContactoExplotacion' => $datosContactoExplotacion,
+				'datosCuantosBano' => $datosCuantosBano,
+				'datosDeuda' => $datosDeuda,
+				'datosElementoSeguridad' => $datosElementoSeguridad,
+				'datosElementoTrabajo' => $datosElementoTrabajo,
+				'datosEngano' => $datosEngano,
+				'datosEspeciaConcepto' => $datosEspeciaConcepto,
+				'datosFinalidad' => $datosFinalidad,
+				'datosFrecuenciaPago' => $datosFrecuenciaPago,
+				'datosHayAgua' => $datosHayAgua,
+				'datosHayBano' => $datosHayBano,
+				'datosHayCorriente' => $datosHayCorriente,
+				'datosHayGas' => $datosHayGas,
+				'datosHayHacinamiento' => $datosHayHacinamiento,
+				'datosHayMedida' => $datosHayMedida,
+				'datosHayPersona' => $datosHayPersona,
+				'datosLugarDeuda' => $datosLugarDeuda,
+				'datosMaterial' => $datosMaterial,
+				'datosModalidadPago' => $datosModalidadPago,
+				'datosMotivoDeuda' => $datosMotivoDeuda,
+				'datosPermanencia' => $datosPermanencia,
+				'datosPrivado' => $datosPrivado,
+				'datosResideLugar' => $datosResideLugar,
+				'datosRural' => $datosRural,
+				'datosTestigo' => $datosTestigo,
+				'datosTextil' => $datosTextil,
+				'datosTipoVictima' => $datosTipoVictima,
+				'datosViajo' => $datosViajo,
+				'datosLugarExplotacion' => $datosLugarExplotacion,
+			];
+			$data['formD'] = $formD;
+			$data['arrayFormD'] = $arrayFormD;
+		} else {
+			$data['formD'] = null;
+		}
+
+		$formF = \App\FormF\Fformulario::find($carpeta->fformulario_id);
+		if ($formF !== null) {
+			$aFormularios = \App\FormA\Aformulario::all();
+			$derivacionOrganismo = DB::table('otrosorganismos')
+				->get();
+			$datosOrgJudiciales = \App\FormF\Orgjudicial::all();
+			$datosProgNacionales = \App\FormF\Orgprognacional::all();
+			$datosPolicia = \App\FormF\Policia::all();
+			$datosAsistencia = \App\FormF\Asistencia::all();
+			$datosSocioeconomica = \App\FormF\Socioeconomic::all();
+			$datosOrgJudicialesActualmente = \App\FormF\Orgjudicialactualmente::all();
+			$datosProgNacionalesActualmente = \App\FormF\Orgprognacionalactualmente::all();
+			$datosPoliciaActualmente = \App\FormF\Policiaactualmente::all();
+			$datosIntervinieronOrganismos = \App\FormF\Intervinieronorganismo::all();
+			$datosIntervinieronOrganismosActualmente = \App\FormF\Intervinieronorganismosactualmente::all();
+			// ---necesarios para el edit
+			$orgProgNacionalOtro = $formF->orgprognacionalotros;
+			$orgProgProvincial = $formF->orgprogprovincials;
+			$orgProgMunipal = $formF->orgprogmunicipals;
+			$orgSocCivil = $formF->orgsoccivils;
+			$orgProgNacionalActualmenteOtro = $formF->orgprognacionalactualmenteotros;
+			$orgProgProvincialesAlactualmente = $formF->orgprogprovincialesactualmentes;
+			$orgProgMunipalesActualmente = $formF->orgprogmunicipalesactualmentes;
+			$orgSocCivilActualmente = $formF->orgsoccivilactualmentes;
+
+			$arrayFormF = [
+				'aFormularios' => $aFormularios,
+				'derivacionOrganismo' => $derivacionOrganismo,
+				'datosOrgJudiciales' => $datosOrgJudiciales,
+				'datosProgNacionales' => $datosProgNacionales,
+				'datosPolicia' => $datosPolicia,
+				'datosAsistencia' => $datosAsistencia,
+				'datosSocioeconomica' => $datosSocioeconomica,
+				'datosOrgJudicialesActualmente' => $datosOrgJudicialesActualmente,
+				'datosProgNacionalesActualmente' => $datosProgNacionalesActualmente,
+				'datosPoliciaActualmente' => $datosPoliciaActualmente,
+				'datosIntervinieronOrganismos' => $datosIntervinieronOrganismos,
+				'datosIntervinieronOrganismosActualmente' => $datosIntervinieronOrganismosActualmente,
+				'orgProgNacionalOtro' => $orgProgNacionalOtro,
+				'orgProgProvincial' => $orgProgProvincial,
+				'orgProgMunipal' => $orgProgMunipal,
+				'orgSocCivil' => $orgSocCivil,
+				'orgProgNacionalActualmenteOtro' => $orgProgNacionalActualmenteOtro,
+				'orgProgProvincialesAlactualmente' => $orgProgProvincialesAlactualmente,
+				'orgProgMunipalesActualmente' => $orgProgMunipalesActualmente,
+				'orgSocCivilActualmente' => $orgSocCivilActualmente,
+			];
+			$data['formF'] = $formF;
+			$data['arrayFormF'] = $arrayFormF;
+		} else {
+			$data['formF'] = null;
+		}
+
+		$formG = \App\FormG\Gformulario::find($carpeta->gformulario_id);
+		if ($formG !== null) {
+			$temaIntervencion = \App\FormG\Temaintervencion::all();
+			$intervenciones = $formG->intervencions;
+			$docInterna = $formG->docinternas;
+			$docExterna = $formG->docexternas;
+			$infoSocioambiental = $formG->infosocioambientals;
+			$intervencionEstrategias = $formG->intervencionestrategias;
+			$notRelacionadas = $formG->notrelacionadas;
+
+			$arrayFormG = [
+				'temaIntervencion' => $temaIntervencion,
+				'intervenciones' => $intervenciones,
+				'docInterna' => $docInterna,
+				'docExterna' => $docExterna,
+				'infoSocioambiental' => $infoSocioambiental,
+				'intervencionEstrategias' => $intervencionEstrategias,
+				'notRelacionadas' => $notRelacionadas,
+			];
+			$data['formG'] = $formG;
+			$data['arrayFormG'] = $arrayFormG;
+		} else {
+			$data['formG'] = null;
+		}
+
+
+		// $pdf = view('formularios.resumenPDF', $data)->render();
+
+		// $pdf = mb_convert_encoding($pdf, 'HTML-ENTITIES', 'UTF-8');
+
+		// return PDF::load($pdf)->filename("Resumen - Carpeta " . $idCarpeta . ".pdf")->show();
+		$pdf = PDF::loadView('formularios.resumenPDF', $data);
+		// $pdf = mb_convert_encoding($pdf, 'HTML-ENTITIES', 'UTF-8');
+
+		return $pdf->download("Resumen - Carpeta " . $idCarpeta . ".pdf");
+
+	  }
 }

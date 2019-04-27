@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Acceso a la Justicia: Trata'),
 
     /*
     |--------------------------------------------------------------------------
@@ -40,6 +40,15 @@ return [
     */
 
     'debug' => env('APP_DEBUG', false),
+
+
+
+/*LAS SIGUIENTES DOS LINEAS DEFINEN LOS PARÁMETROS DEL PROXY 
+PARA PETICIONES CURL EN EL .env*/
+
+'my_proxy' =>env('MY_PROXY'),
+'my_proxyport'=>env('MY_PROXYPORT'),
+
 
     /*
     |--------------------------------------------------------------------------

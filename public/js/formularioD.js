@@ -8,27 +8,28 @@
 		var paisCaptacionViejo = document.querySelector('.paisCaptacion_viejo');
 		var provinciaCaptacionViejo = document.querySelector('.provinciaCaptacion_viejo');
 		var ciudadCaptacionViejo = document.querySelector('.ciudadCaptacion_viejo');
-
-		if (paisCaptacionViejo) {
+// console.log(paisCaptacionViejo.value);
+// console.log(provinciaCaptacionViejo.value);
+// console.log(ciudadCaptacionViejo.value);
+if (paisCaptacionViejo) {	
 			var optionPaisCaptacionAnterior = document.createElement("option");
 			optionPaisCaptacionAnterior.id = "paisCaptacionViejo";
 			optionPaisCaptacionAnterior.text = paisCaptacionViejo.value;
 			selectPaisCaptacion.add(optionPaisCaptacionAnterior);
 			optionPaisCaptacionAnterior.selected = true;
 		}
-		
-		if (provinciaCaptacionViejo) {
+
+if (provinciaCaptacionViejo) {	
 			var optionProvinciaCaptacionAnterior = document.createElement("option");
 			optionProvinciaCaptacionAnterior.id = "provinciaCaptacionViejo";
-			optionProvinciaCaptacionAnterior.text = paisCaptacionViejo.value;
+	optionProvinciaCaptacionAnterior.text = provinciaCaptacionViejo.value;
 			selectProvinciaCaptacion.add(optionProvinciaCaptacionAnterior);
 			optionProvinciaCaptacionAnterior.selected = true;
 		}
-
-		if (ciudadCaptacionViejo) {
+if (ciudadCaptacionViejo) {	
 			var optionCiudadCaptacionAnterior = document.createElement("option");
 			optionCiudadCaptacionAnterior.id = "ciudadCaptacionViejo";
-			optionCiudadCaptacionAnterior.text = paisCaptacionViejo.value;
+	optionCiudadCaptacionAnterior.text = ciudadCaptacionViejo.value;
 			selectCiudadCaptacion.add(optionCiudadCaptacionAnterior);
 			optionCiudadCaptacionAnterior.selected = true;
 		}
@@ -50,19 +51,20 @@
 			selectPaisExplotacion.add(optionPaisExplotacionAnterior);
 			optionPaisExplotacionAnterior.selected = true;
 		}
-		
+
 		if (provinciaExplotacionViejo) {
 			var optionProvinciaExplotacionAnterior = document.createElement("option");
 			optionProvinciaExplotacionAnterior.id = "provinciaExplotacionViejo";
-			optionProvinciaExplotacionAnterior.text = paisExplotacionViejo.value;
+			optionProvinciaExplotacionAnterior.text = provinciaExplotacionViejo.value;
 			selectProvinciaExplotacion.add(optionProvinciaExplotacionAnterior);
 			optionProvinciaExplotacionAnterior.selected = true;
+
 		}
 
 		if (ciudadExplotacionViejo) {
 			var optionCiudadExplotacionAnterior = document.createElement("option");
 			optionCiudadExplotacionAnterior.id = "ciudadExplotacionViejo";
-			optionCiudadExplotacionAnterior.text = paisExplotacionViejo.value;
+			optionCiudadExplotacionAnterior.text = ciudadExplotacionViejo.value;
 			selectCiudadExplotacion.add(optionCiudadExplotacionAnterior);
 			optionCiudadExplotacionAnterior.selected = true;
 		}
@@ -434,6 +436,20 @@
 			acompanadoRed.value = '';
 		}
 
+	//pregunta 14 I
+		var otroLugarExplotacionSelect = document.querySelector('.otroLugarExplotacionSelect');
+		var lugarexplotacionCual = document.querySelector('.lugarexplotacionCual');
+		var lugarexplotacionCualInput = document.querySelector('.lugarexplotacionCualInput');
+		if (otroLugarExplotacionSelect) {
+			if (otroLugarExplotacionSelect.value == 1) 	{
+				lugarexplotacionCual.style.display = '';
+			}else{
+				lugarexplotacionCual.style.display = 'none';
+				lugarexplotacionCualInput.value = '';
+			}
+		}
+		
+
 	//pregunta 21
 		var selectFrecuenciaPago = document.querySelector('.selectFrecuenciaPago');
 		var selectModalidadPagos = document.querySelector('.modalidadPagos');
@@ -588,7 +604,7 @@ window.onload = function (){
 		var ruralCualDomicilioInput = document.querySelector('.ruralCualDomicilio');
 		checkRuralCualDesconoce.addEventListener('click', function(){
 			if (this.checked) {
-				ruralCualDomicilioInput.value = 'Se desconoce'
+				ruralCualDomicilioInput.value = 'SE DESCONOCE'
 				ruralCualDomicilioInput.setAttribute("readonly", "readonly")
 			}else{
 				ruralCualDomicilioInput.value = ''
@@ -839,30 +855,61 @@ window.onload = function (){
 	//pregunta 6
 		var paisCaptacion = document.querySelector('.countries');
 		var desconocePaisCaptacion = document.querySelector('#desconocePaisCaptacion');
-
+		var provinciaCaptacion = document.querySelector('.states');
+		var desconoceProvinciaCaptacion = document.querySelector('#desconoceProvinciaCaptacion');
+		var ciudadCaptacion = document.querySelector('.cities');
+		var desconoceCiudadCaptacion = document.querySelector('#desconoceCiudadCaptacion');
+	
 		desconocePaisCaptacion.addEventListener('click', function() {
 			if (this.checked) {
-				var option = document.createElement("option");
-	    		option.text = "Se desconoce";
-	    		paisCaptacion.add(option);
-	    		paisCaptacion.value = 'Se desconoce';
+				var option1 = document.createElement("option");
+				var option2 = document.createElement("option");
+				var option3 = document.createElement("option");
+				option1.text = "SE DESCONOCE";
+				option2.text = "SE DESCONOCE";
+				option3.text = "SE DESCONOCE";
+
+				paisCaptacion.add(option1);
+				paisCaptacion.value = 'SE DESCONOCE';
 				paisCaptacion.setAttribute("readonly", "readonly");
+
+				provinciaCaptacion.add(option2);
+				provinciaCaptacion.value = 'SE DESCONOCE';
+				provinciaCaptacion.setAttribute("readonly", "readonly");
+				desconoceProvinciaCaptacion.checked = true;
+
+				ciudadCaptacion.add(option3);
+				ciudadCaptacion.value = 'SE DESCONOCE';
+				ciudadCaptacion.setAttribute("readonly", "readonly");
+				desconoceCiudadCaptacion.checked = true;
+
+
+
+
 			}else{
 				paisCaptacion.value = '';
 				paisCaptacion.removeAttribute('readonly');
+
+
+				provinciaCaptacion.value = '';
+				provinciaCaptacion.removeAttribute('readonly');
+				desconoceProvinciaCaptacion.checked = false;
+
+				ciudadCaptacion.value = '';
+				ciudadCaptacion.removeAttribute('readonly');
+				desconoceCiudadCaptacion.checked = false;
 			}
 		});
 
 	//pregunta 7
-		var provinciaCaptacion = document.querySelector('.states');
-		var desconoceProvinciaCaptacion = document.querySelector('#desconoceProvinciaCaptacion');
+
 
 		desconoceProvinciaCaptacion.addEventListener('click', function() {
 			if (this.checked) {
 				var option = document.createElement("option");
-	    		option.text = "Se desconoce";
+	    		option.text = "SE DESCONOCE";
 	    		provinciaCaptacion.add(option);
-	    		provinciaCaptacion.value = 'Se desconoce';
+	    		provinciaCaptacion.value = 'SE DESCONOCE';
 				provinciaCaptacion.setAttribute("readonly", "readonly");
 			}else{
 				provinciaCaptacion.value = '';
@@ -871,15 +918,14 @@ window.onload = function (){
 		});
 
 	//pregunta 8
-		var ciudadCaptacion = document.querySelector('.cities');
-		var desconoceCiudadCaptacion = document.querySelector('#desconoceCiudadCaptacion');
+
 
 		desconoceCiudadCaptacion.addEventListener('click', function() {
 			if (this.checked) {
 				var option = document.createElement("option");
-	    		option.text = "Se desconoce";
+	    		option.text = "SE DESCONOCE";
 	    		ciudadCaptacion.add(option);
-	    		ciudadCaptacion.value = 'Se desconoce';
+	    		ciudadCaptacion.value = 'SE DESCONOCE';
 				ciudadCaptacion.setAttribute("readonly", "readonly");
 			}else{
 				ciudadCaptacion.value = '';
@@ -920,30 +966,55 @@ window.onload = function (){
 	//pregunta 11
 		var paisExplotacion = document.querySelector('.countries2');
 		var desconocePaisExplotacion = document.querySelector('#desconocePaisExplotacion');
-
+	var provinciaExplotacion = document.querySelector('.states2');
+	var desconoceProvinciaExplotacion = document.querySelector('#desconoceProvinciaExplotacion');
+	var ciudadExplotacion = document.querySelector('.cities2');
+	var desconoceCiudadExplotacion = document.querySelector('#desconoceCiudadExplotacion');
+	
 		desconocePaisExplotacion.addEventListener('click', function() {
 			if (this.checked) {
-				var option = document.createElement("option");
-	    		option.text = "Se desconoce";
-	    		paisExplotacion.add(option);
-	    		paisExplotacion.value = 'Se desconoce';
+				var option1 = document.createElement("option");
+				var option2 = document.createElement("option");
+				var option3 = document.createElement("option");
+				option1.text = "SE DESCONOCE";
+				option2.text = "SE DESCONOCE";
+				option3.text = "SE DESCONOCE";
+	    		paisExplotacion.add(option1);
+	    		paisExplotacion.value = 'SE DESCONOCE';
 				paisExplotacion.setAttribute("readonly", "readonly");
+
+
+				provinciaExplotacion.add(option2);
+				provinciaExplotacion.value = 'SE DESCONOCE';
+				provinciaExplotacion.setAttribute("readonly", "readonly");
+				desconoceProvinciaExplotacion.checked = true;
+
+				ciudadExplotacion.add(option3);
+				ciudadExplotacion.value = 'SE DESCONOCE';
+				ciudadExplotacion.setAttribute("readonly", "readonly");
+				desconoceCiudadExplotacion.checked = true;
 			}else{
 				paisExplotacion.value = '';
 				paisExplotacion.removeAttribute('readonly');
+
+				provinciaExplotacion.value = '';
+				provinciaExplotacion.removeAttribute('readonly');
+				desconoceProvinciaExplotacion.checked = false;
+
+				ciudadExplotacion.value = '';
+				ciudadExplotacion.removeAttribute('readonly');
+				desconoceCiudadExplotacion.checked = false;
 			}
 		});
 
-	//pregunta 12
-		var provinciaExplotacion = document.querySelector('.states2');
-		var desconoceProvinciaExplotacion = document.querySelector('#desconoceProvinciaExplotacion');
+	//pregunta 12		
 
 		desconoceProvinciaExplotacion.addEventListener('click', function() {
 			if (this.checked) {
 				var option = document.createElement("option");
-	    		option.text = "Se desconoce";
+	    		option.text = "SE DESCONOCE";
 	    		provinciaExplotacion.add(option);
-	    		provinciaExplotacion.value = 'Se desconoce';
+	    		provinciaExplotacion.value = 'SE DESCONOCE';
 				provinciaExplotacion.setAttribute("readonly", "readonly");
 			}else{
 				provinciaExplotacion.value = '';
@@ -952,15 +1023,14 @@ window.onload = function (){
 		});
 
 	//pregunta 13
-		var ciudadExplotacion = document.querySelector('.cities2');
-		var desconoceCiudadExplotacion = document.querySelector('#desconoceCiudadExplotacion');
+		
 
 		desconoceCiudadExplotacion.addEventListener('click', function() {
 			if (this.checked) {
 				var option = document.createElement("option");
-	    		option.text = "Se desconoce";
+	    		option.text = "SE DESCONOCE";
 	    		ciudadExplotacion.add(option);
-	    		ciudadExplotacion.value = 'Se desconoce';
+	    		ciudadExplotacion.value = 'SE DESCONOCE';
 				ciudadExplotacion.setAttribute("readonly", "readonly");
 			}else{
 				ciudadExplotacion.value = '';
@@ -973,7 +1043,7 @@ window.onload = function (){
 		var checkDomicilioDesconoce = document.querySelector('.domicilioDesconoce');
 		checkDomicilioDesconoce.addEventListener('click', function(){
 			if (this.checked) {
-				inputDomicilio.value = 'Se desconoce'
+				inputDomicilio.value = 'SE DESCONOCE'
 				inputDomicilio.setAttribute("readonly", "readonly")
 			}else{
 				inputDomicilio.value = ''
@@ -981,12 +1051,30 @@ window.onload = function (){
 			}
 		});
 
+	//pregunta 14 I
+		var otroLugarExplotacionSelect = document.querySelector('.otroLugarExplotacionSelect');
+		var lugarexplotacionCual = document.querySelector('.lugarexplotacionCual');
+		var lugarexplotacionCualInput = document.querySelector('.lugarexplotacionCualInput');
+
+		// if (otroLugarExplotacionSelect) {
+			otroLugarExplotacionSelect.addEventListener('change', function(){
+				if (otroLugarExplotacionSelect.value == 1) {
+					lugarexplotacionCual.style.display = '';
+				} else {
+					lugarexplotacionCual.style.display = 'none';
+					lugarexplotacionCualInput.value = '';
+				}
+			})
+		// }
+		
+		
+
 	//pregunta 20
 		var inputHorasTarea = document.querySelector('.horasTarea');
 		var checkHorasTareaDesconoce = document.querySelector('.horasTareaDesconoce');
 		checkHorasTareaDesconoce.addEventListener('click', function(){
 			if (this.checked) {
-				inputHorasTarea.value = 'Se desconoce'
+				inputHorasTarea.value = 'SE DESCONOCE'
 				inputHorasTarea.setAttribute("readonly", "readonly")
 			}else{
 				inputHorasTarea.value = ''
@@ -1041,7 +1129,7 @@ window.onload = function (){
 
 		checkMontoPagoDesconoce.addEventListener('click', function(){
 			if (this.checked) {
-				inputMontoPago.value = 'Se desconoce'
+				inputMontoPago.value = 'SE DESCONOCE'
 				inputMontoPago.setAttribute("readonly", "readonly")
 			}else{
 				inputMontoPago.value = ''
@@ -1179,7 +1267,7 @@ window.onload = function (){
 
 $.validator.addMethod("horasdiarias",function(value,element){
 	tipo=isNaN(parseInt(value));
-	valorSeDesconoce=(value=="Se desconoce");
+	valorSeDesconoce=(value=="SE DESCONOCE");
 	premisa1=(tipo && valorSeDesconoce);
 	valorMenor=false;
 	if(!tipo){
@@ -1196,7 +1284,7 @@ $.validator.addMethod("horasdiarias",function(value,element){
 $.validator.addMethod("montopago",function(value,element){
 	//return this.optional(element) || /^[\t 0-9 Ã±]+$/i.test(value);
 	tipo=isNaN(parseInt(value));
-	valorSeDesconoce=(value=="Se desconoce");
+	valorSeDesconoce = (value == "SE DESCONOCE");
 	premisa1=(tipo && valorSeDesconoce);
 	return (premisa1 || (!tipo));
 

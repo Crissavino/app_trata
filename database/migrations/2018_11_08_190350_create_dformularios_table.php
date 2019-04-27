@@ -39,10 +39,11 @@ class CreateDformulariosTable extends Migration
             $table->string('provinciaExplotacion')->nullable();
             $table->string('ciudadExplotacion')->nullable();
             $table->string('domicilio');
+            $table->integer('otrolugarexplotacion_id')->unsigned()->unsigned();
+            $table->string('lugarexplotacionCual')->nullable();
             $table->integer('residelugar_id')->unsigned();
             $table->integer('engano_id')->unsigned();
             $table->integer('haypersona_id')->unsigned();
-            $table->integer('tipovictima_id')->unsigned();
             $table->string('tarea');
             $table->string('horasTarea');
             $table->integer('frecuenciapago_id')->unsigned();
@@ -165,13 +166,6 @@ class CreateDformulariosTable extends Migration
         });
 
         Schema::create('haypersonas', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('nombre');
-            $table->softDeletes();
-            $table->timestamps();
-        });
-
-        Schema::create('tipovictimas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre');
             $table->softDeletes();
@@ -304,6 +298,13 @@ class CreateDformulariosTable extends Migration
             $table->timestamps();
         });
 
+        Schema::create('otrolugarexplotacions', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
         Schema::create('dformulario_privado', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('dformulario_id')->unsigned();
@@ -375,7 +376,6 @@ class CreateDformulariosTable extends Migration
         Schema::dropIfExists('residelugars');
         Schema::dropIfExists('enganos');
         Schema::dropIfExists('haypersonas');
-        Schema::dropIfExists('tipovictimas');
         Schema::dropIfExists('frecuenciapagos');
         Schema::dropIfExists('modalidadpagos');
         Schema::dropIfExists('especiaconceptos');
@@ -394,6 +394,7 @@ class CreateDformulariosTable extends Migration
         Schema::dropIfExists('materials');
         Schema::dropIfExists('elementotrabajos');
         Schema::dropIfExists('elementoseguridads');
+        Schema::dropIfExists('otrolugarexplotacions');
         Schema::dropIfExists('dformulario_privado');
         Schema::dropIfExists('dformulario_textil');
         Schema::dropIfExists('dformulario_rural');

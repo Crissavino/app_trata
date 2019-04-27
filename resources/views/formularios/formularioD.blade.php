@@ -52,8 +52,8 @@
         <div class="alert alert-danger text-center">
             {{ session()->get('message') }}
         </div>
-    @endif
-
+	@endif
+	
     <section class="container">
 
 	<form action="" id="formularioD" class="form-group" method="post">
@@ -363,6 +363,24 @@
 		 		<input type="checkbox" class="domicilioDesconoce" name="">
 		 	</div>
 
+			<div class="form-group">
+				<div {{ $errors->has('otrolugarexplotacion') ? 'has-error' : ''}}>
+					<label for="">D 14 I. ¿Pasó por otros lugares de explotación previamente?</label>
+					<select class="form-control otroLugarExplotacionSelect" name="otrolugarexplotacion_id">
+						<option value="" disabled selected>Seleccione</option>
+						@foreach ($datosLugarExplotacion as $lugarExplotacion)
+							<option value="{{ $lugarExplotacion->id }}" {{ old('otrolugarexplotacion_id') == $lugarExplotacion->id ? 'selected' : '' }}>{{ $lugarExplotacion->nombre }}</option>
+						@endforeach
+					</select>
+				</div>
+				{!! $errors->first('otrolugarexplotacion', '<p class="help-block" style="color:red";>:message</p>') !!}
+
+				<div class="form-group lugarexplotacionCual" style="display: none;">
+					<label for="">Cuál/es?</label>
+		 			<input type="text" class="form-control lugarexplotacionCualInput" name="lugarexplotacionCual" value="{{ old('lugarexplotacionCual') }}">
+				</div>
+			</div>
+
 		 	<div class="form-group" {{ $errors->has('residelugar_id') ? 'has-error' : ''}}>
 	    		<label for="">D 15. Reside en el lugar de explotación u otro espacio perteneciente a los tratantes?</label>
 	    		<select class="form-control" name="residelugar_id">
@@ -397,7 +415,7 @@
 	    	{!! $errors->first('haypersona_id', '<p class="help-block" style="color:red";>:message</p>') !!}
 
 	    	<div class="form-group" {{ $errors->has('tipovictima_id') ? 'has-error' : ''}}>
-	    		<label for="">D18. Tipo de víctima:</label>
+	    		<label for="">D 18. Tipo de víctima:</label>
 	    		<select class="form-control" name="tipovictima_id">
 	    			<option value="" disabled selected>Seleccione</option>
 	    			@foreach ($datosTipoVictima as $tipoVictima)
@@ -714,6 +732,41 @@
 	<script src="/js/paises2.js" type="text/javascript"></script>
     <script src="/js/formularioD.js" type="text/javascript" charset="utf-8" async defer></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-	
+	<script>
+		function onlyText() {
+                //elimina el copy paste
+                $(':input').bind('copy paste cut',function(e) {
+                    e.preventDefault(); //disable cut,copy,paste.                    
+                });
+                //convierte las letras ingresadas en todos los input a mayuscula
+                $(':input').keyup(function(){
+                    this.value = this.value.toUpperCase();
+                });
+                //solo se permite numeros y letras en todos los input
+                $(':input').keypress(function (e) {
+                    var theEvent = e || window.event;
+                    var key = theEvent.keyCode || theEvent.which;
+                    if (key === 8) { return; }
+                    key = String.fromCharCode(key);
+                    var regex = /^[0-9a-zñA-ZÑ\s]*$/;
+                    if (!regex.test(key)) {
+                        theEvent.returnValue = false;
+                        if (theEvent.preventDefault) theEvent.preventDefault();
+                    }
+                });
+            }
+            onlyText();
+		$(function() { 
+			$("#desconocePaisCaptacion").change(function(){ 
+				if($("#desconocePaisCaptacion").is(':checked')) {
+				$('#desconoceProvinciaCaptacion').prop("checked", true);
+				$('#desconoceCiudadCaptacion').prop("checked", true);	
+				}else{
+					$('#desconoceProvinciaCaptacion').prop("checked", false);
+					 $('#desconoceCiudadCaptacion').prop("checked", false);
+				}			
+			}); 
+		});
+	</script>
 	</body>
 </html>

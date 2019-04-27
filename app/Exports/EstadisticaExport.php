@@ -28,6 +28,7 @@ class EstadisticaExport implements FromView
 		$datosGenero = \App\FormB\Genero::all();
 		$datosFranjaEtaria = \App\FormB\Franjaetaria::all();
 		$formsD = \App\FormD\Dformulario::all();
+		$datosCalificacionespecificas = \App\FormD\Calificacionespecifica::all();
 		$datosFinalidad = \App\FormD\Finalidad::all();
 		$datosTipoVictima = \App\FormD\Tipovictima::all();
 		$carpetas = \App\Carpetas\Numerocarpeta::all();
@@ -42,6 +43,7 @@ class EstadisticaExport implements FromView
 										'datosGenero' => $datosGenero,
 										'datosFranjaEtaria' => $datosFranjaEtaria,
 										'formsD' => $formsD,
+										'datosCalificacionespecificas' => $datosCalificacionespecificas,
 										'datosFinalidad' => $datosFinalidad,
 										'datosTipoVictima' => $datosTipoVictima,
 										'carpetas' => $carpetas,

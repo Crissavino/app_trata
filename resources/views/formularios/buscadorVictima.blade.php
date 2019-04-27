@@ -30,9 +30,12 @@
         <li class="nav-item"> <a class="nav-link " href="/home">Inicio</a> </li>
         {{-- <li class="nav-item"> <a class="nav-link " href="/formularios/A">Comenzar carga</a> </li> --}}
         <li class="nav-item cerrarSesion"> <a class="nav-link " href="/logout">Cerrar sesión</a> </li>
-        <li class="nav-item"> <a class="nav-link" href="/formularios/buscador">Buscador por carpeta</a> </li>
-        <li class="nav-item "> <a class="nav-link " href="/formularios/buscadorNombre">Buscador por referencia</a> </li>
-        <li class="nav-item active"> <a class="nav-link active" href="/formularios/buscadorVictima">Buscador por víctima</a> </li>
+        <li class="nav-item"> <a class="nav-link " href="/formularios/buscador">Buscador por número de carpeta</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="/formularios/buscadorNombre">Buscador por nombre de referencia</a> </li>
+        <li class="nav-item "> <a class="nav-link" href="/formularios/buscadorNumero">Buscador por número de causa</a> </li>
+        <li class="nav-item "> <a class="nav-link" href="/formularios/buscadorFiscalia">Buscador por fiscalía/juzgado interviniente</a> </li>
+        <li class="nav-item active"> <a class="nav-link active" href="/formularios/buscadorVictima">Buscador por datos de la víctima</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="/formularios/buscadorAmbito">Buscador por ámbito de competencia</a> </li>
     </ul>
 </header>
 <body>
@@ -44,7 +47,7 @@
 
     <section class="container">
         <h1 class="text-center" style="padding: 15px;">
-            Buscador por víctima
+            Buscador de formularios
         </h1>
 
         <form action="/formularios/buscadorVictima" class="navbar-form" method="get" accept-charset="utf-8">
@@ -78,10 +81,11 @@
                 </thead>
                 <tbody>
                     <tr class="encabezado">
-                        <th class="w-25">Número de carpeta</th>
-                        <th class="w-25">Nombre y apellido</th>
-                        <th class="w-25">DNI</th>
-                        <th class="w-25"></th>
+                        <th class="w-20">Número de carpeta</th>
+                        <th class="w-20">Nombre y apellido</th>
+                        <th class="w-20">DNI</th>
+                        <th class="w-20"></th>
+                        <th class="w-20"></th>
                     </tr>
                     @foreach ($formsB as $formB)
                         <tr>
@@ -89,6 +93,7 @@
                             <td>{{ $formB->victima_nombre_y_apellido }}</td>
                             <td>{{ $formB->victima_documento }}</td>
                             <td><a href="/formularios/edicion/B/{{$formB->numerocarpetasId}}/{{$formB->id}}" class="btn btn-primary float-left"><i class="far fa-edit"></i>  @if(auth()->user()->isAdmin == 2)  Ver @else Ver/Editar @endif </a><br><br></td>
+                            <td><a href="/resumen/{{$formB->numerocarpetasId}}" class="btn btn-success float-left"><i class="far fa-file mr-2"></i>Resumen</a><br><br></td>
                         </tr>
                     @endforeach
                 </tbody>

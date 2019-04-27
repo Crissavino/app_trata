@@ -42,7 +42,7 @@ class CreateDatabaseTableB extends Migration
             $table->string('victima_apodo');
             // $table->string('victima_apodo_desconoce')->nullable();
             $table->integer('genero_id')->unsigned();
-            $table->string('victima_genero_otro')->nullable();
+            // $table->string('victima_genero_otro')->nullable();
             $table->integer('tienedoc_id')->unsigned();
             $table->integer('tipodocumento_id')->unsigned();
             $table->integer('residenciaprecaria_id')->unsigned()->nullable();
@@ -54,22 +54,24 @@ class CreateDatabaseTableB extends Migration
             $table->dateTime('victima_fecha_nacimiento');
             // $table->string('victima_fecha_nacimiento_desconoce')->nullable();
             $table->string('victima_edad');
+            // de aca para abajo estos input aparecen si se contesta en a tipo de victima directa(1)
             // $table->string('victima_edad_desconoce')->nullable();
-            $table->integer('franjaetaria_id')->unsigned();
-            $table->integer('embarazorelevamiento_id')->unsigned();
-            $table->integer('embarazoprevio_id')->unsigned();
-            $table->integer('hijosembarazo_id')->unsigned();
-            $table->integer('bajoefecto_id')->unsigned();
-            $table->integer('tienelesion_id')->unsigned();
+            $table->integer('franjaetaria_id')->unsigned()->nullable();
+            $table->integer('embarazorelevamiento_id')->unsigned()->nullable();
+            $table->integer('embarazoprevio_id')->unsigned()->nullable();
+            $table->integer('hijosembarazo_id')->unsigned()->nullable();
+            $table->integer('bajoefecto_id')->unsigned()->nullable();
+            $table->integer('tienelesion_id')->unsigned()->nullable();
             $table->string('victima_lesion')->nullable();
             $table->integer('lesionconstatada_id')->unsigned()->nullable();
             $table->string('victima_lesion_organismo')->nullable();
-            $table->integer('enfermedadcronica_id')->unsigned();
+            $table->integer('enfermedadcronica_id')->unsigned()->nullable();
             $table->string('victima_tipo_enfermedad_cronica')->nullable();
             $table->string('victima_limitacion_otra')->nullable();
-            $table->integer('niveleducativo_id')->unsigned();
-            $table->integer('oficio_id')->unsigned();
+            $table->integer('niveleducativo_id')->unsigned()->nullable();
+            $table->integer('oficio_id')->unsigned()->nullable();
             $table->string('victima_oficio_cual')->nullable();
+            $table->integer('vicindirecta_id')->unsigned()->nullable();
             $table->integer('user_id')->unsigned();
             $table->string('numeroCarpeta');
             $table->softDeletesTz();
@@ -226,17 +228,25 @@ class CreateDatabaseTableB extends Migration
 
         });
 
-        Schema::create('mapas', function (Blueprint $table) {
+        Schema::create('vicindirectas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('bformulario_id')->unsigned();
-            $table->float('lat');
-            $table->float('long');
-            $table->integer('count');
-            $table->integer('user_id')->unsigned();
+            $table->string('nombre');
             $table->softDeletesTz();
             $table->timestampsTz();
-
         });
+
+
+        // Schema::create('mapas', function (Blueprint $table) {
+        //     $table->bigIncrements('id');
+        //     $table->integer('bformulario_id')->unsigned();
+        //     $table->float('lat');
+        //     $table->float('long');
+        //     $table->integer('count');
+        //     $table->integer('user_id')->unsigned();
+        //     $table->softDeletesTz();
+        //     $table->timestampsTz();
+
+        // });
 
     }
 
@@ -273,5 +283,6 @@ class CreateDatabaseTableB extends Migration
         Schema::dropIfExists('bformulario_discapacidad');
         Schema::dropIfExists('bformulario_limitacion');
         Schema::dropIfExists('mapas');
+        Schema::dropIfExists('vicindirectas');
     }
 }

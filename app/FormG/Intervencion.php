@@ -9,7 +9,7 @@ class Intervencion extends Model
 {
 	use SoftDeletes;
     
-    protected $fillable = ['fechaIntervencion','temaIntervencion_id','temaOtro','nombreContacto','telefonoContacto','descripcionIntervencion', 'user_id'];
+    protected $fillable = ['fechaIntervencion','temaIntervencion_id','temaOtro','nombreContacto','telefonoContacto','descripcionIntervencion', 'user_id','contactoDirecto_id'];
     
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
 

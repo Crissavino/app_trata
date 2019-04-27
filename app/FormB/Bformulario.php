@@ -9,7 +9,7 @@ class Bformulario extends Model
 {
     use SoftDeletes;
 
-    protected $fillable =  ['victima_nombre_y_apellido', 'victima_apodo', 'genero_id', 'victima_genero_otro', 'tienedoc_id', 'tipodocumento_id', 'residenciaprecaria_id', 'victima_tipo_documento_otro', 'victima_documento', 'paisNacimiento', 'provinciaNacimiento', 'ciudadNacimiento', 'victima_fecha_nacimiento', 'victima_edad', 'franjaetaria_id', 'embarazorelevamiento_id', 'embarazoprevio_id', 'hijosembarazo_id', 'bajoefecto_id', 'victima_discapacidad', 'tienelesion_id', 'victima_lesion', 'lesionconstatada_id', 'victima_lesion_organismo', 'enfermedadcronica_id', 'victima_tipo_enfermedad_cronica', 'victima_limitacion_otra', 'niveleducativo_id', 'oficio_id', 'victima_oficio_cual', 'user_id', 'numeroCarpeta'];
+    protected $fillable =  ['victima_nombre_y_apellido', 'victima_apodo', 'genero_id', 'victima_genero_otro', 'tienedoc_id', 'tipodocumento_id', 'residenciaprecaria_id', 'victima_tipo_documento_otro', 'victima_documento', 'paisNacimiento', 'provinciaNacimiento', 'ciudadNacimiento', 'victima_fecha_nacimiento', 'victima_edad', 'franjaetaria_id', 'embarazorelevamiento_id', 'embarazoprevio_id', 'hijosembarazo_id', 'bajoefecto_id', 'victima_discapacidad', 'tienelesion_id', 'victima_lesion', 'lesionconstatada_id', 'victima_lesion_organismo', 'enfermedadcronica_id', 'victima_tipo_enfermedad_cronica', 'victima_limitacion_otra', 'niveleducativo_id', 'oficio_id', 'vicindirecta_id', 'victima_oficio_cual', 'user_id', 'numeroCarpeta'];
 
     protected $dates = ['victima_fecha_nacimiento', 'deleted_at', 'created_at', 'updated_at'];
 

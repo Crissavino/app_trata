@@ -2,42 +2,96 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MapsController extends Controller
 {
     public function show()
     {
-    	return view('mapas');
+        return view('mapas');
     }
 
-    public function getDatosMapas()
+    public function getDatosMapasN()
     {
-    	$datosMapas = \App\FormB\Mapa::all();
-
-    	$datosMapasJSON = json_encode($datosMapas);
-
-    	echo $datosMapasJSON;
+        $datosMapas = \App\Mapa\Mapacalor::WHERE('localidad', '=', 'nacimiento')
+            ->whereNull('deleted_at')
+            ->select('lat', 'long', DB::raw('count(*) as count'))
+            ->groupBy('lat', 'long')
+            ->orderBy('localidad')
+            ->get();
+        $datosMapasJSON = json_encode($datosMapas);
+        echo $datosMapasJSON;
+    }
+    public function getDatosMapasC()
+    {
+        $datosMapas = \App\Mapa\Mapacalor::WHERE('localidad', '=', 'captacion')
+            ->whereNull('deleted_at')
+            ->select('lat', 'long', DB::raw('count(*) as count'))
+            ->groupBy('lat', 'long')
+            ->orderBy('localidad')
+            ->get();
+        $datosMapasJSON = json_encode($datosMapas);
+        echo $datosMapasJSON;
+    }
+    public function getDatosMapasE()
+    {
+        $datosMapas = \App\Mapa\Mapacalor::WHERE('localidad', '=', 'explotacion')
+            ->whereNull('deleted_at')
+            ->select('lat', 'long', DB::raw('count(*) as count'))
+            ->groupBy('lat', 'long')
+            ->orderBy('localidad')
+            ->get();
+        $datosMapasJSON = json_encode($datosMapas);
+        echo $datosMapasJSON;
     }
 
-    public function gurdarDatos()
+    public function getDatosMapasCN()
     {
-    	var_dump('$_POST');
-    	$data = request()->all();
-    	var_dump('Entro');
-        // $ultimoFormB = \App\FormB\Bformulario::orderBy('created_at', 'desc')->first();
-        $guardoUbicacionGeografica = \App\FormB\Mapa::create(['bformulario_id' => 0, 'lat' => $data['lat'], 'long' => $data['long'], 'count' => $data['count'], 'user_id' => $data['user_id']]);
-    	// $guardoUbicacionGeografica = \App\FormB\Mapa::create(['lat' => $data['lat'], 'long' => $data['long']]);
-    	// var_dump($_POST);
-    	// $_POST = json_decode($_POST['datos'], true);
-    	// dd($_POST);
+        $datosMapas = \App\Mapa\Mapacalor::WHERE('localidad', '!=', 'explotacion')
+            ->whereNull('deleted_at')
+            ->select('lat', 'long', DB::raw('count(*) as count'))
+            ->groupBy('lat', 'long')
+            ->orderBy('localidad')
+            ->get();
+        $datosMapasJSON = json_encode($datosMapas);
+        echo $datosMapasJSON;
     }
 
-    public function actualizarDatos()
+    public function getDatosMapasCE()
     {
-        $data = request()->all();
-        // var_dump('Entro');
-        // var_dump($data['bformulario_id']);
-        $actualizoUbicacionGeografica = \App\FormB\Mapa::WHERE('bformulario_id', '=', $data['bformulario_id'])->update(['bformulario_id' => $data['bformulario_id'], 'lat' => $data['lat'], 'long' => $data['long'], 'count' => $data['count'], 'user_id' => $data['user_id']]);
+        $datosMapas = \App\Mapa\Mapacalor::WHERE('localidad', '!=', 'nacimiento')
+            ->whereNull('deleted_at')
+            ->select('lat', 'long', DB::raw('count(*) as count'))
+            ->groupBy('lat', 'long')
+            ->orderBy('localidad')
+            ->get();
+        $datosMapasJSON = json_encode($datosMapas);
+        echo $datosMapasJSON;
+    }
+
+    public function getDatosMapasNE()
+    {
+        $datosMapas = \App\Mapa\Mapacalor::WHERE('localidad', '!=', 'captacion')
+            ->whereNull('deleted_at')
+            ->select('lat', 'long', DB::raw('count(*) as count'))
+            ->groupBy('lat', 'long')
+            ->orderBy('localidad')
+            ->get();
+        $datosMapasJSON = json_encode($datosMapas);
+        echo $datosMapasJSON;
+    }
+
+    public function getDatosMapasCNE()
+    {
+        $datosMapas = \App\Mapa\Mapacalor::WHERE('localidad', '=', 'captacion')
+            ->orWhere('localidad', '=', 'nacimiento')
+            ->orWhere('localidad', '=', 'explotacion')
+            ->whereNull('deleted_at')
+            ->select('lat', 'long', DB::raw('count(*) as count'))
+            ->groupBy('lat', 'long')
+            ->orderBy('localidad')
+            ->get();
+        $datosMapasJSON = json_encode($datosMapas);
+        echo $datosMapasJSON;
     }
 }

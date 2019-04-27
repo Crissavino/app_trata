@@ -28,9 +28,11 @@ class CreateDatabaseTableA extends Migration
             $table->integer('ambito_id')->unsigned();
             $table->integer('departamento_id')->unsigned()->nullable();
             $table->integer('otrasprov_id')->unsigned()->nullable();
+            $table->string('fiscalia_juzgado');
             $table->integer('caratulacionjudicial_id')->unsigned();
             $table->string('caratulacionjudicial_otro')->nullable();
             $table->string('datos_nro_causa');
+            $table->integer('tipovictima_id')->unsigned();
             $table->integer('user_id')->unsigned();
             $table->softDeletesTz();
             $table->timestampsTz();
@@ -135,6 +137,14 @@ class CreateDatabaseTableA extends Migration
             $table->timestampsTz();
         });
 
+        Schema::create('tipovictimas', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('nombre');
+            $table->softDeletes();
+            $table->timestamps();
+        });
+
+
     }
 
     /**
@@ -158,5 +168,6 @@ class CreateDatabaseTableA extends Migration
         Schema::dropIfExists('ambitos');
         Schema::dropIfExists('departamentos');
         Schema::dropIfExists('otrasprovs');
+        Schema::dropIfExists('tipovictimas');
     }
 }

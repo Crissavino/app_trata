@@ -15,9 +15,13 @@ class NoHayEjeA
      */
     public function handle($request, Closure $next)
     {
-        $userId = auth()->user()->id;
+$userId = auth()->user()->id;
+$id_carpeta = $request->route('idCarpeta');
+$carpetas = \App\Carpetas\Numerocarpeta::
+    where('id', '=', $id_carpeta)
+    ->where('deleted_at', '=', null)->get();
 
-        $carpetas = \App\Carpetas\Numerocarpeta::where('user_id', '=', $userId)->get();
+
 
         foreach ($carpetas as $carpeta) {
             if ($carpeta->numeroCarpeta) {

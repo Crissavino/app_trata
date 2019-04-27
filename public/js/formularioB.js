@@ -25,29 +25,30 @@
 	var selectProvinciaNacimiento = document.querySelector('.states');
 	var selectCiudadNacimiento = document.querySelector('.cities');
 
-		if (paisNacimientoViejo) {
-			var optionPaisAnterior = document.createElement("option");
-			optionPaisAnterior.id = 'paisAnterior';
-			optionPaisAnterior.text = paisNacimientoViejo.value;
-			selectPaisNacimiento.add(optionPaisAnterior);
-			optionPaisAnterior.selected = true;
-		}
+	if (paisNacimientoViejo) {
+		var optionPaisAnterior = document.createElement("option");
+		optionPaisAnterior.id = 'paisAnterior';
+		optionPaisAnterior.text = paisNacimientoViejo.value;
+		selectPaisNacimiento.add(optionPaisAnterior);
+		optionPaisAnterior.selected = true;
 
-		if (provinciaNacimientoViejo) {
-			var optionProvinciaAnterior = document.createElement("option");
-			optionProvinciaAnterior.id = 'provinciaAnterior';
-			optionProvinciaAnterior.text = provinciaNacimientoViejo.value;
-			selectProvinciaNacimiento.add(optionProvinciaAnterior);
-			optionProvinciaAnterior.selected = true;
-		}
+	}
 
-		if (ciudadNacimientoViejo) {
-			var optionCiudadAnterior = document.createElement("option");
-			optionCiudadAnterior.id = 'ciudadAnterior';
-			optionCiudadAnterior.text = ciudadNacimientoViejo.value;
-			selectCiudadNacimiento.add(optionCiudadAnterior);
-			optionCiudadAnterior.selected = true;
-		}
+	if (provinciaNacimientoViejo) {
+		var optionProvinciaAnterior = document.createElement("option");
+		optionProvinciaAnterior.id = 'provinciaAnterior';
+		optionProvinciaAnterior.text = provinciaNacimientoViejo.value;
+		selectProvinciaNacimiento.add(optionProvinciaAnterior);
+		optionProvinciaAnterior.selected = true;
+	}
+
+	if (ciudadNacimientoViejo) {
+		var optionCiudadAnterior = document.createElement("option");
+		optionCiudadAnterior.id = 'ciudadAnterior';
+		optionCiudadAnterior.text = ciudadNacimientoViejo.value;			
+		selectCiudadNacimiento.add(optionCiudadAnterior);
+		optionCiudadAnterior.selected = true;
+	}
 // fin pregunta 7
 
 // pregunta 18
@@ -59,30 +60,34 @@
 	var victimaLesionOrganismoInput = document.querySelector('.victimaLesionOrganismoInput');
 	var checkDesconoce = document.querySelector('.desconoce18');
 
-	if(selectLesionConstatada.value==1){
-		divVictimaLesionOrganismo.style.display='block'
+	if (selectLesionConstatada) {
+		if (selectLesionConstatada.value == 1) {
+			divVictimaLesionOrganismo.style.display = 'block'
+		}
 	}
-
-	if (selectTieneLesion.value == 1) {
-		divVictimaLesion.style.display = ''
-		selectLesionConstatada.addEventListener('change', function(){
-			if (selectLesionConstatada.value == 1) {
-				divVictimaLesionOrganismo.style.display = '';
-			}else{
-				divVictimaLesionOrganismo.style.display = 'none';
-				victimaLesionOrganismoInput.value = '';
-				checkDesconoce.checked = false;
-				victimaLesionOrganismoInput.removeAttribute('readonly');
-			}
-		});
-	}else{
-		divVictimaLesion.style.display = 'none'
-		divVictimaLesionOrganismo.style.display = 'none';
-		victimaLesionInput.value = '';
-		selectLesionConstatada.value = '2';
-		victimaLesionOrganismoInput.value = '';
-		checkDesconoce.checked = false;
-		victimaLesionOrganismoInput.removeAttribute('readonly');
+	
+	if (selectTieneLesion) {
+		if (selectTieneLesion.value == 1) {
+			divVictimaLesion.style.display = ''
+			selectLesionConstatada.addEventListener('change', function () {
+				if (selectLesionConstatada.value == 1) {
+					divVictimaLesionOrganismo.style.display = '';
+				} else {
+					divVictimaLesionOrganismo.style.display = 'none';
+					victimaLesionOrganismoInput.value = '';
+					checkDesconoce.checked = false;
+					victimaLesionOrganismoInput.removeAttribute('readonly');
+				}
+			});
+		} else {
+			divVictimaLesion.style.display = 'none'
+			divVictimaLesionOrganismo.style.display = 'none';
+			victimaLesionInput.value = '';
+			selectLesionConstatada.value = '2';
+			victimaLesionOrganismoInput.value = '';
+			checkDesconoce.checked = false;
+			victimaLesionOrganismoInput.removeAttribute('readonly');
+		}	
 	}
 // fin pregunta 18
 
@@ -91,11 +96,13 @@
 	var divVictimaTipoEnfermedadCronica = document.querySelector('#victima_tipo_enfermedad_cronica');
 	var victimaTipoEnfermedadCronicaInput = document.querySelector('.victima_tipo_enfermedad_cronica_input');
 
-	if (selectEnfermedadCronica.value == 1) {
-		divVictimaTipoEnfermedadCronica.style.display = '';
-	}else{
-		divVictimaTipoEnfermedadCronica.style.display = 'none';
-		victimaTipoEnfermedadCronicaInput.value = '';
+	if (selectEnfermedadCronica) {
+		if (selectEnfermedadCronica.value == 1) {
+			divVictimaTipoEnfermedadCronica.style.display = '';
+		} else {
+			divVictimaTipoEnfermedadCronica.style.display = 'none';
+			victimaTipoEnfermedadCronicaInput.value = '';
+		}
 	}
 // fin pregunta 19
 
@@ -105,29 +112,33 @@
 	var victimaLimitacionCual = document.querySelector('#victimaLimitacionCual');
 	var victimaLimitacionCualInput = document.querySelector('.victimaLimitacionCualInput');
 
-	if (checkNo.checked) {
-		document.getElementById("Analfabetismo").disabled = true;
-        document.getElementById("Analfabetismo").checked = false;
-        document.getElementById("Discapacidad").disabled = true;                                
-        document.getElementById("Discapacidad").checked = false;                                
-        document.getElementById("Idioma").disabled = true;
-        document.getElementById("Idioma").checked = false;
-		checkOtro.disabled = true;
-		checkOtro.checked = false;
-		victimaLimitacionCual.style.display = 'none';
-		victimaLimitacionCualInput.value = '';
-	}else{
-		document.getElementById("Analfabetismo").disabled = false;
-        document.getElementById("Discapacidad").disabled = false;
-        document.getElementById("Idioma").disabled = false;
-		checkOtro.disabled = false;
+	if (checkNo) {
+		if (checkNo.checked) {
+			document.getElementById("Analfabetismo").disabled = true;
+			document.getElementById("Analfabetismo").checked = false;
+			document.getElementById("Discapacidad").disabled = true;
+			document.getElementById("Discapacidad").checked = false;
+			document.getElementById("Idioma").disabled = true;
+			document.getElementById("Idioma").checked = false;
+			checkOtro.disabled = true;
+			checkOtro.checked = false;
+			victimaLimitacionCual.style.display = 'none';
+			victimaLimitacionCualInput.value = '';
+		} else {
+			document.getElementById("Analfabetismo").disabled = false;
+			document.getElementById("Discapacidad").disabled = false;
+			document.getElementById("Idioma").disabled = false;
+			checkOtro.disabled = false;
+		}	
 	}
 
-	if (checkOtro.checked) {
-		victimaLimitacionCual.style.display = '';
-	}else{
-		victimaLimitacionCual.style.display = 'none';
-		victimaLimitacionCualInput.value = '';
+	if (checkOtro) {
+		if (checkOtro.checked) {
+			victimaLimitacionCual.style.display = '';
+		} else {
+			victimaLimitacionCual.style.display = 'none';
+			victimaLimitacionCualInput.value = '';
+		}	
 	}
 // fin pregunta 20
 
@@ -136,13 +147,28 @@
 	var victimaOficioCual = document.querySelector('.victimaOficioCual');
 	var victimaOficioCualInput = document.querySelector('.victimaOficioCualInput');
 
-	if (selectOficio.value == 1) {
-		victimaOficioCual.style.display = '';
-	}else{
-		victimaOficioCual.style.display = 'none';
-		victimaOficioCualInput.value = '';
+	if (selectOficio) {
+		if (selectOficio.value == 1) {
+			victimaOficioCual.style.display = '';
+		} else {
+			victimaOficioCual.style.display = 'none';
+			victimaOficioCualInput.value = '';
+		}	
 	}
 // fin pregunta 22
+
+//pregunta 23
+	var selectVictimasIndirectas = document.querySelector('.selectVictimasIndirectas');
+	var tieneVictimasIndirectas = document.querySelector('.tieneVictimasIndirectas');
+
+	if (selectVictimasIndirectas) {
+		if (selectVictimasIndirectas.value == 1) {
+			tieneVictimasIndirectas.style.display = 'block';
+		} else {
+			tieneVictimasIndirectas.style.display = 'none';
+		}	
+	}
+// fin pregunta 23
 
 window.onload =function (){
 
@@ -180,21 +206,21 @@ window.onload =function (){
 				var option1 = document.createElement("option");
 				var option2 = document.createElement("option");
 				var option3 = document.createElement("option");
-				option1.text = "Se desconoce";
-				option2.text = "Se desconoce";
-				option3.text = "Se desconoce";
+				option1.text = "SE DESCONOCE";
+				option2.text = "SE DESCONOCE";
+				option3.text = "SE DESCONOCE";
 				
 	    		paisNacimiento.add(option1);
-	    		paisNacimiento.value = 'Se desconoce';
+	    		paisNacimiento.value = 'SE DESCONOCE';
 				paisNacimiento.setAttribute("readonly", "readonly");
 
 				provinciaNacimiento.add(option2);
-				provinciaNacimiento.value = 'Se desconoce';
+				provinciaNacimiento.value = 'SE DESCONOCE';
 				provinciaNacimiento.setAttribute("readonly", "readonly");
 				desconoceProvinciaNacimiento.checked = true;
 
 				ciudadNacimiento.add(option3);
-				ciudadNacimiento.value = 'Se desconoce';
+				ciudadNacimiento.value = 'SE DESCONOCE';
 				ciudadNacimiento.setAttribute("readonly", "readonly");
 				desconoceCiudadNacimiento.checked = true;
 			}else{
@@ -219,9 +245,9 @@ window.onload =function (){
 		desconoceProvinciaNacimiento.addEventListener('click', function() {
 			if (this.checked) {
 				var option = document.createElement("option");
-	    		option.text = "Se desconoce";
+	    		option.text = "SE DESCONOCE";
 	    		provinciaNacimiento.add(option);
-	    		provinciaNacimiento.value = 'Se desconoce';
+	    		provinciaNacimiento.value = 'SE DESCONOCE';
 				provinciaNacimiento.setAttribute("readonly", "readonly");
 			}else{
 				provinciaNacimiento.value = '';
@@ -238,9 +264,9 @@ window.onload =function (){
 		desconoceCiudadNacimiento.addEventListener('click', function() {
 			if (this.checked) {
 				var option = document.createElement("option");
-	    		option.text = "Se desconoce";
+	    		option.text = "SE DESCONOCE";
 	    		ciudadNacimiento.add(option);
-	    		ciudadNacimiento.value = 'Se desconoce';
+	    		ciudadNacimiento.value = 'SE DESCONOCE';
 				ciudadNacimiento.setAttribute("readonly", "readonly");
 			}else{
 				ciudadNacimiento.value = '';
@@ -258,44 +284,48 @@ window.onload =function (){
 		var victimaLesionOrganismoInput = document.querySelector('.victimaLesionOrganismoInput');
 		var checkDesconoce = document.querySelector('.desconoce18');
 
-		selectTieneLesion.addEventListener('change', function(){
-			if (selectTieneLesion.value == 1) {
-				divVictimaLesion.style.display = ''
-				selectLesionConstatada.addEventListener('change', function(){
-					if (selectLesionConstatada.value == 1) {
-						divVictimaLesionOrganismo.style.display = '';
-					}else{
-						divVictimaLesionOrganismo.style.display = 'none';
-						victimaLesionOrganismoInput.value = '';
-						checkDesconoce.checked = false;
-						victimaLesionOrganismoInput.removeAttribute('readonly');
-					}
-				});
-			}else{
-				divVictimaLesion.style.display = 'none'
-				divVictimaLesionOrganismo.style.display = 'none';
-				victimaLesionInput.value = '';
-				selectLesionConstatada.value = '2';
-				victimaLesionOrganismoInput.value = '';
-				checkDesconoce.checked = false;
-				victimaLesionOrganismoInput.removeAttribute('readonly');
-			}
-		});
+		if (selectTieneLesion) {
+			selectTieneLesion.addEventListener('change', function () {
+				if (selectTieneLesion.value == 1) {
+					divVictimaLesion.style.display = ''
+					selectLesionConstatada.addEventListener('change', function () {
+						if (selectLesionConstatada.value == 1) {
+							divVictimaLesionOrganismo.style.display = '';
+						} else {
+							divVictimaLesionOrganismo.style.display = 'none';
+							victimaLesionOrganismoInput.value = '';
+							checkDesconoce.checked = false;
+							victimaLesionOrganismoInput.removeAttribute('readonly');
+						}
+					});
+				} else {
+					divVictimaLesion.style.display = 'none'
+					divVictimaLesionOrganismo.style.display = 'none';
+					victimaLesionInput.value = '';
+					selectLesionConstatada.value = '2';
+					victimaLesionOrganismoInput.value = '';
+					checkDesconoce.checked = false;
+					victimaLesionOrganismoInput.removeAttribute('readonly');
+				}
+			});
+		}
+		
 	// fin pregunta 18
 
 	// pregunta 19
 		var selectEnfermedadCronica = document.querySelector('#enfermedadcronica_id');
 		var divVictimaTipoEnfermedadCronica = document.querySelector('#victima_tipo_enfermedad_cronica');
 		var victimaTipoEnfermedadCronicaInput = document.querySelector('.victima_tipo_enfermedad_cronica_input');
-
-		selectEnfermedadCronica.addEventListener('change', function(){
-			if (selectEnfermedadCronica.value == 1) {
-				divVictimaTipoEnfermedadCronica.style.display = '';
-			}else{
-				divVictimaTipoEnfermedadCronica.style.display = 'none';
-				victimaTipoEnfermedadCronicaInput.value = '';
-			}
-		});
+		if (selectEnfermedadCronica) {
+			selectEnfermedadCronica.addEventListener('change', function () {
+				if (selectEnfermedadCronica.value == 1) {
+					divVictimaTipoEnfermedadCronica.style.display = '';
+				} else {
+					divVictimaTipoEnfermedadCronica.style.display = 'none';
+					victimaTipoEnfermedadCronicaInput.value = '';
+				}
+			});
+		}
 	// fin pregunta 19
 
 	// pregunta 20
@@ -303,35 +333,38 @@ window.onload =function (){
 		var checkOtro = document.querySelector('.checkOtro');
 		var victimaLimitacionCual = document.querySelector('#victimaLimitacionCual');
 		var victimaLimitacionCualInput = document.querySelector('.victimaLimitacionCualInput');
-
-		checkNo.addEventListener('click', function(){
-			if (checkNo.checked) {
-				document.getElementById("Analfabetismo").disabled = true;
-                document.getElementById("Analfabetismo").checked = false;
-                document.getElementById("Discapacidad").disabled = true;                                
-                document.getElementById("Discapacidad").checked = false;                                
-                document.getElementById("Idioma").disabled = true;
-                document.getElementById("Idioma").checked = false;
-				checkOtro.disabled = true;
-				checkOtro.checked = false;
-				victimaLimitacionCual.style.display = 'none';
-				victimaLimitacionCualInput.value = '';
-			}else{
-				document.getElementById("Analfabetismo").disabled = false;
-                document.getElementById("Discapacidad").disabled = false;
-                document.getElementById("Idioma").disabled = false;
-				checkOtro.disabled = false;
-			}
-		});
-
-		checkOtro.addEventListener('click', function(){
-			if (checkOtro.checked) {
-				victimaLimitacionCual.style.display = '';
-			}else{
-				victimaLimitacionCual.style.display = 'none';
-				victimaLimitacionCualInput.value = '';
-			}
-		});
+		if (checkNo) {
+			checkNo.addEventListener('click', function () {
+				if (checkNo.checked) {
+					document.getElementById("Analfabetismo").disabled = true;
+					document.getElementById("Analfabetismo").checked = false;
+					document.getElementById("Discapacidad").disabled = true;
+					document.getElementById("Discapacidad").checked = false;
+					document.getElementById("Idioma").disabled = true;
+					document.getElementById("Idioma").checked = false;
+					checkOtro.disabled = true;
+					checkOtro.checked = false;
+					victimaLimitacionCual.style.display = 'none';
+					victimaLimitacionCualInput.value = '';
+				} else {
+					document.getElementById("Analfabetismo").disabled = false;
+					document.getElementById("Discapacidad").disabled = false;
+					document.getElementById("Idioma").disabled = false;
+					checkOtro.disabled = false;
+				}
+			});
+		}
+		
+		if (checkOtro) {
+			checkOtro.addEventListener('click', function () {
+				if (checkOtro.checked) {
+					victimaLimitacionCual.style.display = '';
+				} else {
+					victimaLimitacionCual.style.display = 'none';
+					victimaLimitacionCualInput.value = '';
+				}
+			});
+		}
 	// fin pregunta 20
 
 	// pregunta 22
@@ -339,15 +372,32 @@ window.onload =function (){
 		var victimaOficioCual = document.querySelector('.victimaOficioCual');
 		var victimaOficioCualInput = document.querySelector('.victimaOficioCualInput');
 
-		selectOficio.addEventListener('change', function(){
-			if (selectOficio.value == 1) {
-				victimaOficioCual.style.display = '';
-			}else{
-				victimaOficioCual.style.display = 'none';
-				victimaOficioCualInput.value = '';
-			}
-		});
+		if (selectOficio) {
+			selectOficio.addEventListener('change', function () {
+				if (selectOficio.value == 1) {
+					victimaOficioCual.style.display = '';
+				} else {
+					victimaOficioCual.style.display = 'none';
+					victimaOficioCualInput.value = '';
+				}
+			});
+		}
 	// fin pregunta 22
+
+	//pregunta 23
+		var selectVictimasIndirectas = document.querySelector('.selectVictimasIndirectas');
+		var tieneVictimasIndirectas = document.querySelector('.tieneVictimasIndirectas');
+
+		if (selectVictimasIndirectas) {
+			selectVictimasIndirectas.addEventListener('change', function () {
+				if (selectVictimasIndirectas.value == 1) {
+					tieneVictimasIndirectas.style.display = 'block';
+				} else {
+					tieneVictimasIndirectas.style.display = 'none';
+				}
+			});	
+		}
+	// fin pregunta 23
 
 
 }
@@ -357,7 +407,7 @@ window.onload =function (){
 $.validator.addMethod("edad",function(value,element){
 	//return this.optional(element) || /^[\t 0-9 Ã±]+$/i.test(value);
 	tipo=isNaN(parseInt(value));
-	valorSeDesconoce=(value=="Se desconoce");
+	valorSeDesconoce=(value=="SE DESCONOCE");
 	premisa1=(tipo && valorSeDesconoce);
 	valorMenor=false;
 	if(!tipo){
@@ -373,7 +423,7 @@ $.validator.addMethod("edad",function(value,element){
 $.validator.addMethod("documento",function(value,element){
 	//return this.optional(element) || /^[\t 0-9 Ã±]+$/i.test(value);
 	tipo=isNaN(parseInt(value));
-	valorSeDesconoce=(value=="Se desconoce");
+	valorSeDesconoce=(value=="SE DESCONOCE");
 	premisa1=(tipo && valorSeDesconoce);
 	return (premisa1 || (!tipo));
 
@@ -601,8 +651,8 @@ $("#formularioB").validate({ //se definen las opciones de validaciÃ³n para el 
 			   required:"Este campo es obligatorio",
 		   },*/
 	   },
-	   submitHandler:function(form){
-			antesSubmit();
-		}
+	//    submitHandler:function(form){
+	// 		antesSubmit();
+	// 	}
    });
 

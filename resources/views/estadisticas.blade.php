@@ -13,11 +13,13 @@
 	    		<th>Caratulación judicial</th>
 	    		<th>Género de la víctima</th>
 	    		<th>País de nacimiento de la víctima</th>
-	    		<th>Franja etaria de la víctima</th>
+				<th>Franja etaria de la víctima</th>
+				<th>Calificación específica</th>				
 	    		<th>Finalidad de explotación</th>
 	    		<th>País de captación</th>
 	    		<th>Localidad de explotación</th>
-	    		<th>Tipo de víctima</th>
+				<th>Tipo de víctima</th>				
+				
 	    	</tr>
 	    	@foreach ($carpetas as $carpeta)
 	        	<tr>
@@ -103,6 +105,17 @@
 	        					@foreach ($datosFranjaEtaria as $franjaEtaria)
 	        						@if ($formB->franjaetaria_id == $franjaEtaria->id)
 	        							{{ $franjaEtaria->nombre }}
+	        						@endif
+	        					@endforeach
+	        				@endif
+	    				@endforeach
+					</td>
+					<td>
+	        			@foreach ($formsD as $formD)
+	        				@if ($formD->id == $carpeta->dformulario_id)
+	        					@foreach ($datosCalificacionespecificas as $calificacionespecificas)
+	        						@if ($formD->calificacionespecifica_id == $calificacionespecificas->id)
+	        							{{ $calificacionespecificas->nombre }}
 	        						@endif
 	        					@endforeach
 	        				@endif

@@ -74,9 +74,10 @@ class Kernel extends HttpKernel
         'noHayEjeF' => \App\Http\Middleware\NoHayEjeF::class,
         'faltaCompletarEje' => \App\Http\Middleware\FaltaCompletarEje::class,
         'soloLectura' => \App\Http\Middleware\SoloLectura::class,
+        'victimaNoEs' => \App\Http\Middleware\VictimaNoEs::class,
+        'victimaDesconoce' => \App\Http\Middleware\VictimaDesconoce::class,
+        'puedeContinuar' => \App\Http\Middleware\PuedeContinuar::class,
         //ruta admin protegida
         'admin' => \App\Http\Middleware\IsAdmin::class,
-
-
     ];
 }

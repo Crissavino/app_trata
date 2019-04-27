@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PresentacionespontaneasTableSeeder::class);
         $this->call(ProfesionalactualmentesTableSeeder::class);
         $this->call(ProfesionalsTableSeeder::class);
+        $this->call(TipovictimasTableSeeder::class);
         
         //SEEDERS FORMULARIO B
         // $this->call(ArgciudadsTableSeeder::class);
@@ -71,7 +72,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ResidelugarsTableSeeder::class);
         $this->call(EnganosTableSeeder::class);
         $this->call(HaypersonasTableSeeder::class);
-        $this->call(TipovictimasTableSeeder::class);
+        // $this->call(TipovictimasTableSeeder::class);
         $this->call(FrecuenciapagosTableSeeder::class);
         $this->call(ModalidadpagosTableSeeder::class);
         $this->call(EspeciaconceptosTableSeeder::class);
@@ -90,6 +91,7 @@ class DatabaseSeeder extends Seeder
         $this->call(MaterialsTableSeeder::class);
         $this->call(ElementotrabajosTableSeeder::class);
         $this->call(ElementoseguridadsTableSeeder::class);
+        $this->call(OtrolugarexplotacionsTableSeeder::class);
 
         //SEEDERS FORMULARIO E
         // $this->call(RoldelitosTableSeeder::class);
@@ -110,6 +112,6 @@ class DatabaseSeeder extends Seeder
 
         //SEEDERS FORMULARIO G
         $this->call(TemaintervencionsTableSeeder::class);
-        
+        $this->call(ContactodirectosTableSeeder::class);
     }
 }
